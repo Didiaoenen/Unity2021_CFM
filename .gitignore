@@ -1,0 +1,13 @@
+Library
+Logs
+obj
+Temp
+Assets/Plugins
+TsProj/node_modules
+TsProj/output
+.vs
+.vscode
+.vsconfig
+*.suo
+*.sln
+*.csproj
