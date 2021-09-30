@@ -369,10 +369,10 @@ public static class AssetManager
             handle = _loadingAssets[key];
             _loadingAssets.Remove(key);
         }
-        else if (_loadingAssets.ContainsKey(key))
+        else if (_loadedAssets.ContainsKey(key))
         {
-            handle = _loadingAssets[key];
-            _loadingAssets.Remove(key);
+            handle = _loadedAssets[key];
+            _loadedAssets.Remove(key);
         }
         else
         {
@@ -752,10 +752,11 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
+    /// <typeparam name="TComponentType"></typeparam>
     /// <param name="tComponent"></param>
     /// <param name="outHandler"></param>
-    public static void TryTakeCompletedOperation<TComponent>(TComponent tComponent, out AsyncOperationHandle<TComponent> outHandler)
+    public static void TryTakeCompletedOperation<TComponentType>(TComponentType tComponent, out AsyncOperationHandle<TComponentType> outHandler)
+        where TComponentType : Component
     {
         outHandler = Addressables.ResourceManager.CreateCompletedOperation(tComponent, string.Empty);
     }
@@ -763,11 +764,12 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
+    /// <typeparam name="TComponentType"></typeparam>
     /// <param name="tComponent"></param>
     /// <param name="handle"></param>
     /// <param name="outHandler"></param>
-    public static void TryTakeChainOperation<TComponent>(TComponent tComponent, AsyncOperationHandle<TComponent> handle, out AsyncOperationHandle<TComponent> outHandler)
+    public static void TryTakeChainOperation<TComponentType>(TComponentType tComponent, AsyncOperationHandle<TComponentType> handle, out AsyncOperationHandle<TComponentType> outHandler)
+        where TComponentType : Component
     {
         outHandler = Addressables.ResourceManager.CreateChainOperation(handle, chainOp =>
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,5 +21,12 @@ public class TestPool : MonoBehaviour
     public void onClickBtn()
     {
         b.TryGetPoolObject(Vector3.zero, Quaternion.identity, null, out var handle);
+    }
+
+    public void onClickDel()
+    {
+        AssetManager.Unload(assetReference);
+        Resources.UnloadUnusedAssets();
+        GC.Collect();
     }
 }

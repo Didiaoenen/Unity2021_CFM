@@ -121,7 +121,7 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
         _objectInstantiatedAction = objectInstantiatedAction;
 
         AssetManager.OnAssetLoaded += OnObjectLoaded;
-        AssetManager.OnAssetUnloaded += OnObjectUnloaded;
+        //AssetManager.OnAssetUnloaded += OnObjectUnloaded;
 
         if (AssetManager.TryGetOrLoadComponentAsync(assetReference, out _loadHandle))
         {
@@ -324,6 +324,16 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
 
     public void TryGetPoolObject(Vector3 position, Quaternion rotation, Transform parent, out AsyncOperationHandle<TComponent> handle)
     {
-        TryTake(position, rotation, parent, out handle);
+        if (!_isReady)
+        {
+            if (AssetManager.TryGetOrLoadComponentAsync(assetReference, out handle))
+            {
+                _loadHandle = handle;
+            }
+        }
+        else
+        {
+            TryTake(position, rotation, parent, out handle);
+        }
     }
 }
