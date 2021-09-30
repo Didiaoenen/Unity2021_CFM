@@ -13,6 +13,14 @@ public static class AssetManager
 {
     const string _baseErr = "";
 
+    public static readonly int initInstanceCount = 20;
+
+    public static readonly int initGameObjectCount = 20;
+
+    public static readonly int initLoadingAssetsCount = 20;
+
+    public static readonly int initLoadedAssetsCount = 20;
+
     public delegate void DelegateAssetLoaded(object key, AsyncOperationHandle handle);
 
     public static event DelegateAssetLoaded OnAssetLoaded;
@@ -21,13 +29,13 @@ public static class AssetManager
 
     public static event DelegateAssetUnloaded OnAssetUnloaded;
 
-    static readonly Dictionary<object, AsyncOperationHandle> _loadingAssets = new Dictionary<object, AsyncOperationHandle>(20);
+    static readonly Dictionary<object, AsyncOperationHandle> _loadingAssets = new Dictionary<object, AsyncOperationHandle>(initLoadingAssetsCount);
     
-    static readonly Dictionary<object, AsyncOperationHandle> _loadedAssets = new Dictionary<object, AsyncOperationHandle>(100);
+    static readonly Dictionary<object, AsyncOperationHandle> _loadedAssets = new Dictionary<object, AsyncOperationHandle>(initLoadedAssetsCount);
 
     public static IReadOnlyList<object> LoadedAssets => _loadedAssets.Values.Select(x => x.Result).ToList();
 
-    static readonly Dictionary<object, List<GameObject>> _instantiatedObjects = new Dictionary<object, List<GameObject>>(10);
+    static readonly Dictionary<object, List<GameObject>> _instantiatedObjects = new Dictionary<object, List<GameObject>>(initInstanceCount);
 
     public static int loadedAssetsCount => _loadedAssets.Count;
 
@@ -140,9 +148,11 @@ public static class AssetManager
             }
             catch
             {
-                handle = Addressables.ResourceManager.CreateChainOperation(_loadingAssets[key], chainOp => 
-                    Addressables.ResourceManager.CreateCompletedOperation(chainOp.Result as TObjectType, string.Empty)
-                );
+                handle = Addressables.ResourceManager.CreateChainOperation(_loadingAssets[key], chainOp =>
+                {
+                    var objectType = chainOp.Result as TObjectType;
+                    return Addressables.ResourceManager.CreateCompletedOperation(objectType, string.Empty);
+                });
             }
 
             return false;
@@ -201,6 +211,8 @@ public static class AssetManager
         }
 
         var op = Addressables.LoadAssetAsync<GameObject>(aRef);
+
+        _loadingAssets.Add(key, op);
 
         op.Completed += op2 =>
         {
@@ -401,7 +413,7 @@ public static class AssetManager
             var keys = GetKeysFromLocations(op.Result);
             foreach (var key in keys)
             {
-                if (IsLoaded(key) || IsLoaded(key))
+                if (IsLoaded(key) || IsLoading(key))
                 {
                     Unload(key);
                 }
@@ -740,6 +752,32 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="tComponent"></param>
+    /// <param name="outHandler"></param>
+    public static void TryTakeCompletedOperation<TComponent>(TComponent tComponent, out AsyncOperationHandle<TComponent> outHandler)
+    {
+        outHandler = Addressables.ResourceManager.CreateCompletedOperation(tComponent, string.Empty);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="tComponent"></param>
+    /// <param name="handle"></param>
+    /// <param name="outHandler"></param>
+    public static void TryTakeChainOperation<TComponent>(TComponent tComponent, AsyncOperationHandle<TComponent> handle, out AsyncOperationHandle<TComponent> outHandler)
+    {
+        outHandler = Addressables.ResourceManager.CreateChainOperation(handle, chainOp =>
+        {
+            return Addressables.ResourceManager.CreateCompletedOperation(tComponent, string.Empty);
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
     /// <param name="aRef"></param>
     /// <param name="loadedAsset"></param>
@@ -764,7 +802,7 @@ public static class AssetManager
 
         if (!_instantiatedObjects.ContainsKey(key))
         {
-            _instantiatedObjects.Add(key, new List<GameObject>(20));
+            _instantiatedObjects.Add(key, new List<GameObject>(initGameObjectCount));
         }
         _instantiatedObjects[key].Add(instance.gameObject);
         return instance;
@@ -786,7 +824,7 @@ public static class AssetManager
         var instance = Object.Instantiate(loadedAsset, position, rotation, parent);
         if (!instance)
         {
-
+            throw new NullReferenceException($"Instantiated Object of type '{typeof(GameObject)}' is null.");
         }
 
         var monoTracker = instance.gameObject.AddComponent<MonoTracker>();
@@ -795,7 +833,7 @@ public static class AssetManager
 
         if (!_instantiatedObjects.ContainsKey(key))
         {
-            _instantiatedObjects.Add(key, new List<GameObject>(20));
+            _instantiatedObjects.Add(key, new List<GameObject>(initGameObjectCount));
         }
         _instantiatedObjects[key].Add(instance);
         return instance;
