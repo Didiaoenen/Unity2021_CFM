@@ -7,11 +7,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
-public abstract class AssetReferencePool : IPool, IDisposable
+public abstract class AssetPool : IPool, IDisposable
 {
     public const int MinimumCapacityDefault = 5;
 
-    protected static readonly Dictionary<object, AssetReferencePool> AllPools = new Dictionary<object, AssetReferencePool>();
+    protected static readonly Dictionary<object, AssetPool> AllPools = new Dictionary<object, AssetPool>();
 
     protected abstract Object loadedObject { get; }
 
@@ -25,7 +25,7 @@ public abstract class AssetReferencePool : IPool, IDisposable
 
     public virtual bool isReady => _isReady;
 
-    public readonly AssetReference assetReference;
+    public readonly string key;
 
     public readonly int initialCapacity;
 
@@ -33,17 +33,17 @@ public abstract class AssetReferencePool : IPool, IDisposable
 
     public int minimumCapacity;
 
-    protected AssetReferencePool(AssetReference assetReference, int initialCapacity, Transform objectsParent)
+    protected AssetPool(string key, int initialCapacity, Transform objectsParent)
     {
-        this.assetReference = assetReference;
+        this.key = key;
         this.initialCapacity = initialCapacity;
         this.objectsParent = objectsParent;
         this.minimumCapacity = MinimumCapacityDefault;
 
-        AllPools.Add(assetReference.RuntimeKey, this);
+        AllPools.Add(key, this);
     }
 
-    ~AssetReferencePool()
+    ~AssetPool()
     {
         Dispose(false);
     }
@@ -63,19 +63,19 @@ public abstract class AssetReferencePool : IPool, IDisposable
 
         if (disposing)
         {
-            AllPools.Remove(assetReference.RuntimeKey);
+            AllPools.Remove(key);
             _isReady = false;
         }
 
         _disposed = true;
     }
 
-    public static bool TryGetPool(AssetReference aRef, out AssetReferencePool assetReferencePool)
+    public static bool TryGetPool(string key, out AssetPool assetReferencePool)
     {
-        return AllPools.TryGetValue(aRef.RuntimeKey, out assetReferencePool);
+        return AllPools.TryGetValue(key, out assetReferencePool);
     }
 
-    public static bool TryGetPool(object key, out AssetReferencePool assetReferencePool)
+    public static bool TryGetPool(object key, out AssetPool assetReferencePool)
     {
         return AllPools.TryGetValue(key, out assetReferencePool);
     }
@@ -88,12 +88,12 @@ public abstract class AssetReferencePool : IPool, IDisposable
     {
         foreach (var kvp in AllPools)
         {
-            Debug.Log($"{nameof(AssetReferencePool)}: Key {kvp.Key} | Value {kvp.Value} - {kvp.Value.collection.Count} instantiated objects.");
+            Debug.Log($"{nameof(AssetPool)}: Key {kvp.Key} | Value {kvp.Value} - {kvp.Value.collection.Count} instantiated objects.");
         }
     }
 }
 
-public class AssetReferencePool<TComponent> : AssetReferencePool where TComponent : Component
+public class AssetPool<TComponent> : AssetPool where TComponent : Component
 {
     public delegate void DelegatePoolReady();
     public event DelegatePoolReady OnPoolReady;
@@ -114,16 +114,16 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
 
     Action<TComponent> _objectInstantiatedAction;
 
-    protected AssetReferencePool(AssetReference assetReference, int initialCapacity, Transform objectsParent, Action<TComponent> objectInstantiatedAction)
-        : base(assetReference, initialCapacity, objectsParent)
+    protected AssetPool(string key, int initialCapacity, Transform objectsParent, Action<TComponent> objectInstantiatedAction)
+        : base(key, initialCapacity, objectsParent)
     {
         _list = new List<Tuple<TComponent, PoolObject>>(initialCapacity);
         _objectInstantiatedAction = objectInstantiatedAction;
 
         AssetManager.OnAssetLoaded += OnObjectLoaded;
-        //AssetManager.OnAssetUnloaded += OnObjectUnloaded;
+        AssetManager.OnAssetUnloaded += OnObjectUnloaded;
 
-        if (AssetManager.TryGetOrLoadComponentAsync(assetReference, out _loadHandle))
+        if (AssetManager.TryGetOrLoadComponentAsync(key, out _loadHandle))
         {
             OnObjectLoaded(_loadHandle.Result);
         }
@@ -132,9 +132,7 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
     protected override void Dispose(bool disposing)
     {
         if (disposed)
-        {
             return;
-        }
 
         if (disposing)
         {
@@ -148,12 +146,18 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
 
     void OnObjectLoaded(object key, AsyncOperationHandle handle)
     {
-        OnObjectLoaded(null);
+        GameObject go = handle.Result as GameObject;
+
+        TComponent comp = null;
+        if (go)
+            comp = go.GetComponent<TComponent>();
+
+        OnObjectLoaded(comp);
     }
 
     void OnObjectLoaded(TComponent obj)
     {
-        //_loadedObject = obj;
+        _loadedObject = obj;
 
         _isReady = true;
 
@@ -164,10 +168,8 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
 
     void OnObjectUnloaded(object runtimeKey)
     {
-        if (runtimeKey.ToString() != assetReference.RuntimeKey.ToString())
-        {
+        if (runtimeKey.ToString() != key)
             return;
-        }
 
         Dispose();
     }
@@ -189,7 +191,7 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
     {
         var pos = objectsParent ? objectsParent.position : Vector3.zero;
 
-        AssetManager.TryInstantiateMultiSync<TComponent>(assetReference, count, pos, Quaternion.identity, objectsParent, out var instanceList);
+        AssetManager.TryInstantiateMultiSync<TComponent>(key, count, pos, Quaternion.identity, objectsParent, out var instanceList);
         foreach (var component in instanceList)
         {
             var po = component.gameObject.AddComponent<PoolObject>();
@@ -207,6 +209,10 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="poolObject"></param>
     public override void PoolObjectReturned(PoolObject poolObject)
     {
         if (objectsParent)
@@ -278,29 +284,29 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="objectInstantiationAction"></param>
     /// <returns></returns>
-    public static AssetReferencePool<TComponent> GetOrCreate(AssetReference aRef, Action<TComponent> objectInstantiationAction)
+    public static AssetPool<TComponent> GetOrCreate(string key, Action<TComponent> objectInstantiationAction)
     {
-        return GetOrCreate(aRef, 10, null, objectInstantiationAction);
+        return GetOrCreate(key, 10, null, objectInstantiationAction);
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="initialCapacity"></param>
     /// <param name="objectsParent"></param>
     /// <param name="objectInstantiationAction"></param>
     /// <returns></returns>
-    public static AssetReferencePool<TComponent> GetOrCreate(AssetReference aRef, int initialCapacity = 10, Transform objectsParent = null, Action<TComponent> objectInstantiationAction = null)
+    public static AssetPool<TComponent> GetOrCreate(string key, int initialCapacity = 10, Transform objectsParent = null, Action<TComponent> objectInstantiationAction = null)
     {
-        if (TryGetPool(aRef, out var existingPool))
+        if (TryGetPool(key, out var existingPool))
         {
             return existingPool;
         }
-        var pool = new AssetReferencePool<TComponent>(aRef, initialCapacity, objectsParent, objectInstantiationAction);
+        var pool = new AssetPool<TComponent>(key, initialCapacity, objectsParent, objectInstantiationAction);
         return pool;
     }
 
@@ -310,30 +316,44 @@ public class AssetReferencePool<TComponent> : AssetReferencePool where TComponen
     /// <param name="aRef"></param>
     /// <param name="assetReferencePool"></param>
     /// <returns></returns>
-    public static bool TryGetPool(AssetReference aRef, out AssetReferencePool<TComponent> assetReferencePool)
+    public static bool TryGetPool(string key, out AssetPool<TComponent> assetPool)
     {
-        if (AllPools.TryGetValue(aRef.RuntimeKey, out var p))
+        if (AllPools.TryGetValue(key, out var p))
         {
-            assetReferencePool = p as AssetReferencePool<TComponent>;
+            assetPool = p as AssetPool<TComponent>;
             return true;
         }
 
-        assetReferencePool = null;
+        assetPool = null;
         return false;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    /// <param name="parent"></param>
+    /// <param name="handle"></param>
     public void TryGetPoolObject(Vector3 position, Quaternion rotation, Transform parent, out AsyncOperationHandle<TComponent> handle)
     {
-        if (!_isReady)
+        TryTake(position, rotation, parent, out handle);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public static bool RemovePool(string key)
+    {
+        if (AllPools.ContainsKey(key))
         {
-            if (AssetManager.TryGetOrLoadComponentAsync(assetReference, out handle))
-            {
-                _loadHandle = handle;
-            }
+            AssetManager.Unload(key);
+            AllPools.Remove(key);
+            return true;
         }
-        else
-        {
-            TryTake(position, rotation, parent, out handle);
-        }
+
+        return false;
     }
 }

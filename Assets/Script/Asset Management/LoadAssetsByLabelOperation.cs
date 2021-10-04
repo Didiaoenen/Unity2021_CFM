@@ -1,35 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
-public class LoadAssetsByLabelOperation : AsyncOperationBase<List<AsyncOperationHandle<Object>>>
+public class LoadAssetsByLabelOperation<TObject> : AsyncOperationBase<List<AsyncOperationHandle<TObject>>> where TObject : Object
 {
     string _label;
+    Action<object, AsyncOperationHandle> _loadedCallback;
     Dictionary<object, AsyncOperationHandle> _loadedDictionary;
     Dictionary<object, AsyncOperationHandle> _loadingDictionary;
-    Action<object, AsyncOperationHandle> _loadedCallback;
+
+    Dictionary<string, AsyncOperationHandle<TObject>> _loadingInternalIdDic = new Dictionary<string, AsyncOperationHandle<TObject>>();
 
     public LoadAssetsByLabelOperation(Dictionary<object, AsyncOperationHandle> loadedDictionary, Dictionary<object, AsyncOperationHandle> loadingDictionary,
         string label, Action<object, AsyncOperationHandle> loadedCallback)
     {
+        _label = label;
+        _loadedCallback = loadedCallback;
+        
         _loadedDictionary = loadedDictionary;
         if (_loadedDictionary == null)
-        {
             _loadedDictionary = new Dictionary<object, AsyncOperationHandle>();
-        }
+
         _loadingDictionary = loadingDictionary;
         if (_loadingDictionary == null)
-        { 
             _loadingDictionary = new Dictionary<object, AsyncOperationHandle>();
-        }
-
-        _loadedCallback = loadedCallback;
-
-        _label = label;
     }
 
     protected override void Execute()
@@ -44,115 +42,41 @@ public class LoadAssetsByLabelOperation : AsyncOperationBase<List<AsyncOperation
         var locationsHandle = Addressables.LoadResourceLocationsAsync(_label);
         var locations = await locationsHandle.Task;
 
-        var loadingInternalIdDic = new Dictionary<string, AsyncOperationHandle<Object>>();
-        var loadedInternalIdDic = new Dictionary<string, AsyncOperationHandle<Object>>();
-
-        var operationHandles = new List<AsyncOperationHandle<Object>>();
+        var operationHandles = new List<AsyncOperationHandle<TObject>>();
         foreach (var resourceLocation in locations)
         {
-            AsyncOperationHandle<Object> loadingHandle = Addressables.LoadAssetAsync<Object>(resourceLocation.PrimaryKey);
-
-            operationHandles.Add(loadingHandle);
-
-            if (!loadingInternalIdDic.ContainsKey(resourceLocation.InternalId))
+            if (resourceLocation.ResourceType == typeof(TObject))
             {
-                loadingInternalIdDic.Add(resourceLocation.InternalId, loadingHandle);
-            }
+                AsyncOperationHandle<TObject> loadingHandle = Addressables.LoadAssetAsync<TObject>(resourceLocation.PrimaryKey);
 
-            loadingHandle.Completed += assetOp =>
-            {
-                if (!loadedInternalIdDic.ContainsKey(resourceLocation.InternalId))
-                    loadedInternalIdDic.Add(resourceLocation.InternalId, assetOp);
-            };
-        }
+                operationHandles.Add(loadingHandle);
 
-        foreach (var locator in Addressables.ResourceLocators)
-        {
-            foreach (var key in locator.Keys)
-            {
-                bool isGUID = Guid.TryParse(key.ToString(), out var guid);
-                if (!isGUID)
+                if (!_loadingInternalIdDic.ContainsKey(resourceLocation.PrimaryKey))
+                    _loadingInternalIdDic.Add(resourceLocation.PrimaryKey, loadingHandle);
+
+                loadingHandle.Completed += assetOp =>
                 {
-                    continue;
-                }
-
-                if (!TryGetKeyLocationID(locator, key, out var keyLocationID))
-                {
-                    continue;
-                }
-
-                var locationMatched = loadingInternalIdDic.TryGetValue(keyLocationID, out var loadingHandle);
-                if (!locationMatched)
-                {
-                    continue;
-                }
-
-                if (!_loadingDictionary.ContainsKey(key))
-                {
-                    _loadingDictionary.Add(key, loadingHandle);
-                }
+                    if (!_loadingDictionary.ContainsKey(resourceLocation.PrimaryKey))
+                        _loadingDictionary.Add(resourceLocation.PrimaryKey, assetOp);
+                };
             }
         }
 
         foreach (var handle in operationHandles)
-        {
             await handle.Task;
-        }
 
-        foreach (var locator in Addressables.ResourceLocators)
+        foreach (var handle in _loadingInternalIdDic)
         {
-            foreach (var key in locator.Keys)
+            if (_loadingDictionary.ContainsKey(handle.Key))
+                _loadingDictionary.Remove(handle.Key);
+
+            if (!_loadedDictionary.ContainsKey(handle.Key))
             {
-                bool isGUID = Guid.TryParse(key.ToString(), out var guid);
-                if (!isGUID)
-                {
-                    continue;
-                }
-
-                if (!TryGetKeyLocationID(locator, key, out var keyLocationID))
-                {
-                    continue;
-                }
-
-                var locationMatched = loadedInternalIdDic.TryGetValue(keyLocationID, out var loadedHandle);
-                if (!locationMatched)
-                {
-                    continue;
-                }
-
-                if (_loadingDictionary.ContainsKey(key))
-                {
-                    _loadingDictionary.Remove(key);
-                }
-                if (!_loadedDictionary.ContainsKey(key))
-                {
-                    _loadedDictionary.Add(key, loadedHandle);
-                    _loadedCallback?.Invoke(key, loadedHandle);
-                }
+                _loadedDictionary.Add(handle.Key, handle.Value);
+                _loadedCallback?.Invoke(handle.Key, handle.Value);
             }
         }
 
         Complete(operationHandles, true, string.Empty);
-    }
-
-    bool TryGetKeyLocationID(IResourceLocator locator, object key, out string internalID)
-    {
-        internalID = string.Empty;
-        var hasLocation = locator.Locate(key, typeof(Object), out var keyLocations);
-        if (!hasLocation)
-        {
-            return false;
-        }
-        if (keyLocations.Count == 0)
-        {
-            return false;
-        }
-        if (keyLocations.Count > 1)
-        {
-            return false;
-        }
-
-        internalID = keyLocations[0].InternalId;
-        return true;
     }
 }

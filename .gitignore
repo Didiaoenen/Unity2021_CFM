@@ -11,3 +11,4 @@ TsProj/output
 *.suo
 *.sln
 *.csproj
+com.unity*

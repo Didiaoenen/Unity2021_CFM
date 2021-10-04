@@ -46,11 +46,11 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    public static bool IsLoaded(AssetReference aRef)
+    public static bool IsLoaded(string key)
     {
-        return _loadedAssets.ContainsKey(aRef.RuntimeKey);
+        return _loadedAssets.ContainsKey(key);
     }
 
     /// <summary>
@@ -66,11 +66,11 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    public static bool IsLoading(AssetReference aRef)
+    public static bool IsLoading(string key)
     {
-        return _loadingAssets.ContainsKey(aRef.RuntimeKey);
+        return _loadingAssets.ContainsKey(key);
     }
 
     /// <summary>
@@ -86,11 +86,11 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    public static bool IsInstantiated(AssetReference aRef)
+    public static bool IsInstantiated(string key)
     {
-        return _instantiatedObjects.ContainsKey(aRef);
+        return _instantiatedObjects.ContainsKey(key);
     }
 
     /// <summary>
@@ -106,26 +106,23 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    public static int InstantiatedCount(AssetReference aRef)
+    public static int InstantiatedCount(string key)
     {
-        return !IsInstantiated(aRef) ? 0 : _instantiatedObjects[aRef.RuntimeKey].Count;
+        return !IsInstantiated(key) ? 0 : _instantiatedObjects[key].Count;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TObjectType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryGetOrLoadObjectAsync<TObjectType>(AssetReference aRef, out AsyncOperationHandle<TObjectType> handle) where TObjectType : Object
+    public static bool TryGetOrLoadObjectAsync<TObjectType>(string key, out AsyncOperationHandle<TObjectType> handle)
+        where TObjectType : Object
     {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-
         if (_loadedAssets.ContainsKey(key))
         {
             try
@@ -158,7 +155,7 @@ public static class AssetManager
             return false;
         }
 
-        handle = Addressables.LoadAssetAsync<TObjectType>(aRef);
+        handle = Addressables.LoadAssetAsync<TObjectType>(key);
 
         _loadingAssets.Add(key, handle);
 
@@ -176,28 +173,13 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TObjectType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="handle"></param>
-    /// <returns></returns>
-    public static bool TryGetOrLoadObjectAsync<TObjectType>(AssetReferenceT<TObjectType> aRef, out AsyncOperationHandle<TObjectType> handle) where TObjectType : Object
-    {
-        return TryGetOrLoadObjectAsync(aRef as AssetReference, out handle);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryGetOrLoadComponentAsync<TComponentType>(AssetReference aRef, out AsyncOperationHandle<TComponentType> handle) where TComponentType : Component
+    public static bool TryGetOrLoadComponentAsync<TComponentType>(string key, out AsyncOperationHandle<TComponentType> handle)
+        where TComponentType : Component
     {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-
         if (_loadedAssets.ContainsKey(key))
         {
             handle = ConvertHandleToComponent<TComponentType>(_loadedAssets[key]);
@@ -210,7 +192,7 @@ public static class AssetManager
             return false;
         }
 
-        var op = Addressables.LoadAssetAsync<GameObject>(aRef);
+        var op = Addressables.LoadAssetAsync<GameObject>(key);
 
         _loadingAssets.Add(key, op);
 
@@ -224,8 +206,7 @@ public static class AssetManager
 
         handle = Addressables.ResourceManager.CreateChainOperation(op, chainOp =>
         {
-            var go = chainOp.Result;
-            var comp = go.GetComponent<TComponentType>();
+            var comp = chainOp.Result.GetComponent<TComponentType>();
             return Addressables.ResourceManager.CreateCompletedOperation(comp, string.Empty);
         });
 
@@ -235,28 +216,13 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="handle"></param>
-    /// <returns></returns>
-    public static bool TryGetOrLoadComponentAsync<TComponentType>(AssetReferenceT<TComponentType> aRef, out AsyncOperationHandle<TComponentType> handle) where TComponentType : Component
-    {
-        return TryGetOrLoadComponentAsync(aRef as AssetReference, out handle);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <typeparam name="TObjectType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryGetObjectSync<TObjectType>(AssetReference aRef, out TObjectType result) where TObjectType : Object
+    public static bool TryGetObjectSync<TObjectType>(string key, out TObjectType result) 
+        where TObjectType : Object
     {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-    
         if (_loadedAssets.ContainsKey(key))
         {
             result = _loadedAssets[key].Convert<TObjectType>().Result;
@@ -270,28 +236,13 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TObjectType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    public static bool TryGetObjectSync<TObjectType>(AssetReferenceT<TObjectType> aRef, out TObjectType result) where TObjectType : Object
-    {
-        return TryGetObjectSync(aRef as AssetReference, out result);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryGetComponentSync<TComponentType>(AssetReference aRef, out TComponentType result) where TComponentType : Component
+    public static bool TryGetComponentSync<TComponentType>(string key, out TComponentType result) 
+        where TComponentType : Component
     {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-
         if (_loadedAssets.ContainsKey(key))
         {
             var handle = _loadedAssets[key];
@@ -316,23 +267,12 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    public static bool TryGetComponentSync<TComponentType>(AssetReferenceT<TComponentType> aRef, out TComponentType result) where TComponentType : Component
-    {
-        return TryGetComponentSync(aRef as AssetReference, out result);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="label"></param>
     /// <returns></returns>
-    public static AsyncOperationHandle<List<AsyncOperationHandle<Object>>> LoadAssetsByLabelAsync(string label)
+    public static AsyncOperationHandle<List<AsyncOperationHandle<TObject>>> LoadAssetsByLabelAsync<TObject>(string label) 
+        where TObject : Object
     {
-        var handle = Addressables.ResourceManager.StartOperation(new LoadAssetsByLabelOperation(_loadedAssets, _loadingAssets, label, AssetLoadedCallback), default);
+        var handle = Addressables.ResourceManager.StartOperation(new LoadAssetsByLabelOperation<TObject>(_loadedAssets, _loadingAssets, label, AssetLoadedCallback), default);
         return handle;
     }
 
@@ -346,23 +286,12 @@ public static class AssetManager
         OnAssetLoaded?.Invoke(key, handle);
     }
 
-    public static void Unload(AssetReference aRef)
-    {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-
-        Unload(key);
-    }
-
     /// <summary>
     /// 
     /// </summary>
     /// <param name="key"></param>
-    static void Unload(object key)
+    public static void Unload(object key)
     {
-        CheckRuntimeKey(key);
-
         AsyncOperationHandle handle;
         if (_loadingAssets.ContainsKey(key))
         {
@@ -410,12 +339,11 @@ public static class AssetManager
                 Debug.LogError($"Cannot Unload by label '{label}'");
                 return;
             }
-            var keys = GetKeysFromLocations(op.Result);
-            foreach (var key in keys)
+            foreach (var resourceLocation in op.Result)
             {
-                if (IsLoaded(key) || IsLoading(key))
+                if (IsLoaded(resourceLocation.PrimaryKey) || IsLoading(resourceLocation.PrimaryKey))
                 {
-                    Unload(key);
+                    Unload(resourceLocation.PrimaryKey);
                 }
             }
         };
@@ -424,17 +352,17 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="postion"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryInstantiateOrLoadAsync(AssetReference aRef, Vector3 postion, Quaternion rotation, Transform parent, out AsyncOperationHandle<GameObject> handle)
+    public static bool TryInstantiateOrLoadAsync(string key, Vector3 postion, Quaternion rotation, Transform parent, out AsyncOperationHandle<GameObject> handle)
     {
-        if (TryGetOrLoadObjectAsync(aRef, out AsyncOperationHandle<GameObject> loadHandle))
+        if (TryGetOrLoadObjectAsync(key, out AsyncOperationHandle<GameObject> loadHandle))
         {
-            var instance = InstantiateInternal(aRef, loadHandle.Result, postion, rotation, parent);
+            var instance = InstantiateInternal(key, loadHandle.Result, postion, rotation, parent);
             handle = Addressables.ResourceManager.CreateCompletedOperation(instance, string.Empty);
             return true;
         }
@@ -448,7 +376,7 @@ public static class AssetManager
 
         handle = Addressables.ResourceManager.CreateChainOperation(loadHandle, chainOp =>
         {
-            var instance = InstantiateInternal(aRef, chainOp.Result, postion, rotation, parent);
+            var instance = InstantiateInternal(key, chainOp.Result, postion, rotation, parent);
             return Addressables.ResourceManager.CreateCompletedOperation(instance, string.Empty);
         });
 
@@ -459,18 +387,18 @@ public static class AssetManager
     /// 
     /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryInstantiateOrLoadAsync<TComponentType>(AssetReference aRef, Vector3 position, Quaternion rotation, Transform parent,
-        out AsyncOperationHandle<TComponentType> handle) where TComponentType : Component
+    public static bool TryInstantiateOrLoadAsync<TComponentType>(string key, Vector3 position, Quaternion rotation, Transform parent, out AsyncOperationHandle<TComponentType> handle) 
+        where TComponentType : Component
     {
-        if (TryGetOrLoadComponentAsync(aRef, out AsyncOperationHandle<TComponentType> loadHandle))
+        if (TryGetOrLoadComponentAsync(key, out AsyncOperationHandle<TComponentType> loadHandle))
         {
-            var instance = InstantiateInternal(aRef, loadHandle.Result, position, rotation, parent);
+            var instance = InstantiateInternal(key, loadHandle.Result, position, rotation, parent);
             handle = Addressables.ResourceManager.CreateCompletedOperation(instance, string.Empty);
             return true;
         }
@@ -482,40 +410,34 @@ public static class AssetManager
             return false;
         }
 
+        //Create a chain that waits for loadHandle to finish, then instantiates and returns the instance GO.
         handle = Addressables.ResourceManager.CreateChainOperation(loadHandle, chainOp =>
         {
-            var instance = InstantiateInternal(aRef, chainOp.Result, position, rotation, parent);
+            var instance = InstantiateInternal(key, chainOp.Result, position, rotation, parent);
             return Addressables.ResourceManager.CreateCompletedOperation(instance, string.Empty);
         });
-
         return false;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
+    /// <param name="count"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryInstantiateOrLoadAsync<TComponentType>(AssetReferenceT<TComponentType> aRef, Vector3 position, Quaternion rotation, Transform parent,
-        out AsyncOperationHandle<TComponentType> handle) where TComponentType : Component
-    {
-        return TryInstantiateOrLoadAsync(aRef as AssetReference, position, rotation, parent, out handle);
-    }
-
-    public static bool TryInstantiateMultiOrLoadAsync(AssetReference aRef, int count, Vector3 position, Quaternion rotation, Transform parent,
+    public static bool TryInstantiateMultiOrLoadAsync(string key, int count, Vector3 position, Quaternion rotation, Transform parent,
         out AsyncOperationHandle<List<GameObject>> handle)
     {
-        if (TryGetOrLoadObjectAsync(aRef, out AsyncOperationHandle<GameObject> loadHandle))
+        if (TryGetOrLoadObjectAsync(key, out AsyncOperationHandle<GameObject> loadHandle))
         {
             var list = new List<GameObject>(count);
             for (int i = 0; i < count; i ++)
             {
-                var instance = InstantiateInternal(aRef, loadHandle.Result, position, rotation, parent);
+                var instance = InstantiateInternal(key, loadHandle.Result, position, rotation, parent);
                 list.Add(instance);
             }
 
@@ -535,7 +457,7 @@ public static class AssetManager
             var list = new List<GameObject>(count);
             for (int i = 0; i < count; i++)
             {
-                var instance = InstantiateInternal(aRef, chainOp.Result, position, rotation, parent);
+                var instance = InstantiateInternal(key, chainOp.Result, position, rotation, parent);
                 list.Add(instance);
             }
 
@@ -549,22 +471,22 @@ public static class AssetManager
     /// 
     /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="count"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static bool TryInstantiateMultiOrLoadAsync<TComponentType>(AssetReference aRef, int count, Vector3 position, Quaternion rotation, Transform parent,
-        out AsyncOperationHandle<List<TComponentType>> handle) where TComponentType : Component
+    public static bool TryInstantiateMultiOrLoadAsync<TComponentType>(string key, int count, Vector3 position, Quaternion rotation, Transform parent, out AsyncOperationHandle<List<TComponentType>> handle) 
+        where TComponentType : Component
     {
-        if (TryGetOrLoadComponentAsync(aRef, out AsyncOperationHandle<TComponentType> loadHandle))
+        if (TryGetOrLoadComponentAsync(key, out AsyncOperationHandle<TComponentType> loadHandle))
         {
             var list = new List<TComponentType>(count);
             for (int i = 0; i < count; i++)
             {
-                var instance = InstantiateInternal(aRef, loadHandle.Result, position, rotation, parent);
+                var instance = InstantiateInternal(key, loadHandle.Result, position, rotation, parent);
                 list.Add(instance);
             }
 
@@ -582,53 +504,35 @@ public static class AssetManager
         handle = Addressables.ResourceManager.CreateChainOperation(loadHandle, chainOp =>
         {
             var list = new List<TComponentType>(count);
-            for (int i = 0; i < count; i ++)
+            for (int i = 0; i < count; i++)
             {
-                var instance = InstantiateInternal(aRef, chainOp.Result, position, rotation, parent);
+                var instance = InstantiateInternal(key, chainOp.Result, position, rotation, parent);
                 list.Add(instance);
             }
 
             return Addressables.ResourceManager.CreateCompletedOperation(list, string.Empty);
         });
-
         return false;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="count"></param>
-    /// <param name="position"></param>
-    /// <param name="rotation"></param>
-    /// <param name="parent"></param>
-    /// <param name="handle"></param>
-    /// <returns></returns>
-    public static bool TryInstantiateMultiOrLoadAsync<TComponentType>(AssetReferenceT<TComponentType> aRef, int count, Vector3 position, Quaternion rotation,
-         Transform parent, out AsyncOperationHandle<List<TComponentType>> handle) where TComponentType :Component
-    {
-        return TryInstantiateMultiOrLoadAsync(aRef as AssetReference, count, position, rotation, parent, out handle);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryInstantiateSync(AssetReference aRef, Vector3 position, Quaternion rotation, Transform parent, out GameObject result)
+    public static bool TryInstantiateSync(string key, Vector3 position, Quaternion rotation, Transform parent, out GameObject result)
     {
-        if (!TryGetObjectSync(aRef, out GameObject loadResult))
+        if (!TryGetObjectSync(key, out GameObject loadResult))
         {
             result = null;
             return false;
         }
 
-        result = InstantiateInternal(aRef, loadResult, position, rotation, parent);
+        result = InstantiateInternal(key, loadResult, position, rotation, parent);
         return true;
     }
 
@@ -636,55 +540,39 @@ public static class AssetManager
     /// 
     /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryInstantiateSync<TComponentType>(AssetReference aRef, Vector3 position, Quaternion rotation, Transform parent,
-        out TComponentType result) where TComponentType : Component
+    public static bool TryInstantiateSync<TComponentType>(string key, Vector3 position, Quaternion rotation, Transform parent,
+    out TComponentType result) where TComponentType : Component
     {
-        if (!TryGetComponentSync(aRef, out TComponentType loadResult))
+        if (!TryGetComponentSync(key, out TComponentType loadResult))
         {
             result = null;
             return false;
         }
 
-        result = InstantiateInternal(aRef, loadResult, position, rotation, parent);
+        result = InstantiateInternal(key, loadResult, position, rotation, parent);
         return true;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="position"></param>
-    /// <param name="rotation"></param>
-    /// <param name="parent"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    public static bool TryInstantiateSync<TComponentType>(AssetReferenceT<TComponentType> aRef, Vector3 position, Quaternion rotation, Transform parent,
-        out TComponentType result) where TComponentType : Component
-    {
-        return TryInstantiateSync(aRef as AssetReference, position, rotation, parent, out result);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="count"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryInstantiateMultiSync(AssetReference aRef, int count, Vector3 position, Quaternion rotation, Transform parent,
+    public static bool TryInstantiateMultiSync(string key, int count, Vector3 position, Quaternion rotation, Transform parent,
         out List<GameObject> result)
     {
-        if (!TryGetObjectSync(aRef, out GameObject loadResult))
+        if (!TryGetObjectSync(key, out GameObject loadResult))
         {
             result = null;
             return false;
@@ -693,7 +581,7 @@ public static class AssetManager
         var list = new List<GameObject>(count);
         for (int i = 0; i < count; i++)
         {
-            var instance = InstantiateInternal(aRef, loadResult, position, rotation, parent);
+            var instance = InstantiateInternal(key, loadResult, position, rotation, parent);
             list.Add(instance);
         }
 
@@ -705,17 +593,17 @@ public static class AssetManager
     /// 
     /// </summary>
     /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="count"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool TryInstantiateMultiSync<TComponentType>(AssetReference aRef, int count, Vector3 position, Quaternion rotation, Transform parent,
-        out List<TComponentType> result) where TComponentType : Component
+    public static bool TryInstantiateMultiSync<TComponentType>(string key, int count, Vector3 position, Quaternion rotation, Transform parent, out List<TComponentType> result) 
+        where TComponentType : Component
     {
-        if (!TryGetComponentSync(aRef, out TComponentType loadResult))
+        if (!TryGetComponentSync(key, out TComponentType loadResult))
         {
             result = null;
             return false;
@@ -724,7 +612,7 @@ public static class AssetManager
         var list = new List<TComponentType>(count);
         for (int i = 0; i < count; i++)
         {
-            var instance = InstantiateInternal(aRef, loadResult, position, rotation, parent);
+            var instance = InstantiateInternal(key, loadResult, position, rotation, parent);
             list.Add(instance);
         }
 
@@ -735,28 +623,11 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
-    /// <param name="count"></param>
-    /// <param name="position"></param>
-    /// <param name="rotation"></param>
-    /// <param name="parent"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    public static bool TryInstantiateMultiSync<TComponentType>(AssetReferenceT<TComponentType> aRef, int count, Vector3 position, Quaternion rotation, Transform parent,
-        out List<TComponentType> result) where TComponentType : Component
-    {
-        return TryInstantiateMultiSync(aRef as AssetReference, count, position, rotation, parent, out result);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
+    /// <typeparam name="TObjectType"></typeparam>
     /// <param name="tComponent"></param>
     /// <param name="outHandler"></param>
-    public static void TryTakeCompletedOperation<TComponentType>(TComponentType tComponent, out AsyncOperationHandle<TComponentType> outHandler)
-        where TComponentType : Component
+    public static void TryTakeCompletedOperation<TObjectType>(TObjectType tComponent, out AsyncOperationHandle<TObjectType> outHandler)
+        where TObjectType : Component
     {
         outHandler = Addressables.ResourceManager.CreateCompletedOperation(tComponent, string.Empty);
     }
@@ -764,12 +635,12 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
+    /// <typeparam name="TObjectType"></typeparam>
     /// <param name="tComponent"></param>
     /// <param name="handle"></param>
     /// <param name="outHandler"></param>
-    public static void TryTakeChainOperation<TComponentType>(TComponentType tComponent, AsyncOperationHandle<TComponentType> handle, out AsyncOperationHandle<TComponentType> outHandler)
-        where TComponentType : Component
+    public static void TryTakeChainOperation<TObjectType>(TObjectType tComponent, AsyncOperationHandle<TObjectType> handle, out AsyncOperationHandle<TObjectType> outHandler)
+        where TObjectType : Component
     {
         outHandler = Addressables.ResourceManager.CreateChainOperation(handle, chainOp =>
         {
@@ -780,18 +651,14 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TComponentType"></typeparam>
-    /// <param name="aRef"></param>
+    /// <param name="key"></param>
     /// <param name="loadedAsset"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <returns></returns>
-    static TComponentType InstantiateInternal<TComponentType>(AssetReference aRef, TComponentType loadedAsset, Vector3 position, Quaternion rotation, Transform parent)
-        where TComponentType : Component
+    static GameObject InstantiateInternal(string key, GameObject loadedAsset, Vector3 position, Quaternion rotation, Transform parent)
     {
-        var key = aRef.RuntimeKey;
-
         var instance = Object.Instantiate(loadedAsset, position, rotation, parent);
         if (!instance)
         {
@@ -803,41 +670,37 @@ public static class AssetManager
         monoTracker.OnDestroyed += TrackerDestroyed;
 
         if (!_instantiatedObjects.ContainsKey(key))
-        {
             _instantiatedObjects.Add(key, new List<GameObject>(initGameObjectCount));
-        }
-        _instantiatedObjects[key].Add(instance.gameObject);
+
+        _instantiatedObjects[key].Add(instance);
         return instance;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
+    /// <typeparam name="TComponentType"></typeparam>
+    /// <param name="key"></param>
     /// <param name="loadedAsset"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <param name="parent"></param>
     /// <returns></returns>
-    static GameObject InstantiateInternal(AssetReference aRef, GameObject loadedAsset, Vector3 position, Quaternion rotation, Transform parent)
+    /// <exception cref="NullReferenceException"></exception>
+    static TComponentType InstantiateInternal<TComponentType>(string key, TComponentType loadedAsset, Vector3 position, Quaternion rotation, Transform parent)
+        where TComponentType : Component
     {
-        var key = aRef.RuntimeKey;
-
         var instance = Object.Instantiate(loadedAsset, position, rotation, parent);
         if (!instance)
-        {
-            throw new NullReferenceException($"Instantiated Object of type '{typeof(GameObject)}' is null.");
-        }
+            throw new NullReferenceException($"Instantiated Object of type '{typeof(TComponentType)}' is null.");
 
         var monoTracker = instance.gameObject.AddComponent<MonoTracker>();
         monoTracker.key = key;
         monoTracker.OnDestroyed += TrackerDestroyed;
 
         if (!_instantiatedObjects.ContainsKey(key))
-        {
-            _instantiatedObjects.Add(key, new List<GameObject>(initGameObjectCount));
-        }
-        _instantiatedObjects[key].Add(instance);
+            _instantiatedObjects.Add(key, new List<GameObject>(20));
+        _instantiatedObjects[key].Add(instance.gameObject);
         return instance;
     }
 
@@ -856,16 +719,12 @@ public static class AssetManager
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aRef"></param>
-    public static void DestroyAllInstances(AssetReference aRef)
+    /// <param name="key"></param>
+    public static void DestroyAllInstances(string key)
     {
-        CheckRuntimeKey(aRef);
-
-        var key = aRef.RuntimeKey;
-
         if (_instantiatedObjects.ContainsKey(key))
         {
-            Debug.LogWarning($"{nameof(AssetReference)} '{aRef}' has not been instantiated. 0 Instances destroyed.");
+            Debug.LogWarning($"'{key}' has not been instantiated. 0 Instances destroyed.");
             return;
         }
 
@@ -896,39 +755,13 @@ public static class AssetManager
     {
         var c = obj as Component;
         if (c)
-        {
             Object.Destroy(c.gameObject);
-        }
         else
         {
             var go = obj as GameObject;
             if (go)
-            {
                 Object.Destroy(go);
-            }
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="aRef"></param>
-    static void CheckRuntimeKey(AssetReference aRef)
-    {
-        if (!aRef.RuntimeKeyIsValid())
-        {
-            throw new InvalidKeyException($"{_baseErr}{nameof(aRef.RuntimeKey)} is not valid for '{aRef}'.");
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
-    static bool CheckRuntimeKey(object key)
-    {
-        return Guid.TryParse(key.ToString(), out var result);
     }
 
     /// <summary>
@@ -937,7 +770,8 @@ public static class AssetManager
     /// <typeparam name="TComponentType"></typeparam>
     /// <param name="handle"></param>
     /// <returns></returns>
-    static AsyncOperationHandle<TComponentType> ConvertHandleToComponent<TComponentType>(AsyncOperationHandle handle) where TComponentType : Component
+    static AsyncOperationHandle<TComponentType> ConvertHandleToComponent<TComponentType>(AsyncOperationHandle handle) 
+        where TComponentType : Component
     {
         GameObject go = handle.Result as GameObject;
         if (!go)
