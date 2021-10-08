@@ -12,8 +12,9 @@ public class AddSprite : MonoBehaviour
 {
     GameObject uiPrefab;
 
-    string prefabLabel = "Assets/Prefabs/Image.prefab";
-    string spriteLabel = "Assets/Texture/icon_facebook.png";
+    string label = "preload";
+    string prefabAddress = "Assets/Prefabs/Image.prefab";
+    string spriteAddress = "Assets/Texture/icon_facebook.png";
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class AddSprite : MonoBehaviour
         //var handle = Addressables.LoadAssetsAsync<Sprite>((IEnumerable)new List<object> { "preload" }, null, Addressables.MergeMode.Intersection);
         //await handle.Task;
 
-        AssetManager.TryGetOrLoadObjectAsync<GameObject>(prefabLabel, out var handle);
+        AssetManager.TryGetOrLoadObjectAsync<GameObject>(prefabAddress, out var handle);
         AssetManager.OnAssetLoaded += OnPrefabLoaded;
 
         Debug.Log(Time.realtimeSinceStartup);
@@ -37,20 +38,22 @@ public class AddSprite : MonoBehaviour
 
     public void addSprite()
     {
-        AssetManager.LoadAssetsByLabelAsync<Sprite>(spriteLabel);
+        AssetManager.TryGetOrLoadObjectAsync<Sprite>(spriteAddress, out var handle);
         AssetManager.OnAssetLoaded += OnSpriteLoaded;
     }
 
     void clickDel()
     {
-        AssetManager.UnloadByLabel(spriteLabel);
-        AssetManager.Unload(prefabLabel);
+        //AssetManager.UnloadByLabel(spriteAddress);
+        //AssetManager.Unload(spriteAddress);
+        AssetManager.Unload(prefabAddress);
         Resources.UnloadUnusedAssets();
         GC.Collect();
     }
 
     void OnSpriteLoaded(object key, AsyncOperationHandle handle)
     {
+        uiPrefab.GetComponent<MonoTracker>().AddKey((string)key);
         uiPrefab.GetComponent<Image>().sprite = handle.Convert<Sprite>().Result;
         AssetManager.OnAssetLoaded -= OnSpriteLoaded;
     }
