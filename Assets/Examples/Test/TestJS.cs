@@ -13,7 +13,7 @@ public class TestJS : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        jsEnv = new JsEnv(new DefaultLoader(UnityEngine.Application.dataPath + "../TsProj/output/"), 9229);
+        jsEnv = new JsEnv(new DefaultLoader(UnityEngine.Application.dataPath + "/../TsProj/output/"), 9229);
         jsEnv.Eval("require('GameMain')");
     }
 
