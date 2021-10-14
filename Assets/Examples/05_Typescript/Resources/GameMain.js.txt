@@ -5,7 +5,7 @@ const puerts_1 = require("puerts");
 class GameMain {
     constructor() {
     }
-    start() {
+    Start() {
         try {
             csharp_1.UnityEngine.Debug.Log("GameMain");
             let mainCamera = csharp_1.UnityEngine.GameObject.Find("Main Camera");
@@ -16,8 +16,9 @@ class GameMain {
             });
         }
         catch (ex) {
+            console.log(ex);
         }
     }
 }
-new GameMain().start();
+new GameMain().Start();
 //# sourceMappingURL=GameMain.js.map
