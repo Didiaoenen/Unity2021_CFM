@@ -1,40 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
-using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
-using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
-using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
 using UnityEngine;
 using System;
 using System.Reflection;
 using UnityEngine.Serialization;
-using UnityEngine.EventSystems;
 using System.Linq;
 using UnityEngine.UI;
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
 using System.Globalization;
-
-public static class TypeExtensions
-{
-    public static bool IsValueType(this Type type)
-    {
-#if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
-            return type.GetTypeInfo().IsValueType;
-#else
-        return type.IsValueType;
-#endif
-    }
-
-    public static Type BaseType(this Type type)
-    {
-    #if UNITY_WAS && ENABLE_DOTNET && !UNITY_EDITOR
-        return type.GetTypeInfo().BaseType;
-    #else
-        return type.BaseType;
-    #endif
-    }
-}
+using UnityEngine.EventSystems;
 
 namespace mvvm
 {
+    public static class TypeExtensions
+    {
+        public static bool IsValueType(this Type type)
+        {
+    #if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
+                return type.GetTypeInfo().IsValueType;
+    #else
+            return type.IsValueType;
+    #endif
+        }
+
+        public static Type BaseType(this Type type)
+        {
+        #if UNITY_WAS && ENABLE_DOTNET && !UNITY_EDITOR
+            return type.GetTypeInfo().BaseType;
+        #else
+            return type.BaseType;
+        #endif
+        }
+    }
+
     public class PropertyBinding : MonoBehaviour
     {
         [SerializeField]
@@ -53,7 +52,7 @@ namespace mvvm
             {
                 public INotifyPropertyChanged Object;
                 public PropertyChangedEventHandler Handler;
-                public int idx;
+                public int Idx;
             }
 
             private Func<object, object> _getter;
@@ -198,7 +197,7 @@ namespace mvvm
 
             private void OnPropertyChanged(object sender, PropertyChangedEventArgs args, Notifier notifier)
             {
-                if (args.PropertyName != "" && args.PropertyName != Parts[notifier.idx])
+                if (args.PropertyName != "" && args.PropertyName != Parts[notifier.Idx])
                     return;
 
                 for (var i = 0; i < _notifies.Length; i++)
@@ -210,7 +209,7 @@ namespace mvvm
                 }
 
                 object root = notifier.Object;
-                for (var i = notifier.idx; i < _notifies.Length; i++)
+                for (var i = notifier.Idx; i < _notifies.Length; i++)
                 {
                     var part = GetIdxProperty(i, root);
                     if (part == null) return;
@@ -230,7 +229,7 @@ namespace mvvm
             {
                 if (root is INotifyPropertyChanged)
                 {
-                    var notifier = new Notifier { Object = root as INotifyPropertyChanged, idx = idx };
+                    var notifier = new Notifier { Object = root as INotifyPropertyChanged, Idx = idx };
                     notifier.Handler = (sender, args) => OnPropertyChanged(sender, args, notifier);
                     notifier.Object.PropertyChanged += notifier.Handler;
                     _notifies[idx] = notifier;

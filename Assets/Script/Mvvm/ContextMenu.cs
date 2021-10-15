@@ -1,86 +1,87 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ContextMenu : MonoBehaviour
+namespace mvvm
 {
-    [SerializeField]
-    [Tooltip("")]
-    private float _keepAlive = 1f;
-    [SerializeField]
-    [Tooltip("")]
-    private bool _hideWhenTimeout = false;
-    [SerializeField]
-    [Tooltip("")]
-    private bool _hideWhenOffClick = true;
-
-    private RectTransform _rect;
-    private readonly Vector3[] _worldCorners = new Vector3[4];
-    private float _dieTime;
-
-    public bool IsVisible { get { return gameObject.activeSelf; } }
-
-    private void Awake()
+    public class ContextMenu : MonoBehaviour
     {
-        _rect = transform as RectTransform;
-    }
+        [SerializeField]
+        [Tooltip("")]
+        private float _keepAlive = 1f;
+        [SerializeField]
+        [Tooltip("")]
+        private bool _hideWhenTimeout = false;
+        [SerializeField]
+        [Tooltip("")]
+        private bool _hideWhenOffClick = true;
 
-    private void Update()
-    {
-        if (!IsMouseOverRect())
+        private RectTransform _rect;
+        private readonly Vector3[] _worldCorners = new Vector3[4];
+        private float _dieTime;
+
+        public bool IsVisible { get { return gameObject.activeSelf; } }
+
+        private void Awake()
         {
-            if (ShouldHide())
-                Hide();
-            return;
+            _rect = transform as RectTransform;
         }
 
-        RefreshDieTime();
-    }
+        private void Update()
+        {
+            if (!IsMouseOverRect())
+            {
+                if (ShouldHide())
+                    Hide();
+                return;
+            }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+            RefreshDieTime();
+        }
 
-    public void Show()
-    {
-        Show(Input.mousePosition, null);
-    }
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
 
-    public void Show(Vector2 position, Component dataContext)
-    {
-        if (IsVisible) return;
+        public void Show()
+        {
+            Show(Input.mousePosition, null);
+        }
 
-        _rect.position = new Vector3(position.x -1, position.x + 1, _rect.position.z);
+        public void Show(Vector2 position, Component dataContext)
+        {
+            if (IsVisible) return;
 
-        RefreshDieTime();
-        gameObject.SetActive(true);
+            _rect.position = new Vector3(position.x -1, position.x + 1, _rect.position.z);
 
-        var context = GetComponent<DataContext>();
-        if (context != null && dataContext != null)
-            context.UpdateValue(dataContext is DataContext ? (dataContext as DataContext).Value : dataContext);
-    }
+            RefreshDieTime();
+            gameObject.SetActive(true);
 
-    private bool ShouldHide()
-    {
-        if (_hideWhenOffClick && Input.GetMouseButton(0))
-            return true;
-        if (_hideWhenTimeout)
-            return _dieTime <= Time.time;
-        return false;
-    }
+            var context = GetComponent<DataContext>();
+            if (context != null && dataContext != null)
+                context.UpdateValue(dataContext is DataContext ? (dataContext as DataContext).Value : dataContext);
+        }
 
-    private void RefreshDieTime()
-    {
-        _dieTime = Time.time + _keepAlive;
-    }
+        private bool ShouldHide()
+        {
+            if (_hideWhenOffClick && Input.GetMouseButton(0))
+                return true;
+            if (_hideWhenTimeout)
+                return _dieTime <= Time.time;
+            return false;
+        }
 
-    private bool IsMouseOverRect()
-    {
-        Vector2 mousePosition = Input.mousePosition;
-        _rect.GetWorldCorners(_worldCorners);
+        private void RefreshDieTime()
+        {
+            _dieTime = Time.time + _keepAlive;
+        }
 
-        return mousePosition.x >= _worldCorners[0].x && mousePosition.x < _worldCorners[2].x && 
-            mousePosition.y >= _worldCorners[0].y && mousePosition.y < _worldCorners[2].y;
+        private bool IsMouseOverRect()
+        {
+            Vector2 mousePosition = Input.mousePosition;
+            _rect.GetWorldCorners(_worldCorners);
+
+            return mousePosition.x >= _worldCorners[0].x && mousePosition.x < _worldCorners[2].x && 
+                mousePosition.y >= _worldCorners[0].y && mousePosition.y < _worldCorners[2].y;
+        }
     }
 }

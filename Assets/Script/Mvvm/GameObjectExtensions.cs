@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameObjectExtensions
+namespace mvvm
 {
-    public static string GetParentNameHierarchy(this GameObject gObj)
+    public static class GameObjectExtensions
     {
-        Transform parentObj = gObj.transform;
-        Stack<string> stack = new Stack<string>();
-
-        while (parentObj != null)
+        public static string GetParentNameHierarchy(this GameObject gObj)
         {
-            stack.Push(parentObj.name);
-            parentObj = parentObj.parent;
-        }
+            Transform parentObj = gObj.transform;
+            Stack<string> stack = new Stack<string>();
 
-        string nameHierarchy = "";
-        while (stack.Count > 0)
-        {
-            nameHierarchy = stack.Pop() + "->";
-        }
+            while (parentObj != null)
+            {
+                stack.Push(parentObj.name);
+                parentObj = parentObj.parent;
+            }
 
-        return nameHierarchy;
+            string nameHierarchy = "";
+            while (stack.Count > 0)
+            {
+                nameHierarchy = stack.Pop() + "->";
+            }
+
+            return nameHierarchy;
+        }
     }
 }

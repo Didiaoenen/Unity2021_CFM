@@ -2,78 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CachingCreateDestroyItemsBehavior : ICreateDestroyItems
+namespace mvvm
 {
-    private readonly List<GameObject> _gameObjectCached = new List<GameObject>();
-
-    private readonly ICreateDestroyItems _createDestroyImpl;
-
-    private readonly Dictionary<object, GameObject> _itemToGameObjectMap = new Dictionary<object, GameObject>();
-
-    public CachingCreateDestroyItemsBehavior(ICreateDestroyItems createDestroyInfo, int initialPoolSize)
+    public class CachingCreateDestroyItemsBehavior : ICreateDestroyItems
     {
-        _createDestroyImpl = createDestroyInfo;
+        private readonly List<GameObject> _gameObjectCached = new List<GameObject>();
 
-        for (int i = 0; i < initialPoolSize; i++)
+        private readonly ICreateDestroyItems _createDestroyImpl;
+
+        private readonly Dictionary<object, GameObject> _itemToGameObjectMap = new Dictionary<object, GameObject>();
+
+        public CachingCreateDestroyItemsBehavior(ICreateDestroyItems createDestroyInfo, int initialPoolSize)
         {
-            var newGameObject = InstantiateItem();
-            newGameObject.SetActive(false);
-            _gameObjectCached.Add(newGameObject);
-        }
-    }
+            _createDestroyImpl = createDestroyInfo;
 
-    public GameObject CreateItemControl(object item)
-    {
-        GameObject control = GetCachedControl();
-        if (control != null)
-        {
-            control.SetActive(true);
-        }
-        else
-        {
-            control = InstantiateItem();
-            _gameObjectCached.Add(control);
-        }
-
-        _itemToGameObjectMap.Add(item, control);
-
-        return control;
-    }
-
-    public GameObject GetCachedControl()
-    {
-        GameObject control = null;
-
-        foreach (var go in _gameObjectCached)
-        {
-            if (!_itemToGameObjectMap.ContainsValue(go))
+            for (int i = 0; i < initialPoolSize; i++)
             {
-                control = go;
-                break;
+                var newGameObject = InstantiateItem();
+                newGameObject.SetActive(false);
+                _gameObjectCached.Add(newGameObject);
             }
         }
 
-        return control;
-    }
+        public GameObject CreateItemControl(object item)
+        {
+            GameObject control = GetCachedControl();
+            if (control != null)
+            {
+                control.SetActive(true);
+            }
+            else
+            {
+                control = InstantiateItem();
+                _gameObjectCached.Add(control);
+            }
 
-    public void DestroyItemControl(ItemsControl.ItemInfo item)
-    {
-        item.Control.SetActive(false);
-        _itemToGameObjectMap.Remove(item.Item);
-    }
+            _itemToGameObjectMap.Add(item, control);
 
-    public GameObject InstantiateItem()
-    {
-        return (_createDestroyImpl.InstantiateItem());
-    }
+            return control;
+        }
 
-    public void SetItemTemplate(GameObject itemTemplate)
-    {
-        _createDestroyImpl.SetItemTemplate(itemTemplate);
-    }
+        public GameObject GetCachedControl()
+        {
+            GameObject control = null;
 
-    public void SetItemTemplate(DataTemplateSelector dataTemplateSelector)
-    {
-        _createDestroyImpl.SetItemTemplate(dataTemplateSelector);
+            foreach (var go in _gameObjectCached)
+            {
+                if (!_itemToGameObjectMap.ContainsValue(go))
+                {
+                    control = go;
+                    break;
+                }
+            }
+
+            return control;
+        }
+
+        public void DestroyItemControl(ItemsControl.ItemInfo item)
+        {
+            item.Control.SetActive(false);
+            _itemToGameObjectMap.Remove(item.Item);
+        }
+
+        public GameObject InstantiateItem()
+        {
+            return (_createDestroyImpl.InstantiateItem());
+        }
+
+        public void SetItemTemplate(GameObject itemTemplate)
+        {
+            _createDestroyImpl.SetItemTemplate(itemTemplate);
+        }
+
+        public void SetItemTemplate(DataTemplateSelector dataTemplateSelector)
+        {
+            _createDestroyImpl.SetItemTemplate(dataTemplateSelector);
+        }
     }
 }

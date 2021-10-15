@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDataTemplateSelector
+namespace mvvm
 {
-    GameObject SelectTemplate(object data);
+    public interface IDataTemplateSelector
+    {
+        GameObject SelectTemplate(object data);
+    }
 }

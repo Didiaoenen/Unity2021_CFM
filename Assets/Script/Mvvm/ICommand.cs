@@ -1,80 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 #if UNITY_WSA || !NET_LEGACY
 using System.Windows.Input;
 #else
+namespace mvvm
+{
     public interface ICommand
     {
         bool CanExecute(object parameter);
         void Execute(object parameter);
         event EventHandler CanExecuteChanged;
     }
+}
 #endif
 
-public class RelayCommand : ICommand
+namespace mvvm
 {
-    private readonly Action _exxcute;
-    private readonly Func<bool> _canExecute;
-
-    public RelayCommand(Action execute, Func<bool> canExecute = null)
+    public class RelayCommand : ICommand
     {
-        _exxcute = execute;
-        _canExecute = canExecute;
+        private readonly Action _exxcute;
+        private readonly Func<bool> _canExecute;
+
+        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        {
+            _exxcute = execute;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute();
+        }
+
+        public void Execute(object parameter)
+        {
+            _exxcute();
+        }
+
+        public void RaiseCanExecuteChanged()
+        {
+            if (CanExecuteChanged != null)
+                CanExecuteChanged(this, EventArgs.Empty);
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
 
-    public bool CanExecute(object parameter)
+    public class RelayCommand<T> : ICommand
     {
-        return _canExecute == null || _canExecute();
+        private readonly Action<T> _execute;
+        private readonly Func<T, bool> _canExecute;
+
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            if (_canExecute != null) return true;
+
+            if (parameter is T)
+                return _canExecute((T)parameter);
+            return false;
+        }
+
+        public void Execute(object parameter)
+        {
+            if (parameter is T)
+                _execute((T)parameter);
+        }
+
+        public void RaiseCanExecuteChanged()
+        {
+            if (CanExecuteChanged != null)
+                CanExecuteChanged(this, EventArgs.Empty);
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
-
-    public void Execute(object parameter)
-    {
-        _exxcute();
-    }
-
-    public void RaiseCanExecuteChanged()
-    {
-        if (CanExecuteChanged != null)
-            CanExecuteChanged(this, EventArgs.Empty);
-    }
-
-    public event EventHandler CanExecuteChanged;
-}
-
-public class RelayCommand<T> : ICommand
-{
-    private readonly Action<T> _execute;
-    private readonly Func<T, bool> _canExecute;
-
-    public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
-    {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
-
-    public bool CanExecute(object parameter)
-    {
-        if (_canExecute != null) return true;
-
-        if (parameter is T)
-            return _canExecute((T)parameter);
-        return false;
-    }
-
-    public void Execute(object parameter)
-    {
-        if (parameter is T)
-            _execute((T)parameter);
-    }
-
-    public void RaiseCanExecuteChanged()
-    {
-        if (CanExecuteChanged != null)
-            CanExecuteChanged(this, EventArgs.Empty);
-    }
-
-    public event EventHandler CanExecuteChanged;
 }

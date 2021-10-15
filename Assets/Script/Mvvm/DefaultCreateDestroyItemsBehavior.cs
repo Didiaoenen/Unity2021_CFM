@@ -2,66 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultCreateDestroyItemsBehavior : ICreateDestroyItems
+namespace mvvm
 {
-    private GameObject _itemTemplate;
-    private DataTemplateSelector _itemTemplateSelector;
-    private Transform _itemParent;
-
-    public DefaultCreateDestroyItemsBehavior(Transform parent, GameObject itemTemplate, DataTemplateSelector itemTemplateSelcetor)
+    public class DefaultCreateDestroyItemsBehavior : ICreateDestroyItems
     {
-        _itemParent = parent;
-        _itemTemplate = itemTemplate;
-        _itemTemplateSelector = itemTemplateSelcetor;
-    }
+        private GameObject _itemTemplate;
+        private DataTemplateSelector _itemTemplateSelector;
+        private Transform _itemParent;
 
-    public GameObject CreateItemControl(object item)
-    {
-        CheckItemTemplateSelector(item);
-        return InstantiateItem();
-    }
-
-    public GameObject InstantiateItem()
-    {
-        if (_itemTemplate == null)
+        public DefaultCreateDestroyItemsBehavior(Transform parent, GameObject itemTemplate, DataTemplateSelector itemTemplateSelcetor)
         {
-            throw new System.NotImplementedException("");
+            _itemParent = parent;
+            _itemTemplate = itemTemplate;
+            _itemTemplateSelector = itemTemplateSelcetor;
         }
 
-        var newGameObject = Object.Instantiate(_itemTemplate);
-        var rect = newGameObject.GetComponent<RectTransform>();
-        if (rect != null)
-            newGameObject.transform.parent = _itemParent;
-        else
-            rect.SetParent(_itemParent, false);
+        public GameObject CreateItemControl(object item)
+        {
+            CheckItemTemplateSelector(item);
 
-        return newGameObject;
+            return InstantiateItem();
+        }
+
+        public GameObject InstantiateItem()
+        {
+            if (_itemTemplate == null)
+            {
+                throw new System.NotImplementedException("");
+            }
+
+            var newGameObject = Object.Instantiate(_itemTemplate);
+            var rect = newGameObject.GetComponent<RectTransform>();
+            if (rect != null)
+                newGameObject.transform.parent = _itemParent;
+            else
+                rect.SetParent(_itemParent, false);
+
+            return newGameObject;
+        }
+
+        public void CheckItemTemplateSelector(object item)
+        {
+            _itemTemplate = _itemTemplateSelector != null ? _itemTemplateSelector.SelectTemplate(item) : _itemTemplate;
+        }
+
+        public void DestroyItemControl(ItemsControl.ItemInfo item)
+        {
+            var rect = item.Control.GetComponent<RectTransform>();
+            if (rect != null)
+                item.Control.transform.parent = null;
+            else
+                rect.SetParent(null, false);
+
+            Object.Destroy(item.Control);
+        }
+
+        public void SetItemTemplate(GameObject itemTemplate)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SetItemTemplate(DataTemplateSelector dataTemplateSelector)
+        {
+            throw new System.NotImplementedException();
+        }
     }
-
-    public void CheckItemTemplateSelector(object item)
-    {
-        _itemTemplate = _itemTemplateSelector != null ? _itemTemplateSelector.SelectTemplate(item) : _itemTemplate;
-    }
-
-    public void DestroyItemControl(ItemsControl.ItemInfo item)
-    {
-        var rect = item.Control.GetComponent<RectTransform>();
-        if (rect != null)
-            item.Control.transform.parent = null;
-        else
-            rect.SetParent(null, false);
-
-        Object.Destroy(item.Control);
-    }
-
-    public void SetItemTemplate(GameObject itemTemplate)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void SetItemTemplate(DataTemplateSelector dataTemplateSelector)
-    {
-        throw new System.NotImplementedException();
-    }
-
 }

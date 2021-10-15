@@ -2,33 +2,36 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
-public enum BindingMode
+namespace mvvm
 {
-    OneTime,
-    OneWayToTarget,
-    OneWayToSource,
-    TwoWay,
-
-    [Obsolete("")]
-    [HideInInspector]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    OneWayToView = OneWayToTarget,
-
-    [Obsolete("")]
-    [HideInInspector]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    OneWayToViewModel = OneWayToSource,
-}
-
-public static class BindingModeExtensions
-{
-    public static bool IsTargetBoundToSource(this BindingMode bindingMode)
+    public enum BindingMode
     {
-        return bindingMode == BindingMode.OneWayToTarget || bindingMode == BindingMode.OneWayToSource;
+        OneTime,
+        OneWayToTarget,
+        OneWayToSource,
+        TwoWay,
+
+        [Obsolete("")]
+        [HideInInspector]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        OneWayToView = OneWayToTarget,
+
+        [Obsolete("")]
+        [HideInInspector]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        OneWayToViewModel = OneWayToSource,
     }
 
-    public static bool IsSourceBoundToTarget(this BindingMode bindingMode)
+    public static class BindingModeExtensions
     {
-        return bindingMode == BindingMode.OneWayToSource || bindingMode == BindingMode.TwoWay;
+        public static bool IsTargetBoundToSource(this BindingMode bindingMode)
+        {
+            return bindingMode == BindingMode.OneWayToTarget || bindingMode == BindingMode.TwoWay;
+        }
+
+        public static bool IsSourceBoundToTarget(this BindingMode bindingMode)
+        {
+            return bindingMode == BindingMode.OneWayToSource || bindingMode == BindingMode.TwoWay;
+        }
     }
 }

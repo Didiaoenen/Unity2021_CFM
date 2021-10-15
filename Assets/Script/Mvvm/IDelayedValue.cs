@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDelayedValue
+namespace mvvm
 {
-    bool ValueOrSubscribe(Action<object> whenReady, ref object readyValue);
+    public interface IDelayedValue
+    {
+        bool ValueOrSubscribe(Action<object> whenReady, ref object readyValue);
+    }
 }
