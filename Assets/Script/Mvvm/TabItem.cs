@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace mvvm
+namespace Mvvm
 {
     [RequireComponent(typeof(Image))]
     [AddComponentMenu("UI/Tabs/TabItem", 2)]

@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace mvvm
+namespace Mvvm
 {
     public delegate void NotifyCollectionChangedEventHandler(Object sender, NotifyCollectionChangedEventArgs e);
 

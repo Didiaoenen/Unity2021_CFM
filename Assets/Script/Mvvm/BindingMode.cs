@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
-namespace mvvm
+namespace Mvvm
 {
     public enum BindingMode
     {

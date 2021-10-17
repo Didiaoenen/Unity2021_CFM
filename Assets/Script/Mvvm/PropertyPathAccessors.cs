@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Reflection;
 using System;
+using System.Reflection;
+using System.Collections.Generic;
 
-namespace mvvm
+namespace Mvvm
 {
     public static class PropertyPathAccessors
     {

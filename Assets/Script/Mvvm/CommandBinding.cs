@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
-using mvvm;
 using System;
 using System.ComponentModel;
-using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 #if UNITY_WSA || !NET_LEGACY
 using System.Windows.Input;
 #endif
 using Component = UnityEngine.Component;
 
-namespace mvvm
+namespace Mvvm
 {
     public class CommandBinding : MonoBehaviour
     {

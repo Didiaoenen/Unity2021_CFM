@@ -1,8 +1,8 @@
-using System.Collections.Specialized;
 using System.Linq;
+using System.Collections.Specialized;
 using UnityEngine;
 
-namespace mvvm
+namespace Mvvm
 {
     [AddComponentMenu("UI/Tabs/TabControl", 1)]
     public class TabControl : Selector

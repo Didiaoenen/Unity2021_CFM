@@ -3,7 +3,7 @@ using System;
 #if UNITY_WSA || !NET_LEGACY
 using System.Windows.Input;
 #else
-namespace mvvm
+namespace Mvvm
 {
     public interface ICommand
     {
@@ -14,7 +14,7 @@ namespace mvvm
 }
 #endif
 
-namespace mvvm
+namespace Mvvm
 {
     public class RelayCommand : ICommand
     {

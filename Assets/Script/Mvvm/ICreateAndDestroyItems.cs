@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static mvvm.ItemsControl;
+using static Mvvm.ItemsControl;
 
-namespace mvvm
+namespace Mvvm
 {
     public interface ICreateDestroyItems
     {

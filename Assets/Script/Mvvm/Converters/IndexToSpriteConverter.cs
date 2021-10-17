@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace mvvm.converters
+namespace Mvvm.converters
 {
     public class IndexToSpriteConverter : IndexToObjectConverter<Sprite> { }
 }

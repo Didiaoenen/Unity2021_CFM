@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using UnityEngine;
 
-namespace mvvm.converters
+namespace Mvvm.converters
 {
     public class BoolInverter : ScriptableObject, IValueConverter
     {

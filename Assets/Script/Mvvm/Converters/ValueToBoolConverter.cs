@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using UnityEngine;
 
-namespace mvvm.converters
+namespace Mvvm.converters
 {
     public abstract class ValueToBoolConverter<T> : ScriptableObject, IValueConverter
     {
@@ -33,7 +33,7 @@ namespace mvvm.converters
 
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

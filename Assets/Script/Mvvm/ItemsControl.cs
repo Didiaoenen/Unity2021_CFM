@@ -1,11 +1,11 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace mvvm
+namespace Mvvm
 {
     public class ItemsControl : MonoBehaviour
     {

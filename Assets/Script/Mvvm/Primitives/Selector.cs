@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace mvvm
+namespace Mvvm
 {
     public abstract class Selector : ItemsControl
     {

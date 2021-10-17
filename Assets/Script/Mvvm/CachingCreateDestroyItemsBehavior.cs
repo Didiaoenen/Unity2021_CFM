@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace mvvm
+namespace Mvvm
 {
     public class CachingCreateDestroyItemsBehavior : ICreateDestroyItems
     {

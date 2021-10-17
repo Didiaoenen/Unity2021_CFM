@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace mvvm
+namespace Mvvm
 {
     public abstract class DataTemplateSelector : ScriptableObject, IDataTemplateSelector
     {

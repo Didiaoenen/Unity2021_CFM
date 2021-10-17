@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace mvvm
+namespace Mvvm
 {
     public class ComponentReferenceAttribute : PropertyAttribute
     {

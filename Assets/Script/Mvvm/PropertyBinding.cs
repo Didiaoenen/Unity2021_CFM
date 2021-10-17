@@ -1,17 +1,16 @@
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using System.Reflection;
-using UnityEngine.Serialization;
 using System.Linq;
+using System.Reflection;
+using System.Globalization;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
-using System.Globalization;
-using UnityEngine.EventSystems;
 
-namespace mvvm
+namespace Mvvm
 {
     public static class TypeExtensions
     {

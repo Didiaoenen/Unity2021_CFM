@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_WSA || !NET_LEGACY
 using System.Windows.Input;
 #endif
 using Component = UnityEngine.Component;
 
-namespace mvvm
+namespace Mvvm
 {
     public class DataContext : MonoBehaviour, INotifyPropertyChanged
     {
@@ -46,7 +46,7 @@ namespace mvvm
         void Awake()
         {
             if (_propertyBinding != null && _propertyBinding.Component != null)
-                _prop = mvvm.PropertyBinding.FigureBinding(_propertyBinding, ApplyBindingToValue, true);
+                _prop = Mvvm.PropertyBinding.FigureBinding(_propertyBinding, ApplyBindingToValue, true);
 
             ApplyBindingToValue();
 
@@ -137,7 +137,7 @@ namespace mvvm
             if (_propertyBinding.Component == null) return;
             if (_prop == null) return;
 
-            var value = mvvm.PropertyBinding.GetValue(_propertyBinding, _prop);
+            var value = Mvvm.PropertyBinding.GetValue(_propertyBinding, _prop);
             UpdateValue(value);
         }
 

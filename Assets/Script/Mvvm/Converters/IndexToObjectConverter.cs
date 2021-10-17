@@ -5,7 +5,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace mvvm.converters
+namespace Mvvm.converters
 {
     public abstract class IndexToObjectConverter<T> : ScriptableObject, IValueConverter
     {

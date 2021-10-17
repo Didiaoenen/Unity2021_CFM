@@ -2,7 +2,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace mvvm
+namespace Mvvm
 {
     public class ShowContext : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {

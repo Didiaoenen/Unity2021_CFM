@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace mvvm.converters
+namespace Mvvm.converters
 {
     [SerializeField]
     public class ItemMappingImpl : ItemMapping<int, string>
