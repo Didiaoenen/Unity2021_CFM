@@ -46,7 +46,7 @@ namespace AutoSuggest
             }
             catch (OperationCanceledException)
             {
-
+                // do nothing
             }
         }
     }

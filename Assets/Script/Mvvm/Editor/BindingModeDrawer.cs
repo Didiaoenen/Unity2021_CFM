@@ -7,7 +7,7 @@ using Mvvm;
 [CustomPropertyDrawer(typeof(BindingMode))]
 public class BindingModeDrawer : ObsoleteAwareEnumDrawer<BindingMode>
 {
-
+    // do nothing
 }
 
 public class ObsoleteAwareEnumDrawer<EnumT> : PropertyDrawer

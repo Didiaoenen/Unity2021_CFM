@@ -24,7 +24,8 @@ namespace AutoSuggest
 
             var optionsWithInfo = _options.Select(s => new Suggestion(s, s, s.IndexOf(currentValue, StringComparison.CurrentCultureIgnoreCase), currentValue.Length));
             optionsWithInfo = optionsWithInfo.Where(opt => opt.DisplayTextMatchIndex >= 0);
-            suggestions = optionsWithInfo.OrderBy(opt => opt.DisplayTextMatchIndex)
+            suggestions = optionsWithInfo
+                .OrderBy(opt => opt.DisplayTextMatchIndex)
                 .ThenBy(opt => opt.Value.Length)
                 .ThenBy(opt => opt.Value);
 

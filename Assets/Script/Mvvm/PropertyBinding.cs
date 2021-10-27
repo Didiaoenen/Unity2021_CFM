@@ -17,7 +17,7 @@ namespace Mvvm
         public static bool IsValueType(this Type type)
         {
     #if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
-                return type.GetTypeInfo().IsValueType;
+            return type.GetTypeInfo().IsValueType;
     #else
             return type.IsValueType;
     #endif
@@ -124,7 +124,7 @@ namespace Mvvm
                     if (root == null)
                     {
                         if (WarnOnGetValue)
-                            Debug.LogWarningFormat("{0},{1}", Parts[i - 1],Path);
+                            Debug.LogWarningFormat("{0},{1}", Parts[i - 1], Path);
                         return null;
 
                     }
@@ -162,7 +162,7 @@ namespace Mvvm
                     if (root == null)
                     {
                         if (WarnOnGetValue)
-                            Debug.LogWarningFormat("{0},{1}", part.Name,Path);
+                            Debug.LogWarningFormat("{0},{1}", part.Name, Path);
                         return;
                     }
                 }
@@ -326,6 +326,8 @@ namespace Mvvm
                 _source = new ComponentPath { Component = context };
 
             var view = gameObject.GetComponents<UIBehaviour>().OrderBy((behaviour => OrderOnType(behaviour))).FirstOrDefault();
+            if (view != null)
+                _target = new ComponentPath { Component = view };
         }
 
         private int OrderOnType(UIBehaviour item)
@@ -379,7 +381,7 @@ namespace Mvvm
                 value = _ci.ConvertBack(value, _vmType, null, currentCulture);
             }
             else if (value != null)
-                value = System.Convert.ChangeType(value, _vmType);
+                value = Convert.ChangeType(value, _vmType);
             else
                 value = GetDefaultValue(_vmType);
 
@@ -415,7 +417,7 @@ namespace Mvvm
             {
                 if (!_vType.IsInstanceOfType(value))
                 {
-                    value = System.Convert.ChangeType(value, _vType);
+                    value = Convert.ChangeType(value, _vType);
                 }
             }
             else

@@ -193,11 +193,7 @@ public class PropertyBindingEditor : Editor
 
     private static string PathTo(Transform transform)
     {
-#if UNITY_5_3_OR_NEWER
         return (transform.parent != null ? PathTo(transform.parent) : "Scene " + transform.gameObject.scene.name) + "->" + transform.name;
-#else
-        return (transform.parent != null ? PathTo(transform.parent) : "Scene " + EditorApplication.currentScene) + "->" + transform.name;
-#endif
     }
 
     static bool IsEventType(Type type)
@@ -394,6 +390,5 @@ public class PropertyBindingEditor : Editor
                 };
             }
         }
-
     }
 }
