@@ -31,7 +31,7 @@ public class ObsoleteAwareEnumDrawer<EnumT> : PropertyDrawer
             var enumValueMember = enumType.GetMember(name).First();
             var isObsolete = enumValueMember.GetCustomAttributes(typeof(ObsoleteAttribute), false).Any();
             
-            if (isObsolete)
+            if (!isObsolete)
             {
                 menu.Add(new DropDownItem
                 {

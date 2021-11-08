@@ -42,7 +42,7 @@ public class ComponentReferenceDrawer : PropertyDrawer
         {
             menu.Add(new DropDownItem
             {
-                Label = $"",
+                Label = $"Paste component: {clipboard.name} ({clipboard.GetType().Name})",
                 Command = () => { property.objectReferenceValue = clipboard; },
             });
         }
@@ -76,12 +76,12 @@ public class ComponentReferenceDrawer : PropertyDrawer
                     {
                         existingComponents[componentName]++;
                     }
-                    componentName = $"";
+                    componentName = $"{componentName} {existingComponents[componentName]}";
                 }
 
                 menu.Add(new DropDownItem
                 {
-                    Label = $"",
+                    Label = $"{componentName}",
                     Command = () => { property.objectReferenceValue = siblingComponent; },
                     IsSelected = currentlySelected,
                 });
@@ -92,8 +92,8 @@ public class ComponentReferenceDrawer : PropertyDrawer
         {
             menu.Add(new DropDownItem { Label = "Instructions" });
             menu.Add(new DropDownItem());
-            menu.Add(new DropDownItem { Label = "" });
-            menu.Add(new DropDownItem { Label = "" });
+            menu.Add(new DropDownItem { Label = "You can right click on a component and select 'Copy Component Reference' and then paste here using this menu." });
+            menu.Add(new DropDownItem { Label = "Or you can drag and drop a gameObject in the box to the left then use this menu to choose the component from that gameObject." });
         }
 
         menu.OnGUI(dropDownPosition);

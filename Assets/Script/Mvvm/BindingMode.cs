@@ -11,12 +11,12 @@ namespace Mvvm
         OneWayToSource,
         TwoWay,
 
-        [Obsolete("")]
+        [Obsolete("OneWayToTarget")]
         [HideInInspector]
         [EditorBrowsable(EditorBrowsableState.Never)]
         OneWayToView = OneWayToTarget,
 
-        [Obsolete("")]
+        [Obsolete("OneWayToSource")]
         [HideInInspector]
         [EditorBrowsable(EditorBrowsableState.Never)]
         OneWayToViewModel = OneWayToSource,

@@ -16,26 +16,18 @@ namespace Mvvm
     {
         public static bool IsValueType(this Type type)
         {
-    #if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
-                return type.GetTypeInfo().IsValueType;
-    #else
             return type.IsValueType;
-    #endif
         }
 
         public static Type BaseType(this Type type)
         {
-        #if UNITY_WAS && ENABLE_DOTNET && !UNITY_EDITOR
-            return type.GetTypeInfo().BaseType;
-        #else
             return type.BaseType;
-        #endif
         }
     }
 
     public class PropertyBinding : MonoBehaviour
     {
-        [SerializeField]
+        [Serializable]
         public class ComponentPath
         {
             public Component Component;
@@ -88,7 +80,7 @@ namespace Mvvm
                     if (info == null)
                     {
                         if (warnOnFailire)
-                            Debug.LogWarningFormat("{0},{1}", part, path);
+                            Debug.LogWarningFormat("Could not resolve property {0} on type {1}", part, type);
                         return;
                     }
 
@@ -112,7 +104,7 @@ namespace Mvvm
                 if (root == null)
                 {
                     if (WarnOnGetValue)
-                        Debug.LogWarningFormat("{0}", Path);
+                        Debug.LogWarningFormat("Cannot get value to {0} on a null object", Path);
                     return null;
                 }
 
@@ -124,7 +116,7 @@ namespace Mvvm
                     if (root == null)
                     {
                         if (WarnOnGetValue)
-                            Debug.LogWarningFormat("{0},{1}", Parts[i - 1],Path);
+                            Debug.LogWarningFormat("value of {0} was null when getting {1}", Parts[i - 1],Path);
                         return null;
 
                     }
@@ -151,7 +143,7 @@ namespace Mvvm
                 }
 
                 var i = 0;
-                for (; i < _pPath.Length; i++)
+                for (; i < _pPath.Length - 1; i++)
                 {
                     var part = GetIdxProperty(i, root);
 
@@ -162,7 +154,7 @@ namespace Mvvm
                     if (root == null)
                     {
                         if (WarnOnGetValue)
-                            Debug.LogWarningFormat("{0},{1}", part.Name,Path);
+                            Debug.LogWarningFormat("value of {0} was null when attempting to set {1}", part.Name, Path);
                         return;
                     }
                 }
@@ -199,7 +191,7 @@ namespace Mvvm
                 if (args.PropertyName != "" && args.PropertyName != Parts[notifier.Idx])
                     return;
 
-                for (var i = 0; i < _notifies.Length; i++)
+                for (var i = notifier.Idx + 1; i < _notifies.Length; i++)
                 {
                     var ni = _notifies[i];
                     if (ni != null) continue;
@@ -273,7 +265,7 @@ namespace Mvvm
         }
 
         [SerializeField]
-        [FormerlySerializedAs("_view")]
+        [FormerlySerializedAs("_target")]
         ComponentPath _target;
 
         public ComponentPath Target => _target;
@@ -282,15 +274,12 @@ namespace Mvvm
         private BindingUpdateTrigger _targetUpdateTrigger = BindingUpdateTrigger.None;
 
     #pragma warning disable 0414
-
         [SerializeField]
-        [FormerlySerializedAs("_viewEvent")]
         string _targetEvent = null;
-
     #pragma warning restore 0414
 
         [SerializeField]
-        [FormerlySerializedAs("_viewModel")]
+        [FormerlySerializedAs("_source")]
         ComponentPath _source;
 
         public ComponentPath Source => _source;
@@ -299,10 +288,8 @@ namespace Mvvm
         private BindingUpdateTrigger _sourceUpdateTrigger = BindingUpdateTrigger.None;
 
     #pragma warning disable 0414
-
         [SerializeField]
         private string _sourceEvent = null;
-
     #pragma warning restore 0414
 
         [SerializeField]
@@ -426,13 +413,15 @@ namespace Mvvm
                 if (!(value as IDelayedValue).ValueOrSubscribe(SetVValue, ref value))
                     return;
             }
+
+            SetVValue(value);
         }
 
         private void SetVValue(object value)
         {
-            if (value != null && _vType.IsInstanceOfType(value))
+            if (value != null && !_vType.IsInstanceOfType(value))
             {
-                Debug.LogErrorFormat(this, "{0},{1}", value.GetType(), _vType);
+                Debug.LogErrorFormat(this, "Could not bind {0} to type {1}", value.GetType(), _vType);
                 return;
             }
 
@@ -444,7 +433,7 @@ namespace Mvvm
 
         public static object GetValue(ComponentPath path, PropertyPath prop, bool resolveDataContext = true)
         {
-                if (resolveDataContext && path.Component is Component)
+                if (resolveDataContext && path.Component is DataContext)
                     return (path.Component as DataContext).GetValue(prop);
                 else
                     return prop.GetValue(path.Component, null);
@@ -454,11 +443,11 @@ namespace Mvvm
         {
             if (value != null && value.GetType() != _vmType)
             {
-                Debug.LogErrorFormat(this, "{0},{1}", value.GetType(), _vmType);
+                Debug.LogErrorFormat(this, "Could not bind {0} to type {1}", value.GetType(), _vmType);
                 return;
             }
 
-            if (_source.Component is Component)
+            if (_source.Component is DataContext)
                 (_source.Component as DataContext).SetValue(value, _vmProp);
             else
                 _vmProp.SetValue(_source.Component, value, null);
@@ -486,7 +475,7 @@ namespace Mvvm
             }
             else
             {
-                Debug.LogErrorFormat("{0}", gameObject.GetParentNameHierarchy());
+                Debug.LogErrorFormat("INPCBinding: Invalid Source property in \"{0}\".", gameObject.GetParentNameHierarchy());
             }
 
             if (_vProp.IsValid)
@@ -495,7 +484,7 @@ namespace Mvvm
             }
             else
             {
-                Debug.LogErrorFormat("{0}", gameObject.GetParentNameHierarchy());
+                Debug.LogErrorFormat("INPCBinding: Invalid Source property in \"{0}\".", gameObject.GetParentNameHierarchy());
             }
         }
 
@@ -507,7 +496,7 @@ namespace Mvvm
 
             if (handler != null)
             {
-                if (resolveDataContext && path.Component is Component)
+                if (resolveDataContext && path.Component is DataContext)
                     (path.Component as DataContext).AddDependentProperty(prop, handler);
                 else
                     prop.AddHandler(path.Component, handler);

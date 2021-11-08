@@ -6,29 +6,22 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.Events;
-#if UNITY_5_3_OR_NEWER
-using UnityEditor.SceneManagement;
-#endif
 using Mvvm;
 
 [CustomEditor(typeof(PropertyBinding))]
 public class PropertyBindingEditor : Editor
 {
-    private static List<PropertyBinding> cachedBinding = new List<PropertyBinding>();
+    private static List<PropertyBinding> cachedBindings = new List<PropertyBinding>();
 
     [PostProcessScene(1)]
     public static void OnPostProcessScene()
     {
-#if UNITY_2017_2_5_OR_NEWER
         EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-#endif
         FigureUnityEventTriggeredBindings();
     }
 
-#if UNITY_2017_2_5_OR_NEWER
     private static void OnPlayModeStateChanged(PlayModeStateChange state)
     {
-        // adding this workaround because a lot of the bindings don't get cleaned up by the editor after quitting the scene 
         if (state == PlayModeStateChange.ExitingPlayMode)
         {
             foreach (var binding in cachedBindings)
@@ -47,7 +40,6 @@ public class PropertyBindingEditor : Editor
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
         }
     }
-#endif
 
     static void RemoveViewBinding(PropertyBinding binding, string componentPathPropertyName, string eventPropertyName)
     {
@@ -106,7 +98,7 @@ public class PropertyBindingEditor : Editor
             return;
         }
 
-        FigureBinding(binding, "_source", "sourceEvent", binding.UpdateTarget);
+        FigureBinding(binding, "_source", "_sourceEvent", binding.UpdateTarget);
     }
 
     private static void FigureTargetBinding(PropertyBinding binding)
@@ -125,7 +117,7 @@ public class PropertyBindingEditor : Editor
         var unityEvent = GetEventValue(sobj, componentPathPropertyName, eventPropertyName);
         if (unityEvent != null)
         {
-            cachedBinding.Add(binding);
+            cachedBindings.Add(binding);
             var eventCount = unityEvent.GetPersistentEventCount();
 
             for (var idx = 0; idx < eventCount; idx++)
@@ -169,7 +161,7 @@ public class PropertyBindingEditor : Editor
 
         if (sep == null)
         {
-            Debug.LogErrorFormat(component, "{0}{1}", eventName, type, PathTo(component));
+            Debug.LogErrorFormat(component, "Could not get event {0} on {1}.  Something probably changed event names, so you need to fix it. {2}", eventName, type, PathTo(component));
             return null;
         }
 
@@ -181,7 +173,7 @@ public class PropertyBindingEditor : Editor
             return evField.GetValue(component) as UnityEventBase;
         }
 
-        Debug.LogErrorFormat(component, "{0}{1}", eventName, type, PathTo(component));
+        Debug.LogErrorFormat(component, "Could not get event {0} on {1}.  Something probably changed event names, so you need to fix it. {2}", eventName, type, PathTo(component));
         
         return null;
     }
@@ -193,11 +185,7 @@ public class PropertyBindingEditor : Editor
 
     private static string PathTo(Transform transform)
     {
-#if UNITY_5_3_OR_NEWER
         return (transform.parent != null ? PathTo(transform.parent) : "Scene " + transform.gameObject.scene.name) + "->" + transform.name;
-#else
-        return (transform.parent != null ? PathTo(transform.parent) : "Scene " + EditorApplication.currentScene) + "->" + transform.name;
-#endif
     }
 
     static bool IsEventType(Type type)
@@ -220,7 +208,7 @@ public class PropertyBindingEditor : Editor
         serializedObject.Update();
 
         var taregt = serializedObject.FindProperty("_target");
-        var targetUpdateTrigger = serializedObject.FindProperty("_targetUnityTrigger");
+        var targetUpdateTrigger = serializedObject.FindProperty("_targetUpdateTrigger");
         var targetEvent = serializedObject.FindProperty("_targetEvent");
 
         var source = serializedObject.FindProperty("_source");
@@ -230,19 +218,23 @@ public class PropertyBindingEditor : Editor
         var converter = serializedObject.FindProperty("_converter");
         var mode = serializedObject.FindProperty("_mode");
 
-        int targetTriggerCount = DrawBindingComponent(taregt, "", targetUpdateTrigger, targetEvent, ((BindingMode)mode.intValue).IsSourceBoundToTarget(), false);
+        int targetTriggerCount = DrawBindingComponent(taregt, "Typically, the Target wold be a View", targetUpdateTrigger, targetEvent, ((BindingMode)mode.intValue).IsSourceBoundToTarget(), false);
 
-        int sourceTriggerCount = DrawBindingComponent(source, "", sourceUpdateTrigger, sourceEvent, ((BindingMode)mode.intValue).IsTargetBoundToSource(), true);
-    
+        int sourceTriggerCount = DrawBindingComponent(source, "Typically, the Source wold be a View", sourceUpdateTrigger, sourceEvent, ((BindingMode)mode.intValue).IsTargetBoundToSource(), true);
+
+        EditorGUILayout.PropertyField(mode, false);
+
         if (targetTriggerCount == 0 && ((BindingMode)mode.intValue).IsSourceBoundToTarget())
         {
-            EditorUtility.DisplayDialog("Error", string.Format("{0}{1}{2}{3}", mode.displayName, mode.enumNames[mode.enumValueIndex], nameof(BindingMode.OneTime), nameof(BindingMode.OneWayToTarget)), "Okay");
+            EditorUtility.DisplayDialog("Error", string.Format("Cannot change {0} to {1}, as only {2} and {3} are valid for no target updated event", 
+                mode.displayName, mode.enumNames[mode.enumValueIndex], nameof(BindingMode.OneTime), nameof(BindingMode.OneWayToTarget)), "Okay");
             mode.intValue = (int)BindingMode.OneTime;
         }
 
         if (sourceTriggerCount == 0 && ((BindingMode)mode.intValue).IsTargetBoundToSource())
         {
-            EditorUtility.DisplayDialog("Error", string.Format("{0}{1}{2}{3}", mode.displayName, mode.enumNames[mode.enumValueIndex], nameof(BindingMode.OneTime), nameof(BindingMode.OneWayToSource)), "Okay");
+            EditorUtility.DisplayDialog("Error", string.Format("Cannot change {0} to {1}, as only {2} and {3} are valid for no target updated event", 
+                mode.displayName, mode.enumNames[mode.enumValueIndex], nameof(BindingMode.OneTime), nameof(BindingMode.OneWayToSource)), "Okay");
             mode.intValue = (int)BindingMode.OneTime;
         }
 
@@ -274,7 +266,7 @@ public class PropertyBindingEditor : Editor
         else
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.LabelField("Event", "");
+            EditorGUILayout.LabelField("Event", "No available events");
             eventProperty.stringValue = "";
             EditorGUI.indentLevel--;
         }
@@ -361,7 +353,7 @@ public class PropertyBindingEditor : Editor
 
                 if (dropDownMenu.SelectedIndex < 0)
                 {
-                    EditorGUILayout.HelpBox($"", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"Select an event that indicates the property has changed, or update the binding mode.", MessageType.Warning);
                 }
             }
 

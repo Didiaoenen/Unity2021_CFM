@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace AutoSuggest
 {
-    public class ValueAniamter
+    public class ValueAnimator
     {
         private readonly float _smoothTime;
         private float _velocity;
 
-        public ValueAniamter(float initialValue, float smoothTime)
+        public ValueAnimator(float initialValue, float smoothTime)
         {
             Current = initialValue;
             Target = initialValue;

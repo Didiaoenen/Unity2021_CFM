@@ -12,7 +12,7 @@ public class PropertyPathSuggestionProvider :ISuggestionProvider
     {
         public PropertySuggestion(PropertyInfo property, string currentValueToLastDot, string currentValueAfterLastDot)
             : base(currentValueToLastDot + property.Name,
-                  $"",
+                  $"{property.Name.PadRight(16, ' ')}\t({property.PropertyType.Name})",
                   property.Name.IndexOf(currentValueToLastDot, StringComparison.CurrentCultureIgnoreCase),
                   currentValueToLastDot.Length)
         { }

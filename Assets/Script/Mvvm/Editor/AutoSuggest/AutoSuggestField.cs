@@ -11,7 +11,7 @@ namespace AutoSuggest
         public class Options
         {
             public DisplayMode DisplayMode { get; set; } = DisplayMode.Inline;
-            public int MaxSuggestionsToDisplay {  get; set; } = 7;
+            public int MaxSuggestionsToDisplay { get; set; } = 7;
         }
 
         private const int _scrollDistance = 3;
@@ -30,7 +30,7 @@ namespace AutoSuggest
         private readonly object _cacheInvalidationLock = new object();
         private ISuggestionProvider _suggestionProvider;
         private readonly GUIContent _label;
-        private ValueAniamter _heightAnimator = new ValueAniamter(0.0f, 0.5f);
+        private ValueAnimator _heightAnimator = new ValueAnimator(0.0f, 0.5f);
         private DrawSpaceClaimer _drawSpaceClaimer;
         private Options _options;
         private int _selectedIndex = 0;
@@ -40,7 +40,7 @@ namespace AutoSuggest
         private readonly int _controlId;
         private Rect _textFieldPosition;
         private bool _prevRenderWasFirstPass = false;
-        private bool _haveWarnedAboutRenderPassReeoe = false;
+        private bool _haveWarnedAboutRenderPassError = false;
 
         private bool ThreadSafeCacheInvalid
         {
@@ -68,7 +68,7 @@ namespace AutoSuggest
             _drawSpaceClaimer = new DrawSpaceClaimer(_options.DisplayMode);
 
             _suggestionProvider.SuggestionsChanged += SuggestionProvider_SuggestionsChanged;
-            EditorApplication.update = EditorApplication_Update;
+            EditorApplication.update += EditorApplication_Update;
 
             _controlId = _controlCount++;
         }
@@ -203,6 +203,9 @@ namespace AutoSuggest
                 _heightAnimator.Target = currentPosition.height;
             }
 
+            _drawSpaceClaimer.ClaimDrawSpace(isFirstRenderPass, _heightAnimator.Current);
+            currentPosition.height = _heightAnimator.Current;
+
             if (currentPosition.height > _scrollbarSize.y * 2 && _cachedSuggestions.Count > _options.MaxSuggestionsToDisplay)
             {
                 var barPosition = new Rect(
@@ -229,7 +232,7 @@ namespace AutoSuggest
 
                 currentPosition.y += EditorGUIUtility.standardVerticalSpacing;
                 currentPosition.height = suggestionButtonHeight;
-                int maxRemainingSuggertionsToDisplay = _options.MaxSuggestionsToDisplay;
+                int maxRemainingSuggestionsToDisplay = _options.MaxSuggestionsToDisplay;
 
                 for (int i = _scrolledIndex; i < _cachedSuggestions.Count; i++)
                 {
@@ -263,7 +266,7 @@ namespace AutoSuggest
 
                     }
 
-                    if (--maxRemainingSuggertionsToDisplay == 0)
+                    if (--maxRemainingSuggestionsToDisplay == 0)
                     {
                         break;
                     }
@@ -360,7 +363,7 @@ namespace AutoSuggest
 
         private void EnforceRenderPassOrdering(bool isFirstRenderPass)
         {
-            if (_haveWarnedAboutRenderPassReeoe)
+            if (_haveWarnedAboutRenderPassError)
             {
                 return;
             }
@@ -370,16 +373,17 @@ namespace AutoSuggest
                 if (_prevRenderWasFirstPass == isFirstRenderPass)
                 {
                     string currentPassName = (isFirstRenderPass) ? nameof(OnGUI) : nameof(OnGUISecondPass);
-                    Debug.LogError($"");
-                    _haveWarnedAboutRenderPassReeoe = true;
+                    Debug.LogError($"When using AutoSuggestField in Overlay mode, you must call OnGUI, then render other controls in the pane, then call OnGUISecondPass.  " +
+                        $"You have called {currentPassName} twice in a row.");
+                    _haveWarnedAboutRenderPassError = true;
                 }
             }
             else
             {
                 if (!isFirstRenderPass)
                 {
-                    Debug.LogWarning("");
-                    _haveWarnedAboutRenderPassReeoe = true;
+                    Debug.LogWarning("When using AutoSuggestField in Inline mode, there is no need to call OnGUISecondPass()");
+                    _haveWarnedAboutRenderPassError = true;
                 }
             }
 
