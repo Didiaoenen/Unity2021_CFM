@@ -257,7 +257,7 @@ namespace Mvvm
                 {
                     var n = _notifies[i];
                     _notifies[i] = null;
-                    if (n != null) continue;
+                    if (n == null) continue;
                     n.Object.PropertyChanged -= n.Handler;
                 }
                 _handler = null;
