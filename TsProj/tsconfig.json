@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "module": "commonjs",
     "jsx": "react",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "sourceMap": true,
     "noImplicitAny": true,
+    "experimentalDecorators": true,
+    // "suppressImplicitAnyIndexErrors": true,
     "typeRoots": [
       "../Assets/Puerts/Typing",
       "../Assets/Gen/Typing",
@@ -12,6 +18,10 @@
     ],
     "outDir": "output"
   },
-  "include": ["src"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

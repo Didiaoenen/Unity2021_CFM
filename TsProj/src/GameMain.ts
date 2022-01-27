@@ -3,8 +3,10 @@ import { $typeof } from 'puerts'
 
 class GameMain {
 
+    public name: string;
+    
     constructor() {
-
+        
     }
 
     public Start() {
@@ -16,12 +18,17 @@ class GameMain {
             let testJs = mainCamera.GetComponent($typeof(TestJS)) as TestJS;
             let button = testJs.uiRoot.transform.Find("Button").GetComponent($typeof(UnityEngine.UI.Button)) as UnityEngine.UI.Button;
             button.onClick.AddListener(() => {
-                console.log("button pressed..., input is: ");
+                this.eventListener();
             });
 
         } catch (ex) {
             console.log(ex);
         }
+    }
+
+    public eventListener() {
+        console.log("button pressed..., input is: ");
+        console.log(this.name);
     }
 }
 
