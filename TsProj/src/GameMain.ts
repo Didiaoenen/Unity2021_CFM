@@ -1,5 +1,7 @@
 import { UnityEngine, TestJS } from "csharp";
 import { $typeof } from 'puerts'
+import { EventDefine } from "./framework/event/EventDefine";
+import { UIImport } from "./framework/ui/UIImport";
 
 class GameMain {
 
@@ -28,7 +30,9 @@ class GameMain {
 
     public eventListener() {
         console.log("button pressed..., input is: ");
-        console.log(this.name);
+        console.log(EventDefine.TEST1, EventDefine.TEST2, EventDefine.TEST1 == EventDefine.TEST2);
+        console.log(UIImport.CreateUI("hall", "UIHall").name);
+        console.log(UIImport.CreateUI("login", "UILogin").name);
     }
 }
 

@@ -110,6 +110,7 @@ export class UIComponent {
     }
 
     public AddButtonListener(eventListener: () => void) {
+        this.compButton.onClick.RemoveAllListeners();
         this.compButton.onClick.AddListener(eventListener);
     }
 
@@ -126,6 +127,7 @@ export class UIComponent {
     }
 
     public AddToggleListener(eventListener: (a: boolean) => void) {
+        this.compToggle.onValueChanged.RemoveAllListeners();
         this.compToggle.onValueChanged.AddListener(eventListener);
     }
 
@@ -193,28 +195,31 @@ export class UIComponent {
     }
 
     //Common Function
-    public SetActive(active: boolean) {
+    public SetActive(active: boolean): void {
         this._gameObject.SetActive(active);
     }
 
-    public GetComponent(type: any):any {
+    public GetComponent(type: any): any {
         return this._gameObject.GetComponent($typeof(type))
     }
 
-    public SetSizeWithCurrentAnchors(axis: UnityEngine.RectTransform.Axis, size: number) {
+    public SetSizeWithCurrentAnchors(axis: UnityEngine.RectTransform.Axis, size: number): void {
         this._rectTransform.SetSizeWithCurrentAnchors(axis, size);
     }
 
     //
-    private ClearButtonListener() {
-        
+    private ClearAllListener(): void {
+        if (this._compButton) {
+            this._compButton.onClick.RemoveAllListeners();
+        }
+
+        if (this._compToggle) {
+            this._compToggle.onValueChanged.RemoveAllListeners();
+        }
     }
 
-    private ClearToggleListener() {
-        
-    }
-
-    public Destroy() {
+    public Destroy(): void {
+        this.ClearAllListener();
         this._gameObject = null;
         this._rectTransform = null;
         this._compCanvas = null

@@ -1,9 +1,12 @@
 using System;
 
-public class ConversionException : Exception
+namespace Mvvm
 {
-    public ConversionException(string message) : base(message)
+    public class ConversionException : Exception
     {
+        public ConversionException(string message) : base(message)
+        {
 
+        }
     }
 }

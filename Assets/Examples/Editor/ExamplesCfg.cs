@@ -55,6 +55,7 @@ public class ExamplesCfg
                 typeof(UnityEngine.UI.Toggle),
                 typeof(UnityEngine.UI.Toggle.ToggleEvent),
                 typeof(UnityEngine.Events.UnityEvent<bool>),
+                typeof(UnityEngine.Events.UnityEventBase),
 
                 typeof(PuertsDeclareTest.Plants.pumkinPeaShooter),
                 typeof(PuertsDeclareTest.Plants.Shootable),

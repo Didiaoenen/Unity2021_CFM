@@ -90,6 +90,12 @@ public class PuertsConfig
         string fullname = type.FullName != null ? type.FullName.Replace("+", ".") : "";
         if (excludeTypes.Contains(fullname))
             return true;
+
+        // namespace
+        var names = type.FullName.Split(".");
+        if (excludeTypes.Contains(names[0]))
+            return true;
+
         return IsExcluded(type.BaseType);
     }
     //需要排除的程序集
@@ -180,5 +186,7 @@ public class PuertsConfig
         "System.IO.Stream",
         "System.Net.HttpListenerTimeoutManager",
         "System.Net.Sockets.SocketAsyncEventArgs",
+        // Custom namespace
+        "Mvvm",
     };
 }

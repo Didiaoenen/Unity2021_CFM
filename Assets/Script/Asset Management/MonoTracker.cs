@@ -2,26 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoTracker : MonoBehaviour
+namespace Mvvm
 {
-    public delegate void DelegateDestroyed(MonoTracker tracker);
-    public event DelegateDestroyed OnDestroyed;
-
-    private List<string> keyList = new List<string>();
-
-    public object key { get; set; }
-
-    public void AddKey(string key)
+    public class MonoTracker : MonoBehaviour
     {
-        keyList.Add(key);
-    }
+        public delegate void DelegateDestroyed(MonoTracker tracker);
+        public event DelegateDestroyed OnDestroyed;
 
-    private void OnDestroy()
-    {
-        for (int i = keyList.Count - 1; i >= 0; i--)
+        private List<string> keyList = new List<string>();
+
+        public object key { get; set; }
+
+        public void AddKey(string key)
         {
-            AssetManager.Unload(keyList[i]);
+            keyList.Add(key);
         }
-        OnDestroyed?.Invoke(this);
+
+        private void OnDestroy()
+        {
+            for (int i = keyList.Count - 1; i >= 0; i--)
+            {
+                AssetManager.Unload(keyList[i]);
+            }
+            OnDestroyed?.Invoke(this);
+        }
     }
 }
