@@ -1,13 +1,21 @@
 using System.Linq;
 using System.Collections.ObjectModel;
+using UnityEngine;
 
 class TestViewModel : ABehaviourViewModel, IParentVm
 {
-    private string _testProperty;
+    private string _testProperty = @"ÄãºÃ°¡";
     public string TestProperty
     {
         get { return _testProperty; }
         set { SetProperty("TestProperty", ref _testProperty, value); }
+    }
+
+    private Color _testColor;
+    public Color TestColor
+    {
+        get { return _testColor; }
+        set { SetProperty("TestColor", ref _testColor, value); }
     }
 
     private ChildViewModel _selected;
@@ -16,6 +24,8 @@ class TestViewModel : ABehaviourViewModel, IParentVm
         get { return _selected; }
         set { SetProperty("Selected", ref _selected, value); }
     }
+
+    public Color tColor = Color.white;
 
     private ObservableCollection<ChildViewModel> _children;
     public ObservableCollection<ChildViewModel> Children
@@ -48,5 +58,10 @@ class TestViewModel : ABehaviourViewModel, IParentVm
         childs.Add(new ChildViewModel(this));
 
         Children = new ObservableCollection<ChildViewModel>(childs);
+    }
+
+    private void Update()
+    {
+        TestColor = tColor;
     }
 }

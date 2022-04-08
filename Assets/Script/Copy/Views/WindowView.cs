@@ -1,0 +1,97 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+using CFM.Framework.Views.Animations;
+
+namespace CFM.Framework.Views
+{
+    public class WindowView : UIView, IWindowView
+    {
+        private IAnimation activationAnimation;
+
+        private IAnimation passivationAnimation;
+
+        public virtual IAnimation ActivationAnimation
+        {
+            get { return activationAnimation; }
+            set { activationAnimation = value; }
+        }
+
+        public virtual IAnimation PassivationAnimation
+        {
+            get { return passivationAnimation; }
+            set { passivationAnimation = value; }
+        }
+
+        public virtual List<IUIView> Views
+        {
+            get
+            {
+                var transform = this.Transform;
+                List<IUIView> views = new List<IUIView>();
+                int count = transform.childCount;
+                for (int i = 0; i < count; i++)
+                {
+                    var child = transform.GetChild(i);
+                    var view = child.GetComponent<IUIView>();
+                    if (view != null)
+                        views.Add(view);
+                }
+                return views;
+            }
+        }
+
+        public virtual IUIView GetView(string name)
+        {
+            return this.Views.Find(v => v.Name.Equals(name));
+        }
+
+        public virtual void AddView(IUIView view, bool worldPositionStays = false)
+        {
+            if (view == null)
+                return;
+
+            Transform t = view.Transform;
+            if (t == null || t.parent == this.transform)
+                return;
+
+            view.Owner.layer = this.gameObject.layer;
+            t.SetParent(this.transform, worldPositionStays);
+        }
+
+        public virtual void AddView(IUIView view, UILayout layout)
+        {
+            if (view == null)
+                return;
+
+            Transform t = view.Transform;
+            if (t == null)
+                return;
+
+            if (t.parent == this.transform)
+            {
+                if (layout != null)
+                    layout(view.RectTransform);
+                return;
+            }
+
+            view.Owner.layer = this.gameObject.layer;
+            t.SetParent(this.transform, false);
+            if (layout != null)
+                layout(view.RectTransform);
+        }
+
+        public virtual void RemoveView(IUIView view, bool worldPositionStays = false)
+        {
+            if (view == null)
+                return;
+
+            Transform t = view.Transform;
+            if (t == null || t.parent != this.transform)
+                return;
+
+            t.SetParent(null, worldPositionStays);
+        }
+    }
+}
+

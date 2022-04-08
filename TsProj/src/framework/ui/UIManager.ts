@@ -1,6 +1,17 @@
 import { Singleton } from "../common/Singleton";
 import { UIBase } from "./UIBase";
 
+/*
+/* Canvas
+/* Panel
+/* secondPanel
+/* Asset
+/* Dialog
+/* Toast
+/* Loading
+/* GMPanel
+*/
+
 export class UIManager extends Singleton {
 
     constructor() {

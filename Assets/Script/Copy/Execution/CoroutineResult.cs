@@ -1,0 +1,88 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+using CFM.Framework.Asynchronous;
+
+namespace CFM.Framework.Execution
+{
+    public class CoroutineResult: AsyncResult, ICoroutinePromise
+    {
+        protected List<Coroutine> coroutines = new List<Coroutine>();
+
+        public CoroutineResult(): base(true)
+        {
+
+        }
+
+        public override bool Cancel()
+        {
+            return base.Cancel();
+        }
+
+        public void AddCoroutine(Coroutine coroutine)
+        {
+
+        }
+    }
+
+    public class CoroutineResult<TResult>: AsyncResult<TResult>, ICoroutinePromise<TResult>
+    {
+        protected List<Coroutine> coroutines = new List<Coroutine>();
+
+        public CoroutineResult(): base(true)
+        {
+
+        }
+
+        public override bool Cancel()
+        {
+            return base.Cancel();
+        }
+
+        public void AddCoroutine(Coroutine coroutine)
+        {
+
+        }
+    }
+
+    public class CoroutineProgressResult<TProgress>: ProgressResult<TProgress>, ICoroutineProgressPromise<TProgress>
+    {
+        protected List<Coroutine> coroutines = new List<Coroutine>();
+
+        public CoroutineProgressResult(): base(true)
+        {
+
+        }
+
+        public override bool Cancel()
+        {
+            return true;
+        }
+
+        public void AddCoroutine(Coroutine coroutine)
+        {
+            this.coroutines.Add(coroutine);
+        }
+    }
+
+    public class CoroutineProgressResult<TProgress, TResult>: ProgressResult<TProgress, TResult>, ICoroutineProgressPromise<TProgress, TResult>
+    {
+        protected List<Coroutine> coroutines = new List<Coroutine>();
+
+        public CoroutineProgressResult(): base(true)
+        {
+
+        }
+
+        public override bool Cancel()
+        {
+            return true;
+        }
+
+        public void AddCoroutine(Coroutine coroutine)
+        {
+
+        }
+    }
+}
+
