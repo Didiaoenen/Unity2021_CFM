@@ -27,7 +27,7 @@ public class TabItemEditor : ButtonEditor
 
     static class TabControlHelper
     {
-        [MenuItem("GameObjec/UI/Tabs/Tabs")]
+        [MenuItem("GameObject/UI/Tabs/Tabs")]
         static void AddTabs(MenuCommand menuCommand)
         {
             var panel = DefaultControls.CreatePanel(GetStandardResources());
@@ -47,7 +47,7 @@ public class TabItemEditor : ButtonEditor
             rect.sizeDelta = new Vector2(0, 30);
         }
 
-        [MenuItem("GameObjec/UI/Tabs/Tab")]
+        [MenuItem("GameObject/UI/Tabs/Tab")]
         static void AddTab(MenuCommand menuCommand)
         {
             var context = menuCommand.context as GameObject;
