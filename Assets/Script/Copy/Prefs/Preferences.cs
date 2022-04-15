@@ -83,97 +83,97 @@ namespace CFM.Framework.Prefs
 
         public string GetString(string key)
         {
-            return this.GetObject<string>(key, null);
+            return GetObject<string>(key, null);
         }
 
         public string GetString(string key, string defaultValue)
         {
-            return this.GetObject<string>(key, defaultValue);
+            return GetObject<string>(key, defaultValue);
         }
 
         public void SetString(string key, string value)
         {
-            this.SetObject<string>(key, value);
+            SetObject<string>(key, value);
         }
 
         public float GetFloat(string key)
         {
-            return this.GetObject<float>(key, 0f);
+            return GetObject<float>(key, 0f);
         }
 
         public float GetFloat(string key, float defaultValue)
         {
-            return this.GetObject<float>(key, defaultValue);
+            return GetObject<float>(key, defaultValue);
         }
 
         public void SetFloat(string key, float value)
         {
-            this.SetObject<float>(key, value);
+            SetObject<float>(key, value);
         }
 
         public double GetDouble(string key)
         {
-            return this.GetObject<double>(key, 0d);
+            return GetObject<double>(key, 0d);
         }
 
         public double GetDouble(string key, double defaultValue)
         {
-            return this.GetObject<double>(key, defaultValue);
+            return GetObject<double>(key, defaultValue);
         }
 
         public void SetDouble(string key, double value)
         {
-            this.SetObject(key, value);
+            SetObject(key, value);
         }
 
         public bool GetBool(string key)
         {
-            return this.GetObject<bool>(key, false);
+            return GetObject<bool>(key, false);
         }
 
         public bool GetBool(string key, bool defaultValue)
         {
-            return this.GetObject<bool>(key, defaultValue);
+            return GetObject<bool>(key, defaultValue);
         }
 
         public void SetBool(string key, bool value)
         {
-            this.SetObject<bool>(key, value);
+            SetObject<bool>(key, value);
         }
 
         public int GetInt(string key)
         {
-            return this.GetObject<int>(key, 0);
+            return GetObject<int>(key, 0);
         }
 
         public int GetInt(string key, int defaultValue)
         {
-            return this.GetObject<int>(key, defaultValue);
+            return GetObject<int>(key, defaultValue);
         }
 
         public void SetInt(string key, int value)
         {
-            this.SetObject<int>(key, value);
+            SetObject<int>(key, value);
         }
 
         public long GetLong(string key)
         {
-            return this.GetObject<long>(key, 0L);
+            return GetObject<long>(key, 0L);
         }
 
         public long GetLong(string key, long defaultValue)
         {
-            return this.GetObject<long>(key, defaultValue);
+            return GetObject<long>(key, defaultValue);
         }
 
         public void SetLong(string key, long value)
         {
-            this.SetObject<long>(key, value);
+            SetObject<long>(key, value);
         }
 
         public object GetObject(string key, Type type)
         {
-            return this.GetObject(key, type, null);
+            return GetObject(key, type, null);
         }
 
         public abstract object GetObject(string key, Type type, object defaultValue);
@@ -182,7 +182,7 @@ namespace CFM.Framework.Prefs
 
         public T GetObject<T>(string key)
         {
-            return this.GetObject<T>(key, default(T));
+            return GetObject<T>(key, default(T));
         }
 
         public abstract T GetObject<T>(string key, T defaultValue);

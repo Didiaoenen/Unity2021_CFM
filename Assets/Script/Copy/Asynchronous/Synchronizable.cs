@@ -19,7 +19,7 @@ namespace CFM.Framework.Asynchronous
         new TResult WaitForResult(TimeSpan timeout);
     }
 
-    public class Synchronizable: ISynchronizable
+    public class Synchronizable : ISynchronizable
     {
         private IAsyncResult result;
 
@@ -38,18 +38,66 @@ namespace CFM.Framework.Asynchronous
 
             lock (_lock)
             {
-
+                if (!result.IsDone)
+                    Monitor.Wait(_lock);
             }
             return result.IsDone;
         }
 
         public object WaitForResult(int millisecondsTimeout = 0)
         {
+            if (result.IsDone)
+            {
+                if (result.Exception != null)
+                    throw result.Exception;
+
+                return result.Result;
+            }
+
+            lock (_lock)
+            {
+                if (!result.IsDone)
+                {
+                    if (millisecondsTimeout > 0)
+                        Monitor.Wait(_lock, millisecondsTimeout);
+                    else
+                        Monitor.Wait(_lock);
+                }
+            }
+
+            if (!result.IsDone)
+                throw new TimeoutException();
+
+            if (result.Exception != null)
+                throw result.Exception;
+
             return result.Result;
         }
 
         public object WaitForResult(TimeSpan timeout)
         {
+            if (result.IsDone)
+            {
+                if (result.Exception != null)
+                    throw result.Exception;
+
+                return result.Result;
+            }
+
+            lock (_lock)
+            {
+                if (!result.IsDone)
+                {
+                    Monitor.Wait(_lock, timeout);
+                }
+            }
+
+            if (!result.IsDone)
+                throw new TimeoutException();
+
+            if (result.Exception != null)
+                throw result.Exception;
+
             return result.Result;
         }
     }
@@ -68,16 +116,72 @@ namespace CFM.Framework.Asynchronous
 
         public bool WaitForDone()
         {
+            if (result.IsDone)
+                return result.IsDone;
+
+            lock (_lock)
+            {
+                if (!result.IsDone)
+                    Monitor.Wait(_lock);
+            }
+
             return result.IsDone;
         }
 
         public TResult WaitForResult(int millisecondsTimeout = 0)
         {
+            if (result.IsDone)
+            {
+                if (result.Exception != null)
+                    throw result.Exception;
+
+                return result.Result;
+            }
+
+            lock (_lock)
+            {
+                if (!result.IsDone)
+                {
+                    if (millisecondsTimeout > 0)
+                        Monitor.Wait(_lock, millisecondsTimeout);
+                    else
+                        Monitor.Wait(_lock);
+                }
+            }
+
+            if (!result.IsDone)
+                throw new TimeoutException();
+
+            if (result.Exception != null)
+                throw result.Exception;
+
             return result.Result;
         }
 
         public TResult WaitForResult(TimeSpan timeout)
         {
+            if (result.IsDone)
+            {
+                if (result.Exception != null)
+                    throw result.Exception;
+
+                return result.Result;
+            }
+
+            lock (_lock)
+            {
+                if (!result.IsDone)
+                {
+                    Monitor.Wait(_lock, timeout);
+                }
+            }
+
+            if (!result.IsDone)
+                throw new TimeoutException();
+
+            if (result.Exception != null)
+                throw result.Exception;
+
             return result.Result;
         }
 

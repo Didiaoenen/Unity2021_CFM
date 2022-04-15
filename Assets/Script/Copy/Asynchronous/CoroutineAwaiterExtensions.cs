@@ -1,11 +1,12 @@
+#if NET_STANDARD_2_0 || NET_4_6
 using System;
 using System.Collections;
-
-using CFM.Framework.Execution;
 
 using UnityEngine;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
+
+using CFM.Framework.Execution;
 
 namespace CFM.Framework.Asynchronous
 {
@@ -138,4 +139,4 @@ namespace CFM.Framework.Asynchronous
         public static readonly WaitForBackgroundThread Default = new WaitForBackgroundThread();
     }
 }
-
+#endif

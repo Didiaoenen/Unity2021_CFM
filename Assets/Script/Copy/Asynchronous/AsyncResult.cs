@@ -7,15 +7,15 @@ namespace CFM.Framework.Asynchronous
 {
     public class AsyncResult: IAsyncResult, IPromise
     {
-        private bool done;
+        private bool done = false;
 
-        private object result;
+        private object result = null;
 
-        private Exception exception;
+        private Exception exception = null;
 
-        private bool cancelled;
+        private bool cancelled = false;
 
-        protected bool cancelable;
+        protected bool cancelable = false;
 
         protected bool cancellationRequested;
 
@@ -37,65 +37,108 @@ namespace CFM.Framework.Asynchronous
 
         public virtual Exception Exception
         {
-            get { return this.exception; }
+            get { return exception; }
         }
 
         public virtual bool IsDone
         {
-            get { return this.IsDone; }
+            get { return IsDone; }
         }
 
         public virtual object Result
         {
-            get { return this.result; }
+            get { return result; }
         }
 
         public virtual bool IsCancellationRequested
         {
-            get { return this.cancellationRequested; }
+            get { return cancellationRequested; }
         }
 
         public virtual bool IsCancelled
         {
-            get { return this.cancelled; }
+            get { return cancelled; }
         }
 
         public virtual void SetException(string error)
         {
-            if (this.done)
+            if (done)
                 return;
+
+            var exception = new Exception(String.IsNullOrEmpty(error) ? "" : error);
+            SetException(exception);
         }
 
         public virtual void SetException(Exception exception)
         {
+            lock (_lock)
+            {
+                if (done)
+                    return;
 
+                this.exception = exception;
+                done = true;
+                Monitor.PulseAll(_lock);
+            }
+
+            RaiseOnCallback();
         }
 
         public virtual void SetResult(object result = null)
         {
+            lock (_lock)
+            {
+                if (done)
+                    return;
 
+                this.result = result;
+                done = true;
+                Monitor.PulseAll(_lock);
+            }
+
+            RaiseOnCallback();
         }
 
         public virtual void SetCancelled()
         {
+            lock (_lock)
+            {
+                if (!cancelable || done)
+                    return;
 
+                cancelled = true;
+                exception = new OperationCanceledException();
+                done = true;
+                Monitor.PulseAll(_lock);
+            }
+
+            RaiseOnCallback();
         }
 
         public virtual bool Cancel()
         {
+            if (!cancelable)
+                throw new NotSupportedException();
+
+            if (IsDone)
+                return false;
+
+            cancellationRequested = true;
+            SetCancelled();
             return true;
         }
 
         protected virtual void RaiseOnCallback()
         {
-
+            if (callbackable != null)
+                callbackable.RaiseOnCallback();
         }
 
         public virtual ICallbackable Callbackable()
         {
             lock (_lock)
             {
-                return this.callbackable ?? (this.callbackable = new Callbackable(this));
+                return callbackable ?? (callbackable = new Callbackable(this));
             }
         }
 
@@ -103,7 +146,7 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
-                return this.synchronizable ?? (this.synchronizable = new Synchronizable(this, this._lock));
+                return synchronizable ?? (synchronizable = new Synchronizable(this, _lock));
             }
         }
 
@@ -146,13 +189,15 @@ namespace CFM.Framework.Asynchronous
         protected override void RaiseOnCallback()
         {
             base.RaiseOnCallback();
+            if (callbackable != null)
+                callbackable.RaiseOnCallback();
         }
 
         public new virtual ICallbackable<TResult> Callbackable()
         {
             lock (_lock)
             {
-                return this.callbackable ?? (this.callbackable = new Callbackable<TResult>(this));
+                return callbackable ?? (callbackable = new Callbackable<TResult>(this));
             }
         }
 
@@ -160,7 +205,7 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
-                return this.synchronizable ?? (this.synchronizable = new Synchronizable<TResult>(this, this._lock));
+                return synchronizable ?? (synchronizable = new Synchronizable<TResult>(this, _lock));
             }
         }
     }

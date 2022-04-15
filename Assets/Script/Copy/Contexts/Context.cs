@@ -8,7 +8,7 @@ namespace CFM.Framework.Contexts
 {
     public class Context : IDisposable
     {
-        private bool innerContainer;
+        private bool innerContainer = false;
 
         private Context contextBase;
 
@@ -21,125 +21,125 @@ namespace CFM.Framework.Contexts
 
         }
 
-        public Context(IServiceContainer container, Context context)
+        public Context(IServiceContainer container, Context contextBase)
         {
-            this.attributes = new Dictionary<string, object>();
+            attributes = new Dictionary<string, object>();
             this.container = container;
-            this.contextBase = context;
+            this.contextBase = contextBase;
             if (this.container == null)
             {
-                this.innerContainer = true;
+                innerContainer = true;
                 this.container = new ServiceContainer();
             }
         }
 
         public virtual bool Contains(string name, bool cascade = true)
         {
-            if (this.attributes.ContainsKey(name))
+            if (attributes.ContainsKey(name))
                 return true;
 
-            if (cascade && this.contextBase != null)
-                return this.contextBase.Contains(name, cascade);
+            if (cascade && contextBase != null)
+                return contextBase.Contains(name, cascade);
 
             return false;
         }
 
         public virtual object Get(string name, bool cascade = true)
         {
-            return this.Get<object>(name, cascade);
+            return Get<object>(name, cascade);
         }
 
         public virtual T Get<T>(string name, bool cascade = true)
         {
             object v;
-            if (this.attributes.TryGetValue(name, out v))
+            if (attributes.TryGetValue(name, out v))
                 return (T)v;
 
-            if (cascade && this.contextBase != null)
-                return this.contextBase.Get<T>(name, cascade);
+            if (cascade && contextBase != null)
+                return contextBase.Get<T>(name, cascade);
 
             return default(T);
         }
 
         public virtual void Set(string name, object value)
         {
-            this.Set<object>(name, value);
+            Set<object>(name, value);
         }
 
         public virtual void Set<T>(string name, T value)
         {
-            this.attributes[name] = value;
+            attributes[name] = value;
         }
 
         public virtual object Remove(string name)
         {
-            return this.Remove<object>(name);
+            return Remove<object>(name);
         }
 
         public virtual T Remove<T>(string name)
         {
-            if (!this.attributes.ContainsKey(name))
+            if (!attributes.ContainsKey(name))
                 return default(T);
 
-            object v = this.attributes[name];
-            this.attributes.Remove(name);
+            object v = attributes[name];
+            attributes.Remove(name);
             return (T)v;
         }
 
         public virtual IEnumerator GetEnumerator()
         {
-            return this.attributes.GetEnumerator();
+            return attributes.GetEnumerator();
         }
 
         public virtual IServiceContainer GetContainer()
         {
-            return this.container;
+            return container;
         }
 
         public virtual object GetService(Type type)
         {
-            object result = this.container.Resolve(type);
+            object result = container.Resolve(type);
             if (result != null)
                 return result;
 
-            if (this.contextBase != null)
-                return this.contextBase.GetService(type);
+            if (contextBase != null)
+                return contextBase.GetService(type);
 
             return null;
         }
 
         public virtual object GetService(string name)
         {
-            object result = this.container.Resolve(name);
+            object result = container.Resolve(name);
             if (result != null)
                 return result;
 
-            if (this.contextBase != null)
-                return this.contextBase.GetService(name);
+            if (contextBase != null)
+                return contextBase.GetService(name);
 
             return null;
         }
 
         public virtual T GetService<T>()
         {
-            T result = this.container.Resolve<T>();
+            T result = container.Resolve<T>();
             if (result != null)
                 return result;
 
-            if (this.contextBase != null)
-                return this.contextBase.GetService<T>();
+            if (contextBase != null)
+                return contextBase.GetService<T>();
 
             return default(T);
         }
 
         public virtual T GetService<T>(string name)
         {
-            T result = this.container.Resolve<T>(name);
+            T result = container.Resolve<T>(name);
             if (result != null)
                 return result;
 
-            if (this.contextBase != null)
-                return this.contextBase.GetService<T>(name);
+            if (contextBase != null)
+                return contextBase.GetService<T>(name);
 
             return default(T);
         }
@@ -152,9 +152,9 @@ namespace CFM.Framework.Contexts
             {
                 if (disposing)
                 {
-                    if (this.innerContainer && this.container != null)
+                    if (innerContainer && container != null)
                     {
-                        IDisposable dis = this.container as IDisposable;
+                        IDisposable dis = container as IDisposable;
                         if (dis != null)
                             dis.Dispose();
                     }
@@ -183,7 +183,7 @@ namespace CFM.Framework.Contexts
 
         public static ApplicationContext GetApplicationContext()
         {
-            return (ApplicationContext)ContextManager.context;
+            return (ApplicationContext)context;
         }
 
         public static void SetApplicationContext(ApplicationContext context)

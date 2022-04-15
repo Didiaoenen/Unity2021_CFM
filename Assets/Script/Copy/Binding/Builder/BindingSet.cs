@@ -53,6 +53,13 @@ namespace CFM.Framework.Binding.Builder
             this.builder.Add(builder);
             return builder;
         }
+
+        public virtual BindingBuilder<TChildTarget, TSource> Bind<TChildTarget>(TChildTarget target) where TChildTarget : class
+        {
+            var builder = new BindingBuilder<TChildTarget, TSource>(context, target);
+            this.builder.Add(builder);
+            return builder;
+        }
     }
 
     public class BindingSet<TTarget>: BindingSetBase where TTarget: class

@@ -13,8 +13,8 @@ namespace CFM.Framework.Observables
 
         public event EventHandler ValueChanged
         {
-            add { lock (_lock) { this.valueChanged += value; } }
-            remove { lock (_lock) { this.valueChanged -= value; } }
+            add { lock (_lock) { valueChanged += value; } }
+            remove { lock (_lock) { valueChanged -= value; } }
         }
 
         public ObservablePropertyBase() : this(default(T))
@@ -24,14 +24,14 @@ namespace CFM.Framework.Observables
 
         public ObservablePropertyBase(T value)
         {
-            this._value = value;
+            _value = value;
         }
 
         public virtual Type Type { get { return typeof(T); } }
 
         protected void RaiseValueChanged()
         {
-            var handle = this.valueChanged;
+            var handle = valueChanged;
             if (handle != null)
                 handle(this, EventArgs.Empty);
         }
@@ -65,24 +65,24 @@ namespace CFM.Framework.Observables
 
         }
 
-        public override Type Type { get { return this._value != null ? this._value.GetType() : typeof(object); } }
+        public override Type Type { get { return _value != null ? _value.GetType() : typeof(object); } }
 
         public object Value
         {
-            get { return this._value; }
+            get { return _value; }
             set
             {
-                if (this.Equals(this._value, value))
+                if (Equals(_value, value))
                     return;
 
-                this._value = value;
-                this.RaiseValueChanged();
+                _value = value;
+                RaiseValueChanged();
             }
         }
 
         public override string ToString()
         {
-            var v = this.Value;
+            var v = Value;
             if (v == null)
                 return "";
 
@@ -106,26 +106,26 @@ namespace CFM.Framework.Observables
 
         public virtual T Value
         {
-            get {  return this._value; }
+            get {  return _value; }
             set
             {
-                if (this.Equals(this._value, value))
+                if (Equals(_value, value))
                     return;
 
-                this._value= value; ;
-                this.RaiseValueChanged();
+                _value= value;
+                RaiseValueChanged();
             }
         }
 
         object IObservableProperty.Value
         { 
-            get { return this.Value; }
-            set { this.Value = (T)value; }
+            get { return Value; }
+            set { Value = (T)value; }
         }
 
         public override string ToString()
         {
-            var v = this.Value;
+            var v = Value;
             if (v == null)
                 return "";
 

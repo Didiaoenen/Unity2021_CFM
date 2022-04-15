@@ -8,70 +8,80 @@ namespace CFM.Framework.Services
 
         public virtual object Resolve(Type type)
         {
-            return null;
+            return Resolve<object>(type.Name);
         }
 
         public virtual T Resolve<T>()
         {
-            return default(T);
+            return Resolve<T>(typeof(T).Name);
         }
 
         public virtual object Resolve(string name)
         {
-            return this.Resolve<object>(name);
+            return Resolve<object>(name);
         }
 
         public virtual T Resolve<T>(string name)
         {
             IFactory factory;
-            if (this.services.TryGetValue(name, out factory))
+            if (services.TryGetValue(name, out factory))
                 return (T)factory.Create();
             return default(T);
         }
 
         public virtual void Register<T>(Func<T> factory)
         {
-
+            Register<T>(typeof(T).Name, factory);
         }
 
         public virtual void Register(Type type, object target)
         {
-
+            Register<object>(type.Name, target);
         }
 
         public virtual void Register(string name, object target)
         {
-
+            Register<object>(name, target);
         }
 
         public virtual void Register<T>(T target)
         {
-
+            Register<T>(typeof(T).Name, target);
         }
 
         public virtual void Register<T>(string name, Func<T> factory)
         {
+            if (services.ContainsKey(name))
+                throw new DuplicateRegisterServiceException(string.Format("Duplicate key {0}", name));
 
+            services.Add(name, new GenericFactory<T>(factory));
         }
 
         public virtual void Register<T>(string name, T target)
         {
+            if (services.ContainsKey(name))
+                throw new DuplicateRegisterServiceException(string.Format("Duplicate key {0}", name));
 
+            services.Add(name, new SingleInstanceFactory(target));
         }
 
-        public virtual void UnRegister(Type type)
+        public virtual void Unregister(Type type)
         {
-            this.UnRegister(type.Name);
+            Unregister(type.Name);
         }
 
-        public virtual void UnRegister<T>()
+        public virtual void Unregister<T>()
         {
-
+            Unregister(typeof(T).Name);
         }
 
-        public virtual void UnRegister(string name)
+        public virtual void Unregister(string name)
         {
+            IFactory factory;
+            if (services.TryGetValue(name, out factory))
+                factory.Dispose();
 
+            services.Remove(name);
         }
 
         private bool disposed = false;
@@ -85,7 +95,7 @@ namespace CFM.Framework.Services
                     foreach (var kv in services)
                         kv.Value.Dispose();
 
-                    this.services.Clear();
+                    services.Clear();
                 }
                 disposed = true;
             }
@@ -113,12 +123,12 @@ namespace CFM.Framework.Services
 
             public GenericFactory(Func<T> func)
             {
-
+                this.func = func;
             }
 
             public virtual object Create()
             {
-                return null;
+                return func();
             }
 
             public void Dispose()
@@ -138,7 +148,7 @@ namespace CFM.Framework.Services
 
             public virtual object Create()
             {
-                return null;
+                return target;
             }
 
             private bool disposed = false;
@@ -152,7 +162,7 @@ namespace CFM.Framework.Services
                         var disposable = target as IDisposable;
                         if (disposable != null)
                             disposable.Dispose();
-                        this.target = null;
+                        target = null;
                     }
                     disposed = true;
                 }

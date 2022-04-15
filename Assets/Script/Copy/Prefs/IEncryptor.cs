@@ -2,9 +2,9 @@ namespace CFM.Framework.Prefs
 {
     public interface IEncryptor
     {
-        byte[] EnCode(byte[] plainData);
+        byte[] Encode(byte[] plainData);
 
-        byte[] DeCode(byte[] cipherData);
+        byte[] Decode(byte[] cipherData);
     }
 }
 

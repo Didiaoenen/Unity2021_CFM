@@ -1,14 +1,12 @@
 using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+
 using CFM.Log;
 using CFM.Framework.Asynchronous;
-
-#if NETFX_CORE || !NET_LEGACY
-using System.Threading.Tasks;
-#endif
-using System.Threading;
 
 namespace CFM.Framework.Execution
 {
@@ -22,11 +20,7 @@ namespace CFM.Framework.Execution
 
         private static MainThreadExecutor executor;
 
-#if NETFX_CORE || !NET_LEGACY
-        private static int mainThreadId;
-#else
         private static Thread mainThread;
-#endif
 
 #if UNITY_EDITOR
         private static Dictionary<int, Thread> threads = new Dictionary<int, Thread>();
@@ -66,7 +60,7 @@ namespace CFM.Framework.Execution
         private static void CheckDisposed()
         {
             if (disposed)
-                throw new ObjectDisposedException("");
+                throw new ObjectDisposedException("Executors");
         }
 
         private static MainThreadExecutor CreateMainThreadExecutor(bool dontDestroy, bool useFixedUpdate)
@@ -91,20 +85,17 @@ namespace CFM.Framework.Execution
                     if (executor)
                         return;
 
-#if NET_CORE || !NET_LEGACY
-                    mainThreadId = Environment.CurrentManagedThreadId;
-#else
                     Thread currentThread = Thread.CurrentThread;
                     if (currentThread.ManagedThreadId > 1 || currentThread.IsThreadPoolThread)
                         throw new Exception("");
 
                     mainThread = currentThread;
-#endif
+                    executor = CreateMainThreadExecutor(dontDestroy, useFixedUpdate);
                 }
                 catch (Exception e)
                 {
                     if (log.IsErrorEnabled)
-                        log.ErrorFormat("", e);
+                        log.ErrorFormat("Start Executors failure.Exception:{0}", e);
                 }
             }
         }
@@ -115,17 +106,8 @@ namespace CFM.Framework.Execution
             set { executor.useFixedUpdate = value; }
         }
 
-#if NETFX_CORE || !NET_LEGACY
-        public static bool IsMainThread
-        {
-            get { return Environment.CurrentManagedThreadId == mainThreadId; }
-        }
-#else
-        public static bool IsMainThread
-        {
-            get { return Thread.CurrentThread == mainThread; }
-        }
-#endif
+        public static bool IsMainThread { get { return Thread.CurrentThread == mainThread; } }
+
 
         public static void RunOnMainThread(Action action, bool waitForExecution = false)
         {
@@ -226,7 +208,7 @@ namespace CFM.Framework.Execution
             if (executor != null && IsMainThread)
                 return new WaitWhile(predicate);
 
-            throw new NotSupportedException("");
+            throw new NotSupportedException("The function must execute on main thread.");
         }
 
         protected static InterceptableEnumerator WrapEnumerator(IEnumerator routine, IPromise promise)
@@ -353,6 +335,13 @@ namespace CFM.Framework.Execution
             return result;
         }
 
+        public static Asynchronous.IAsyncResult RunOnCoroutine(Func<IPromise, IEnumerator> func)
+        {
+            CoroutineResult result = new CoroutineResult();
+            DoRunOnCoroutine(func(result), result);
+            return result;
+        }
+
         public static IAsyncResult<TResult> RunOnCoroutine<TResult>(Func<IPromise<TResult>, IEnumerator> func)
         {
             CoroutineResult<TResult> result = new CoroutineResult<TResult>();
@@ -418,8 +407,6 @@ namespace CFM.Framework.Execution
                     }
                 }
             });
-#elif NETFX_CORE || !NET_LEGACY
-            Task.Factory.StartNew(action);
 #else
             ThreadPool.QueueUserWorkItem((state) => { action(); });
 #endif
@@ -533,10 +520,10 @@ namespace CFM.Framework.Execution
 
             private void OnApplicationQuit()
             {
-                this.StopAllCoroutines();
+                StopAllCoroutines();
                 Executors.Destroy();
-                if (this.gameObject != null)
-                    Destroy(this.gameObject);
+                if (gameObject != null)
+                    Destroy(gameObject);
             }
 
             private void Update()
@@ -547,9 +534,9 @@ namespace CFM.Framework.Execution
                 if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
                     return;
 
-                this.DoStopingQueue();
+                DoStopingQueue();
 
-                this.DoPendingQueue();
+                DoPendingQueue();
             }
 
             private void FixedUpdate()
@@ -560,9 +547,9 @@ namespace CFM.Framework.Execution
                 if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
                     return;
 
-                this.DoStopingQueue();
+                DoStopingQueue();
 
-                this.DoPendingQueue();
+                DoPendingQueue();
             }
 
             protected void DoStopingQueue()
@@ -584,13 +571,13 @@ namespace CFM.Framework.Execution
                         object task = stopingTempQueue[i];
                         if (task is IEnumerator)
                         {
-                            this.StopCoroutine((IEnumerator)task);
+                            StopCoroutine((IEnumerator)task);
                             continue;
                         }
 
                         if (task is Coroutine)
                         {
-                            this.StopCoroutine((Coroutine)task);
+                            StopCoroutine((Coroutine)task);
                             continue;
                         }
                     }
@@ -629,7 +616,7 @@ namespace CFM.Framework.Execution
 
                         if (task is IEnumerator)
                         {
-                            this.StartCoroutine((IEnumerator)task);
+                            StartCoroutine((IEnumerator)task);
                             continue;
                         }
                     }

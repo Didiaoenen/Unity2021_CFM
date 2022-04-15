@@ -5,7 +5,7 @@ using CFM.Framework.Asynchronous;
 
 namespace CFM.Framework.Execution
 {
-    public class CoroutineResult: AsyncResult, ICoroutinePromise
+    public class CoroutineResult : AsyncResult, ICoroutinePromise
     {
         protected List<Coroutine> coroutines = new List<Coroutine>();
 
@@ -16,12 +16,21 @@ namespace CFM.Framework.Execution
 
         public override bool Cancel()
         {
-            return base.Cancel();
+            if (IsDone)
+                return false;
+
+            cancellationRequested = true;
+            foreach (Coroutine coroutine in coroutines)
+            {
+                Executors.StopCoroutine(coroutine);
+            }
+            SetCancelled();
+            return true;
         }
 
         public void AddCoroutine(Coroutine coroutine)
         {
-
+            coroutines.Add(coroutine);
         }
     }
 
@@ -36,12 +45,21 @@ namespace CFM.Framework.Execution
 
         public override bool Cancel()
         {
-            return base.Cancel();
+            if (IsDone)
+                return false;
+
+            cancellationRequested = true;
+            foreach (Coroutine coroutine in coroutines)
+            {
+                Executors.StopCoroutine(coroutine);
+            }
+            SetCancelled();
+            return true;
         }
 
         public void AddCoroutine(Coroutine coroutine)
         {
-
+            coroutines.Add(coroutine);
         }
     }
 
@@ -56,12 +74,21 @@ namespace CFM.Framework.Execution
 
         public override bool Cancel()
         {
+            if (IsDone)
+                return false;
+
+            cancellationRequested = true;
+            foreach (Coroutine coroutine in coroutines)
+            {
+                Executors.StopCoroutine(coroutine);
+            }
+            SetCancelled();
             return true;
         }
 
         public void AddCoroutine(Coroutine coroutine)
         {
-            this.coroutines.Add(coroutine);
+            coroutines.Add(coroutine);
         }
     }
 
@@ -76,12 +103,21 @@ namespace CFM.Framework.Execution
 
         public override bool Cancel()
         {
+            if (IsDone)
+                return false;
+
+            cancellationRequested = true;
+            foreach (Coroutine coroutine in coroutines)
+            {
+                Executors.StopCoroutine(coroutine);
+            }
+            SetCancelled();
             return true;
         }
 
         public void AddCoroutine(Coroutine coroutine)
         {
-
+            coroutines.Add(coroutine);
         }
     }
 }

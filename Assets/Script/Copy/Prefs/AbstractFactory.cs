@@ -18,7 +18,17 @@ namespace CFM.Framework.Prefs
 
         public AbstractFactory(ISerializer serializer, IEncryptor encryptor)
         {
+#if UNITY_IOS
+			Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+#endif
+            this.serializer = serializer;
+            this.encryptor = encryptor;
 
+            if (this.serializer == null)
+                this.serializer = new DefaultSerializer();
+
+            if (this.encryptor == null)
+                this.encryptor = new DefaultEncryptor();
         }
 
         public IEncryptor Encryptor

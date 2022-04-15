@@ -63,21 +63,21 @@ namespace CFM.Framework.Binding
 
         protected override void OnStop(IServiceContainer container)
         {
-            container.UnRegister<IBinder>();
-            container.UnRegister<IBindingFactory>();
-            container.UnRegister<IConverterRegistry>();
+            container.Unregister<IBinder>();
+            container.Unregister<IBindingFactory>();
+            container.Unregister<IConverterRegistry>();
             
-            container.UnRegister<IExpressionPathFinder>();
-            container.UnRegister<IPathParser>();
+            container.Unregister<IExpressionPathFinder>();
+            container.Unregister<IPathParser>();
 
-            container.UnRegister<INodeProxyFactory>();
-            container.UnRegister<INodeProxyFactoryRegister>();
+            container.Unregister<INodeProxyFactory>();
+            container.Unregister<INodeProxyFactoryRegister>();
 
-            container.UnRegister<ISourceProxyFactory>();
-            container.UnRegister<ISourceProxyFactoryRegistry>();
+            container.Unregister<ISourceProxyFactory>();
+            container.Unregister<ISourceProxyFactoryRegistry>();
 
-            container.UnRegister<ITargetProxyFactory>();
-            container.UnRegister<ITargetProxyFactoryRegister>();
+            container.Unregister<ITargetProxyFactory>();
+            container.Unregister<ITargetProxyFactoryRegister>();
         }
     }
 }

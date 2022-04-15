@@ -15,11 +15,11 @@ namespace CFM.Framework.Services
 
         void Register<T>(string name, Func<T> factory);
 
-        void UnRegister<T>();
+        void Unregister<T>();
 
-        void UnRegister(Type type);
+        void Unregister(Type type);
 
-        void UnRegister(string name);
+        void Unregister(string name);
     }
 }
 

@@ -11,7 +11,7 @@ namespace CFM.Framework.Binding.Binders
 
         public StandardBinder(IBindingFactory factory)
         {
-
+            this.factory = factory;
         }
 
         public IBinding Bind(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription)

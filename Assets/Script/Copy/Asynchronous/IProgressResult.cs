@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 namespace CFM.Framework.Asynchronous
 {
     public interface IProgressResult<TProgress>: IAsyncResult

@@ -8,7 +8,7 @@ namespace CFM.Framework.Binding.Reflection
 
         Type ValueType { get; }
 
-        TypeCode valueTypeCode { get; }
+        TypeCode ValueTypeCode { get; }
 
         object GetValue(object target);
 

@@ -43,7 +43,7 @@ namespace CFM.Framework.Prefs
         {
             this.serializer = serializer;
             this.encryptor = encryptor;
-            this.Load();
+            Load();
         }
 
         protected override void Load()
@@ -71,13 +71,13 @@ namespace CFM.Framework.Prefs
                 if (string.IsNullOrEmpty(key))
                     continue;
 
-                this.keys.Add(key);
+                keys.Add(key);
             }
         }
 
         protected virtual void SaveKeys()
         {
-            if (this.keys == null || this.keys.Count <= 0)
+            if (keys == null || keys.Count <= 0)
             {
                 PlayerPrefs.DeleteKey(Key(KEYS));
                 return;
@@ -101,67 +101,236 @@ namespace CFM.Framework.Prefs
 
         public override object GetObject(string key, Type type, object defaultValue)
         {
-            return null;
+            if (!PlayerPrefs.HasKey(Key(key)))
+                return defaultValue;
+
+            string str = PlayerPrefs.GetString(Key(key));
+            if (string.IsNullOrEmpty(str))
+                return defaultValue;
+
+            if (encryptor != null)
+            {
+                byte[] data = Convert.FromBase64String(str);
+                data = encryptor.Decode(data);
+                str = Encoding.UTF8.GetString(data);
+            }
+
+            return serializer.Deserialize(str, type);
         }
 
         public override void SetObject(string key, object value)
         {
+            string str = value == null ? "" : serializer.Serialize(value);
+            if (encryptor != null)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(str);
+                data = encryptor.Encode(data);
+                str = Convert.ToBase64String(data);
+            }
 
+            PlayerPrefs.SetString(Key(key), str);
+
+            if (!keys.Contains(key))
+            {
+                keys.Add(key);
+                SaveKeys();
+            }
         }
 
         public override T GetObject<T>(string key, T defaultValue)
         {
-            throw new NotImplementedException();
+            if (!PlayerPrefs.HasKey(Key(key)))
+                return defaultValue;
+
+            string str = PlayerPrefs.GetString(Key(key));
+            if (string.IsNullOrEmpty(str))
+                return defaultValue;
+
+            if (encryptor != null)
+            {
+                byte[] data = Convert.FromBase64String(str);
+                data = encryptor.Decode(data);
+                str = Encoding.UTF8.GetString(data);
+            }
+
+            return (T)serializer.Deserialize(str, typeof(T));
         }
 
         public override void SetObject<T>(string key, T value)
         {
-            throw new NotImplementedException();
+            string str = value == null ? "" : serializer.Serialize(value);
+            if (encryptor != null)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(str);
+                data = encryptor.Encode(data);
+                str = Convert.ToBase64String(data);
+            }
+
+            PlayerPrefs.SetString(Key(key), str);
+
+            if (!keys.Contains(key))
+            {
+                keys.Add(key);
+                SaveKeys();
+            }
         }
 
         public override object[] GetArray(string key, Type type, object[] defaultValue)
         {
-            throw new NotImplementedException();
+            if (!PlayerPrefs.HasKey(Key(key)))
+                return defaultValue;
+
+            string str = PlayerPrefs.GetString(Key(key));
+            if (string.IsNullOrEmpty(str))
+                return defaultValue;
+
+            if (encryptor != null)
+            {
+                byte[] data = Convert.FromBase64String(str);
+                data = encryptor.Decode(data);
+                str = Encoding.UTF8.GetString(data);
+            }
+
+            string[] items = str.Split(ARRAY_SEPARATOR);
+            List<object> list = new List<object>();
+            for (int i = 0; i < items.Length; i++)
+            {
+                string item = items[i];
+                if (string.IsNullOrEmpty(item))
+                    list.Add(null);
+                else
+                {
+                    list.Add(serializer.Deserialize(items[i], type));
+                }
+            }
+            return list.ToArray();
         }
 
         public override void SetArray(string key, object[] values)
         {
-            throw new NotImplementedException();
+            StringBuilder buf = new StringBuilder();
+            if (values != null && values.Length > 0)
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var value = values[i];
+                    buf.Append(serializer.Serialize(value));
+                    if (i < values.Length - 1)
+                        buf.Append(ARRAY_SEPARATOR);
+                }
+            }
+            string str = buf.ToString();
+            if (encryptor != null)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(str);
+                data = encryptor.Encode(data);
+                str = Convert.ToBase64String(data);
+            }
+
+            PlayerPrefs.SetString(Key(key), str);
+
+            if (!keys.Contains(key))
+            {
+                keys.Add(key);
+                SaveKeys();
+            }
         }
 
         public override T[] GetArray<T>(string key, T[] defaultValue)
         {
-            throw new NotImplementedException();
+            if (!PlayerPrefs.HasKey(Key(key)))
+                return defaultValue;
+
+            string str = PlayerPrefs.GetString(Key(key));
+            if (string.IsNullOrEmpty(str))
+                return defaultValue;
+
+            if (encryptor != null)
+            {
+                byte[] data = Convert.FromBase64String(str);
+                data = encryptor.Decode(data);
+                str = Encoding.UTF8.GetString(data);
+            }
+
+            string[] items = str.Split(ARRAY_SEPARATOR);
+            List<T> list = new List<T>();
+            for (int i = 0; i < items.Length; i++)
+            {
+                string item = items[i];
+                if (string.IsNullOrEmpty(item))
+                    list.Add(default(T));
+                else
+                {
+                    list.Add((T)serializer.Deserialize(items[i], typeof(T)));
+                }
+            }
+            return list.ToArray();
         }
 
         public override void SetArray<T>(string key, T[] values)
         {
-            throw new NotImplementedException();
+            StringBuilder buf = new StringBuilder();
+            if (values != null && values.Length > 0)
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var value = values[i];
+                    buf.Append(serializer.Serialize(value));
+                    if (i < values.Length - 1)
+                        buf.Append(ARRAY_SEPARATOR);
+                }
+            }
+            string str = buf.ToString();
+            if (encryptor != null)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(str);
+                data = encryptor.Encode(data);
+                str = Convert.ToBase64String(data);
+            }
+
+            PlayerPrefs.SetString(Key(key), str);
+
+            if (!keys.Contains(key))
+            {
+                keys.Add(key);
+                SaveKeys();
+            }
         }
 
         public override bool ContainsKey(string key)
         {
-            throw new NotImplementedException();
+            return PlayerPrefs.HasKey(Key(key));
         }
 
         public override void Remove(string key)
         {
-            throw new NotImplementedException();
+            PlayerPrefs.DeleteKey(Key(key));
+            if (keys.Contains(key))
+            {
+                keys.Remove(key);
+                SaveKeys();
+            }
         }
 
         public override void RemoveAll()
         {
-            throw new NotImplementedException();
+            foreach (string key in keys)
+            {
+                PlayerPrefs.DeleteKey(Key(key));
+            }
+            PlayerPrefs.DeleteKey(Key(KEYS));
+            keys.Clear();
         }
 
         public override void Save()
         {
-            throw new NotImplementedException();
+            PlayerPrefs.Save();
         }
 
         public override void Delete()
         {
-            throw new NotImplementedException();
+            RemoveAll();
+            PlayerPrefs.Save();
         }
     }
 }

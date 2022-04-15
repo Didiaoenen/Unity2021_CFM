@@ -1,6 +1,6 @@
-using CFM.Framework.Execution;
 using CFM.Framework.Prefs;
 using CFM.Framework.Services;
+using CFM.Framework.Execution;
 
 namespace CFM.Framework.Contexts
 {
@@ -15,14 +15,14 @@ namespace CFM.Framework.Contexts
 
         public ApplicationContext(IServiceContainer container, IMainLoopExecutor mainLooopExecutor): base(container, null)
         {
-            this.mainLoopExecutor = mainLooopExecutor;
-            if (this.mainLoopExecutor == null)
-                this.mainLoopExecutor = new MainLoopExecutor();
+            mainLoopExecutor = mainLooopExecutor;
+            if (mainLoopExecutor == null)
+                mainLoopExecutor = new MainLoopExecutor();
         }
 
         public virtual IMainLoopExecutor GetMainLoopExecutor()
         {
-            return this.mainLoopExecutor;
+            return mainLoopExecutor;
         }
 
         public virtual Preferences GetGlobalPreferences()

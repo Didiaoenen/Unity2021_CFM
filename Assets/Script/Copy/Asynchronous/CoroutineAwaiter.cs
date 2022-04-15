@@ -1,4 +1,4 @@
-#if NETFX_CORE || NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0 || NET_4_6
 using System;
 using System.Runtime.ExceptionServices;
 using System.Runtime.CompilerServices;
@@ -39,16 +39,16 @@ namespace CFM.Framework.Asynchronous
                     return;
 
                 this.exception = exception;
-                this.done = true;
+                done = true;
                 try
                 {
-                    if (this.continuation != null)
-                        this.continuation();
+                    if (continuation != null)
+                        continuation();
                 }
                 catch (Exception) { }
                 finally
                 {
-                    this.continuation = null;
+                    continuation = null;
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace CFM.Framework.Asynchronous
         public void UnsafeOnCompleted(Action continuation)
         {
             if (continuation == null)
-                throw new ArgumentNullException("");
+                throw new ArgumentNullException("continuation");
 
             lock (_lock)
             {
@@ -91,7 +91,7 @@ namespace CFM.Framework.Asynchronous
             lock (_lock)
             {
                 if (!done)
-                    throw new Exception("");
+                    throw new Exception("The task is not finished yet");
             }
 
             if (exception != null)
@@ -109,16 +109,16 @@ namespace CFM.Framework.Asynchronous
 
                 this.result = result;
                 this.exception = exception;
-                this.done = true;
+                done = true;
                 try
                 {
-                    if (this.continuation != null)
-                        this.continuation();
+                    if (continuation != null)
+                        continuation();
                 }
                 catch (Exception) { }
                 finally
                 {
-                    this.continuation = null;
+                    continuation = null;
                 }
             }
         }
@@ -126,25 +126,25 @@ namespace CFM.Framework.Asynchronous
 
     public struct AsyncOperationAwaiter: IAwaiter, ICriticalNotifyCompletion
     {
-        private AsyncOperation asyncOpration;
+        private AsyncOperation asyncOperation;
 
         private Action<AsyncOperation> continuationAction;
 
         public AsyncOperationAwaiter(AsyncOperation asyncOperation)
         {
-            this.asyncOpration = asyncOperation;
-            this.continuationAction = null;
+            this.asyncOperation = asyncOperation;
+            continuationAction = null;
         }
 
-        public bool IsCompleted => asyncOpration.isDone;
+        public bool IsCompleted => asyncOperation.isDone;
 
         public void GetResult()
         {
             if (!IsCompleted)
-                throw new Exception("");
+                throw new Exception("The task is not finished yet");
 
             if (continuationAction != null)
-                asyncOpration.completed -= continuationAction;
+                asyncOperation.completed -= continuationAction;
             continuationAction = null;
         }
 
@@ -156,16 +156,16 @@ namespace CFM.Framework.Asynchronous
         public void UnsafeOnCompleted(Action continuation)
         {
             if (continuation == null)
-                throw new ArgumentNullException("");
+                throw new ArgumentNullException("continuation");
 
-            if (asyncOpration.isDone)
+            if (asyncOperation.isDone)
             {
                 continuation();
             }
             else
             {
                 continuationAction = (ao) => { continuation(); };
-                asyncOpration.completed += continuationAction;
+                asyncOperation.completed += continuationAction;
             }
         }
     }
@@ -180,9 +180,9 @@ namespace CFM.Framework.Asynchronous
 
         public AsyncOperationAwaiter(T asyncOperation, Func<T, TResult> getter)
         {
-            this.asyncOperation = asyncOperation ?? throw new ArgumentNullException("");
-            this.getter = getter ?? throw new ArgumentNullException("");
-            this.continuationAction = null;
+            this.asyncOperation = asyncOperation ?? throw new ArgumentNullException("asyncOperation");
+            this.getter = getter ?? throw new ArgumentNullException("getter");
+            continuationAction = null;
         }
 
         public bool IsCompleted => asyncOperation.isDone;
@@ -190,7 +190,7 @@ namespace CFM.Framework.Asynchronous
         public TResult GetResult()
         {
             if (!IsCompleted)
-                throw new Exception("");
+                throw new Exception("The task is not finished yet");
 
             if (continuationAction != null)
             {
@@ -229,7 +229,7 @@ namespace CFM.Framework.Asynchronous
         public AsyncResultAwaiter(T asyncResult)
         {
             if (asyncResult == null)
-                throw new ArgumentException("");
+                throw new ArgumentException("asyncResult");
             this.asyncResult = asyncResult;
         }
 
@@ -264,7 +264,7 @@ namespace CFM.Framework.Asynchronous
         public AsyncResultAwaiter(T asyncResult)
         {
             if (asyncResult == null)
-                throw new ArgumentException("");
+                throw new ArgumentException("asyncResult");
             this.asyncResult = asyncResult;
         }
 
@@ -278,7 +278,7 @@ namespace CFM.Framework.Asynchronous
             if (asyncResult.Exception != null)
                 ExceptionDispatchInfo.Capture(asyncResult.Exception).Throw();
 
-            return this.asyncResult.Result;
+            return asyncResult.Result;
         }
 
         public void OnCompleted(Action continuation)

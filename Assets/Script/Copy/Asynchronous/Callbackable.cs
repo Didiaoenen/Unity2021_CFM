@@ -1,10 +1,6 @@
 using System;
-using System.Threading;
-using System.Diagnostics;
 
 using CFM.Log;
-using CFM.Framework.Execution;
-using CFM.Framework.Asynchronous;
 
 namespace CFM.Framework.Asynchronous
 {
@@ -51,7 +47,32 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (callback == null)
+                        return;
 
+                    var list = callback.GetInvocationList();
+                    callback = null;
+
+                    foreach (Action<IAsyncResult> action in list)
+                    {
+                        try
+                        {
+                            action(result);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                }
             }
         }
 
@@ -59,11 +80,26 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                this.callback += callback;
             }
         }
-
-
     }
 
     internal class Callbackable<TResult> : ICallbackable<TResult>
@@ -85,7 +121,32 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (callback == null)
+                        return;
 
+                    var list = callback.GetInvocationList();
+                    callback = null;
+
+                    foreach (Action<IAsyncResult<TResult>> action in list)
+                    {
+                        try
+                        {
+                            action(result);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                }
             }
         }
 
@@ -93,7 +154,24 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                this.callback += callback;
             }
         }
     }
@@ -119,7 +197,36 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (callback == null)
+                        return;
 
+                    var list = callback.GetInvocationList();
+                    callback = null;
+
+                    foreach (Action<IProgressResult<TProgress>> action in list)
+                    {
+                        try
+                        {
+                            action(result);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                }
+                finally
+                {
+                    progressCallback = null;
+                }
             }
         }
 
@@ -127,7 +234,30 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (progressCallback == null)
+                        return;
 
+                    var list = progressCallback.GetInvocationList();
+                    foreach (Action<TProgress> action in list)
+                    {
+                        try
+                        {
+                            action(progress);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                }
             }
         }
 
@@ -135,7 +265,24 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                this.callback += callback;
             }
         }
 
@@ -143,7 +290,24 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result.Progress);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                progressCallback += callback;
             }
         }
     }
@@ -169,7 +333,36 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (callback == null)
+                        return;
 
+                    var list = callback.GetInvocationList();
+                    callback = null;
+
+                    foreach (Action<IProgressResult<TProgress, TResult>> action in list)
+                    {
+                        try
+                        {
+                            action(result);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                }
+                finally
+                {
+                    progressCallback = null;
+                }
             }
         }
 
@@ -177,7 +370,30 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                try
+                {
+                    if (progressCallback == null)
+                        return;
 
+                    var list = progressCallback.GetInvocationList();
+                    foreach (Action<TProgress> action in list)
+                    {
+                        try
+                        {
+                            action(progress);
+                        }
+                        catch (Exception e)
+                        {
+                            if (log.IsWarnEnabled)
+                                log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (log.IsWarnEnabled)
+                        log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                }
             }
         }
 
@@ -185,7 +401,24 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                this.callback += callback;
             }
         }
 
@@ -193,7 +426,24 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
+                if (callback == null)
+                    return;
 
+                if (result.IsDone)
+                {
+                    try
+                    {
+                        callback(result.Progress);
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("Class[{0}] progress callback exception.Error:{1}", GetType(), e);
+                    }
+                    return;
+                }
+
+                progressCallback += callback;
             }
         }
     }

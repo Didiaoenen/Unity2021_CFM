@@ -57,7 +57,7 @@ namespace CFM.Framework.Localizations
 
                                 typeName = elementName;
                                 value = reader.ReadElementString();
-                                data[name] = this.Parse(typeName, value);
+                                data[name] = Parse(typeName, value);
                                 break;
                             }
                         case XmlNodeType.EndElement:
@@ -65,7 +65,7 @@ namespace CFM.Framework.Localizations
                             elementName = reader.Name;
                             if (!string.IsNullOrEmpty(elementName) && elementName.EndsWith("-array"))
                             {
-                                data[name] = this.Parse(typeName, list);
+                                data[name] = Parse(typeName, list);
                                 list.Clear();
                             }
                             break;

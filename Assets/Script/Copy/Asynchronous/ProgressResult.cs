@@ -18,32 +18,35 @@ namespace CFM.Framework.Asynchronous
 
         public virtual TProgress Progress
         {
-            get { return this._progress; }
+            get { return _progress; }
         }
 
         protected override void RaiseOnCallback()
         {
             base.RaiseOnCallback();
+            if (callbackable != null)
+                callbackable.RaiseOnCallback();
         }
 
         protected virtual void RaiseOnProgressCallback(TProgress progress)
         {
-
+            if (callbackable != null)
+                callbackable.RaiseOnProgressCallback(progress);
         }
 
         public new virtual IProgressCallbackable<TProgress> Callbackable()
         {
             lock (_lock)
             {
-                return this.callbackable ?? (this.callbackable = new ProgressCallbackable<TProgress>(this));
+                return callbackable ?? (callbackable = new ProgressCallbackable<TProgress>(this));
             }
         }
 
         public virtual void UpdateProgress(TProgress progress)
         {
-
+            _progress = progress;
+            RaiseOnProgressCallback(progress);
         }
-
     }
 
     public class ProgressResult<TProgress, TResult> : ProgressResult<TProgress>, IProgressResult<TProgress, TResult>, IProgressPromise<TProgress, TResult>
@@ -75,24 +78,30 @@ namespace CFM.Framework.Asynchronous
 
         public virtual void SetResult(TResult result)
         {
-
+            base.SetResult(result);
         }
 
         protected override void RaiseOnCallback()
         {
             base.RaiseOnCallback();
+            if (callbackable != null)
+                callbackable.RaiseOnCallback();
+            if (progressCallbackable != null)
+                progressCallbackable.RaiseOnCallback();
         }
 
         protected override void RaiseOnProgressCallback(TProgress progress)
         {
             base.RaiseOnProgressCallback(progress);
+            if (progressCallbackable != null)
+                progressCallbackable.RaiseOnProgressCallback(progress);
         }
 
         public new virtual IProgressCallbackable<TProgress, TResult> Callbackable()
         {
             lock (_lock)
             {
-                return this.progressCallbackable ?? (this.progressCallbackable = new ProgressCallbackable<TProgress, TResult>(this));
+                return progressCallbackable ?? (progressCallbackable = new ProgressCallbackable<TProgress, TResult>(this));
             }
         }
 
@@ -100,7 +109,7 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
-                return this.synchronizable ?? (this.synchronizable = new Synchronizable<TResult>(this, this._lock));
+                return synchronizable ?? (synchronizable = new Synchronizable<TResult>(this, _lock));
             }
         }
 
@@ -108,7 +117,7 @@ namespace CFM.Framework.Asynchronous
         {
             lock (_lock)
             {
-                return this.callbackable ?? (this.callbackable = new Callbackable<TResult>(this));
+                return callbackable ?? (callbackable = new Callbackable<TResult>(this));
             }
         }
     }

@@ -13,7 +13,7 @@ namespace CFM.Framework.Localizations
 
         private static readonly CultureInfo DEFAULT_CULTUREINFO = new CultureInfo("en");
 
-        private static readonly Dictionary<SystemLanguage, CultureInfo> language = new Dictionary<SystemLanguage, CultureInfo>()
+        private static readonly Dictionary<SystemLanguage, CultureInfo> languages = new Dictionary<SystemLanguage, CultureInfo>()
         {
             { SystemLanguage.Japanese , new CultureInfo("ja") }
         };
@@ -23,8 +23,28 @@ namespace CFM.Framework.Localizations
             return GetCultureInfoByLanguage(Application.systemLanguage, DEFAULT_CULTUREINFO);
         }
 
+        public static CultureInfo GetCultureInfoByLanguage(SystemLanguage language)
+        {
+            return GetCultureInfoByLanguage(language, DEFAULT_CULTUREINFO);
+        }
+
         public static CultureInfo GetCultureInfoByLanguage(SystemLanguage language, CultureInfo defaultValue)
         {
+            if (language == SystemLanguage.Unknown)
+            {
+                if (log.IsWarnEnabled)
+                    log.Warn("The system language of this application is Unknown");
+
+                return defaultValue;
+            }
+
+            CultureInfo cultureInfo;
+            if (languages.TryGetValue(language, out cultureInfo))
+                return cultureInfo;
+
+            if (log.IsWarnEnabled)
+                log.Warn("The system language of this application cannot be found!");
+
             return defaultValue;
         }
     }

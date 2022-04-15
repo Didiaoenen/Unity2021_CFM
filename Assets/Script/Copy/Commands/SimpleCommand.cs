@@ -13,7 +13,7 @@ namespace CFM.Framework.Commands
             if (execute == null)
                 throw new ArgumentNullException("");
 
-            execute = keepStrongRef ? execute : execute.AsWeak();
+            this.execute = keepStrongRef ? execute : execute.AsWeak();
         }
 
         public bool Enabled
@@ -57,20 +57,20 @@ namespace CFM.Framework.Commands
 
         public bool Enabled
         {
-            get { return this.enabled; }
+            get { return enabled; }
             set
             {
-                if (this.enabled == value)
+                if (enabled == value)
                     return;
 
-                this.enabled = value;
-                this.RaiseCanExecuteChanged();
+                enabled = value;
+                RaiseCanExecuteChanged();
             }
         }
 
         public override bool CanExecute(object parameter)
         {
-            return this.enabled;
+            return Enabled;
         }
 
         public override void Execute(object parameter)

@@ -4,7 +4,7 @@ namespace CFM.Framework.Binding.Reflection
 {
     public interface IProxyFieldInfo : IProxyMemberInfo
     {
-        Type Type { get; }
+        Type ValueType { get; }
 
         TypeCode ValueTypeCode { get; }
 

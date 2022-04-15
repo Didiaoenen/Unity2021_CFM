@@ -11,14 +11,14 @@ namespace CFM.Framework.Services
 
         public void Start()
         {
-            this.OnStart(container);
+            OnStart(container);
         }
 
         protected abstract void OnStart(IServiceContainer container);
 
         public void Stop()
         {
-            this.OnStop(container);
+            OnStop(container);
         }
 
         protected abstract void OnStop(IServiceContainer container);

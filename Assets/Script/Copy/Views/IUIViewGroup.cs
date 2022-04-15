@@ -15,7 +15,7 @@ namespace CFM.Framework.Views
 
         void AddView(IUIView view, UILayout layout);
 
-        void RemoveView(IUIView view, bool worldPositionStays);
+        void RemoveView(IUIView view, bool worldPositionStays = false);
     }
 }
 
