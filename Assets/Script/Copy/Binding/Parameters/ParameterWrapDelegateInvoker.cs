@@ -1,6 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Collections.Generic;
+using CFM.Framework.Binding.Reflection;
 
 namespace CFM.Framework.Binding.Parameters
 {

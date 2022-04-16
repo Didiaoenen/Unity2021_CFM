@@ -23,17 +23,17 @@ namespace CFM.Framework.Binding.Paths
         public Path(IPathNode root)
         {
             if (root != null)
-                this.Prepend(root);
+                Prepend(root);
         }
 
         public IPathNode this[int index]
         {
-            get { return this.nodes[index]; }
+            get { return nodes[index]; }
         }
 
         public int Count
         {
-            get { return this.nodes.Count; }
+            get { return nodes.Count; }
         }
 
         public bool IsStatic { get { return nodes.Exists(n => n.IsStatic); } }
@@ -43,43 +43,48 @@ namespace CFM.Framework.Binding.Paths
             return new List<IPathNode>(nodes);
         }
 
+        public void Append(IPathNode node)
+        {
+            nodes.Add(node);
+        }
+
         public void Prepend(IPathNode node)
         {
-            this.nodes.Insert(0, node);
+            nodes.Insert(0, node);
         }
 
         public void PrependIndexed(string indexValue)
         {
-            this.Prepend(new StringIndexedNode(indexValue));
+            Prepend(new StringIndexedNode(indexValue));
         }
 
         public void PrependIndexed(int indexValue)
         {
-            this.Prepend(new IntegerIndexedNode(indexValue));
+            Prepend(new IntegerIndexedNode(indexValue));
         }
 
         public PathToken AsPathToken()
         {
-            if (this.token != null)
-                return this.token;
+            if (token != null)
+                return token;
 
             lock (_lock)
             {
-                if (this.token != null)
-                    return this.token;
+                if (token != null)
+                    return token;
 
-                if (this.nodes.Count <= 0)
+                if (nodes.Count <= 0)
                     throw new InvalidOperationException("");
 
-                this.token = new PathToken(this, 0);
-                return this.token;
+                token = new PathToken(this, 0);
+                return token;
             }
         }
 
         public override string ToString()
         {
             StringBuilder buf = new StringBuilder();
-            foreach (var node in this.nodes)
+            foreach (var node in nodes)
             {
                 node.AppendTo(buf);
             }
@@ -90,23 +95,23 @@ namespace CFM.Framework.Binding.Paths
 
         public IPathNode Current
         {
-            get { return this.nodes[index]; }
+            get { return nodes[index]; }
         }
 
         object IEnumerator.Current
         {
-            get { return this.nodes[index]; }
+            get { return nodes[index]; }
         }
 
         public bool MoveNext()
         {
-            this.index++;
-            return this.index >= 0 && index < this.nodes.Count;
+            index++;
+            return index >= 0 && index < this.nodes.Count;
         }
 
         public void Reset()
         {
-            this.index = -1;
+            index = -1;
         }
 
         private bool disposed = false;
@@ -117,8 +122,8 @@ namespace CFM.Framework.Binding.Paths
             {
                 if (disposing)
                 {
-                    this.nodes.Clear();
-                    this.index = -1;
+                    nodes.Clear();
+                    index = -1;
                 }
                 disposed = true;
             }
@@ -169,18 +174,18 @@ namespace CFM.Framework.Binding.Paths
         public MemberNode(MemberInfo memberInfo)
         {
             this.memberInfo = memberInfo;
-            this.name=memberInfo.Name;
-            this.type = memberInfo.DeclaringType;
-            this.isStatic = memberInfo.IsStatic();
+            name=memberInfo.Name;
+            type = memberInfo.DeclaringType;
+            isStatic = memberInfo.IsStatic();
         }
 
-        public bool IsStatic { get { return this.isStatic; } }
+        public bool IsStatic { get { return isStatic; } }
 
-        public Type Type { get { return this.type; } }
+        public Type Type { get { return type; } }
 
-        public string Name { get { return this.name; } }
+        public string Name { get { return name; } }
 
-        public MemberInfo MemberInfo { get { return this.memberInfo; } }
+        public MemberInfo MemberInfo { get { return memberInfo; } }
 
         public void AppendTo(StringBuilder output)
         {
@@ -188,14 +193,14 @@ namespace CFM.Framework.Binding.Paths
                 output.Append('.');
 
             if (IsStatic)
-                output.Append(this.type.FullName).Append('.');
+                output.Append(type.FullName).Append('.');
             
-            output.Append(this.Name);
+            output.Append(Name);
         }
 
         public override string ToString()
         {
-            return "MemberNode" + (this.Name == null ? "null" : this.Name);
+            return "MemberNode" + (Name == null ? "null" : Name);
         }
     }
 
@@ -206,14 +211,14 @@ namespace CFM.Framework.Binding.Paths
 
         public IndexedNode(object value)
         {
-            this._value = value;
+            _value = value;
         }
 
         public bool IsStatic { get { return false; } }
 
         public object Value { 
-            get { return this._value; }
-            private set { this._value = value; }
+            get { return _value; }
+            private set { _value = value; }
         }
 
         public abstract void AppendTo(StringBuilder output);
@@ -245,7 +250,7 @@ namespace CFM.Framework.Binding.Paths
 
         public override void AppendTo(StringBuilder output)
         {
-            output.AppendFormat("[\"{0}\"]", this.Value);
+            output.AppendFormat("[\"{0}\"]", Value);
         }
     }
 
@@ -259,7 +264,7 @@ namespace CFM.Framework.Binding.Paths
 
         public override void AppendTo(StringBuilder output)
         {
-            output.AppendFormat("[{0}]", this.Value);
+            output.AppendFormat("[{0}]", Value);
         }
     }
 }
