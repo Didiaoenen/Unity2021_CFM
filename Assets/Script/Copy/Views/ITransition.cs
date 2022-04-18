@@ -16,7 +16,7 @@ namespace CFM.Framework.Views
 
         object WaitForDone();
 
-#if NETFX_CORE || NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
         IAwaiter GetAwaiter();
 #endif
 

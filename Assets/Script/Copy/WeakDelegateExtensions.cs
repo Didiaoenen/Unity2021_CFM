@@ -26,7 +26,7 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
                     return;
                 }
 
@@ -48,7 +48,7 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
                     return;
                 }
 
@@ -70,7 +70,7 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
                     return;
                 }
 
@@ -92,7 +92,7 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
                     return;
                 }
 
@@ -114,7 +114,7 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
                     return;
                 }
 
@@ -136,9 +136,9 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
 
-                    throw new Exception(string.Format(""));
+                    throw new Exception(string.Format("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method));
                 }
 
                 return (TResult)method.Invoke(target, null);
@@ -159,9 +159,9 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
 
-                    throw new Exception(string.Format(""));
+                    throw new Exception(string.Format("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method));
                 }
 
                 return (TResult)method.Invoke(target, new object[] { t });
@@ -182,9 +182,9 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
 
-                    throw new Exception(string.Format(""));
+                    throw new Exception(string.Format("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method));
                 }
 
                 return (TResult)method.Invoke(target, new object[] { t1, t2 });
@@ -205,9 +205,9 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
 
-                    throw new Exception(string.Format(""));
+                    throw new Exception(string.Format("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method));
                 }
 
                 return (TResult)method.Invoke(target, new object[] { t1, t2, t3 });
@@ -228,9 +228,9 @@ namespace CFM.Framework
                 if (target == null)
                 {
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("");
+                        log.WarnFormat("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method);
 
-                    throw new Exception(string.Format(""));
+                    throw new Exception(string.Format("You are trying to invoke a weak reference delegate({0}.{1}), and the target object has been destroyed.", type, method));
                 }
 
                 return (TResult)method.Invoke(target, new object[] { t1, t2, t3, t4 });

@@ -83,11 +83,11 @@ namespace CFM.Framework.Views
             this.state = newState;
         }
 
-        public WindowState OldState { get { return this.oldState; } }
+        public WindowState OldState { get { return oldState; } }
         
-        public WindowState State { get { return this.state; } }
+        public WindowState State { get { return state; } }
         
-        public IWindow Window { get { return this.window; } }
+        public IWindow Window { get { return window; } }
     }
 }
 

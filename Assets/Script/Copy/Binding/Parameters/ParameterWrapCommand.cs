@@ -1,5 +1,5 @@
-using CFM.Framework.Commands;
 using System;
+using CFM.Framework.Commands;
 
 namespace CFM.Framework.Binding.Parameters
 {

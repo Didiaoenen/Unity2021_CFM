@@ -40,7 +40,7 @@ namespace CFM.Framework.Views
 
         ~Transition()
         {
-            this.Unbind();
+            Unbind();
         }
 
         protected virtual void Bind()
@@ -48,9 +48,9 @@ namespace CFM.Framework.Views
             if (bound)
                 return;
 
-            this.bound = true;
-            if (this.window != null)
-                this.window.StateChanged += StateChanged;
+            bound = true;
+            if (window != null)
+                window.StateChanged += StateChanged;
         }
 
         protected virtual void Unbind()
@@ -58,21 +58,21 @@ namespace CFM.Framework.Views
             if (!bound)
                 return;
 
-            this.bound = false;
-            if (this.window != null)
-                this.window.StateChanged -= StateChanged;
+            bound = false;
+            if (window != null)
+                window.StateChanged -= StateChanged;
         }
 
         public virtual IManageable Window
         {
-            get { return this.window; }
-            set { this.window = value; }
+            get { return window; }
+            set { window = value; }
         }
 
         public virtual bool IsDone
         {
-            get { return this.done; }
-            protected set { this.done = value; }
+            get { return done; }
+            protected set { done = value; }
         }
 
         public virtual object WaitForDone()
@@ -82,25 +82,25 @@ namespace CFM.Framework.Views
 
         public virtual bool AnimationDisabled
         {
-            get { return this.animationDisabled; }
-            protected set { this.animationDisabled = value; }
+            get { return animationDisabled; }
+            protected set { animationDisabled = value; }
         }
 
         public virtual int Layer
         {
-            get { return this.layer; }
-            protected set { this.layer = value; }
+            get { return layer; }
+            protected set { layer = value; }
         }
 
         public virtual Func<IWindow, IWindow, ActionType> OverlayPolicy
         {
-            get { return this.overlayPolicy; }
-            protected set { this.overlayPolicy = value; }
+            get { return overlayPolicy; }
+            protected set { overlayPolicy = value; }
         }
 
-        protected void StateChanged(object send, WindowStateEventArgs e)
+        protected void StateChanged(object sender, WindowStateEventArgs e)
         {
-
+            RaiseStateChanged((IWindow)sender, e.State);
         }
 
         protected virtual void RaiseStart()
@@ -158,7 +158,7 @@ namespace CFM.Framework.Views
             this.Unbind();
         }
 
-#if NETFX_CORE || NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
         public IAwaiter GetAwaiter()
         {
             return new TransitionAwaiter(this);
@@ -167,24 +167,24 @@ namespace CFM.Framework.Views
 
         public ITransition DisableAnimation(bool disabled)
         {
-            if (this.running)
+            if (running)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("");
+                    log.WarnFormat("The transition is running.DisableAnimation failed.");
 
                 return this;
             }
 
-            this.animationDisabled = disabled;
+            animationDisabled = disabled;
             return this;
         }
 
         public ITransition AtLayer(int layer)
         {
-            if (this.running)
+            if (running)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("");
+                    log.WarnFormat("The transition is running.DisableAnimation failed.");
 
                 return this;
             }
@@ -195,7 +195,7 @@ namespace CFM.Framework.Views
 
         public ITransition Overlay(Func<IWindow, IWindow, ActionType> policy)
         {
-            if (this.running)
+            if (running)
             {
                 if (log.IsWarnEnabled)
                     log.WarnFormat("");
@@ -203,14 +203,14 @@ namespace CFM.Framework.Views
                 return this;
             }
 
-            this.overlayPolicy = policy;
+            overlayPolicy = policy;
             return this;
         }
 
 
         public ITransition OnStart(Action callback)
         {
-            if (this.running)
+            if (running)
             {
                 if (log.IsWarnEnabled)
                     log.WarnFormat("");
@@ -218,13 +218,13 @@ namespace CFM.Framework.Views
                 return this;
             }
 
-            this.onStart += callback;
+            onStart += callback;
             return this;
         }
 
         public ITransition OnStateChanged(Action<IWindow, WindowState> callback)
         {
-            if (this.running)
+            if (running)
             {
                 if (log.IsWarnEnabled)
                     log.WarnFormat("");
@@ -232,19 +232,19 @@ namespace CFM.Framework.Views
                 return this;
             }
 
-            this.onStateChanged += callback;
+            onStateChanged += callback;
             return this;
         }
 
         public ITransition OnFinish(Action callback)
         {
-            if (this.done)
+            if (done)
             {
                 callback();
                 return this;
             }
 
-            this.onFinish += callback;
+            onFinish += callback;
             return this;
         }
 
@@ -252,20 +252,18 @@ namespace CFM.Framework.Views
         {
             this.running = true;
             this.OnStart();
-#if UNITY_5_3 || UNITY_5_3_OR_NEWER
             yield return this.DoTransition();
-#else
+
             var transitionAction = this.DoTransition();
             while (transitionAction.MoveNext())
                 yield return transitionAction.Current;
-#endif
             this.OnEnd();
         }
 
         protected abstract IEnumerator DoTransition();
     }
 
-#if NETFX_CORE || NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
     public struct TransitionAwaiter: IAwaiter, ICriticalNotifyCompletion
     {
         private Transition transition;
@@ -280,7 +278,7 @@ namespace CFM.Framework.Views
         public void GetResult()
         {
             if (!IsCompleted)
-                throw new Exception("");
+                throw new Exception("The task is not finished yet");
         }
 
         public void OnCompleted(Action continuation)

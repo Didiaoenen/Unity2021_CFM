@@ -1,8 +1,12 @@
 namespace CFM.Framework.Views
 {
-    public class IDialog
+    public interface IDialog
     {
-        
+        void Show();
+
+        void Cancel();
+
+        object WaitForClosed();
     }
 }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace CFM.Framework.Binding.Proxy.Sources.Expressions
 {
@@ -16,10 +17,27 @@ namespace CFM.Framework.Binding.Proxy.Sources.Expressions
 
         public LambdaExpression Expression
         {
-            get { return this.expression; }
+            get { return expression; }
+            set
+            {
+                expression = value;
+
+                Type[] types = expression.GetType().GetGenericArguments();
+                var delType = types[0];
+
+                if (!typeof(Delegate).IsAssignableFrom(delType))
+                    throw new NotSupportedException();
+
+                MethodInfo info = delType.GetMethod("Invoke");
+
+                returnType = info.ReturnType;
+
+                ParameterInfo[] parameters = info.GetParameters();
+                IsStatic = (parameters == null || parameters.Length <= 0) ? true : false;
+            }
         }
 
-        public Type ReturnType { get { return this.returnType; } }
+        public Type ReturnType { get { return returnType; } }
 
         public override string ToString()
         {

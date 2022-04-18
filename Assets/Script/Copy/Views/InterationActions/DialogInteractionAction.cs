@@ -3,8 +3,8 @@ using System;
 using CFM.Log;
 using CFM.Framework.Binding;
 using CFM.Framework.Contexts;
-using CFM.Framework.Interactivity;
 using CFM.Framework.Views.UI;
+using CFM.Framework.Interactivity;
 using CFM.Framework.ViewModels.UI;
 
 namespace CFM.Framework.Views.InteractionActions

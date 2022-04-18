@@ -27,7 +27,7 @@ namespace CFM.Framework.Views
         {
             get
             {
-                var transform = this.Transform;
+                var transform = Transform;
                 List<IUIView> views = new List<IUIView>();
                 int count = transform.childCount;
                 for (int i = 0; i < count; i++)
@@ -43,7 +43,7 @@ namespace CFM.Framework.Views
 
         public virtual IUIView GetView(string name)
         {
-            return this.Views.Find(v => v.Name.Equals(name));
+            return Views.Find(v => v.Name.Equals(name));
         }
 
         public virtual void AddView(IUIView view, bool worldPositionStays = false)
@@ -52,11 +52,11 @@ namespace CFM.Framework.Views
                 return;
 
             Transform t = view.Transform;
-            if (t == null || t.parent == this.transform)
+            if (t == null || t.parent == transform)
                 return;
 
-            view.Owner.layer = this.gameObject.layer;
-            t.SetParent(this.transform, worldPositionStays);
+            view.Owner.layer = gameObject.layer;
+            t.SetParent(transform, worldPositionStays);
         }
 
         public virtual void AddView(IUIView view, UILayout layout)
@@ -68,15 +68,15 @@ namespace CFM.Framework.Views
             if (t == null)
                 return;
 
-            if (t.parent == this.transform)
+            if (t.parent == transform)
             {
                 if (layout != null)
                     layout(view.RectTransform);
                 return;
             }
 
-            view.Owner.layer = this.gameObject.layer;
-            t.SetParent(this.transform, false);
+            view.Owner.layer = gameObject.layer;
+            t.SetParent(transform, false);
             if (layout != null)
                 layout(view.RectTransform);
         }
@@ -87,7 +87,7 @@ namespace CFM.Framework.Views
                 return;
 
             Transform t = view.Transform;
-            if (t == null || t.parent != this.transform)
+            if (t == null || t.parent != transform)
                 return;
 
             t.SetParent(null, worldPositionStays);

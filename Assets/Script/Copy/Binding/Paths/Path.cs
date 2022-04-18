@@ -63,6 +63,16 @@ namespace CFM.Framework.Binding.Paths
             Prepend(new IntegerIndexedNode(indexValue));
         }
 
+        public void AppendIndexed(string indexValue)
+        {
+            Append(new StringIndexedNode(indexValue));
+        }
+
+        public void AppendIndexed(int indexValue)
+        {
+            Append(new IntegerIndexedNode(indexValue));
+        }
+
         public PathToken AsPathToken()
         {
             if (token != null)

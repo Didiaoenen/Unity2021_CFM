@@ -39,19 +39,19 @@ namespace CFM.Framework.Views
 
         protected override void OnCreate(IBundle bundle)
         {
-            this.WindowType = WindowType.FULL;
-            this.localWindowManager = this.CreateWindowManager();
+            WindowType = WindowType.FULL;
+            localWindowManager = CreateWindowManager();
         }
 
         protected virtual IWindowManager CreateWindowManager()
         {
-            return this.gameObject.AddComponent<WindowManager>();
+            return gameObject.AddComponent<WindowManager>();
         }
 
         protected override void OnActivatedChanged()
         {
-            if (this.localWindowManager != null)
-                this.localWindowManager.Activated = this.Activated;
+            if (localWindowManager != null)
+                localWindowManager.Activated = Activated;
             base.OnActivatedChanged();
         }
 
@@ -67,41 +67,41 @@ namespace CFM.Framework.Views
 
         public override IAsyncResult Activate(bool ignoreAnimation)
         {
-            if (!this.Visibility)
+            if (!Visibility)
                 throw new InvalidOperationException("");
 
-            if (this.localWindowManager.Current != null)
+            if (localWindowManager.Current != null)
             {
-                this.Activated = true;
-                return (this.localWindowManager.Current as IManageable).Activate(ignoreAnimation);
+                Activated = true;
+                return (localWindowManager.Current as IManageable).Activate(ignoreAnimation);
             }
 
             AsyncResult result = new AsyncResult();
             try
             {
-                if (this.Activated)
+                if (Activated)
                 {
                     result.SetResult();
                     return result;
                 }
 
-                if (!ignoreAnimation && this.ActivationAnimation != null)
+                if (!ignoreAnimation && ActivationAnimation != null)
                 {
-                    this.ActivationAnimation.OnStart(() =>
+                    ActivationAnimation.OnStart(() =>
                     {
-                        this.State = WindowState.ACTIVATION_ANIMATION_BEGIN;
+                        State = WindowState.ACTIVATION_ANIMATION_BEGIN;
                     }).OnEnd(() =>
                     {
-                        this.State = WindowState.ACTIVATION_ANIMATION_END;
-                        this.Activated = true;
-                        this.State = WindowState.ACTIVATED;
+                        State = WindowState.ACTIVATION_ANIMATION_END;
+                        Activated = true;
+                        State = WindowState.ACTIVATED;
                         result.SetResult();
                     }).Play();
                 }
                 else
                 {
-                    this.Activated = transform;
-                    this.State = WindowState.ACTIVATED;
+                    Activated = transform;
+                    State = WindowState.ACTIVATED;
                     result.SetResult();
                 }
             }
@@ -115,15 +115,15 @@ namespace CFM.Framework.Views
 
         public override IAsyncResult Passivate(bool ignoreAnimation)
         {
-            if (!this.Visibility)
+            if (!Visibility)
                 throw new InvalidOperationException("");
 
-            if (this.localWindowManager.Current != null)
+            if (localWindowManager.Current != null)
             {
                 IAsyncResult currResult = (this.localWindowManager.Current as IManageable).Passivate(ignoreAnimation);
                 currResult.Callbackable().OnCallback((r) =>
                 {
-                    this.Activated = false;
+                    Activated = false;
                 });
                 return currResult;
             }
@@ -137,17 +137,17 @@ namespace CFM.Framework.Views
                     return result;
                 }
 
-                this.Activated = false;
-                this.State = WindowState.PASSIVATED;
+                Activated = false;
+                State = WindowState.PASSIVATED;
 
                 if (!ignoreAnimation && this.PassivationAnimation != null)
                 {
-                    this.PassivationAnimation.OnStart(() =>
+                    PassivationAnimation.OnStart(() =>
                     {
-                        this.State = WindowState.PASSIVATION_ANIMATION_BEGIN;
+                        State = WindowState.PASSIVATION_ANIMATION_BEGIN;
                     }).OnEnd(() =>
                     {
-                        this.State = WindowState.PASSIVATION_ANIMATION_END;
+                        State = WindowState.PASSIVATION_ANIMATION_END;
                         result.SetResult();
                     }).Play();
                 }

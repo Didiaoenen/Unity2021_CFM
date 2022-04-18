@@ -10,57 +10,57 @@ namespace CFM.Framework.Views
 
         public virtual string Name
         {
-            get { return this.gameObject != null ? this.gameObject.name : null; }
+            get { return gameObject != null ? gameObject.name : null; }
             set
             {
-                if (this.gameObject == null)
+                if (gameObject == null)
                     return;
 
-                this.gameObject.name = value;
+                gameObject.name = value;
             }
         }
 
         public virtual Transform Parent
         {
-            get { return this.transform != null ? this.transform.parent : null; }
+            get { return transform != null ? transform.parent : null; }
         }
 
         public virtual GameObject Owner
         {
-            get { return this.gameObject; }
+            get { return gameObject; }
         }
 
         public virtual Transform Transform
         {
-            get { return this.transform; }
+            get { return transform; }
         }
 
         public virtual bool Visibility
         {
-            get { return this.gameObject != null ? this.gameObject.activeSelf : false; }
+            get { return gameObject != null ? gameObject.activeSelf : false; }
             set
             {
-                if (this.gameObject == null)
+                if (gameObject == null)
                     return;
 
-                if (this.gameObject.activeSelf == value)
+                if (gameObject.activeSelf == value)
                     return;
 
-                this.gameObject.SetActive(value);
+                gameObject.SetActive(value);
             }
         }
 
         protected virtual void OnEnable()
         {
-            this.OnVisibilityChanged();
+            OnVisibilityChanged();
         }
 
         protected virtual void OnDisable()
         {
-            this.OnVisibilityChanged();
+            OnVisibilityChanged();
         }
 
-        public virtual IAttributes ExtraAttributes { get { return this.attributes; } }
+        public virtual IAttributes ExtraAttributes { get { return attributes; } }
 
         protected virtual void OnVisibilityChanged()
         {

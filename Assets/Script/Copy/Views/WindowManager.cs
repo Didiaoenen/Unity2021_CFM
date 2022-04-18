@@ -27,39 +27,39 @@ namespace CFM.Framework.Views
 
         public virtual bool Activated
         {
-            get { return this.activated; }
+            get { return activated; }
             set
             {
-                if (this.activated == value)
+                if (activated == value)
                     return;
 
-                this.activated = value;
+                activated = value;
             }
         }
 
-        public int Count { get { return this.windows.Count; } }
+        public int Count { get { return windows.Count; } }
 
-        public int VisibleCount { get { return this.windows.FindAll(w => w.Visibility).Count; } }
+        public int VisibleCount { get { return windows.FindAll(w => w.Visibility).Count; } }
 
         public virtual IWindow Current
         {
             get
             {
-                if (this.windows == null || this.windows.Count <= 0)
+                if (windows == null || windows.Count <= 0)
                     return null;
 
-                IWindow window = this.windows[0];
+                IWindow window = windows[0];
                 return window != null && window.Visibility ? window : null;
             }
         }
 
         public virtual IWindow GetVisibleWindow(int index)
         {
-            if (this.windows == null || this.windows.Count <= 1)
+            if (windows == null || windows.Count <= 1)
                 return null;
 
             int currIndex = -1;
-            var ie = this.Visibles();
+            var ie = Visibles();
             while (ie.MoveNext())
             {
                 currIndex++;
@@ -74,19 +74,19 @@ namespace CFM.Framework.Views
 
         protected virtual void OnEnable()
         {
-            this.Activated = this.lastActivated;
+            Activated = lastActivated;
         }
 
         protected virtual void OnDisable()
         {
-            this.lastActivated = this.Activated;
-            this.Activated = false;
+            lastActivated = Activated;
+            Activated = false;
         }
 
         protected virtual void OnDestroy()
         {
-            if (this.windows.Count > 0)
-                this.Clear();
+            if (windows.Count > 0)
+                Clear();
         }
 
         protected virtual void OnApplicationQuit()
@@ -100,33 +100,33 @@ namespace CFM.Framework.Views
 
         public virtual void Clear()
         {
-            for (int i = 0; i < this.windows.Count; i++)
+            for (int i = 0; i < windows.Count; i++)
             {
                 try
                 {
-                    this.windows[i].Dismiss(true);
+                    windows[i].Dismiss(true);
                 }
                 catch (Exception) { }
             }
-            this.windows.Clear();
+            windows.Clear();
         }
 
         public virtual bool Contains(IWindow window)
         {
-            return this.windows.Contains(window);
+            return windows.Contains(window);
         }
 
         public virtual int IndexOf(IWindow window)
         {
-            return this.windows.IndexOf(window);
+            return windows.IndexOf(window);
         }
 
         public virtual IWindow Get(int index)
         {
-            if (index < 0 || index > this.windows.Count - 1)
+            if (index < 0 || index > windows.Count - 1)
                 throw new IndexOutOfRangeException();
 
-            return this.windows[index];
+            return windows[index];
         }
 
         public virtual void Add(IWindow window)
@@ -134,11 +134,11 @@ namespace CFM.Framework.Views
             if (window == null)
                 throw new ArgumentException("window");
 
-            if (this.windows.Contains(window))
+            if (windows.Contains(window))
                 return;
 
-            this.windows.Add(window);
-            this.AddChild(GetTransform(window));
+            windows.Add(window);
+            AddChild(GetTransform(window));
         }
 
         public virtual bool Remove(IWindow window)
@@ -146,18 +146,18 @@ namespace CFM.Framework.Views
             if (window == null)
                 throw new ArgumentNullException("window");
 
-            this.RemoveChild(GetTransform(window));
-            return this.windows.Remove(window);
+            RemoveChild(GetTransform(window));
+            return windows.Remove(window);
         }
 
         public virtual IWindow RemoveAt(int index)
         {
-            if (index < 0 || index > this.windows.Count - 1)
+            if (index < 0 || index > windows.Count - 1)
                 throw new IndexOutOfRangeException();
 
-            var window = this.windows[index];
-            this.RemoveChild(GetTransform(window));
-            this.windows.RemoveAt(index);
+            var window = windows[index];
+            RemoveChild(GetTransform(window));
+            windows.RemoveAt(index);
             return window;
         }
 
@@ -172,8 +172,8 @@ namespace CFM.Framework.Views
                 if (index < 0 || index > this.Count - 1)
                     return;
 
-                this.windows.RemoveAt(index);
-                this.windows.Add(window);
+                windows.RemoveAt(index);
+                windows.Add(window);
             }
             finally
             {
@@ -185,7 +185,7 @@ namespace CFM.Framework.Views
 
         protected virtual void MoveToFirst(IWindow window)
         {
-            this.MoveToIndex(window, 0);
+            MoveToIndex(window, 0);
         }
 
         protected virtual void MoveToIndex(IWindow window, int index)
@@ -199,8 +199,8 @@ namespace CFM.Framework.Views
                 if (oldIndex < 0 || oldIndex == index)
                     return;
 
-                this.windows.RemoveAt(oldIndex);
-                this.windows.Insert(index, window);
+                windows.RemoveAt(oldIndex);
+                windows.Insert(index, window);
             }
             finally
             {
@@ -229,7 +229,7 @@ namespace CFM.Framework.Views
 
         public virtual List<IWindow> Find(bool visible)
         {
-            return this.windows.FindAll(w => w.Visibility == visible);
+            return windows.FindAll(w => w.Visibility == visible);
         }
 
         public virtual IWindow Find(Type windowType)
@@ -237,12 +237,12 @@ namespace CFM.Framework.Views
             if (windowType == null)
                 return null;
 
-            return this.windows.Find(w => windowType.IsAssignableFrom(w.GetType()));
+            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()));
         }
 
         public virtual T Find<T>() where T : IWindow
         {
-            return (T)this.windows.Find(w => w is T);
+            return (T)windows.Find(w => w is T);
         }
 
         public virtual IWindow Find(string name, Type windowType)
@@ -250,12 +250,12 @@ namespace CFM.Framework.Views
             if (name == null || windowType == null)
                 return null;
 
-            return this.windows.Find(w => windowType.IsAssignableFrom(w.GetType()) && w.Name.Equals(name));
+            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()) && w.Name.Equals(name));
         }
 
         public virtual T Find<T>(string name) where T : IWindow
         {
-            return (T)this.windows.Find(w => w is T && w.Name.Equals(name));
+            return (T)windows.Find(w => w is T && w.Name.Equals(name));
         }
 
         public virtual List<IWindow> FindAll(Type windowType)
@@ -319,17 +319,17 @@ namespace CFM.Framework.Views
 
         protected virtual void AddChild(Transform child, bool worldPositionStays = false)
         {
-            if (child == null || this.transform.Equals(child.parent))
+            if (child == null || transform.Equals(child.parent))
                 return;
 
-            child.gameObject.layer = this.gameObject.layer;
-            child.SetParent(this.transform, worldPositionStays);
+            child.gameObject.layer = gameObject.layer;
+            child.SetParent(transform, worldPositionStays);
             child.SetAsFirstSibling();
         }
 
         protected virtual void RemoveChild(Transform child, bool worldPositionStays = false)
         {
-            if (child == null || !this.transform.Equals(child.parent))
+            if (child == null || !transform.Equals(child.parent))
                 return;
 
             child.SetParent(null, worldPositionStays);
@@ -342,7 +342,7 @@ namespace CFM.Framework.Views
             return transition.OnStateChanged((w, state) =>
             {
                 if (state == WindowState.VISIBLE)
-                    this.MoveToIndex(w, transition.Layer);
+                    MoveToIndex(w, transition.Layer);
             });
         }
 
@@ -353,7 +353,7 @@ namespace CFM.Framework.Views
             return transition.OnStateChanged((w, state) =>
             {
                 if (state == WindowState.INVISIBLE)
-                    this.MoveToLast(w);
+                    MoveToLast(w);
             });
         }
 
@@ -364,7 +364,7 @@ namespace CFM.Framework.Views
             return transition.OnStateChanged((w, state) =>
             {
                 if (state == WindowState.INVISIBLE)
-                    this.MoveToLast(w);
+                    MoveToLast(w);
             });
         }
     }
@@ -387,25 +387,25 @@ namespace CFM.Framework.Views
 
         object IEnumerator.Current
         {
-            get { return this.Current; }
+            get { return Current; }
         }
 
         public void Dispose()
         {
-            this.index = -1;
-            this.windows.Clear();
+            index = -1;
+            windows.Clear();
         }
 
         public bool MoveNext()
         {
-            if (index >= this.windows.Count - 1)
+            if (index >= windows.Count - 1)
                 return false;
 
             index++;
 
-            for (; index < this.windows.Count; index++)
+            for (; index < windows.Count; index++)
             {
-                IWindow window = this.windows[index];
+                IWindow window = windows[index];
                 if (window != null && window.Visibility)
                     return true;
             }
@@ -415,7 +415,7 @@ namespace CFM.Framework.Views
 
         public void Reset()
         {
-            this.index = -1;
+            index = -1;
         }
     }
 
@@ -441,38 +441,38 @@ namespace CFM.Framework.Views
 
         protected override IEnumerator DoTransition()
         {
-            IManageable current = this.Window;
-            int layer = (this.Layer < 0 || current.WindowType == WindowType.DIALOG || current.WindowType == WindowType.PROGRESS) ? 0 : this.Layer;
+            IManageable current = Window;
+            int layer = (Layer < 0 || current.WindowType == WindowType.DIALOG || current.WindowType == WindowType.PROGRESS) ? 0 : Layer;
             if (layer > 0)
             {
-                int visibleCount = this.manager.VisibleCount;
+                int visibleCount = manager.VisibleCount;
                 if (layer > visibleCount)
                     layer = visibleCount;
             }
 
-            this.Layer = layer;
+            Layer = layer;
 
-            IManageable previous = (IManageable)this.manager.GetVisibleWindow(layer);
+            IManageable previous = (IManageable)manager.GetVisibleWindow(layer);
             if (previous != null)
             {
                 if (previous.Activated)
                 {
-                    IAsyncResult passivate = previous.Passivate(this.AnimationDisabled);
+                    IAsyncResult passivate = previous.Passivate(AnimationDisabled);
                     yield return passivate.WaitForDone();
                 }
 
-                Func<IWindow, IWindow, ActionType> policy = this.OverlayPolicy;
+                Func<IWindow, IWindow, ActionType> policy = OverlayPolicy;
                 if (policy == null)
-                    policy = this.Overlay;
+                    policy = Overlay;
 
                 ActionType actionType = policy(previous, current);
                 switch (actionType)
                 {
                     case ActionType.Hide:
-                        previous.DoHide(this.AnimationDisabled);
+                        previous.DoHide(AnimationDisabled);
                         break;
                     case ActionType.Dismiss:
-                        previous.DoHide(this.AnimationDisabled).Callbackable().OnCallback((r) =>
+                        previous.DoHide(AnimationDisabled).Callbackable().OnCallback((r) =>
                         {
                             previous.DoDismiss();
                         });
@@ -484,13 +484,13 @@ namespace CFM.Framework.Views
 
             if (!current.Visibility)
             {
-                IAsyncResult show = current.DoShow(this.AnimationDisabled);
+                IAsyncResult show = current.DoShow(AnimationDisabled);
                 yield return show.WaitForDone();
             }
 
-            if (this.manager.Activated && current.Equals(this.manager.Current))
+            if (this.manager.Activated && current.Equals(manager.Current))
             {
-                IAsyncResult activate = current.Activate(this.AnimationDisabled);
+                IAsyncResult activate = current.Activate(AnimationDisabled);
                 yield return activate.WaitForDone();
             }
         }
@@ -510,18 +510,18 @@ namespace CFM.Framework.Views
 
         protected override IEnumerator DoTransition()
         {
-            IManageable current = this.Window;
-            if (this.manager.IndexOf(current) == 0)
+            IManageable current = Window;
+            if (manager.IndexOf(current) == 0)
             {
                 if (current.Activated)
                 {
-                    IAsyncResult passivate = current.Passivate(this.AnimationDisabled);
+                    IAsyncResult passivate = current.Passivate(AnimationDisabled);
                     yield return passivate.WaitForDone();
                 }
 
                 if (current.Visibility)
                 {
-                    IAsyncResult hide = current.DoHide(this.AnimationDisabled);
+                    IAsyncResult hide = current.DoHide(AnimationDisabled);
                     yield return hide.WaitForDone();
                 }
             }
@@ -529,7 +529,7 @@ namespace CFM.Framework.Views
             {
                 if (current.Visibility)
                 {
-                    IAsyncResult hide = current.DoHide(this.AnimationDisabled);
+                    IAsyncResult hide = current.DoHide(AnimationDisabled);
                     yield return hide.WaitForDone();
                 }
             }
@@ -549,9 +549,9 @@ namespace CFM.Framework.Views
 
         private List<Transition> transitions = new List<Transition>();
 
-        public bool IsRunning { get { return this.running; } }
+        public bool IsRunning { get { return running; } }
 
-        public int Count { get { return this.transitions.Count; } }
+        public int Count { get { return transitions.Count; } }
 
         public BlockingCoroutineTransitionExecutor()
         {
@@ -564,46 +564,46 @@ namespace CFM.Framework.Views
             {
                 if (transition is ShowTransition && transition.Window.WindowType == WindowType.QUEUED_POPUP)
                 {
-                    int index = this.transitions.FindLastIndex((t) => (t is ShowTransition)
+                    int index = transitions.FindLastIndex((t) => (t is ShowTransition)
                     && t.Window.WindowType == WindowType.QUEUED_POPUP
                     && t.Window.WindowManager == transition.Window.WindowManager
                     && t.Window.WindowPriority == transition.Window.WindowPriority);
 
                     if (index >= 0)
                     {
-                        this.transitions.Insert(index + 1, transition);
+                        transitions.Insert(index + 1, transition);
                         return;
                     }
 
-                    index = this.transitions.FindIndex((t) => (t is ShowTransition)
+                    index = transitions.FindIndex((t) => (t is ShowTransition)
                     && t.Window.WindowType == WindowType.QUEUED_POPUP
                     && t.Window.WindowManager == transition.Window.WindowManager
                     && t.Window.WindowPriority == transition.Window.WindowPriority);
 
                     if (index >= 0)
                     {
-                        this.transitions.Insert(index, transition);
+                        transitions.Insert(index, transition);
                         return;
                     }
 
                 }
 
-                this.transitions.Add(transition);
+                transitions.Add(transition);
             }
             finally
             {
-                if (!this.running)
-                    taskResult = Executors.RunOnCoroutine(this.DoTask());
+                if (!running)
+                    taskResult = Executors.RunOnCoroutine(DoTask());
             }
         }
 
         public void ShutDown()
         {
-            if (this.taskResult != null)
+            if (taskResult != null)
             {
-                this.taskResult.Cancel();
-                this.taskResult = null;
-                this.running = false;
+                taskResult.Cancel();
+                taskResult = null;
+                running = false;
             }
             this.transitions.Clear();
         }
@@ -633,20 +633,20 @@ namespace CFM.Framework.Views
         {
             try
             {
-                this.running = true;
+                running = true;
                 yield return null;
-                while (this.transitions.Count > 0)
+                while (transitions.Count > 0)
                 {
-                    Transition transition = this.transitions.Find(e => Check(e));
+                    Transition transition = transitions.Find(e => Check(e));
                     if (transition != null)
                     {
-                        this.transitions.Remove(transition);
+                        transitions.Remove(transition);
                         var result = Executors.RunOnCoroutine(transition.TransitionTask());
                         yield return result.WaitForDone();
 
                         IWindowManager manager = transition.Window.WindowManager;
                         var current = manager.Current;
-                        if (manager.Activated && current != null && !current.Activated && !this.transitions.Exists((e) => e.Window.WindowManager.Equals(manager)))
+                        if (manager.Activated && current != null && !current.Activated && !transitions.Exists((e) => e.Window.WindowManager.Equals(manager)))
                         {
                             IAsyncResult activate = (current as IManageable).Activate(transition.AnimationDisabled);
                             yield return activate.WaitForDone();
@@ -660,8 +660,8 @@ namespace CFM.Framework.Views
             }
             finally
             {
-                this.running = false;
-                this.taskResult = null;
+                running = false;
+                taskResult = null;
             }
         }
     }

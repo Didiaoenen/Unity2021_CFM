@@ -50,95 +50,95 @@ namespace CFM.Framework.Views
 
         public event EventHandler ActivatedChanged
         {
-            add { lock (_lock) { this.activatedChanged += value; } }
-            remove { lock (_lock) { this.activatedChanged -= value; } }
+            add { lock (_lock) { activatedChanged += value; } }
+            remove { lock (_lock) { activatedChanged -= value; } }
         }
 
         public event EventHandler VisibilityChanged
         {
-            add { lock (_lock) { this.visibilityChanged += value; } }
-            remove { lock (_lock) { this.visibilityChanged -= value; } }
+            add { lock (_lock) { visibilityChanged += value; } }
+            remove { lock (_lock) { visibilityChanged -= value; } }
         }
 
         public event EventHandler OnDismissed
         {
-            add { lock (_lock) { this.onDismissed += value; } }
-            remove { lock (_lock) { this.onDismissed -= value; } }
+            add { lock (_lock) { onDismissed += value; } }
+            remove { lock (_lock) { onDismissed -= value; } }
         }
 
         public event EventHandler<WindowStateEventArgs> StateChanged
         {
-            add { lock (_lock) { this.stateChanged += value; } }
-            remove { lock (_lock) { this.stateChanged -= value; } }
+            add { lock (_lock) { stateChanged += value; } }
+            remove { lock (_lock) { stateChanged -= value; } }
         }
 
         public IWindowManager WindowManager
         {
-            get { return this.windowManager ?? (this.windowManager = GameObject.FindObjectOfType<GlobalWindowManagerBase>()); }
-            set { this.windowManager = value; }
+            get { return windowManager ?? (windowManager = GameObject.FindObjectOfType<GlobalWindowManagerBase>()); }
+            set { windowManager = value; }
         }
 
-        public bool Created { get { return this.created; } }
+        public bool Created { get { return created; } }
 
-        public bool Dismissed { get { return this.dismissed; } }
+        public bool Dismissed { get { return dismissed; } }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            this.RaiseVisibilityChanged();
+            RaiseVisibilityChanged();
         }
 
         protected override void OnDisable()
         {
-            this.RaiseActivatedChanged();
+            RaiseActivatedChanged();
             base.OnDisable();
         }
 
         public bool Activated
         {
-            get { return this.activated; }
+            get { return activated; }
             protected set
             {
-                if (this.activated == value)
+                if (activated == value)
                     return;
 
-                this.activated = value;
-                this.OnActivatedChanged();
-                this.RaiseActivatedChanged();
+                activated = value;
+                OnActivatedChanged();
+                RaiseActivatedChanged();
             }
         }
 
         protected WindowState State
         {
-            get { return this.state; }
+            get { return state; }
             set
             {
-                if (this.state.Equals(value))
+                if (state.Equals(value))
                     return;
 
-                WindowState old = this.state;
-                this.state = value;
-                this.RaiseStateChanged(old, this.state);
+                WindowState old = state;
+                state = value;
+                RaiseStateChanged(old, state);
             }
         }
 
         public WindowType WindowType
         {
-            get { return this.windowType; }
-            set { this.windowType = value; }
+            get { return windowType; }
+            set { windowType = value; }
         }
 
         public int WindowPriority
         {
-            get { return this.windowPriority; }
+            get { return windowPriority; }
             set
             {
                 if (value < 0)
-                    this.windowPriority = 0;
+                    windowPriority = 0;
                 else if (value > 10)
-                    this.windowPriority = 10;
+                    windowPriority = 10;
                 else
-                    this.windowPriority = value;
+                    windowPriority = value;
             }
         }
 
@@ -146,8 +146,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.activatedChanged != null)
-                    this.activatedChanged(this, EventArgs.Empty);
+                if (activatedChanged != null)
+                    activatedChanged(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
@@ -160,8 +160,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.visibilityChanged != null)
-                    this.visibilityChanged(this, EventArgs.Empty);
+                if (visibilityChanged != null)
+                    visibilityChanged(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
@@ -174,8 +174,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.onDismissed != null)
-                    this.onDismissed(this, EventArgs.Empty);
+                if (onDismissed != null)
+                    onDismissed(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
@@ -192,8 +192,8 @@ namespace CFM.Framework.Views
                 if (GlobalSetting.enableWindowStateBroadcast && stateBroadcast)
                     Messenger.Publish(eventArgs);
 
-                if (this.stateChanged != null)
-                    this.stateChanged(this, eventArgs);
+                if (stateChanged != null)
+                    stateChanged(this, eventArgs);
             }
             catch (Exception e)
             {
@@ -207,35 +207,35 @@ namespace CFM.Framework.Views
             AsyncResult result = new AsyncResult();
             try
             {
-                if (!this.Visibility)
+                if (!Visibility)
                 {
-                    result.SetException(new InvalidOperationException(""));
+                    result.SetException(new InvalidOperationException("The window is not visible."));
                     return result;
                 }
 
-                if (this.Activated)
+                if (Activated)
                 {
                     result.SetResult();
                     return result;
                 }
 
-                if (!ignoreAnimation && this.ActivationAnimation != null)
+                if (!ignoreAnimation && ActivationAnimation != null)
                 {
-                    this.ActivationAnimation.OnStart(() =>
+                    ActivationAnimation.OnStart(() =>
                     {
-                        this.State = WindowState.ACTIVATION_ANIMATION_BEGIN;
+                        State = WindowState.ACTIVATION_ANIMATION_BEGIN;
                     }).OnEnd(() =>
                     {
-                        this.State = WindowState.ACTIVATION_ANIMATION_END;
-                        this.Activated = true;
-                        this.State = WindowState.ACTIVATED;
+                        State = WindowState.ACTIVATION_ANIMATION_END;
+                        Activated = true;
+                        State = WindowState.ACTIVATED;
                         result.SetResult();
                     }).Play();
                 }
                 else
                 {
-                    this.Activated = true;
-                    this.State = WindowState.ACTIVATED;
+                    Activated = true;
+                    State = WindowState.ACTIVATED;
                     result.SetResult();
                 }
             }
@@ -252,29 +252,29 @@ namespace CFM.Framework.Views
             AsyncResult result = new AsyncResult();
             try
             {
-                if (!this.Visibility)
+                if (!Visibility)
                 {
-                    result.SetException(new InvalidOperationException(""));
+                    result.SetException(new InvalidOperationException("The window is not visible."));
                     return result;
                 }
 
-                if (!this.Activated)
+                if (!Activated)
                 {
                     result.SetResult();
                     return result;
                 }
 
-                this.Activated = false;
-                this.State = WindowState.PASSIVATED;
+                Activated = false;
+                State = WindowState.PASSIVATED;
 
-                if (!ignoreAnimation && this.PassivationAnimation != null)
+                if (!ignoreAnimation && PassivationAnimation != null)
                 {
-                    this.PassivationAnimation.OnStart(() =>
+                    PassivationAnimation.OnStart(() =>
                     {
-                        this.State = WindowState.PASSIVATION_ANIMATION_BEGIN;
+                        State = WindowState.PASSIVATION_ANIMATION_BEGIN;
                     }).OnEnd(() =>
                     {
-                        this.State = WindowState.PASSIVATION_ANIMATION_END;
+                        State = WindowState.PASSIVATION_ANIMATION_END;
                         result.SetResult();
                     }).Play();
                 }
@@ -292,37 +292,37 @@ namespace CFM.Framework.Views
 
         protected virtual void OnActivatedChanged()
         {
-            this.Interactable = this.Activated;
+            Interactable = Activated;
         }
 
         public void Create(IBundle bundle = null)
         {
-            if (this.dismissTransition != null || this.dismissed)
-                throw new ObjectDisposedException(this.Name);
+            if (dismissTransition != null || dismissed)
+                throw new ObjectDisposedException(Name);
 
-            if (this.created)
+            if (created)
                 return;
 
-            this.State = WindowState.CREATE_BEGIN;
-            this.Visibility = false;
-            this.Interactable = this.Activated;
-            this.OnCreate(bundle);
-            this.WindowManager.Add(this);
-            this.created = true;
-            this.State = WindowState.CREATE_END;
+            State = WindowState.CREATE_BEGIN;
+            Visibility = false;
+            Interactable = Activated;
+            OnCreate(bundle);
+            WindowManager.Add(this);
+            created = true;
+            State = WindowState.CREATE_END;
         }
 
         protected abstract void OnCreate(IBundle bundle);
 
         public ITransition Show(bool ignoreAnimation = false)
         {
-            if (this.dismissTransition != null || this.dismissed)
-                throw new InvalidOperationException("");
+            if (dismissTransition != null || dismissed)
+                throw new InvalidOperationException("The window has been destroyed");
 
-            if (this.Visibility)
-                throw new InvalidOperationException("");
+            if (Visibility)
+                throw new InvalidOperationException("The window is already visible.");
 
-            return this.WindowManager.Show(this).DisableAnimation(ignoreAnimation);
+            return WindowManager.Show(this).DisableAnimation(ignoreAnimation);
         }
 
         public virtual IAsyncResult DoShow(bool ignoreAnimation = false)
@@ -332,20 +332,20 @@ namespace CFM.Framework.Views
             {
                 try
                 {
-                    if (!this.created)
-                        this.Create();
+                    if (!created)
+                        Create();
 
-                    this.OnShow();
-                    this.Visibility = true;
-                    this.State = WindowState.VISIBLE;
-                    if (!ignoreAnimation && this.EnterAnimation != null)
+                    OnShow();
+                    Visibility = true;
+                    State = WindowState.VISIBLE;
+                    if (!ignoreAnimation && EnterAnimation != null)
                     {
-                        this.EnterAnimation.OnStart(() =>
+                        EnterAnimation.OnStart(() =>
                         {
-                            this.State = WindowState.ENTER_ANIMATION_BEGIN;
+                            State = WindowState.ENTER_ANIMATION_BEGIN;
                         }).OnEnd(() =>
                         {
-                            this.State = WindowState.ENTER_ANIMATION_END;
+                            State = WindowState.ENTER_ANIMATION_END;
                             promise.SetResult();
                         }).Play();
                     }
@@ -359,7 +359,7 @@ namespace CFM.Framework.Views
                     promise.SetException(e);
 
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("", this.Name, e);
+                        log.WarnFormat("The window named \"{0}\" failed to open!Error:{1}", Name, e);
                 }
             };
 
@@ -374,14 +374,14 @@ namespace CFM.Framework.Views
 
         public ITransition Hide(bool ignoreAnimation = false)
         {
-            if (!this.created)
-                throw new InvalidOperationException("");
+            if (!created)
+                throw new InvalidOperationException("The window has not been created.");
 
-            if (this.dismissed)
-                throw new InvalidOperationException("");
+            if (dismissed)
+                throw new InvalidOperationException("The window has been destroyed.");
 
-            if (!this.Visibility)
-                throw new InvalidOperationException("");
+            if (!Visibility)
+                throw new InvalidOperationException("The window is not visible.");
 
             return this.WindowManager.Hide(this).DisableAnimation(ignoreAnimation);
         }
@@ -393,25 +393,25 @@ namespace CFM.Framework.Views
             {
                 try
                 {
-                    if (!ignoreAnimation && this.ExitAnimation != null)
+                    if (!ignoreAnimation && ExitAnimation != null)
                     {
-                        this.ExitAnimation.OnStart(() =>
+                        ExitAnimation.OnStart(() =>
                         {
-                            this.State = WindowState.EXIT_ANIMATION_BEGIN;
+                            State = WindowState.EXIT_ANIMATION_BEGIN;
                         }).OnEnd(() =>
                         {
-                            this.State = WindowState.EXIT_ANIMATION_END;
-                            this.Visibility = false;
-                            this.State = WindowState.INVISIBLE;
-                            this.OnHide();
+                            State = WindowState.EXIT_ANIMATION_END;
+                            Visibility = false;
+                            State = WindowState.INVISIBLE;
+                            OnHide();
                             promise.SetResult();
                         }).Play();
                     }
                     else
                     {
-                        this.Visibility = false;
-                        this.State = WindowState.INVISIBLE;
-                        this.OnHide();
+                        Visibility = false;
+                        State = WindowState.INVISIBLE;
+                        OnHide();
                         promise.SetResult();
                     }
                 }
@@ -420,7 +420,7 @@ namespace CFM.Framework.Views
                     promise.SetException(e);
 
                     if (log.IsWarnEnabled)
-                        log.WarnFormat("", this.Name, e);
+                        log.WarnFormat("The window named \"{0}\" failed to hide!Error:{1}", this.Name, e);
                 }
             };
 
@@ -435,38 +435,38 @@ namespace CFM.Framework.Views
 
         public ITransition Dismiss(bool ignoreAnimation = false)
         {
-            if (this.dismissTransition != null)
-                return this.dismissTransition;
+            if (dismissTransition != null)
+                return dismissTransition;
 
-            if (this.dismissed)
-                throw new InvalidOperationException(string.Format("", this.Name));
+            if (dismissed)
+                throw new InvalidOperationException(string.Format("The window[{0}] has been destroyed.", Name));
 
-            this.dismissTransition = this.WindowManager.Dismiss(this).DisableAnimation(ignoreAnimation);
-            return this.dismissTransition;
+            dismissTransition = WindowManager.Dismiss(this).DisableAnimation(ignoreAnimation);
+            return dismissTransition;
         }
 
         public virtual void DoDismiss()
         {
             try
             {
-                if (!this.dismissed)
+                if (!dismissed)
                 {
-                    this.State = WindowState.DISMISS_BEGIN;
-                    this.dismissed = true;
-                    this.OnDismiss();
-                    this.RaiseOnDismissed();
-                    this.WindowManager.Remove(this);
+                    State = WindowState.DISMISS_BEGIN;
+                    dismissed = true;
+                    OnDismiss();
+                    RaiseOnDismissed();
+                    WindowManager.Remove(this);
 
-                    if (!this.IsDestroyed() && this.gameObject != null)
-                        GameObject.Destroy(this.gameObject);
-                    this.State = WindowState.DISMISS_END;
-                    this.dismissTransition = null;
+                    if (!IsDestroyed() && gameObject != null)
+                        GameObject.Destroy(gameObject);
+                    State = WindowState.DISMISS_END;
+                    dismissTransition = null;
                 }
             }
             catch (Exception e)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("", this.Name, e);
+                    log.WarnFormat("The window named \"{0}\" failed to dismiss!Error:{1}", Name, e);
             }
         }
 
@@ -477,9 +477,9 @@ namespace CFM.Framework.Views
 
         protected override void OnDestroy()
         {
-            if (!this.Dismissed && this.dismissTransition == null)
+            if (!Dismissed && dismissTransition == null)
             {
-                this.Dismiss(true);
+                Dismiss(true);
             }
             base.OnDestroy();
         }

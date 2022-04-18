@@ -22,67 +22,67 @@ namespace CFM.Framework.Views
 
         public virtual string Name
         {
-            get { return !this.IsDestroyed() && this.gameObject != null ? this.gameObject.name : null; }
+            get { return !IsDestroyed() && gameObject != null ? gameObject.name : null; }
             set
             {
-                if (this.IsDestroyed() || this.gameObject == null)
+                if (IsDestroyed() || gameObject == null)
                     return;
 
-                this.gameObject.name = value;
+                gameObject.name = value;
             }
         }
 
         public virtual Transform Parent
         {
-            get { return !this.IsDestroyed() && this.transform != null ? this.transform.parent : null; }
+            get { return !IsDestroyed() && transform != null ? transform.parent : null; }
         }
 
         public virtual GameObject Owner
         {
-            get { return this.IsDestroyed() ? null : this.gameObject; }
+            get { return IsDestroyed() ? null : gameObject; }
         }
 
         public virtual Transform Transform
         {
-            get { return this.IsDestroyed() ? null : this.transform; }
+            get { return IsDestroyed() ? null : transform; }
         }
 
         public virtual RectTransform RectTransform
         {
             get
             {
-                if (this.IsDestroyed())
+                if (IsDestroyed())
                     return null;
 
-                return this.rectTransform ?? (this.rectTransform = GetComponent<RectTransform>());
+                return rectTransform ?? (rectTransform = GetComponent<RectTransform>());
             }
         }
 
         public virtual bool Visibility
         {
-            get { return !this.IsDestroyed() && this.gameObject != null ? this.gameObject.activeSelf : false; }
+            get { return !IsDestroyed() && gameObject != null ? gameObject.activeSelf : false; }
             set
             {
-                if (this.IsDestroyed() || this.gameObject == null)
+                if (IsDestroyed() || gameObject == null)
                     return;
 
-                if (this.gameObject.activeSelf == value)
+                if (gameObject.activeSelf == value)
                     return;
 
-                this.gameObject.SetActive(value);
+                gameObject.SetActive(value);
             }
         }
 
         public virtual IAnimation EnterAnimation
         {
-            get { return this.enterAnimation; }
-            set { this.enterAnimation = value; }
+            get { return enterAnimation; }
+            set { enterAnimation = value; }
         }
 
         public virtual IAnimation ExitAnimation
         {
-            get { return this.exitAnimation; }
-            set { this.exitAnimation = value; }
+            get { return exitAnimation; }
+            set { exitAnimation = value; }
         }
 
         protected override void OnEnable()
@@ -97,31 +97,31 @@ namespace CFM.Framework.Views
 
         public virtual float Alpha
         {
-            get { return !this.IsDestroyed() && this.gameObject != null ? this.CanvasGroup.alpha : 0f; }
-            set { if (!this.IsDestroyed() && this.gameObject != null) this.CanvasGroup.alpha = value; }
+            get { return !IsDestroyed() && gameObject != null ? CanvasGroup.alpha : 0f; }
+            set { if (!IsDestroyed() && gameObject != null) CanvasGroup.alpha = value; }
         }
 
         public virtual bool Interactable
         {
             get
             {
-                if (!this.IsDestroyed() || this.gameObject == null)
+                if (!IsDestroyed() || gameObject == null)
                     return false;
 
                 if (GlobalSetting.useBlockRaycastsInsteadOfInteractable)
-                    return this.CanvasGroup.blocksRaycasts;
+                    return CanvasGroup.blocksRaycasts;
 
-                return this.CanvasGroup.interactable;
+                return CanvasGroup.interactable;
             }
             set
             {
-                if (!this.IsDestroyed() || this.gameObject == null)
+                if (!IsDestroyed() || gameObject == null)
                     return;
 
                 if (GlobalSetting.useBlockRaycastsInsteadOfInteractable)
-                    this.CanvasGroup.blocksRaycasts = value;
+                    CanvasGroup.blocksRaycasts = value;
                 else
-                    this.CanvasGroup.interactable = value;
+                    CanvasGroup.interactable = value;
             }
         }
 
@@ -129,14 +129,14 @@ namespace CFM.Framework.Views
         {
             get
             {
-                if (this.IsDestroyed())
+                if (IsDestroyed())
                     return null;
 
-                return this.canvasGroup ?? (this.canvasGroup = GetComponent<CanvasGroup>());
+                return canvasGroup ?? (canvasGroup = GetComponent<CanvasGroup>());
             }
         }
 
-        public virtual IAttributes ExtraAttributes { get { return this.attributes; } }
+        public virtual IAttributes ExtraAttributes { get { return attributes; } }
 
         protected virtual void OnVisibilityChanged()
         {

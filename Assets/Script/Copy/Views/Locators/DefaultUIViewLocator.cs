@@ -31,7 +31,7 @@ namespace CFM.Framework.Views.Locators
 
             globalWindowManager = GameObject.FindObjectOfType<GlobalWindowManager>();
             if (globalWindowManager == null)
-                throw new NotFoundException();
+                throw new NotFoundException("GlobalWindowManager");
 
             return globalWindowManager;
         }

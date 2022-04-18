@@ -12,44 +12,44 @@ namespace CFM.Framework.Views
 
         }
 
-        public Bundle(IBundle boundle)
+        public Bundle(IBundle bundle)
         {
-
+            PutAll(bundle);
         }
 
         public virtual int Count
         {
-            get { return this.data.Count; }
+            get { return data.Count; }
         }
 
         public virtual IDictionary<string, object> Data
         {
-            get { return this.data; }
+            get { return data; }
         }
 
         public virtual ICollection<string> Keys
         {
-            get { return this.data.Keys; }
+            get { return data.Keys; }
         }
 
         public virtual ICollection<object> Values
         {
-            get { return this.data.Values; }
+            get { return data.Values; }
         }
 
         public virtual void Clear()
         {
-            this.data.Clear();
+            data.Clear();
         }
 
         public virtual bool ContainsKey(string key)
         {
-            return this.data.ContainsKey(key);
+            return data.ContainsKey(key);
         }
 
         public virtual bool Remove(string key)
         {
-            return this.data.Remove(key);
+            return data.Remove(key);
         }
 
         public virtual T Get<T>(string key) where T : new()
@@ -69,9 +69,9 @@ namespace CFM.Framework.Views
         public virtual void Put<T>(string key, T value)
         {
             if (!IsValidType(value))
-                throw new ArgumentException("");
+                throw new ArgumentException("Value must be serializable!");
 
-            this.data[key] = value;
+            data[key] = value;
         }
 
         public virtual void PutAll(IBundle bundle)
@@ -79,9 +79,9 @@ namespace CFM.Framework.Views
             foreach (KeyValuePair<string, object> kv in bundle.Data)
             {
                 if (!IsValidType(kv.Value))
-                    throw new ArgumentException("");
+                    throw new ArgumentException("Value must be serializable!");
 
-                this.data[kv.Key] = kv.Value;
+                data[kv.Key] = kv.Value;
             }
         }
 
