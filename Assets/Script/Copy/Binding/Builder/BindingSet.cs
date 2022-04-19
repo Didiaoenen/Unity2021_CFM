@@ -22,7 +22,7 @@ namespace CFM.Framework.Binding.Builder
 
         public void Build()
         {
-            foreach (var builder in this.builder)
+            foreach (var builder in builder)
             {
                 try
                 {
@@ -34,7 +34,7 @@ namespace CFM.Framework.Binding.Builder
                         log.ErrorFormat("{0}", e);
                 }
             }
-            this.builder.Clear();
+            builder.Clear();
         }
     }
 
@@ -49,7 +49,7 @@ namespace CFM.Framework.Binding.Builder
 
         public virtual BindingBuilder<TTarget, TSource> Bind()
         {
-            var builder = new BindingBuilder<TTarget, TSource>(this.context, this.target);
+            var builder = new BindingBuilder<TTarget, TSource>(context, target);
             this.builder.Add(builder);
             return builder;
         }
@@ -68,25 +68,25 @@ namespace CFM.Framework.Binding.Builder
 
         public BindingSet(IBindingContext context, TTarget target): base(context)
         {
-
+            this.target = target;
         }
 
         public virtual BindingBuilder<TTarget> Bind()
         {
-            var builder = new BindingBuilder<TTarget>(this.context, this.target);
+            var builder = new BindingBuilder<TTarget>(context, target);
             this.builder.Add(builder);
             return builder;
         }
 
         public virtual BindingBuilder<TChildTarget> Bind<TChildTarget>(TChildTarget target) where TChildTarget: class
         {
-            var builder = new BindingBuilder<TChildTarget>(this.context, target);
+            var builder = new BindingBuilder<TChildTarget>(context, target);
             this.builder.Add(builder);
             return builder;
         }
     }
 
-    public class BindingSet: BindingSetBase
+    public class BindingSet : BindingSetBase
     {
         private object target;
 
@@ -97,14 +97,14 @@ namespace CFM.Framework.Binding.Builder
 
         public virtual BindingBuilder Bind()
         {
-            var builder = new BindingBuilder(this.context, this.target);
+            var builder = new BindingBuilder(context, target);
             this.builder.Add(builder);
             return builder;
         }
 
         public virtual BindingBuilder Bind(object target)
         {
-            var builder = new BindingBuilder(this.context, target);
+            var builder = new BindingBuilder(context, target);
             this.builder.Add(builder);
             return builder;
         }

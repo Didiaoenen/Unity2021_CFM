@@ -21,7 +21,7 @@ namespace CFM.Framework.Asynchronous
         object WaitForDone();
     }
 
-    public interface IAsyncResult<TResult>: IAsyncResult
+    public interface IAsyncResult<TResult> : IAsyncResult
     {
         new TResult Result { get; }
 

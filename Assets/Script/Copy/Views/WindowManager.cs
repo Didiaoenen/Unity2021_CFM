@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using CFM.Framework.Execution;
@@ -377,7 +377,7 @@ namespace CFM.Framework.Views
 
         public InternalVisibleEnumerator(List<IWindow> list)
         {
-            this.windows = list;
+            windows = list;
         }
 
         public IWindow Current
@@ -488,7 +488,7 @@ namespace CFM.Framework.Views
                 yield return show.WaitForDone();
             }
 
-            if (this.manager.Activated && current.Equals(manager.Current))
+            if (manager.Activated && current.Equals(manager.Current))
             {
                 IAsyncResult activate = current.Activate(AnimationDisabled);
                 yield return activate.WaitForDone();

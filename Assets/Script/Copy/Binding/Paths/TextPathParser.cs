@@ -170,8 +170,7 @@ namespace CFM.Framework.Binding.Paths
         {
             char ch = Current;
             if (ch != '\'' && ch != '\"')
-                throw new BindingException("Error parsing string indexer , unexpected quote character {0} in text {1}",
-                                       ch, text);
+                throw new BindingException("Error parsing string indexer , unexpected quote character {0} in text {1}", ch, text);
 
             if (!MoveNext())
                 throw new BindingException("Error parsing string indexer , unterminated in text {0}", text);
@@ -187,8 +186,7 @@ namespace CFM.Framework.Binding.Paths
             } while (MoveNext());
 
             if (buf.Length <= 0 || (ch != '\'' && ch != '\"'))
-                throw new BindingException("Error parsing string indexer , unexpected quote character {0} in text {1}",
-                                       ch, text);
+                throw new BindingException("Error parsing string indexer , unexpected quote character {0} in text {1}", ch, text);
             return buf.ToString();
         }
 

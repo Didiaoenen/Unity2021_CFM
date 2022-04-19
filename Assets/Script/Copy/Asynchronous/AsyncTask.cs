@@ -1,8 +1,10 @@
-using CFM.Framework.Execution;
-using CFM.Log;
 using System;
-using System.Collections;
 using System.Threading;
+using System.Collections;
+
+using CFM.Framework.Execution;
+
+using CFM.Log;
 
 namespace CFM.Framework.Asynchronous
 {

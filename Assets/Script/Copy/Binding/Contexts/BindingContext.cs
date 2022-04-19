@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using CFM.Log;
 using CFM.Framework.Binding.Binders;
 
 namespace CFM.Framework.Binding.Contexts

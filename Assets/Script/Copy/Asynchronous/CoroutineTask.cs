@@ -1,5 +1,7 @@
 using System;
+using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -70,22 +72,144 @@ namespace CFM.Framework.Asynchronous
 
         public static CoroutineTask WhenAll(params CoroutineTask[] tasks)
         {
-            return null;
+            AsyncResult result = new AsyncResult(true);
+            try
+            {
+                if (tasks == null)
+                    throw new ArgumentNullException("tasks");
+
+                int count = tasks.Length;
+                int curr = count;
+                bool isCancelled = false;
+                List<Exception> exceptions = new List<Exception>();
+                for (int i = 0; i < count; i++)
+                {
+                    var task = tasks[i];
+                    task.asyncResult.Callbackable().OnCallback((ar) =>
+                    {
+                        isCancelled |= ar.IsCancelled;
+                        if (ar.Exception != null)
+                            exceptions.Add(ar.Exception);
+
+                        if (Interlocked.Decrement(ref curr) <= 0)
+                        {
+                            if (isCancelled)
+                                result.SetCancelled();
+                            else if (exceptions.Count > 0)
+                                result.SetException(new AggregateException(exceptions));
+                            else
+                                result.SetResult();
+                        }
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                result.SetException(e);
+            }
+            return new CoroutineTask(result);
         }
 
         public static CoroutineTask<TResult[]> WhenAll<TResult>(params CoroutineTask<TResult>[] tasks)
         {
-            return null;
+            AsyncResult<TResult[]> result = new AsyncResult<TResult[]>(true);
+            try
+            {
+                if (tasks == null)
+                    throw new ArgumentNullException("tasks");
+
+                int count = tasks.Length;
+                int curr = count;
+                bool isCancelled = false;
+                List<Exception> exceptions = new List<Exception>();
+                TResult[] array = new TResult[count];
+                for (int i = 0; i < count; i++)
+                {
+                    int index = i;
+                    var t = tasks[index];
+                    t.asyncResult.Callbackable().OnCallback((ar) =>
+                    {
+                        try
+                        {
+                            isCancelled |= ar.IsCancelled;
+                            if (ar.Exception != null)
+                                exceptions.Add(ar.Exception);
+                            else
+                                array[index] = (TResult)ar.Result;
+                        }
+                        finally
+                        {
+                            if (Interlocked.Decrement(ref curr) <= 0)
+                            {
+                                if (isCancelled)
+                                    result.SetCancelled();
+                                else if (exceptions.Count > 0)
+                                    result.SetException(new AggregateException(exceptions));
+                                else
+                                    result.SetResult(array);
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                result.SetException(e);
+            }
+            return new CoroutineTask<TResult[]>(result);
         }
 
         public static CoroutineTask<CoroutineTask> WhenAny(params CoroutineTask[] tasks)
         {
-            return null;
+            AsyncResult<CoroutineTask> result = new AsyncResult<CoroutineTask>(true);
+            try
+            {
+                if (tasks == null)
+                    throw new ArgumentNullException("tasks");
+
+                int count = tasks.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    var task = tasks[i];
+                    task.asyncResult.Callbackable().OnCallback((ar) =>
+                    {
+                        if (!result.IsDone)
+                            result.SetResult(task);
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                result.SetException(e);
+            }
+            return new CoroutineTask<CoroutineTask>(result);
         }
 
         public static CoroutineTask<CoroutineTask<TResult>> WhenAny<TResult>(params CoroutineTask<TResult>[] tasks)
         {
-            return null;
+            AsyncResult<CoroutineTask<TResult>> result = new AsyncResult<CoroutineTask<TResult>>(true);
+            try
+            {
+                if (tasks == null)
+                    throw new ArgumentNullException("tasks");
+
+                int count = tasks.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    var task = tasks[i];
+                    task.asyncResult.Callbackable().OnCallback((ar) =>
+                    {
+                        if (!result.IsDone)
+                            result.SetResult(task);
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                result.SetException(e);
+            }
+
+            return new CoroutineTask<CoroutineTask<TResult>>(result);
         }
 
         private AsyncResult asyncResult;
@@ -144,11 +268,11 @@ namespace CFM.Framework.Asynchronous
                 if (routine == null)
                     throw new ArgumentNullException("routine");
 
-                Executors.RunOnCoroutine(routine, this.asyncResult);
+                Executors.RunOnCoroutine(routine, asyncResult);
             }
             catch (Exception e)
             {
-                this.asyncResult.SetException(e);
+                asyncResult.SetException(e);
             }
         }
 
@@ -157,7 +281,7 @@ namespace CFM.Framework.Asynchronous
             return asyncResult.WaitForDone();
         }
 
-#if NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
         public virtual IAwaiter GetAwaiter()
         {
             return new AsyncResultAwaiter<AsyncResult>(asyncResult);
@@ -489,7 +613,7 @@ namespace CFM.Framework.Asynchronous
             }
         }
 
-#if NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
         public new IAwaiter<TResult> GetAwaiter()
         {
             return new AsyncResultAwaiter<AsyncResult<TResult>, TResult>(asyncResult);

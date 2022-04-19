@@ -11,7 +11,7 @@ using CFM.Framework.Binding.Converters;
 
 namespace CFM.Framework.Binding.Builder
 {
-    public class BindingBuilder<TTarget, TSource>: BindingBuilderBase where TTarget: class
+    public class BindingBuilder<TTarget, TSource> : BindingBuilderBase where TTarget : class
     {
         public BindingBuilder(IBindingContext context, TTarget target) : base(context, target)
         {
@@ -256,56 +256,74 @@ namespace CFM.Framework.Binding.Builder
 
         public BindingBuilder<TTarget> To<TParameter>(Expression<Func<Action<TParameter>>> path)
         {
+            SetStaticMemberPath(PathParser.ParseStaticPath(path));
             return this;
         }
 
         public BindingBuilder<TTarget> To(Expression<Func<Action>> path)
         {
+            SetStaticMemberPath(PathParser.ParseStaticPath(path));
             return this;
         }
 
         public BindingBuilder<TTarget> ToValue(object value)
         {
+            SetLiteral(value);
             return this;
         }
 
         public BindingBuilder<TTarget> ToExpression<TResult>(Expression<Func<TResult>> expression)
         {
+            SetExpression(expression);
+            OneWay();
             return this;
         }
 
         public BindingBuilder<TTarget> TwoWay()
         {
+            SetMode(BindingMode.TwoWay);
             return this;
         }
 
         public BindingBuilder<TTarget> OneWay()
         {
+            SetMode(BindingMode.OneWay);
             return this;
         }
 
         public BindingBuilder<TTarget> OneWayToSource()
         {
+            SetMode(BindingMode.OneWayToSource);
             return this;
         }
 
         public BindingBuilder<TTarget> OneTime()
         {
+            SetMode(BindingMode.OneTime);
             return this;
         }
 
-        public BindingBuilder<TTarget> WidthConversion(string converterName)
+        public BindingBuilder<TTarget> CommandParameter(object parameter)
         {
+            SetCommandParameter(parameter);
             return this;
         }
 
-        public BindingBuilder<TTarget> WidthConversion(IConverter converter)
+        public BindingBuilder<TTarget> WithConversion(string converterName)
         {
+            var converter = ConverterByName(converterName);
+            return WithConversion(converter);
+        }
+
+        public BindingBuilder<TTarget> WithConversion(IConverter converter)
+        {
+            description.Converter = converter;
             return this;
         }
 
         public BindingBuilder<TTarget> WidthScopeKey(object scopeKey)
         {
+            SetScopeKey(scopeKey);
             return this;
         }
     }
@@ -318,61 +336,74 @@ namespace CFM.Framework.Binding.Builder
 
         public BindingBuilder For(string targetName, string updateTrigger = null)
         {
+            description.TargetName = targetName;
+            description.UpdateTrigger = updateTrigger;
             return this;
         }
 
         public BindingBuilder To(string path)
         {
+            SetMemberPath(path);
             return this;
         }
 
         public BindingBuilder ToStatic(string path)
         {
+            SetStaticMemberPath(path);
             return this;
         }
 
         public BindingBuilder ToValue(string value)
         {
+            SetLiteral(value);
             return this;
         }
 
         public BindingBuilder TwoWay()
         {
+            SetMode(BindingMode.TwoWay);
             return this;
         }
 
         public BindingBuilder OneWay()
         {
+            SetMode(BindingMode.OneWay);
             return this;
         }
 
         public BindingBuilder OneWayToSource()
         {
+            SetMode(BindingMode.OneWayToSource);
             return this;
         }
 
         public BindingBuilder OneTime()
         {
+            SetMode(BindingMode.OneTime);
             return this;
         }
 
         public BindingBuilder CommandParameter(object parameter)
         {
+            SetCommandParameter(parameter);
             return this;
         }
 
         public BindingBuilder WithConversion(string converterName)
         {
+            var converter = this.ConverterByName(converterName);
             return this;
         }
 
         public BindingBuilder WithConversion(IConverter converter)
         {
+            description.Converter = converter;
             return this;
         }
 
         public BindingBuilder WithScopeKey(object scopeKey)
         {
+            SetScopeKey(scopeKey);
             return this;
         }
     }

@@ -1,4 +1,4 @@
-#if NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
 using System;
 using System.Collections;
 
@@ -15,17 +15,17 @@ namespace CFM.Framework.Asynchronous
         private static CoroutineAwaiter RunOnCoroutine(IEnumerator routine)
         {
             CoroutineAwaiter awaiter = new CoroutineAwaiter();
-            InterceptableEnumerator enumertor = routine is InterceptableEnumerator ? (InterceptableEnumerator)routine : new InterceptableEnumerator(routine);
-            enumertor.RegisterCatchBlock(e =>
+            InterceptableEnumerator enumerator = routine is InterceptableEnumerator ? (InterceptableEnumerator)routine : new InterceptableEnumerator(routine);
+            enumerator.RegisterCatchBlock(e =>
             {
                 awaiter.SetResult(e);
             });
-            enumertor.RegisterFinallyBlock(() =>
+            enumerator.RegisterFinallyBlock(() =>
             {
                 if (!awaiter.IsCompleted)
                     awaiter.SetResult(null);
             });
-            Executors.RunOnCoroutineNoReturn(enumertor);
+            Executors.RunOnCoroutineNoReturn(enumerator);
             return awaiter;
         }
 

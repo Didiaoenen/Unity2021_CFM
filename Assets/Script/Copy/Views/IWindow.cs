@@ -33,6 +33,28 @@ namespace CFM.Framework.Views
         DISMISS_END
     }
 
+    public class WindowStateEventArgs : EventArgs
+    {
+        private readonly WindowState oldState;
+
+        private readonly WindowState state;
+
+        private readonly IWindow window;
+
+        public WindowStateEventArgs(IWindow window, WindowState oldState, WindowState newState)
+        {
+            this.window = window;
+            this.oldState = oldState;
+            this.state = newState;
+        }
+
+        public WindowState OldState { get { return oldState; } }
+        
+        public WindowState State { get { return state; } }
+        
+        public IWindow Window { get { return window; } }
+    }
+
     public interface IWindow
     {
         event EventHandler VisibilityChanged;
@@ -66,28 +88,6 @@ namespace CFM.Framework.Views
         ITransition Hide(bool ignoreAnimation = false);
 
         ITransition Dismiss(bool ignoreAnimation = false);
-    }
-
-    public class WindowStateEventArgs : EventArgs
-    {
-        private readonly WindowState oldState;
-
-        private readonly WindowState state;
-
-        private readonly IWindow window;
-
-        public WindowStateEventArgs(IWindow window, WindowState oldState, WindowState newState)
-        {
-            this.window = window;
-            this.oldState = oldState;
-            this.state = newState;
-        }
-
-        public WindowState OldState { get { return oldState; } }
-        
-        public WindowState State { get { return state; } }
-        
-        public IWindow Window { get { return window; } }
     }
 }
 

@@ -6,8 +6,8 @@ namespace CFM.Framework.Binding.Proxy.Sources
 
         public virtual bool IsStatic
         {
-            get { return this.isStatic; }
-            set { this.isStatic = value; }
+            get { return isStatic; }
+            set { isStatic = value; }
         }
     }
 }

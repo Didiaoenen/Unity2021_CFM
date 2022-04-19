@@ -40,8 +40,8 @@ namespace CFM.Framework.Example
         protected string GetPath(string dir)
         {
             StringBuilder buf = new StringBuilder();
-            buf.Append(this.root);
-            if (!this.root.EndsWith("/"))
+            buf.Append(root);
+            if (!root.EndsWith("/"))
                 buf.Append("/");
             buf.Append(dir);
             return buf.ToString();

@@ -14,18 +14,17 @@ namespace CFM.Framework.Views
 
         private IManageable window;
 
-        private bool done;
+        private bool done = false;
 
-        private bool animationDisabled;
+        private bool animationDisabled = false;
 
-        private int layer;
+        private int layer = 0;
 
         private Func<IWindow, IWindow, ActionType> overlayPolicy;
 
-        private bool running;
+        private bool running = false;
 
-        //
-        private bool bound;
+        private bool bound = false;
 
         private Action onStart;
 
@@ -107,8 +106,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.onStart != null)
-                    this.onStart();
+                if (onStart != null)
+                    onStart();
             }
             catch (Exception e)
             {
@@ -121,8 +120,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.onStateChanged != null)
-                    this.onStateChanged(window, state);
+                if (onStateChanged != null)
+                    onStateChanged(window, state);
             }
             catch (Exception e)
             {
@@ -135,8 +134,8 @@ namespace CFM.Framework.Views
         {
             try
             {
-                if (this.onFinish != null)
-                    this.onFinish();
+                if (onFinish != null)
+                    onFinish();
             }
             catch (Exception e)
             {
@@ -147,15 +146,15 @@ namespace CFM.Framework.Views
 
         protected virtual void OnStart()
         {
-            this.Bind();
-            this.RaiseStart();
+            Bind();
+            RaiseStart();
         }
 
         protected virtual void OnEnd()
         {
-            this.done = true;
-            this.RaiseFinished();
-            this.Unbind();
+            done = true;
+            RaiseFinished();
+            Unbind();
         }
 
 #if NET_STANDARD_2_0
@@ -198,12 +197,12 @@ namespace CFM.Framework.Views
             if (running)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("");
+                    log.WarnFormat("The transition is running.sets the policy failed.");
 
                 return this;
             }
 
-            overlayPolicy = policy;
+            OverlayPolicy = policy;
             return this;
         }
 
@@ -250,14 +249,14 @@ namespace CFM.Framework.Views
 
         public virtual IEnumerator TransitionTask()
         {
-            this.running = true;
-            this.OnStart();
-            yield return this.DoTransition();
+            running = true;
+            OnStart();
+            yield return DoTransition();
 
-            var transitionAction = this.DoTransition();
+            var transitionAction = DoTransition();
             while (transitionAction.MoveNext())
                 yield return transitionAction.Current;
-            this.OnEnd();
+            OnEnd();
         }
 
         protected abstract IEnumerator DoTransition();

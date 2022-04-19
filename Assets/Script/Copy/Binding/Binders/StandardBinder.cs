@@ -5,7 +5,7 @@ using CFM.Framework.Binding.Contexts;
 
 namespace CFM.Framework.Binding.Binders
 {
-    public class StandardBinder: IBinder
+    public class StandardBinder : IBinder
     {
         protected IBindingFactory factory;
 
@@ -21,7 +21,7 @@ namespace CFM.Framework.Binding.Binders
 
         public IEnumerable<IBinding> Bind(IBindingContext bindingContext, object source, object target, IEnumerable<BindingDescription> BindingDirections)
         {
-            return BindingDirections.Select(description => this.Bind(bindingContext, source, target, description));
+            return BindingDirections.Select(description => Bind(bindingContext, source, target, description));
         }
     }
 }

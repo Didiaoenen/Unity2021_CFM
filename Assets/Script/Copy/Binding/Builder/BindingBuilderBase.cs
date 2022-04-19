@@ -5,11 +5,11 @@ using CFM.Framework.Contexts;
 using CFM.Framework.Binding.Paths;
 using CFM.Framework.Binding.Contexts;
 using CFM.Framework.Binding.Converters;
+using CFM.Framework.Binding.Parameters;
 using CFM.Framework.Binding.Proxy.Sources;
 using CFM.Framework.Binding.Proxy.Sources.Text;
 using CFM.Framework.Binding.Proxy.Sources.Object;
 using CFM.Framework.Binding.Proxy.Sources.Expressions;
-using CFM.Framework.Binding.Parameters;
 
 namespace CFM.Framework.Binding.Builder
 {
@@ -47,7 +47,7 @@ namespace CFM.Framework.Binding.Builder
             description.Mode = BindingMode.Default;
         }
 
-        protected  void SetLiterral(object value)
+        protected  void SetLiteral(object value)
         {
             if (description.Source != null)
                 throw new BindingException("You cannot set the source path of a Fluent binding more than once");
@@ -188,12 +188,12 @@ namespace CFM.Framework.Binding.Builder
         {
             try
             {
-                if (this.builded)
+                if (builded)
                     return;
 
                 CheckBindingDescription();
                 context.Add(target, description, scopeKey);
-                this.builded = true;
+                builded = true;
             }
             catch (BindingException e)
             {

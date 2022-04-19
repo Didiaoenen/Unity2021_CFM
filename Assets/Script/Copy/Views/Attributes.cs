@@ -44,11 +44,11 @@ namespace CFM.Framework.Views
 
         public virtual void Add(Type type, object target)
         {
-            if (attributes == null)
-                attributes = new Dictionary<Type, object>();
-
             if (type == null || target == null)
                 return;
+
+            if (attributes == null)
+                attributes = new Dictionary<Type, object>();
 
             attributes[type] = target;
         }

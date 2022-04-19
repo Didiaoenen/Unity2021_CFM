@@ -1,7 +1,7 @@
-#if NET_STANDARD_2_0 || NET_4_6
+#if NET_STANDARD_2_0
 using System;
-using System.Runtime.ExceptionServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 
 using UnityEngine;
 
@@ -24,7 +24,7 @@ namespace CFM.Framework.Asynchronous
             lock (_lock)
             {
                 if (!done)
-                    throw new Exception("");
+                    throw new Exception("The task is not finished yet");
             }
 
             if (exception != null)
@@ -124,7 +124,7 @@ namespace CFM.Framework.Asynchronous
         }
     }
 
-    public struct AsyncOperationAwaiter: IAwaiter, ICriticalNotifyCompletion
+    public struct AsyncOperationAwaiter : IAwaiter, ICriticalNotifyCompletion
     {
         private AsyncOperation asyncOperation;
 

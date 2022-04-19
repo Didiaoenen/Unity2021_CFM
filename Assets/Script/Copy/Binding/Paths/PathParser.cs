@@ -294,7 +294,6 @@ namespace CFM.Framework.Binding.Paths
             if (method != null)
                 return method.Method.Name;
 
-            //Delegate.CreateDelegate(Type type, object firstArgument, MethodInfo method)
             var unary = expression.Body as UnaryExpression;
             if (unary != null && unary.NodeType == ExpressionType.Convert)
             {

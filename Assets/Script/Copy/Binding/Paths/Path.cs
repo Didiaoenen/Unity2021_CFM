@@ -215,7 +215,7 @@ namespace CFM.Framework.Binding.Paths
     }
 
     [Serializable]
-    public abstract class IndexedNode: IPathNode
+    public abstract class IndexedNode : IPathNode
     {
         private object _value;
 

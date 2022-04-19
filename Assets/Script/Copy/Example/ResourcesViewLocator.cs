@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 using CFM.Framework.Asynchronous;
 using CFM.Framework.Views;
@@ -28,7 +29,7 @@ public class ResourcesViewLocator : UIViewLocatorBase
         if (globalWindowManager != null)
             return globalWindowManager;
 
-        globalWindowManager = GameObject.FindObjectOfType<GlobalWindowManager>();
+        globalWindowManager = Object.FindObjectOfType<GlobalWindowManager>();
         if (globalWindowManager == null)
             throw new NotFoundException();
 
@@ -47,7 +48,7 @@ public class ResourcesViewLocator : UIViewLocatorBase
         GameObject viewTemplateGo = null;
         try
         {
-            if (this.templates.TryGetValue(name, out weakRef) && weakRef.IsAlive)
+            if (templates.TryGetValue(name, out weakRef) && weakRef.IsAlive)
             {
                 viewTemplateGo = (GameObject)weakRef.Target;
 
@@ -68,18 +69,18 @@ public class ResourcesViewLocator : UIViewLocatorBase
             if (viewTemplateGo != null)
             {
                 viewTemplateGo.SetActive(false);
-                this.templates[name] = new WeakReference(viewTemplateGo);
+                templates[name] = new WeakReference(viewTemplateGo);
             }
         }
 
         if (viewTemplateGo == null || viewTemplateGo.GetComponent<T>() == null)
             return default(T);
 
-        GameObject go = GameObject.Instantiate(viewTemplateGo);
+        GameObject go = Object.Instantiate(viewTemplateGo);
         go.name = viewTemplateGo.name;
         T view = go.GetComponent<T>();
         if (view == null && go != null)
-            GameObject.Destroy(go);
+            Object.Destroy(go);
         return view;
     }
 
@@ -97,7 +98,7 @@ public class ResourcesViewLocator : UIViewLocatorBase
         GameObject viewTemplateGo = null;
         try
         {
-            if (this.templates.TryGetValue(name, out weakRef) && weakRef.IsAlive)
+            if (templates.TryGetValue(name, out weakRef) && weakRef.IsAlive)
             {
                 viewTemplateGo = (GameObject)weakRef.Target;
 
@@ -125,7 +126,7 @@ public class ResourcesViewLocator : UIViewLocatorBase
             if (viewTemplateGo != null)
             {
                 viewTemplateGo.SetActive(false);
-                this.templates[name] = new WeakReference(viewTemplateGo);
+                templates[name] = new WeakReference(viewTemplateGo);
             }
         }
 
@@ -136,12 +137,12 @@ public class ResourcesViewLocator : UIViewLocatorBase
             yield break;
         }
 
-        GameObject go = GameObject.Instantiate(viewTemplateGo);
+        GameObject go = Object.Instantiate(viewTemplateGo);
         go.name = viewTemplateGo.name;
         T view = go.GetComponent<T>();
         if (view == null)
         {
-            GameObject.Destroy(go);
+            Object.Destroy(go);
             promise.SetException(new DllNotFoundException(name));
         }
         else
@@ -162,9 +163,9 @@ public class ResourcesViewLocator : UIViewLocatorBase
     public override T LoadWindow<T>(IWindowManager windowManager, string name)
     {
         if (windowManager == null)
-            windowManager = this.GetDefaultWindowManager();
+            windowManager = GetDefaultWindowManager();
 
-        T target = this.DoLoadView<T>(name);
+        T target = DoLoadView<T>(name);
         if (target != null)
             target.WindowManager = windowManager;
 
@@ -173,16 +174,16 @@ public class ResourcesViewLocator : UIViewLocatorBase
 
     public override IProgressResult<float, T> LoadWindowAsync<T>(string name)
     {
-        return this.LoadWindowAsync<T>(null, name);
+        return LoadWindowAsync<T>(null, name);
     }
 
     public override IProgressResult<float, T> LoadWindowAsync<T>(IWindowManager windowManager, string name)
     {
         if (windowManager == null)
-            windowManager = this.GetDefaultWindowManager();
+            windowManager = GetDefaultWindowManager();
 
         ProgressResult<float, T> result = new ProgressResult<float, T>();
-        Executors.RunOnCoroutineNoReturn(DoLoad<T>(result, name, windowManager));
+        Executors.RunOnCoroutineNoReturn(DoLoad(result, name, windowManager));
         return result;
     }
 }

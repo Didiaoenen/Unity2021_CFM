@@ -11,7 +11,7 @@ namespace CFM.Framework.Binding.Proxy.Sources.Text
 
         public override string ToString()
         {
-            return Literal == null ? "Literal:null" : "Literal:" + this.Literal.ToString();
+            return Literal == null ? "Literal:null" : "Literal:" + Literal.ToString();
         }
     }
 }

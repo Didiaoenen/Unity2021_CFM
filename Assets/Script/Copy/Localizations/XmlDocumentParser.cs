@@ -1,18 +1,18 @@
 using System.IO;
+using System.Xml;
 using System.Globalization;
 using System.Collections.Generic;
-using System.Xml;
 
 namespace CFM.Framework.Localizations
 {
-    public class XmlDocumentParser: AbstractDocumentParser
+    public class XmlDocumentParser : AbstractDocumentParser
     {
-        public XmlDocumentParser(): this(null)
+        public XmlDocumentParser() : this(null)
         {
 
         }
 
-        public XmlDocumentParser(List<ITypeConverter> conversions): base(conversions)
+        public XmlDocumentParser(List<ITypeConverter> conversions) : base(conversions)
         {
 
         }

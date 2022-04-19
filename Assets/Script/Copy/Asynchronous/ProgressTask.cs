@@ -2,8 +2,9 @@ using System;
 using System.Threading;
 using System.Collections;
 
-using CFM.Log;
 using CFM.Framework.Execution;
+
+using CFM.Log;
 
 namespace CFM.Framework.Asynchronous
 {
@@ -213,7 +214,7 @@ namespace CFM.Framework.Asynchronous
 
         public bool Cancel()
         {
-            return this.result.Cancel();
+            return result.Cancel();
         }
 
         public IProgressCallbackable<TProgress> Callbackable()

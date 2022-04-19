@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
 using System;
 using UnityEngine;
 
@@ -90,7 +89,7 @@ namespace CFM.Framework.Views
 
         protected override void OnDisable()
         {
-            RaiseActivatedChanged();
+            RaiseVisibilityChanged();
             base.OnDisable();
         }
 
@@ -152,7 +151,7 @@ namespace CFM.Framework.Views
             catch (Exception e)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("", e);
+                    log.WarnFormat("{0}", e);
             }
         }
 
@@ -166,7 +165,7 @@ namespace CFM.Framework.Views
             catch (Exception e)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("", e);
+                    log.WarnFormat("{0}", e);
             }
         }
 
@@ -180,7 +179,7 @@ namespace CFM.Framework.Views
             catch (Exception e)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("", e);
+                    log.WarnFormat("{0}", e);
             }
         }
 
@@ -198,7 +197,7 @@ namespace CFM.Framework.Views
             catch (Exception e)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("", e);
+                    log.WarnFormat("{0}", e);
             }
         }
 

@@ -195,7 +195,7 @@ namespace CFM.Framework.Contexts
         {
             Context context = null;
             contexts.TryGetValue(key, out context);
-            return null;
+            return context;
         }
 
         public static T GetContext<T>(string key) where T : Context

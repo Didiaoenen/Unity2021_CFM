@@ -88,11 +88,11 @@ namespace CFM.Framework.Views.UI
         {
             if (Message != null)
             {
-                if (!string.IsNullOrEmpty(this.viewModel.Message))
+                if (!string.IsNullOrEmpty(viewModel.Message))
                 {
                     Message.gameObject.SetActive(true);
-                    Message.text = this.viewModel.Message;
-                    if (contentView != null && this.contentView.Visibility)
+                    Message.text = viewModel.Message;
+                    if (contentView != null && contentView.Visibility)
                         contentView.Visibility = false;
                 }
                 else

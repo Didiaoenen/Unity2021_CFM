@@ -1,8 +1,8 @@
-#if NET_STANDARD_2_0 || NET_4_6
-using UnityEngine;
-
+#if NET_STANDARD_2_0
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
+
+using UnityEngine;
 
 namespace CFM.Framework.Asynchronous
 {

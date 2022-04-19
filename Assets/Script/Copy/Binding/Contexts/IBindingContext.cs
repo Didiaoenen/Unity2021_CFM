@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CFM.Framework.Binding.Contexts
 {
-    public interface IBindingContext: IDisposable
+    public interface IBindingContext : IDisposable
     {
         event EventHandler DataContextChanged;
 

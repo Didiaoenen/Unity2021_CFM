@@ -1,6 +1,6 @@
 namespace CFM.Framework.Binding.Proxy.Sources.Expressions
 {
-    public class IExpressionSourceProxy
+    public interface IExpressionSourceProxy : ISourceProxy, IObtainable, INotifiable
     {
     }
 }

@@ -8,7 +8,7 @@ using CFM.Framework.Observables;
 
 namespace CFM.Framework.ViewModels
 {
-    public class ViewModelBase: ObservableObject, IViewModel
+    public class ViewModelBase : ObservableObject, IViewModel
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ViewModelBase));
 

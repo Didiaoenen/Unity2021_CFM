@@ -1,5 +1,6 @@
 #if UNITY_ANDROID && IONIC_ZIP
 using Ionic.Zip;
+
 using System;
 using System.IO;
 using System.Collections.Generic;

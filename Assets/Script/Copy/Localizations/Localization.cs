@@ -134,7 +134,7 @@ namespace CFM.Framework.Localizations
 
         public Task Refresh()
         {
-            return Load(this.providers.ToArray());
+            return Load(providers.ToArray());
         }
 
         protected virtual async Task Load(params ProviderEntry[] providers)

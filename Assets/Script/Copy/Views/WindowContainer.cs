@@ -1,7 +1,6 @@
-using System.Globalization;
-using System.IO;
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using CFM.Framework.Asynchronous;
@@ -116,11 +115,11 @@ namespace CFM.Framework.Views
         public override IAsyncResult Passivate(bool ignoreAnimation)
         {
             if (!Visibility)
-                throw new InvalidOperationException("");
+                throw new InvalidOperationException("The window is not visible.");
 
             if (localWindowManager.Current != null)
             {
-                IAsyncResult currResult = (this.localWindowManager.Current as IManageable).Passivate(ignoreAnimation);
+                IAsyncResult currResult = (localWindowManager.Current as IManageable).Passivate(ignoreAnimation);
                 currResult.Callbackable().OnCallback((r) =>
                 {
                     Activated = false;
@@ -131,7 +130,7 @@ namespace CFM.Framework.Views
             AsyncResult result = new AsyncResult();
             try
             {
-                if (!this.Activated)
+                if (!Activated)
                 {
                     result.SetResult();
                     return result;
@@ -140,7 +139,7 @@ namespace CFM.Framework.Views
                 Activated = false;
                 State = WindowState.PASSIVATED;
 
-                if (!ignoreAnimation && this.PassivationAnimation != null)
+                if (!ignoreAnimation && PassivationAnimation != null)
                 {
                     PassivationAnimation.OnStart(() =>
                     {

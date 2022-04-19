@@ -1,9 +1,10 @@
 #if UNITY_ANDROID && (CSHARP_ZIP || (NET_STANDARD_2_0 && !UNITY_2019_1_OR_NEWER))
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
 using UnityEngine;
 
 namespace CFM.Framework.Utilities

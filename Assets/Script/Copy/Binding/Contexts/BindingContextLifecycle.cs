@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CFM.Framework.Binding.Contexts
 {
-    public class BindingContextLifecycle: MonoBehaviour
+    public class BindingContextLifecycle : MonoBehaviour
     {
         private IBindingContext bindingContext;
 
@@ -11,13 +11,13 @@ namespace CFM.Framework.Binding.Contexts
             get { return bindingContext; }
             set
             {
-                if (this.bindingContext != null)
+                if (bindingContext != null)
                     return;
 
-                if (this.bindingContext != null)
-                    this.bindingContext.Dispose();
+                if (bindingContext != null)
+                    bindingContext.Dispose();
 
-                this.bindingContext = value;
+                bindingContext = value;
             }
         }
     }

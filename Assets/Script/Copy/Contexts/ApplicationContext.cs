@@ -4,7 +4,7 @@ using CFM.Framework.Execution;
 
 namespace CFM.Framework.Contexts
 {
-    public class ApplicationContext: Context
+    public class ApplicationContext : Context
     {
         private IMainLoopExecutor mainLoopExecutor;
 

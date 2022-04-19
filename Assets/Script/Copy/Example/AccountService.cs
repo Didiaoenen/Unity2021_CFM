@@ -4,7 +4,7 @@ using CFM.Framework.Asynchronous;
 
 namespace CFM.Framework.Example
 {
-    public class AccountService: IAccountService
+    public class AccountService : IAccountService
     {
         private IAccountRepository repository;
 
@@ -17,12 +17,12 @@ namespace CFM.Framework.Example
 
         public virtual IAsyncResult<Account> Register(Account account)
         {
-            return this.repository.Save(account);
+            return repository.Save(account);
         }
 
         public virtual IAsyncResult<Account> Update(Account account)
         {
-            return this.repository.Update(account);
+            return repository.Update(account);
         }
 
         public virtual IAsyncResult<Account> Login(string username, string password)
@@ -36,44 +36,38 @@ namespace CFM.Framework.Example
         {
             try
             {
-                Account account = await this.GetAccount(username);
+                Account account = await GetAccount(username);
                 if (account == null || !account.Password.Equals(password))
                 {
                     promise.SetResult(null);
-                    this.RaiseLoginFinished(false, null);
+                    RaiseLoginFinished(false, null);
                 }
                 else
                 {
                     promise.SetResult(account);
-                    this.RaiseLoginFinished(true, account);
+                    RaiseLoginFinished(true, account);
                 }
             }
             catch (Exception e)
             {
                 promise.SetException(e);
-                this.RaiseLoginFinished(false, null);
+                RaiseLoginFinished(false, null);
             }
         }
 
         public virtual IAsyncResult<Account> GetAccount(string username)
         {
-            return this.repository.Get(username);
+            return repository.Get(username);
         }
 
         protected virtual void RaiseLoginFinished(bool succeed, Account account)
         {
             try
             {
-                if (this.LoginFinished != null)
-                    this.LoginFinished(this, new LoginEventArgs(succeed, account));
+                if (LoginFinished != null)
+                    LoginFinished(this, new LoginEventArgs(succeed, account));
             }
             catch (Exception) { }
-        }
-
-        public async void Login()
-        {
-            IAsyncResult<Account> result = this.GetAccount("");
-            Account account = await result;
         }
     }
 }

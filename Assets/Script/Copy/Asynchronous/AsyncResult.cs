@@ -65,7 +65,7 @@ namespace CFM.Framework.Asynchronous
             if (done)
                 return;
 
-            var exception = new Exception(String.IsNullOrEmpty(error) ? "" : error);
+            var exception = new Exception(string.IsNullOrEmpty(error) ? "unknown error!" : error);
             SetException(exception);
         }
 

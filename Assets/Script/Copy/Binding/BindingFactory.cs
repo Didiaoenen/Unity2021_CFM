@@ -12,14 +12,14 @@ namespace CFM.Framework.Binding
 
         public ISourceProxyFactory SourceProxyFactory
         {
-            get { return this.sourceProxyFactory; }
-            set { this.sourceProxyFactory = value; }
+            get { return sourceProxyFactory; }
+            set { sourceProxyFactory = value; }
         }
 
         public ITargetProxyFactory TargetProxyFactory
         {
-            get { return this.targetProxyFactory; }
-            set { this.targetProxyFactory = value; }
+            get { return targetProxyFactory; }
+            set { targetProxyFactory = value; }
         }
 
         public BindingFactory(ISourceProxyFactory sourceProxyFactory, ITargetProxyFactory targetProxyFactory)
@@ -30,7 +30,7 @@ namespace CFM.Framework.Binding
 
         public IBinding Create(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription)
         {
-            return new Binding(bindingContext, source, target, bindingDescription, this.sourceProxyFactory, this.targetProxyFactory);
+            return new Binding(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory);
         }
     }
 }

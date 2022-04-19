@@ -1,21 +1,19 @@
 using CFM.Framework.Services;
-using CFM.Framework.Binding;
 using CFM.Framework.Binding.Paths;
 using CFM.Framework.Binding.Binders;
-using CFM.Framework.Binding.Registry;
 using CFM.Framework.Binding.Converters;
+using CFM.Framework.Binding.Proxy.Targets;
 using CFM.Framework.Binding.Proxy.Sources;
 using CFM.Framework.Binding.Proxy.Sources.Text;
 using CFM.Framework.Binding.Proxy.Sources.Object;
 using CFM.Framework.Binding.Proxy.Sources.Expressions;
-using CFM.Framework.Binding.Proxy.Targets;
 using CFM.Framework.Binding.Proxy.Targets.Universal;
 
 namespace CFM.Framework.Binding
 {
-    public class BindingServiceBundle: AbstractServiceBundle
+    public class BindingServiceBundle : AbstractServiceBundle
     {
-        public BindingServiceBundle(IServiceContainer container): base(container)
+        public BindingServiceBundle(IServiceContainer container) : base(container)
         {
 
         }
@@ -38,7 +36,7 @@ namespace CFM.Framework.Binding
             targetFactory.Register(new UniversalTargetProxyFactory(), 0);
             targetFactory.Register(new UnityTargetProxyFactory(), 10);
 #if UNITY_2019_1_OR_NEWER
-                targetFactory.Register(new VisualElementProxyFactory(), 30);
+            targetFactory.Register(new VisualElementProxyFactory(), 30);
 #endif
 
             BindingFactory bindingFactory = new BindingFactory(sourceFactroy, targetFactory);

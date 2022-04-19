@@ -3,12 +3,12 @@ using System.Globalization;
 
 using UnityEngine;
 
-using CFM.Framework.Example;
 using CFM.Framework.Views;
+using CFM.Framework.Binding;
+using CFM.Framework.Example;
+using CFM.Framework.Services;
 using CFM.Framework.Contexts;
 using CFM.Framework.Messaging;
-using CFM.Framework.Services;
-using CFM.Framework.Binding;
 using CFM.Framework.Localizations;
 
 public class Launcher : MonoBehaviour
@@ -21,7 +21,7 @@ public class Launcher : MonoBehaviour
     {
         GlobalWindowManager windowManager = FindObjectOfType<GlobalWindowManager>();
         if (windowManager == null)
-            throw new NotFoundException("");
+            throw new NotFoundException("Not found the GlobalWindowManager.");
 
         context = ContextManager.GetApplicationContext();
 
@@ -35,9 +35,9 @@ public class Launcher : MonoBehaviour
         CultureInfo cultureInfo = Locale.GetCultureInfo();
         var localization = Localization.Current;
         localization.CultureInfo = cultureInfo;
-        localization.AddDataProvider(new ResourcesDataProvider("", new XmlDocumentParser()));
+        localization.AddDataProvider(new ResourcesDataProvider("LocalizationExamples", new XmlDocumentParser()));
 
-        container.Register<Localization>(localization);
+        container.Register(localization);
 
         IAccountRepository accountRepository = new AccountRepository();
         container.Register<IAccountService>(new AccountService(accountRepository));

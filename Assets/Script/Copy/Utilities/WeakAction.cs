@@ -17,14 +17,14 @@ namespace CFM.Framework.Utilities
             if (!IsAlive)
                 return;
 
-            if (this.del != null)
+            if (del != null)
             {
-                this.del();
+                del();
                 return;
             }
 
-            var target = this.targetReference.Target;
-            this.targetMethod.Invoke(target, null);
+            var target = targetReference.Target;
+            targetMethod.Invoke(target, null);
         }
 
         public override object Execute(params object[] parameters)
@@ -81,14 +81,14 @@ namespace CFM.Framework.Utilities
             if (!IsAlive)
                 return;
 
-            if (this.del != null)
+            if (del != null)
             {
-                this.del(t1, t2);
+                del(t1, t2);
                 return;
             }
 
-            var target = this.targetReference.Target;
-            this.targetMethod.Invoke(target, new object[] { t1, t2 });
+            var target = targetReference.Target;
+            targetMethod.Invoke(target, new object[] { t1, t2 });
         }
 
         public override object Execute(params object[] parameters)
@@ -113,14 +113,14 @@ namespace CFM.Framework.Utilities
             if (!IsAlive)
                 return;
 
-            if (this.del != null)
+            if (del != null)
             {
-                this.del(t1, t2, t3);
+                del(t1, t2, t3);
                 return;
             }
 
-            var target = this.targetReference.Target;
-            this.targetMethod.Invoke(target, new object[] { t1, t2, t3 });
+            var target = targetReference.Target;
+            targetMethod.Invoke(target, new object[] { t1, t2, t3 });
         }
 
         public override object Execute(params object[] parameters)
@@ -145,14 +145,14 @@ namespace CFM.Framework.Utilities
             if (!IsAlive)
                 return;
 
-            if (this.del != null)
+            if (del != null)
             {
-                this.del(t1, t2, t3, t4);
+                del(t1, t2, t3, t4);
                 return;
             }
 
-            var target = this.targetReference.Target;
-            this.targetMethod.Invoke(target, new object[] { t1, t2, t3, t4 });
+            var target = targetReference.Target;
+            targetMethod.Invoke(target, new object[] { t1, t2, t3, t4 });
         }
 
         public override object Execute(params object[] parameters)

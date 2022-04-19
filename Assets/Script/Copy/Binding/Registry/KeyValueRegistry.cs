@@ -13,14 +13,14 @@ namespace CFM.Framework.Binding.Registry
         public virtual V Find(K key)
         {
             V toReturn;
-            this.lookups.TryGetValue(key, out toReturn);
+            lookups.TryGetValue(key, out toReturn);
             return toReturn;
         }
 
         public virtual V Find(K key, V defaultValue)
         {
             V toReturn;
-            if (this.lookups.TryGetValue(key, out toReturn))
+            if (lookups.TryGetValue(key, out toReturn))
                 return toReturn;
 
             return defaultValue;
@@ -28,12 +28,12 @@ namespace CFM.Framework.Binding.Registry
 
         public virtual void Register(K key, V value)
         {
-            if (this.lookups.ContainsKey(key))
+            if (lookups.ContainsKey(key))
             {
                 if (log.IsWarnEnabled)
                     log.WarnFormat("{0}", key);
 
-                this.lookups[key] = value;
+                lookups[key] = value;
             }
         }
     }

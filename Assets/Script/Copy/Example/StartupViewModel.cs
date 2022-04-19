@@ -1,13 +1,15 @@
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-using CFM.Log;
+using CFM.Framework.Contexts;
 using CFM.Framework.ViewModels;
 using CFM.Framework.Commands;
 using CFM.Framework.Localizations;
 using CFM.Framework.Interactivity;
 using CFM.Framework.Messaging;
-using CFM.Framework.Contexts;
 using CFM.Framework.Asynchronous;
+
+using CFM.Log;
 
 namespace CFM.Framework.Example
 {
@@ -77,7 +79,7 @@ namespace CFM.Framework.Example
 
         public void OnClick()
         {
-            log.Debug("");
+            log.Debug("onClick");
         }
 
         public async void Unzip()
@@ -120,7 +122,7 @@ namespace CFM.Framework.Example
                 }
 
                 GameObject sceneTemplate = (GameObject)request.asset;
-                GameObject.Instantiate(sceneTemplate);
+                Object.Instantiate(sceneTemplate);
             }
             finally
             {

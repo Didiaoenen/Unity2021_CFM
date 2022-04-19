@@ -8,6 +8,17 @@ using CFM.Log;
 
 namespace CFM.Framework.Utilities
 {
+    public interface IZipAccessor
+    {
+        int Priority { get; }
+
+        bool Support(string path);
+
+        Stream OpenRead(string path);
+
+        bool Exists(string path);
+    }
+
     public static class FileUtil
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(FileUtil));
@@ -134,17 +145,6 @@ namespace CFM.Framework.Utilities
             if (Regex.IsMatch(path, @"(jar:file:///)|(\.jar)|(\.apk)|(\.obb)|(\.zip)", RegexOptions.IgnoreCase))
                 return true;
             return false;
-        }
-
-        public interface IZipAccessor
-        {
-            int Priority { get; }
-
-            bool Support(string path);
-
-            Stream OpenRead(string path);
-
-            bool Exists(string path);
         }
     }
 }

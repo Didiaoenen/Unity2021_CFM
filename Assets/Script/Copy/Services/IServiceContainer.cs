@@ -1,6 +1,6 @@
 namespace CFM.Framework.Services
 {
-    public interface IServiceContainer: IServiceLocator, IServiceRegistry
+    public interface IServiceContainer : IServiceLocator, IServiceRegistry
     {
     }
 }

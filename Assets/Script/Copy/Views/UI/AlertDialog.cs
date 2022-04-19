@@ -210,7 +210,7 @@ namespace CFM.Framework.Views.UI
 
         public void Cancel()
         {
-            this.window.Cancel();
+            window.Cancel();
         }
     }
 }
