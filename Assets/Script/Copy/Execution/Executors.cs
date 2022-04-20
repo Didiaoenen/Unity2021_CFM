@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 using CFM.Log;
 using CFM.Framework.Asynchronous;
@@ -70,7 +71,7 @@ namespace CFM.Framework.Execution
             go.hideFlags = HideFlags.HideAndDontSave;
 
             if (dontDestroy)
-                GameObject.DontDestroyOnLoad(go);
+                Object.DontDestroyOnLoad(go);
 
             executor.useFixedUpdate = useFixedUpdate;
             return executor;

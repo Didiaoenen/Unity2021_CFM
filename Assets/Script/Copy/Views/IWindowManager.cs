@@ -34,7 +34,6 @@ namespace CFM.Framework.Views
 
         void Clear();
 
-
         ITransition Show(IWindow window);
 
         ITransition Hide(IWindow window);

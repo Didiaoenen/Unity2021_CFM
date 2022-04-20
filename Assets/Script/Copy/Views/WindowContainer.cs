@@ -67,7 +67,7 @@ namespace CFM.Framework.Views
         public override IAsyncResult Activate(bool ignoreAnimation)
         {
             if (!Visibility)
-                throw new InvalidOperationException("");
+                throw new InvalidOperationException("The window is not visible.");
 
             if (localWindowManager.Current != null)
             {

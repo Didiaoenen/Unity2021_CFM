@@ -1,7 +1,7 @@
 using System;
 
-using CFM.Framework.Interactivity;
 using CFM.Framework.Views.UI;
+using CFM.Framework.Interactivity;
 
 namespace CFM.Framework.Views.InterationActions
 {

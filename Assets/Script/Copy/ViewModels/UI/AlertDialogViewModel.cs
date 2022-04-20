@@ -25,49 +25,49 @@ namespace CFM.Framework.ViewModels.UI
         public virtual string Title
         {
             get { return title; }
-            set { Set<string>(ref title, value, "Title"); }
+            set { Set(ref title, value, "Title"); }
         }
 
         public virtual string Message
         {
             get { return message; }
-            set { Set<string>(ref message, value, "Message"); }
+            set { Set(ref message, value, "Message"); }
         }
 
         public virtual string ConfirmButtonText
         {
             get { return confirmButtonText; }
-            set { Set<string>(ref confirmButtonText, value, "ConfirmButtonText"); }
+            set { Set(ref confirmButtonText, value, "ConfirmButtonText"); }
         }
 
         public virtual string NeutralButtonText
         {
             get { return neutralButtonText; }
-            set { Set<string>(ref neutralButtonText, value, "NeutralButtonText"); }
+            set { Set(ref neutralButtonText, value, "NeutralButtonText"); }
         }
 
         public virtual string CancelButtonText
         {
             get { return cancelButtonText; }
-            set { Set<string>(ref cancelButtonText, value, "CancelButtonText"); }
+            set { Set(ref cancelButtonText, value, "CancelButtonText"); }
         }
 
         public virtual bool CanceledOnTouchOutside
         {
             get { return canceledOnTouchOutside; }
-            set { Set<bool>(ref canceledOnTouchOutside, value, "CanceledOnTouchOutside"); }
+            set { Set(ref canceledOnTouchOutside, value, "CanceledOnTouchOutside"); }
         }
 
         public virtual Action<int> Click
         {
             get { return click; }
-            set { Set<Action<int>>(ref click, value, "Click"); }
+            set { Set(ref click, value, "Click"); }
         }
 
         public virtual bool Closed
         {
             get { return closed; }
-            protected set { Set<bool>(ref closed, value, "Closed"); }
+            protected set { Set(ref closed, value, "Closed"); }
         }
 
         public virtual int Result

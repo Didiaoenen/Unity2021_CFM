@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 using CFM.Framework.Execution;
 using CFM.Framework.Asynchronous;
@@ -29,7 +30,7 @@ namespace CFM.Framework.Views.Locators
             if (globalWindowManager != null)
                 return globalWindowManager;
 
-            globalWindowManager = GameObject.FindObjectOfType<GlobalWindowManager>();
+            globalWindowManager = Object.FindObjectOfType<GlobalWindowManager>();
             if (globalWindowManager == null)
                 throw new NotFoundException("GlobalWindowManager");
 
@@ -76,18 +77,18 @@ namespace CFM.Framework.Views.Locators
             if (viewTemplateGo == null || viewTemplateGo.GetComponent<T>() == null)
                 return default(T);
 
-            GameObject go = GameObject.Instantiate(viewTemplateGo);
+            GameObject go = Object.Instantiate(viewTemplateGo);
             go.name = viewTemplateGo.name;
             T view = go.GetComponent<T>();
             if (view == null && go != null)
-                GameObject.Destroy(go);
+                Object.Destroy(go);
             return view;
         }
 
         public override IProgressResult<float, T> LoadViewAsync<T>(string name)
         {
             ProgressResult<float, T> result = new ProgressResult<float, T>();
-            Executors.RunOnCoroutineNoReturn(DoLoad<T>(result, name));
+            Executors.RunOnCoroutineNoReturn(DoLoad(result, name));
             return result;
         }
 
@@ -137,12 +138,12 @@ namespace CFM.Framework.Views.Locators
                 yield break;
             }
 
-            GameObject go = GameObject.Instantiate(viewTemplateGo);
+            GameObject go = Object.Instantiate(viewTemplateGo);
             go.name = viewTemplateGo.name;
             T view = go.GetComponent<T>();
             if (view == null)
             {
-                GameObject.Destroy(go);
+                Object.Destroy(go);
                 promise.SetException(new NotFoundException(name));
             }
             else
@@ -180,10 +181,10 @@ namespace CFM.Framework.Views.Locators
         public override IProgressResult<float, T> LoadWindowAsync<T>(IWindowManager windowManager, string name)
         {
             if (windowManager == null)
-                windowManager= GetDefaultWindowManager();
+                windowManager = GetDefaultWindowManager();
 
             ProgressResult<float, T> result = new ProgressResult<float, T>();
-            Executors.RunOnCoroutineNoReturn(DoLoad<T>(result, name, windowManager));
+            Executors.RunOnCoroutineNoReturn(DoLoad(result, name, windowManager));
             return result;
         }
     }

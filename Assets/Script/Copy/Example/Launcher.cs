@@ -5,65 +5,67 @@ using UnityEngine;
 
 using CFM.Framework.Views;
 using CFM.Framework.Binding;
-using CFM.Framework.Example;
 using CFM.Framework.Services;
 using CFM.Framework.Contexts;
 using CFM.Framework.Messaging;
 using CFM.Framework.Localizations;
 
-public class Launcher : MonoBehaviour
+namespace CFM.Framework.Example
 {
-    private ApplicationContext context;
-
-    ISubscription<WindowStateEventArgs> subscription;
-
-    void Awake()
+    public class Launcher : MonoBehaviour
     {
-        GlobalWindowManager windowManager = FindObjectOfType<GlobalWindowManager>();
-        if (windowManager == null)
-            throw new NotFoundException("Not found the GlobalWindowManager.");
+        private ApplicationContext context;
 
-        context = ContextManager.GetApplicationContext();
+        ISubscription<WindowStateEventArgs> subscription;
 
-        IServiceContainer container = context.GetContainer();
-
-        BindingServiceBundle bundle = new BindingServiceBundle(container);
-        bundle.Start();
-
-        container.Register<IUIViewLocator>(new ResourcesViewLocator());
-
-        CultureInfo cultureInfo = Locale.GetCultureInfo();
-        var localization = Localization.Current;
-        localization.CultureInfo = cultureInfo;
-        localization.AddDataProvider(new ResourcesDataProvider("LocalizationExamples", new XmlDocumentParser()));
-
-        container.Register(localization);
-
-        IAccountRepository accountRepository = new AccountRepository();
-        container.Register<IAccountService>(new AccountService(accountRepository));
-
-        GlobalSetting.enableWindowStateBroadcast = true;
-
-        GlobalSetting.useBlockRaycastsInsteadOfInteractable = true;
-
-        subscription = Window.Messenger.Subscribe<WindowStateEventArgs>(e =>
+        void Awake()
         {
-            Debug.LogFormat("{0}{1}{2}", e.Window.Name, e.OldState, e.State);
-        });
-    }
+            GlobalWindowManager windowManager = FindObjectOfType<GlobalWindowManager>();
+            if (windowManager == null)
+                throw new NotFoundException("Not found the GlobalWindowManager.");
 
-    IEnumerator Start() {
-        WindowContainer windowContainer = WindowContainer.Create("MAIN");
+            context = ContextManager.GetApplicationContext();
 
-        yield return null;
+            IServiceContainer container = context.GetContainer();
 
-        IUIViewLocator locator = context.GetService<IUIViewLocator>();
-        StartupWindow window = locator.LoadWindow<StartupWindow>(windowContainer, "");
-        window.Create();
-        ITransition transition = window.Show().OnStateChanged((w, state) => {
-            Debug.LogFormat("{0}{1}", w.Name, state);
-        });
+            BindingServiceBundle bundle = new BindingServiceBundle(container);
+            bundle.Start();
 
-        yield return transition.WaitForDone();
+            container.Register<IUIViewLocator>(new ResourcesViewLocator());
+
+            CultureInfo cultureInfo = Locale.GetCultureInfo();
+            var localization = Localization.Current;
+            localization.CultureInfo = cultureInfo;
+            localization.AddDataProvider(new ResourcesDataProvider("LocalizationExamples", new XmlDocumentParser()));
+
+            container.Register(localization);
+
+            IAccountRepository accountRepository = new AccountRepository();
+            container.Register<IAccountService>(new AccountService(accountRepository));
+
+            GlobalSetting.enableWindowStateBroadcast = true;
+
+            GlobalSetting.useBlockRaycastsInsteadOfInteractable = true;
+
+            subscription = Window.Messenger.Subscribe<WindowStateEventArgs>(e =>
+            {
+                Debug.LogFormat("{0}{1}{2}", e.Window.Name, e.OldState, e.State);
+            });
+        }
+
+        IEnumerator Start() {
+            WindowContainer windowContainer = WindowContainer.Create("MAIN");
+
+            yield return null;
+
+            IUIViewLocator locator = context.GetService<IUIViewLocator>();
+            StartupWindow window = locator.LoadWindow<StartupWindow>(windowContainer, "");
+            window.Create();
+            ITransition transition = window.Show().OnStateChanged((w, state) => {
+                Debug.LogFormat("{0}{1}", w.Name, state);
+            });
+
+            yield return transition.WaitForDone();
+        }
     }
 }

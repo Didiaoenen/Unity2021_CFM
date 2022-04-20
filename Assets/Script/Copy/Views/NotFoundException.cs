@@ -2,19 +2,19 @@ using System;
 
 namespace CFM.Framework.Views
 {
-    public class NotFoundException: Exception
+    public class NotFoundException : Exception
     {
         public NotFoundException()
         {
 
         }
 
-        public NotFoundException(string message): base(message)
+        public NotFoundException(string message) : base(message)
         {
 
         }
 
-        public NotFoundException(Exception e): base("", e)
+        public NotFoundException(Exception e) : base("", e)
         {
 
         }

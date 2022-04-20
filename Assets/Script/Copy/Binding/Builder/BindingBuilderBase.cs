@@ -13,7 +13,7 @@ using CFM.Framework.Binding.Proxy.Sources.Expressions;
 
 namespace CFM.Framework.Binding.Builder
 {
-    public class BindingBuilderBase: IBindingBuilder
+    public class BindingBuilderBase : IBindingBuilder
     {
         private bool builded = false;
 

@@ -60,17 +60,17 @@ namespace CFM.Framework.Binding
         {
             get
             {
-                if (this.bindingMode != BindingMode.Default)
-                    return this.bindingMode;
+                if (bindingMode != BindingMode.Default)
+                    return bindingMode;
 
-                this.bindingMode = this.bindingDescription.Mode;
-                if (this.bindingMode == BindingMode.Default)
-                    this.bindingMode = this.targetProxy.DefaultMode;
+                bindingMode = bindingDescription.Mode;
+                if (bindingMode == BindingMode.Default)
+                    bindingMode = targetProxy.DefaultMode;
 
-                if (this.bindingMode == BindingMode.Default & log.IsWarnEnabled)
+                if (bindingMode == BindingMode.Default & log.IsWarnEnabled)
                     log.WarnFormat("");
 
-                return this.bindingMode;
+                return bindingMode;
             }
         }
 
@@ -78,14 +78,14 @@ namespace CFM.Framework.Binding
         {
             try
             {
-                if (this.UpdateTargetOnFirstBind(this.BindingMode) && this.sourceProxy != null)
+                if (UpdateTargetOnFirstBind(BindingMode) && sourceProxy != null)
                 {
-                    this.UpdateTargetFromSource();
+                    UpdateTargetFromSource();
                 }
 
-                if (this.UpdateSourceOnFirstBind(this.BindingMode) && this.targetProxy != null && this.targetProxy is IObtainable)
+                if (UpdateSourceOnFirstBind(BindingMode) && targetProxy != null && targetProxy is IObtainable)
                 {
-                    this.UpdateSourceFormTarget();
+                    UpdateSourceFormTarget();
                 }
             }
             catch (Exception e)
@@ -159,9 +159,9 @@ namespace CFM.Framework.Binding
         {
             if (!disposed)
             {
-                this.DisposeSourceProxy();
-                this.DisposeTargetProxy();
-                this.bindingDescription = null;
+                DisposeSourceProxy();
+                DisposeTargetProxy();
+                bindingDescription = null;
                 disposed = true;
                 base.Dispose(disposing);
             }

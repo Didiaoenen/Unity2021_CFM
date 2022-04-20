@@ -2,7 +2,7 @@ using System;
 
 namespace CFM.Framework.ViewModels
 {
-    public interface IViewModel: IDisposable
+    public interface IViewModel : IDisposable
     {
     }
 }

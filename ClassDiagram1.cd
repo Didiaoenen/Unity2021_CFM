@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Views.WindowView">
+    <Position X="9" Y="4" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EgAQAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAABEAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\WindowView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.Window">
+    <Position X="9" Y="6" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABIEAABpFKACLgEgoASAYCBKAGoERMAMAABABECCA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\Window.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.UIView" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IGAEACCCBAAAAgAEAAAAQAQAAAAAEBCIAAAAgAAgCAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\UIView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="UnityEngine.EventSystems.UIBehaviour" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="CFM.Framework.Example.StartupWindow" Collapsed="true">
+    <Position X="7.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAggBAAQIAAAAAAAAQCAAAAjAEIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Example\StartupWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Views.WindowContainer" Collapsed="true">
+    <Position X="10.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAAABFAACBAkACQBAQQACAMAEAACAAAAABQAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\WindowContainer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.WindowManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAhAAAAEAEIBAEADQVIQBAAKMAAAICAAAAABQCCA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\WindowManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.Transition" Collapsed="true">
+    <Position X="14.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIgCAARQAAAAYAEAACiBQARggAQAQMEAAGLgAABCA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\Transition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.132" />
+  </Class>
+  <Class Name="CFM.Framework.Views.View" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAAAAAAAEAAAAQAQAAAAAEAAIAAAAAAAgCAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\View.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.Bundle" Collapsed="true">
+    <Position X="14.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAQAEAABACAAABAQAAAAAABAAAAAwAABAAAg=</HashCode>
+      <FileName>Assets\Script\Copy\Views\Bundle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.108" />
+  </Class>
+  <Class Name="CFM.Framework.Views.Attributes" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABBAAAAABAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\Attributes.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Views.ShowTransition" Collapsed="true">
+    <Position X="15.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAEQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\WindowManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Views.HideTransition" Collapsed="true">
+    <Position X="13.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\WindowManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CFM.Framework.Views.IView">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAAAAAAAEAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IUIView">
+    <Position X="3.75" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACAAACACBAAAAAAAAAAAAAAAAAAAABAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IUIView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IViewGroup">
+    <Position X="6" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAgAAAAAAAAAAAABAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IViewGroup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IUIViewGroup">
+    <Position X="3.75" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IUIViewGroup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IWindowView">
+    <Position X="3.75" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IWindowView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IWindow">
+    <Position X="6" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAgFCAADAEAAAAAQCAAAGAEQAAEAAAAAAACA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IWindow.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IManageable">
+    <Position X="6" Y="6.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABBAAAABAAAAAAAAAAAAAIABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IManageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IWindowManager" Collapsed="true">
+    <Position X="13.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAAAAEAAABAEACQBAQAAAAMAAAACAAAAABQAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IWindowManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.ITransition" Collapsed="true">
+    <Position X="11.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIACAABAAAAAAAEAACgAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\ITransition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IDialog" Collapsed="true">
+    <Position X="11.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IDialog.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IBundle" Collapsed="true">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAEAABACAAABAQAAAAAABAAAAAgAABAAAg=</HashCode>
+      <FileName>Assets\Script\Copy\Views\IBundle.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Views.IAttributes" Collapsed="true">
+    <Position X="11.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABBAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Views\Attributes.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

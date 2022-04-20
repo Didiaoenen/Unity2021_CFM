@@ -60,7 +60,7 @@ namespace CFM.Framework.Views
         public virtual T Get<T>(string key, T defaultValue) where T : new()
         {
             object value;
-            if (this.data.TryGetValue(key, out value))
+            if (data.TryGetValue(key, out value))
                 return (T)value;
 
             return defaultValue;

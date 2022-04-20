@@ -25,7 +25,7 @@ namespace CFM.Framework.Example
         protected virtual IEnumerator DoGet(IPromise<Account> promise, string username)
         {
             Account account = null;
-            this.cache.TryGetValue(username, out account);
+            cache.TryGetValue(username, out account);
             yield return null;
             promise.SetResult(account);
         }

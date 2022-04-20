@@ -88,12 +88,12 @@ namespace CFM.Framework.Views
         protected override void OnEnable()
         {
             base.OnEnable();
-            this.OnVisibilityChanged();
+            OnVisibilityChanged();
         }
 
         protected override void OnDisable()
         {
-            this.OnVisibilityChanged();
+            OnVisibilityChanged();
             base.OnDisable();
         }
 

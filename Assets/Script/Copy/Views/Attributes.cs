@@ -4,6 +4,24 @@ using System.Collections.Generic;
 
 namespace CFM.Framework.Views
 {
+    class EmptyEnumerator : IEnumerator
+    {
+        public object Current
+        {
+            get { return null; }
+        }
+
+        public bool MoveNext()
+        {
+            return false;
+        }
+
+        public void Reset()
+        {
+
+        }
+    }
+
     public interface IAttributes
     {
         object Get(Type type);
@@ -19,23 +37,6 @@ namespace CFM.Framework.Views
         T Remove<T>();
 
         IEnumerator GetEnumerator();
-    }
-
-    class EmptyEnumerator: IEnumerator
-    {
-        public object Current
-        {
-            get { return null; }
-        }
-
-        public bool MoveNext()
-        {
-            return false;
-        }
-
-        public void Reset() {
-            
-        }
     }
 
     public class Attributes: IAttributes

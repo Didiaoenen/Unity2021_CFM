@@ -3,7 +3,7 @@ using CFM.Framework.Views.Animations;
 
 namespace CFM.Framework.Views
 {
-    public interface IUIView: IView
+    public interface IUIView : IView
     {
         RectTransform RectTransform { get; }
 

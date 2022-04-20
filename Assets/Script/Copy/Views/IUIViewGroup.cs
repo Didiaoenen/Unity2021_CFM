@@ -5,7 +5,7 @@ namespace CFM.Framework.Views
 {
     public delegate void UILayout(RectTransform transform);
 
-    public interface IUIViewGroup: IUIView
+    public interface IUIViewGroup : IUIView
     {
         List<IUIView> Views{ get; }
 

@@ -9,366 +9,6 @@ using IAsyncResult = CFM.Framework.Asynchronous.IAsyncResult;
 
 namespace CFM.Framework.Views
 {
-    [DisallowMultipleComponent]
-    public class WindowManager : MonoBehaviour, IWindowManager
-    {
-        private static BlockingCoroutineTransitionExecutor blockingExecutor;
-
-        private static BlockingCoroutineTransitionExecutor GetTransitionExecutor()
-        {
-            return blockingExecutor;
-        }
-
-        private bool lastActivated = true;
-
-        private bool activated = true;
-
-        private List<IWindow> windows = new List<IWindow>();
-
-        public virtual bool Activated
-        {
-            get { return activated; }
-            set
-            {
-                if (activated == value)
-                    return;
-
-                activated = value;
-            }
-        }
-
-        public int Count { get { return windows.Count; } }
-
-        public int VisibleCount { get { return windows.FindAll(w => w.Visibility).Count; } }
-
-        public virtual IWindow Current
-        {
-            get
-            {
-                if (windows == null || windows.Count <= 0)
-                    return null;
-
-                IWindow window = windows[0];
-                return window != null && window.Visibility ? window : null;
-            }
-        }
-
-        public virtual IWindow GetVisibleWindow(int index)
-        {
-            if (windows == null || windows.Count <= 1)
-                return null;
-
-            int currIndex = -1;
-            var ie = Visibles();
-            while (ie.MoveNext())
-            {
-                currIndex++;
-                if (currIndex > index)
-                    return null;
-
-                if (currIndex == index)
-                    return ie.Current;
-            }
-            return null;
-        }
-
-        protected virtual void OnEnable()
-        {
-            Activated = lastActivated;
-        }
-
-        protected virtual void OnDisable()
-        {
-            lastActivated = Activated;
-            Activated = false;
-        }
-
-        protected virtual void OnDestroy()
-        {
-            if (windows.Count > 0)
-                Clear();
-        }
-
-        protected virtual void OnApplicationQuit()
-        {
-            if (blockingExecutor != null)
-            {
-                blockingExecutor.ShutDown();
-                blockingExecutor = null;
-            }
-        }
-
-        public virtual void Clear()
-        {
-            for (int i = 0; i < windows.Count; i++)
-            {
-                try
-                {
-                    windows[i].Dismiss(true);
-                }
-                catch (Exception) { }
-            }
-            windows.Clear();
-        }
-
-        public virtual bool Contains(IWindow window)
-        {
-            return windows.Contains(window);
-        }
-
-        public virtual int IndexOf(IWindow window)
-        {
-            return windows.IndexOf(window);
-        }
-
-        public virtual IWindow Get(int index)
-        {
-            if (index < 0 || index > windows.Count - 1)
-                throw new IndexOutOfRangeException();
-
-            return windows[index];
-        }
-
-        public virtual void Add(IWindow window)
-        {
-            if (window == null)
-                throw new ArgumentException("window");
-
-            if (windows.Contains(window))
-                return;
-
-            windows.Add(window);
-            AddChild(GetTransform(window));
-        }
-
-        public virtual bool Remove(IWindow window)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-
-            RemoveChild(GetTransform(window));
-            return windows.Remove(window);
-        }
-
-        public virtual IWindow RemoveAt(int index)
-        {
-            if (index < 0 || index > windows.Count - 1)
-                throw new IndexOutOfRangeException();
-
-            var window = windows[index];
-            RemoveChild(GetTransform(window));
-            windows.RemoveAt(index);
-            return window;
-        }
-
-        protected virtual void MoveToLast(IWindow window)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-
-            try
-            {
-                int index = this.IndexOf(window);
-                if (index < 0 || index > this.Count - 1)
-                    return;
-
-                windows.RemoveAt(index);
-                windows.Add(window);
-            }
-            finally
-            {
-                Transform transform = GetTransform(window);
-                if (transform != null)
-                    transform.SetAsFirstSibling();
-            }
-        }
-
-        protected virtual void MoveToFirst(IWindow window)
-        {
-            MoveToIndex(window, 0);
-        }
-
-        protected virtual void MoveToIndex(IWindow window, int index)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-
-            int oldIndex = this.IndexOf(window);
-            try
-            {
-                if (oldIndex < 0 || oldIndex == index)
-                    return;
-
-                windows.RemoveAt(oldIndex);
-                windows.Insert(index, window);
-            }
-            finally
-            {
-                Transform transform = GetTransform(window);
-                if (transform != null)
-                {
-                    if (index == 0)
-                    {
-                        transform.SetAsLastSibling();
-                    }
-                    else
-                    {
-                        IWindow preWindow = this.windows[index - 1];
-                        int preWindowPosition = GetChildIndex(GetTransform(preWindow));
-                        int currWindowPosition = oldIndex >= index ? preWindowPosition - 1 : preWindowPosition;
-                        transform.SetSiblingIndex(currWindowPosition);
-                    }
-                }
-            }
-        }
-
-        public virtual IEnumerator<IWindow> Visibles()
-        {
-            return new InternalVisibleEnumerator(this.windows);
-        }
-
-        public virtual List<IWindow> Find(bool visible)
-        {
-            return windows.FindAll(w => w.Visibility == visible);
-        }
-
-        public virtual IWindow Find(Type windowType)
-        {
-            if (windowType == null)
-                return null;
-
-            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()));
-        }
-
-        public virtual T Find<T>() where T : IWindow
-        {
-            return (T)windows.Find(w => w is T);
-        }
-
-        public virtual IWindow Find(string name, Type windowType)
-        {
-            if (name == null || windowType == null)
-                return null;
-
-            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()) && w.Name.Equals(name));
-        }
-
-        public virtual T Find<T>(string name) where T : IWindow
-        {
-            return (T)windows.Find(w => w is T && w.Name.Equals(name));
-        }
-
-        public virtual List<IWindow> FindAll(Type windowType)
-        {
-            List<IWindow> list = new List<IWindow>();
-            foreach (IWindow window in this.windows)
-            {
-                if (windowType.IsAssignableFrom(window.GetType()))
-                    list.Add(window);
-            }
-            return list;
-        }
-
-        public virtual List<T> FindAll<T>() where T : IWindow
-        {
-            List<T> list = new List<T>();
-            foreach (IWindow window in this.windows)
-            {
-                if (window is T)
-                    list.Add((T)window);
-            }
-            return list;
-        }
-
-        protected virtual Transform GetTransform(IWindow window)
-        {
-            try
-            {
-                if (window == null)
-                    return null;
-
-                if (window is UIView)
-                    return (window as UIView).Transform;
-
-                var propertyInfo = window.GetType().GetProperty("Transform");
-                if (propertyInfo != null)
-                    return (Transform)propertyInfo.GetGetMethod().Invoke(window, null);
-
-                if (window is Component)
-                    return (window as Component).transform;
-
-                return null;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        protected virtual int GetChildIndex(Transform child)
-        {
-            Transform transform = this.transform;
-            int count = transform.childCount;
-            for (int i = count - 1; i >= 0; i--)
-            {
-                if (transform.GetChild(i).Equals(child))
-                    return i;
-            }
-            return -1;
-        }
-
-        protected virtual void AddChild(Transform child, bool worldPositionStays = false)
-        {
-            if (child == null || transform.Equals(child.parent))
-                return;
-
-            child.gameObject.layer = gameObject.layer;
-            child.SetParent(transform, worldPositionStays);
-            child.SetAsFirstSibling();
-        }
-
-        protected virtual void RemoveChild(Transform child, bool worldPositionStays = false)
-        {
-            if (child == null || !transform.Equals(child.parent))
-                return;
-
-            child.SetParent(null, worldPositionStays);
-        }
-
-        public ITransition Show(IWindow window)
-        {
-            ShowTransition transition = new ShowTransition(this, (IManageable)window);
-            GetTransitionExecutor().Execute(transition);
-            return transition.OnStateChanged((w, state) =>
-            {
-                if (state == WindowState.VISIBLE)
-                    MoveToIndex(w, transition.Layer);
-            });
-        }
-
-        public ITransition Hide(IWindow window)
-        {
-            HideTransition transition = new HideTransition(this, (IManageable)window, false);
-            GetTransitionExecutor().Execute(transition);
-            return transition.OnStateChanged((w, state) =>
-            {
-                if (state == WindowState.INVISIBLE)
-                    MoveToLast(w);
-            });
-        }
-
-        public ITransition Dismiss(IWindow window)
-        {
-            HideTransition transition = new HideTransition(this, (IManageable)window, true);
-            GetTransitionExecutor().Execute(transition);
-            return transition.OnStateChanged((w, state) =>
-            {
-                if (state == WindowState.INVISIBLE)
-                    MoveToLast(w);
-            });
-        }
-    }
-
     class InternalVisibleEnumerator : IEnumerator<IWindow>
     {
         private List<IWindow> windows;
@@ -605,7 +245,7 @@ namespace CFM.Framework.Views
                 taskResult = null;
                 running = false;
             }
-            this.transitions.Clear();
+            transitions.Clear();
         }
 
         private bool Check(Transition transition)
@@ -663,6 +303,366 @@ namespace CFM.Framework.Views
                 running = false;
                 taskResult = null;
             }
+        }
+    }
+
+    [DisallowMultipleComponent]
+    public class WindowManager : MonoBehaviour, IWindowManager
+    {
+        private static BlockingCoroutineTransitionExecutor blockingExecutor;
+
+        private static BlockingCoroutineTransitionExecutor GetTransitionExecutor()
+        {
+            return blockingExecutor;
+        }
+
+        private bool lastActivated = true;
+
+        private bool activated = true;
+
+        private List<IWindow> windows = new List<IWindow>();
+
+        public virtual bool Activated
+        {
+            get { return activated; }
+            set
+            {
+                if (activated == value)
+                    return;
+
+                activated = value;
+            }
+        }
+
+        public int Count { get { return windows.Count; } }
+
+        public int VisibleCount { get { return windows.FindAll(w => w.Visibility).Count; } }
+
+        public virtual IWindow Current
+        {
+            get
+            {
+                if (windows == null || windows.Count <= 0)
+                    return null;
+
+                IWindow window = windows[0];
+                return window != null && window.Visibility ? window : null;
+            }
+        }
+
+        public virtual IWindow GetVisibleWindow(int index)
+        {
+            if (windows == null || windows.Count <= 1)
+                return null;
+
+            int currIndex = -1;
+            var ie = Visibles();
+            while (ie.MoveNext())
+            {
+                currIndex++;
+                if (currIndex > index)
+                    return null;
+
+                if (currIndex == index)
+                    return ie.Current;
+            }
+            return null;
+        }
+
+        protected virtual void OnEnable()
+        {
+            Activated = lastActivated;
+        }
+
+        protected virtual void OnDisable()
+        {
+            lastActivated = Activated;
+            Activated = false;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (windows.Count > 0)
+                Clear();
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            if (blockingExecutor != null)
+            {
+                blockingExecutor.ShutDown();
+                blockingExecutor = null;
+            }
+        }
+
+        public virtual void Clear()
+        {
+            for (int i = 0; i < windows.Count; i++)
+            {
+                try
+                {
+                    windows[i].Dismiss(true);
+                }
+                catch (Exception) { }
+            }
+            windows.Clear();
+        }
+
+        public virtual bool Contains(IWindow window)
+        {
+            return windows.Contains(window);
+        }
+
+        public virtual int IndexOf(IWindow window)
+        {
+            return windows.IndexOf(window);
+        }
+
+        public virtual IWindow Get(int index)
+        {
+            if (index < 0 || index > windows.Count - 1)
+                throw new IndexOutOfRangeException();
+
+            return windows[index];
+        }
+
+        public virtual void Add(IWindow window)
+        {
+            if (window == null)
+                throw new ArgumentException("window");
+
+            if (windows.Contains(window))
+                return;
+
+            windows.Add(window);
+            AddChild(GetTransform(window));
+        }
+
+        public virtual bool Remove(IWindow window)
+        {
+            if (window == null)
+                throw new ArgumentNullException("window");
+
+            RemoveChild(GetTransform(window));
+            return windows.Remove(window);
+        }
+
+        public virtual IWindow RemoveAt(int index)
+        {
+            if (index < 0 || index > windows.Count - 1)
+                throw new IndexOutOfRangeException();
+
+            var window = windows[index];
+            RemoveChild(GetTransform(window));
+            windows.RemoveAt(index);
+            return window;
+        }
+
+        protected virtual void MoveToLast(IWindow window)
+        {
+            if (window == null)
+                throw new ArgumentNullException("window");
+
+            try
+            {
+                int index = this.IndexOf(window);
+                if (index < 0 || index > this.Count - 1)
+                    return;
+
+                windows.RemoveAt(index);
+                windows.Add(window);
+            }
+            finally
+            {
+                Transform transform = GetTransform(window);
+                if (transform != null)
+                    transform.SetAsFirstSibling();
+            }
+        }
+
+        protected virtual void MoveToFirst(IWindow window)
+        {
+            MoveToIndex(window, 0);
+        }
+
+        protected virtual void MoveToIndex(IWindow window, int index)
+        {
+            if (window == null)
+                throw new ArgumentNullException("window");
+
+            int oldIndex = this.IndexOf(window);
+            try
+            {
+                if (oldIndex < 0 || oldIndex == index)
+                    return;
+
+                windows.RemoveAt(oldIndex);
+                windows.Insert(index, window);
+            }
+            finally
+            {
+                Transform transform = GetTransform(window);
+                if (transform != null)
+                {
+                    if (index == 0)
+                    {
+                        transform.SetAsLastSibling();
+                    }
+                    else
+                    {
+                        IWindow preWindow = this.windows[index - 1];
+                        int preWindowPosition = GetChildIndex(GetTransform(preWindow));
+                        int currWindowPosition = oldIndex >= index ? preWindowPosition - 1 : preWindowPosition;
+                        transform.SetSiblingIndex(currWindowPosition);
+                    }
+                }
+            }
+        }
+
+        public virtual IEnumerator<IWindow> Visibles()
+        {
+            return new InternalVisibleEnumerator(windows);
+        }
+
+        public virtual List<IWindow> Find(bool visible)
+        {
+            return windows.FindAll(w => w.Visibility == visible);
+        }
+
+        public virtual IWindow Find(Type windowType)
+        {
+            if (windowType == null)
+                return null;
+
+            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()));
+        }
+
+        public virtual T Find<T>() where T : IWindow
+        {
+            return (T)windows.Find(w => w is T);
+        }
+
+        public virtual IWindow Find(string name, Type windowType)
+        {
+            if (name == null || windowType == null)
+                return null;
+
+            return windows.Find(w => windowType.IsAssignableFrom(w.GetType()) && w.Name.Equals(name));
+        }
+
+        public virtual T Find<T>(string name) where T : IWindow
+        {
+            return (T)windows.Find(w => w is T && w.Name.Equals(name));
+        }
+
+        public virtual List<IWindow> FindAll(Type windowType)
+        {
+            List<IWindow> list = new List<IWindow>();
+            foreach (IWindow window in this.windows)
+            {
+                if (windowType.IsAssignableFrom(window.GetType()))
+                    list.Add(window);
+            }
+            return list;
+        }
+
+        public virtual List<T> FindAll<T>() where T : IWindow
+        {
+            List<T> list = new List<T>();
+            foreach (IWindow window in windows)
+            {
+                if (window is T)
+                    list.Add((T)window);
+            }
+            return list;
+        }
+
+        protected virtual Transform GetTransform(IWindow window)
+        {
+            try
+            {
+                if (window == null)
+                    return null;
+
+                if (window is UIView)
+                    return (window as UIView).Transform;
+
+                var propertyInfo = window.GetType().GetProperty("Transform");
+                if (propertyInfo != null)
+                    return (Transform)propertyInfo.GetGetMethod().Invoke(window, null);
+
+                if (window is Component)
+                    return (window as Component).transform;
+
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        protected virtual int GetChildIndex(Transform child)
+        {
+            Transform transform = this.transform;
+            int count = transform.childCount;
+            for (int i = count - 1; i >= 0; i--)
+            {
+                if (transform.GetChild(i).Equals(child))
+                    return i;
+            }
+            return -1;
+        }
+
+        protected virtual void AddChild(Transform child, bool worldPositionStays = false)
+        {
+            if (child == null || transform.Equals(child.parent))
+                return;
+
+            child.gameObject.layer = gameObject.layer;
+            child.SetParent(transform, worldPositionStays);
+            child.SetAsFirstSibling();
+        }
+
+        protected virtual void RemoveChild(Transform child, bool worldPositionStays = false)
+        {
+            if (child == null || !transform.Equals(child.parent))
+                return;
+
+            child.SetParent(null, worldPositionStays);
+        }
+
+        public ITransition Show(IWindow window)
+        {
+            ShowTransition transition = new ShowTransition(this, (IManageable)window);
+            GetTransitionExecutor().Execute(transition);
+            return transition.OnStateChanged((w, state) =>
+            {
+                if (state == WindowState.VISIBLE)
+                    MoveToIndex(w, transition.Layer);
+            });
+        }
+
+        public ITransition Hide(IWindow window)
+        {
+            HideTransition transition = new HideTransition(this, (IManageable)window, false);
+            GetTransitionExecutor().Execute(transition);
+            return transition.OnStateChanged((w, state) =>
+            {
+                if (state == WindowState.INVISIBLE)
+                    MoveToLast(w);
+            });
+        }
+
+        public ITransition Dismiss(IWindow window)
+        {
+            HideTransition transition = new HideTransition(this, (IManageable)window, true);
+            GetTransitionExecutor().Execute(transition);
+            return transition.OnStateChanged((w, state) =>
+            {
+                if (state == WindowState.INVISIBLE)
+                    MoveToLast(w);
+            });
         }
     }
 }

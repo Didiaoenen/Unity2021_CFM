@@ -5,7 +5,7 @@ namespace CFM.Framework.Views
 {
     public delegate void Layout(Transform transform);
 
-    public interface IViewGroup: IView
+    public interface IViewGroup : IView
     {
         List<IView> View { get; }
 

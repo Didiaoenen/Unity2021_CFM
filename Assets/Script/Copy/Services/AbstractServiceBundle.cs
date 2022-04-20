@@ -1,6 +1,6 @@
 namespace CFM.Framework.Services
 {
-    public abstract class AbstractServiceBundle: IServiceBundle
+    public abstract class AbstractServiceBundle : IServiceBundle
     {
         private IServiceContainer container;
 

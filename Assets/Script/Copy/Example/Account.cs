@@ -4,7 +4,7 @@ using CFM.Framework.Observables;
 
 namespace CFM.Framework.Example
 {
-    public class Account: ObservableObject
+    public class Account : ObservableObject
     {
         private string username;
 
@@ -14,20 +14,20 @@ namespace CFM.Framework.Example
 
         public string Username
         {
-            get { return this.username; }
-            set { this.Set<string>(ref this.username, value, "Username"); }
+            get { return username; }
+            set { Set(ref username, value, "Username"); }
         }
 
         public string Password
         {
-            get { return this.password; }
-            set { this.Set<string>(ref this.password, value, "Password"); }
+            get { return password; }
+            set { Set(ref password, value, "Password"); }
         }
 
         public DateTime Created
         {
-            get { return this.created; }
-            set { this.Set<DateTime>(ref this.created, value, "Created"); }
+            get { return created; }
+            set { Set(ref created, value, "Created"); }
         }
     }
 }

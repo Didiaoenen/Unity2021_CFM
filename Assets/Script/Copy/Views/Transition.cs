@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
+
 using CFM.Log;
 using CFM.Framework.Execution;
 using CFM.Framework.Asynchronous;
-
 
 namespace CFM.Framework.Views
 {
@@ -202,17 +202,16 @@ namespace CFM.Framework.Views
                 return this;
             }
 
-            OverlayPolicy = policy;
+            overlayPolicy = policy;
             return this;
         }
-
 
         public ITransition OnStart(Action callback)
         {
             if (running)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("");
+                    log.WarnFormat("The transition is running.OnStart failed.");
 
                 return this;
             }
@@ -226,7 +225,7 @@ namespace CFM.Framework.Views
             if (running)
             {
                 if (log.IsWarnEnabled)
-                    log.WarnFormat("");
+                    log.WarnFormat("The transition is running.OnStateChanged failed.");
 
                 return this;
             }
@@ -263,7 +262,7 @@ namespace CFM.Framework.Views
     }
 
 #if NET_STANDARD_2_0
-    public struct TransitionAwaiter: IAwaiter, ICriticalNotifyCompletion
+    public struct TransitionAwaiter : IAwaiter, ICriticalNotifyCompletion
     {
         private Transition transition;
 

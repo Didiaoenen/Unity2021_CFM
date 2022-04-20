@@ -2,7 +2,7 @@ using IAsyncResult = CFM.Framework.Asynchronous.IAsyncResult;
 
 namespace CFM.Framework.Views
 {
-    public interface IManageable: IWindow
+    public interface IManageable : IWindow
     {
         IAsyncResult Activate(bool ignoreAnimation);
 

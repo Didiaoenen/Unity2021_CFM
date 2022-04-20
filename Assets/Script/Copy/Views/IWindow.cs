@@ -45,7 +45,7 @@ namespace CFM.Framework.Views
         {
             this.window = window;
             this.oldState = oldState;
-            this.state = newState;
+            state = newState;
         }
 
         public WindowState OldState { get { return oldState; } }

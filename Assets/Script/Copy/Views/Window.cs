@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 
 using CFM.Log;
@@ -73,7 +74,7 @@ namespace CFM.Framework.Views
 
         public IWindowManager WindowManager
         {
-            get { return windowManager ?? (windowManager = GameObject.FindObjectOfType<GlobalWindowManagerBase>()); }
+            get { return windowManager ?? (windowManager = FindObjectOfType<GlobalWindowManagerBase>()); }
             set { windowManager = value; }
         }
 
@@ -382,7 +383,7 @@ namespace CFM.Framework.Views
             if (!Visibility)
                 throw new InvalidOperationException("The window is not visible.");
 
-            return this.WindowManager.Hide(this).DisableAnimation(ignoreAnimation);
+            return WindowManager.Hide(this).DisableAnimation(ignoreAnimation);
         }
 
         public virtual IAsyncResult DoHide(bool ignoreAnimation = false)
@@ -457,7 +458,7 @@ namespace CFM.Framework.Views
                     WindowManager.Remove(this);
 
                     if (!IsDestroyed() && gameObject != null)
-                        GameObject.Destroy(gameObject);
+                        Destroy(gameObject);
                     State = WindowState.DISMISS_END;
                     dismissTransition = null;
                 }
