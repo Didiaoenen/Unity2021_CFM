@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Localizations.AbstractDocumentParser" Collapsed="true">
+    <Position X="1.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\AbstractDocumentParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.AssetBundleDataProvider" Collapsed="true">
+    <Position X="5.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgQAAAAAAAAAAAAAACAAAAAAAAAAACAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\AssetBundleDataProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Locale" Collapsed="true">
+    <Position X="1.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAABwAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Locale.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.PrimitiveTypeConverter" Collapsed="true">
+    <Position X="3.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\PrimitiveTypeConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.RectTypeConverter" Collapsed="true">
+    <Position X="5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\RectTypeConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.SubsetLocalization" Collapsed="true">
+    <Position X="1.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgICAkQBBIAAAAAAAAAAAEAgCAABAEAACAACA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\SubsetLocalization.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.V&lt;T&gt;" Collapsed="true">
+    <Position X="3.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAkAAAEQAAAAEAAAAEAAQEgIQAAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\V.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.VectorTypeConverter" Collapsed="true">
+    <Position X="8.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\VectorTypeConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.VersionTypeConverter" Collapsed="true">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\VersionTypeConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.XmlDocumentParser" Collapsed="true">
+    <Position X="1.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\XmlDocumentParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.AbstractLocalized&lt;T&gt;" Collapsed="true">
+    <Position X="15" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAEAAAAAAAAACEIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\AbstractLocalized.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.AllowedMembersAttribute" Collapsed="true">
+    <Position X="1.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAIA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\AllowedMembersAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedAudioSourceInResources" Collapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAACAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedAudioSourceInResources.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedBindingDescriptionSet" Collapsed="true">
+    <Position X="5.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedBindingDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedBindingDescription" Collapsed="true">
+    <Position X="3.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAQEAAAAAAAAAAAAABAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedBindingDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedDataBinder" Collapsed="true">
+    <Position X="3.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAACAAAAAAAAAAAgAAQAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedDataBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedImageInResources" Collapsed="true">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAACAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedImageInResources.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedRawImageInResources" Collapsed="true">
+    <Position X="12.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAACAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedRawImageInResources.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedSpriteRendererInResources" Collapsed="true">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAACAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedSpriteRendererInResources.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedText" Collapsed="true">
+    <Position X="17.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedText.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.UI.LocalizedTextMesh" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\UI\LocalizedTextMesh.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.AssetBundleLocalizationSourceDataProvider" Collapsed="true">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgQBAAAAAAAAAAAAACAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\AssetBundleLocalizationSourceDataProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.DataConverter" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAABAAEAAAEAAAAAIAAIAIAAAI=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\DataConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.DefaultLocalizationSourceDataProvider" Collapsed="true">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgQBAAAAAAAAAAAAgCAAAAAACAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\DefaultLocalizationSourceDataProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.LocalizationSource" Collapsed="true">
+    <Position X="11.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.MonolingualSource" Collapsed="true">
+    <Position X="10.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.MultilingualSource" Collapsed="true">
+    <Position X="12.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAGAAAACgAAAAgAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.EntryBase" Collapsed="true">
+    <Position X="16" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAEAAAAAAABAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.Value" Collapsed="true">
+    <Position X="14.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.MonolingualEntry" Collapsed="true">
+    <Position X="17" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.MultilingualEntry" Collapsed="true">
+    <Position X="14.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAgAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.LocalizationSourceAsset" Collapsed="true">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSourceAsset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Localizations.Unity.LocalizationSourceBehaviour" Collapsed="true">
+    <Position X="12.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAgAAAAAAAAAAAAAAAAAAAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\Unity\LocalizationSourceBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CFM.Framework.Localizations.IDocumentParser" Collapsed="true">
+    <Position X="1.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\IDocumentParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Localizations.IDataProvider" Collapsed="true">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\IDataProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Localizations.ILocalization" Collapsed="true">
+    <Position X="1.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgICAkABBIAAAAAAAAAAAEAACAABAEAACAACA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\ILocalization.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Localizations.ITypeConverter" Collapsed="true">
+    <Position X="5.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Localizations\ITypeConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Observables.IObservableProperty&lt;T&gt;" Collapsed="true">
+    <Position X="3.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Observables\IObservableProperty.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

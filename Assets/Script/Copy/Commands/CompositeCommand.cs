@@ -49,7 +49,7 @@ namespace CFM.Framework.Commands
             {
                 var activeAwareCommand = command as IActiveAware;
                 if (activeAwareCommand != null)
-                    activeAwareCommand.IsActiveChanged += this.OnIsActiveChanged;
+                    activeAwareCommand.IsActiveChanged += OnIsActiveChanged;
             }
         }
 
@@ -71,7 +71,7 @@ namespace CFM.Framework.Commands
             {
                 var activeAwareCommand = command as IActiveAware;
                 if (activeAwareCommand != null)
-                    activeAwareCommand.IsActiveChanged -= this.OnIsActiveChanged;
+                    activeAwareCommand.IsActiveChanged -= OnIsActiveChanged;
             }
         }
 

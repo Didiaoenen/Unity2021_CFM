@@ -1,7 +1,8 @@
 using System;
+
+using CFM.Log;
 using CFM.Framework.Contexts;
 using CFM.Framework.Views.Locators;
-using CFM.Log;
 
 namespace CFM.Framework.Views.UI
 {

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Messaging.MessageBase" Collapsed="true">
+    <Position X="2" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Messaging.Messenger" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAEAAKAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\Messenger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Messaging.PropertyChangedMessage&lt;T&gt;" Collapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\PropertyChangedMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Messaging.SubjectBase" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Messaging.Subject&lt;T&gt;" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAAAAAEAABAAAAAACAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CFM.Framework.Messaging.IMessenger" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\IMessenger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Messaging.ISubscription&lt;T&gt;" Collapsed="true">
+    <Position X="2" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Messaging\ISubscription.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

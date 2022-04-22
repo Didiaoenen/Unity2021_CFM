@@ -12,20 +12,20 @@ namespace CFM.Framework.Example
 
         public bool Enable
         {
-            get { return this.enable; }
-            set { this.Set<bool>(ref this.enable, value, "Enable"); }
+            get { return enable; }
+            set { Set(ref enable, value, "Enable"); }
         }
 
         public float Progress
         {
-            get { return this.progress; }
-            set { this.Set<float>(ref this.progress, value, "Progress"); }
+            get { return progress; }
+            set { Set(ref progress, value, "Progress"); }
         }
 
         public string Tip
         {
-            get { return this.tip; }
-            set { this.Set<string>(ref this.tip, value, "Tip"); }
+            get { return tip; }
+            set { Set(ref tip, value, "Tip"); }
         }
     }
 }

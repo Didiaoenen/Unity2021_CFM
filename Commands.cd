@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Commands.CommandBase" Collapsed="true">
+    <Position X="4.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAACAAQgAEAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\CommandBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Commands.CompositeCommand" Collapsed="true">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAIAQAAEQCCAAAAAAAAADAEAAAIAAAgAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\CompositeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Commands.RelayCommand" Collapsed="true">
+    <Position X="6.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAEAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\RelayCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Commands.RelayCommand&lt;T&gt;" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAEAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\RelayCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Commands.SimpleCommand" Collapsed="true">
+    <Position X="1" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQAAECEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\SimpleCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Commands.SimpleCommand&lt;T&gt;" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQAAECEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\SimpleCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CFM.Framework.Commands.IActiveAware" Collapsed="true">
+    <Position X="1" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\IActiveAware.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Commands.ICommand" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Commands\ICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

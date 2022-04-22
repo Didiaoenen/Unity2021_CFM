@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Prefs.AbstractFactory" Collapsed="true">
+    <Position X="2" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAACAAAAAAAAACAAAAAkAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\AbstractFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Prefs.BinaryFilePreferencesFactory" Collapsed="true">
+    <Position X="1" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\BinaryFilePreferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Prefs.BinaryFilePreferences" Collapsed="true">
+    <Position X="1" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgIAAMAAEIAAAAgAoDIAAAAEAAgAAMAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\BinaryFilePreferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Prefs.DefaultEncryptor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAEAAAAEAAAAAhAgABAAAAAAQCAAIAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\DefaultEncryptor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Prefs.DefaultSerializer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAgAAAAAAAAACBAAABAAAAJAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\DefaultSerializer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Prefs.PlayerPrefsPreferencesFactory" Collapsed="true">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\PlayerPrefsPreferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Prefs.PlayerPrefsPreferences" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAIAAMIAQgAgAMBIAAAAEAAgAAIABAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\PlayerPrefsPreferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Prefs.Preferences" Collapsed="true">
+    <Position X="2" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiCAgIogACAEIhIpQkEIBISAAAEFABAAIAACAACAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\Preferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Prefs.TypeEncoder.JsonTypeEncoder" Collapsed="true">
+    <Position X="5.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAARAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\TypeEncoder\JsonTypeEncoder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Prefs.TypeEncoder.PrimitiveTypeEncoder" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAARAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\TypeEncoder\PrimitiveTypeEncoder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Prefs.TypeEncoder.VersionTypeEncoder" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAARAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\TypeEncoder\VersionTypeEncoder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="CFM.Framework.Prefs.IEncryptor" Collapsed="true">
+    <Position X="5.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\IEncryptor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Prefs.IFactory" Collapsed="true">
+    <Position X="2" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\IFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Prefs.ISerializer" Collapsed="true">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAABAAAAIAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\ISerializer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Prefs.ITypeEncoder" Collapsed="true">
+    <Position X="7.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAABAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Prefs\ITypeEncoder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

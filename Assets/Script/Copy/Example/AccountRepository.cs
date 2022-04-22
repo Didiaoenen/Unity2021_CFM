@@ -7,7 +7,7 @@ using CFM.Framework.Asynchronous;
 
 namespace CFM.Framework.Example
 {
-    public class AccountRepository: IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private Dictionary<string, Account> cache = new Dictionary<string, Account>();
 

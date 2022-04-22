@@ -127,7 +127,7 @@ namespace CFM.Framework.Asynchronous
         }
     }
 
-    public class WaitForMainThread: CustomYieldInstruction
+    public class WaitForMainThread : CustomYieldInstruction
     {
         public static readonly WaitForMainThread Default = new WaitForMainThread();
 

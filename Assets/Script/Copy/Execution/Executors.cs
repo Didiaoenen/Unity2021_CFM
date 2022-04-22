@@ -13,6 +13,189 @@ namespace CFM.Framework.Execution
 {
     public class Executors
     {
+        class MainThreadExecutor : MonoBehaviour
+        {
+            private static readonly ILog log = LogManager.GetLogger(typeof(MainThreadExecutor));
+
+            public bool useFixedUpdate;
+
+            private List<object> pendingQueue = new List<object>();
+
+            private List<object> stopingQueue = new List<object>();
+
+            private List<object> runningQueue = new List<object>();
+
+            private List<object> stopingTempQueue = new List<object>();
+
+            private void OnApplicationQuit()
+            {
+                StopAllCoroutines();
+                Executors.Destroy();
+                if (gameObject != null)
+                    Destroy(gameObject);
+            }
+
+            private void Update()
+            {
+                if (useFixedUpdate)
+                    return;
+
+                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
+                    return;
+
+                DoStopingQueue();
+
+                DoPendingQueue();
+            }
+
+            private void FixedUpdate()
+            {
+                if (!useFixedUpdate)
+                    return;
+
+                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
+                    return;
+
+                DoStopingQueue();
+
+                DoPendingQueue();
+            }
+
+            protected void DoStopingQueue()
+            {
+                lock (stopingQueue)
+                {
+                    if (stopingQueue.Count <= 0)
+                        return;
+
+                    stopingTempQueue.Clear();
+                    stopingTempQueue.AddRange(stopingQueue);
+                    stopingQueue.Clear();
+                }
+
+                for (int i = 0; i < stopingTempQueue.Count; i++)
+                {
+                    try
+                    {
+                        object task = stopingTempQueue[i];
+                        if (task is IEnumerator)
+                        {
+                            StopCoroutine((IEnumerator)task);
+                            continue;
+                        }
+
+                        if (task is Coroutine)
+                        {
+                            StopCoroutine((Coroutine)task);
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("", e);
+                    }
+                }
+                stopingTempQueue.Clear();
+            }
+
+            protected void DoPendingQueue()
+            {
+                lock (pendingQueue)
+                {
+                    if (pendingQueue.Count <= 0)
+                        return;
+
+                    runningQueue.Clear();
+                    runningQueue.AddRange(pendingQueue);
+                    pendingQueue.Clear();
+                }
+
+                float startTime = Time.realtimeSinceStartup;
+                for (int i = 0; i < runningQueue.Count; i++)
+                {
+                    try
+                    {
+                        object task = runningQueue[i];
+                        if (task is Action)
+                        {
+                            ((Action)task)();
+                            continue;
+                        }
+
+                        if (task is IEnumerator)
+                        {
+                            StartCoroutine((IEnumerator)task);
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (log.IsWarnEnabled)
+                            log.WarnFormat("", e);
+                    }
+                }
+                runningQueue.Clear();
+
+                float time = Time.realtimeSinceStartup - startTime;
+                if (time > 0.15f)
+                    log.DebugFormat("", (int)(time * 1000));
+            }
+
+            public void Execute(Action action)
+            {
+                if (action == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    pendingQueue.Add(action);
+                }
+            }
+
+            public void Execute(IEnumerator routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    pendingQueue.Add(routine);
+                }
+            }
+
+            public void Stop(IEnumerator routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    if (pendingQueue.Contains(routine))
+                    {
+                        pendingQueue.Remove(routine);
+                        return;
+                    }
+                }
+
+                lock (stopingQueue)
+                {
+                    stopingQueue.Add(routine);
+                }
+            }
+
+            public void Stop(Coroutine routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (stopingQueue)
+                {
+                    stopingQueue.Add(routine);
+                }
+            }
+        }
+
         private static readonly ILog log = LogManager.GetLogger(typeof(Executors));
 
         private static object syncLock = new object();
@@ -88,7 +271,7 @@ namespace CFM.Framework.Execution
 
                     Thread currentThread = Thread.CurrentThread;
                     if (currentThread.ManagedThreadId > 1 || currentThread.IsThreadPoolThread)
-                        throw new Exception("");
+                        throw new Exception("Initialize the class on the main thread, please!");
 
                     mainThread = currentThread;
                     executor = CreateMainThreadExecutor(dontDestroy, useFixedUpdate);
@@ -503,189 +686,6 @@ namespace CFM.Framework.Execution
                 }
             });
             return result;
-        }
-
-        class MainThreadExecutor : MonoBehaviour
-        {
-            private static readonly ILog log = LogManager.GetLogger(typeof(MainThreadExecutor));
-
-            public bool useFixedUpdate;
-
-            private List<object> pendingQueue = new List<object>();
-
-            private List<object> stopingQueue = new List<object>();
-
-            private List<object> runningQueue = new List<object>();
-
-            private List<object> stopingTempQueue = new List<object>();
-
-            private void OnApplicationQuit()
-            {
-                StopAllCoroutines();
-                Executors.Destroy();
-                if (gameObject != null)
-                    Destroy(gameObject);
-            }
-
-            private void Update()
-            {
-                if (useFixedUpdate)
-                    return;
-
-                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
-                    return;
-
-                DoStopingQueue();
-
-                DoPendingQueue();
-            }
-
-            private void FixedUpdate()
-            {
-                if (!useFixedUpdate)
-                    return;
-
-                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
-                    return;
-
-                DoStopingQueue();
-
-                DoPendingQueue();
-            }
-
-            protected void DoStopingQueue()
-            {
-                lock (stopingQueue)
-                {
-                    if (stopingQueue.Count <= 0)
-                        return;
-
-                    stopingTempQueue.Clear();
-                    stopingTempQueue.AddRange(stopingQueue);
-                    stopingQueue.Clear();
-                }
-
-                for (int i = 0; i < stopingTempQueue.Count; i++)
-                {
-                    try
-                    {
-                        object task = stopingTempQueue[i];
-                        if (task is IEnumerator)
-                        {
-                            StopCoroutine((IEnumerator)task);
-                            continue;
-                        }
-
-                        if (task is Coroutine)
-                        {
-                            StopCoroutine((Coroutine)task);
-                            continue;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        if (log.IsWarnEnabled)
-                            log.WarnFormat("", e);
-                    }
-                }
-                stopingTempQueue.Clear();
-            }
-
-            protected void DoPendingQueue()
-            {
-                lock (pendingQueue)
-                {
-                    if (pendingQueue.Count <= 0)
-                        return;
-
-                    runningQueue.Clear();
-                    runningQueue.AddRange(pendingQueue);
-                    pendingQueue.Clear();
-                }
-
-                float startTime = Time.realtimeSinceStartup;
-                for (int i = 0; i < runningQueue.Count; i++)
-                {
-                    try
-                    {
-                        object task = runningQueue[i];
-                        if (task is Action)
-                        {
-                            ((Action)task)();
-                            continue;
-                        }
-
-                        if (task is IEnumerator)
-                        {
-                            StartCoroutine((IEnumerator)task);
-                            continue;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        if (log.IsWarnEnabled)
-                            log.WarnFormat("", e);
-                    }
-                }
-                runningQueue.Clear();
-
-                float time = Time.realtimeSinceStartup - startTime;
-                if (time > 0.15f)
-                    log.DebugFormat("", (int)(time * 1000));
-            }
-
-            public void Execute(Action action)
-            {
-                if (action == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    pendingQueue.Add(action);
-                }
-            }
-
-            public void Execute(IEnumerator routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    pendingQueue.Add(routine);
-                }
-            }
-
-            public void Stop(IEnumerator routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    if (pendingQueue.Contains(routine))
-                    {
-                        pendingQueue.Remove(routine);
-                        return;
-                    }
-                }
-
-                lock(stopingQueue)
-                {
-                    stopingQueue.Add(routine);
-                }
-            }
-
-            public void Stop(Coroutine routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (stopingQueue)
-                {
-                    stopingQueue.Add(routine);
-                }
-            }
         }
     }
 }

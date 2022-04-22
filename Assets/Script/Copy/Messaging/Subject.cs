@@ -9,7 +9,7 @@ namespace CFM.Framework.Messaging
         public abstract void Publish(object message);
     }
 
-    public class Subject<T>: SubjectBase
+    public class Subject<T> : SubjectBase
     {
         private readonly ConcurrentDictionary<string, WeakReference<Subscription>> subscriptions = new ConcurrentDictionary<string, WeakReference<Subscription>>();
 

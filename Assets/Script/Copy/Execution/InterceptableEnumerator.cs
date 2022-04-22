@@ -8,7 +8,7 @@ using CFM.Log;
 
 namespace CFM.Framework.Execution
 {
-    public class InterceptableEnumerator: IEnumerator
+    public class InterceptableEnumerator : IEnumerator
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(InterceptableEnumerator));
 

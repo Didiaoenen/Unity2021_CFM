@@ -63,7 +63,7 @@ namespace CFM.Framework.Execution
         }
     }
 
-    public class CoroutineProgressResult<TProgress>: ProgressResult<TProgress>, ICoroutineProgressPromise<TProgress>
+    public class CoroutineProgressResult<TProgress> : ProgressResult<TProgress>, ICoroutineProgressPromise<TProgress>
     {
         protected List<Coroutine> coroutines = new List<Coroutine>();
 
@@ -92,7 +92,7 @@ namespace CFM.Framework.Execution
         }
     }
 
-    public class CoroutineProgressResult<TProgress, TResult>: ProgressResult<TProgress, TResult>, ICoroutineProgressPromise<TProgress, TResult>
+    public class CoroutineProgressResult<TProgress, TResult> : ProgressResult<TProgress, TResult>, ICoroutineProgressPromise<TProgress, TResult>
     {
         protected List<Coroutine> coroutines = new List<Coroutine>();
 

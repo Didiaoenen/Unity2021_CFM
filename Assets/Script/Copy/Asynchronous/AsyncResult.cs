@@ -5,7 +5,7 @@ using CFM.Framework.Execution;
 
 namespace CFM.Framework.Asynchronous
 {
-    public class AsyncResult: IAsyncResult, IPromise
+    public class AsyncResult : IAsyncResult, IPromise
     {
         private bool done = false;
 
@@ -156,7 +156,7 @@ namespace CFM.Framework.Asynchronous
         }
     }
 
-    public class AsyncResult<TResult>: AsyncResult, IAsyncResult<TResult>, IPromise<TResult>
+    public class AsyncResult<TResult> : AsyncResult, IAsyncResult<TResult>, IPromise<TResult>
     {
         private Synchronizable<TResult> synchronizable;
 

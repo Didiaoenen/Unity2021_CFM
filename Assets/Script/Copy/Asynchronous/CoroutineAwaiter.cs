@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CFM.Framework.Asynchronous
 {
-    public class CoroutineAwaiter: IAwaiter, ICriticalNotifyCompletion
+    public class CoroutineAwaiter : IAwaiter, ICriticalNotifyCompletion
     {
         protected object _lock = new object();
 

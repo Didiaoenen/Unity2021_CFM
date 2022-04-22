@@ -1,6 +1,6 @@
 namespace CFM.Framework.Execution
 {
-    public class AbstractExecutor
+    public abstract class AbstractExecutor
     {
         static AbstractExecutor()
         {

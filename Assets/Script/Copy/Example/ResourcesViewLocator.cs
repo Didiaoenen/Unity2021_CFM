@@ -43,7 +43,7 @@ namespace CFM.Framework.Example
             return DoLoadView<T>(name);
         }
 
-        protected virtual T DoLoadView<T>(string name)
+        public virtual T DoLoadView<T>(string name)
         {
             name = Normaliza(name);
             WeakReference weakRef = null;
@@ -90,6 +90,38 @@ namespace CFM.Framework.Example
         {
             ProgressResult<float, T> result = new ProgressResult<float, T>();
             Executors.RunOnCoroutineNoReturn(DoLoad<T>(result, name));
+            return result;
+        }
+
+        public override T LoadWindow<T>(string name)
+        {
+            return LoadWindow<T>(null, name);
+        }
+
+        public override T LoadWindow<T>(IWindowManager windowManager, string name)
+        {
+            if (windowManager == null)
+                windowManager = GetDefaultWindowManager();
+
+            T target = DoLoadView<T>(name);
+            if (target != null)
+                target.WindowManager = windowManager;
+
+            return target;
+        }
+
+        public override IProgressResult<float, T> LoadWindowAsync<T>(string name)
+        {
+            return LoadWindowAsync<T>(null, name);
+        }
+
+        public override IProgressResult<float, T> LoadWindowAsync<T>(IWindowManager windowManager, string name)
+        {
+            if (windowManager == null)
+                windowManager = GetDefaultWindowManager();
+
+            ProgressResult<float, T> result = new ProgressResult<float, T>();
+            Executors.RunOnCoroutineNoReturn(DoLoad(result, name, windowManager));
             return result;
         }
 
@@ -155,38 +187,6 @@ namespace CFM.Framework.Example
                 promise.UpdateProgress(1f);
                 promise.SetResult(view);
             }
-        }
-
-        public override T LoadWindow<T>(string name)
-        {
-            return LoadWindow<T>(null, name);
-        }
-
-        public override T LoadWindow<T>(IWindowManager windowManager, string name)
-        {
-            if (windowManager == null)
-                windowManager = GetDefaultWindowManager();
-
-            T target = DoLoadView<T>(name);
-            if (target != null)
-                target.WindowManager = windowManager;
-
-            return target;
-        }
-
-        public override IProgressResult<float, T> LoadWindowAsync<T>(string name)
-        {
-            return LoadWindowAsync<T>(null, name);
-        }
-
-        public override IProgressResult<float, T> LoadWindowAsync<T>(IWindowManager windowManager, string name)
-        {
-            if (windowManager == null)
-                windowManager = GetDefaultWindowManager();
-
-            ProgressResult<float, T> result = new ProgressResult<float, T>();
-            Executors.RunOnCoroutineNoReturn(DoLoad(result, name, windowManager));
-            return result;
         }
     }
 }

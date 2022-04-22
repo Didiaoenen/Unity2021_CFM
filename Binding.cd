@@ -1,0 +1,1433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CFM.Framework.Binding.AbstractBinding" Collapsed="true">
+    <Position X="4.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQABAAAAACAAAAAAIAAAACAAAAEAAAAAAAAAAIAAAQA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\AbstractBinding.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.BindingFactory" Collapsed="true">
+    <Position X="4.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAgAAAAAAAAEAAAAKAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\BindingFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Binding" Collapsed="true">
+    <Position X="7.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgJAAAIAQiAAAAAhAwABCoBJAJEAAAAQAALAwEgAAQE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Binding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Binders.StandardBinder" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Binders\StandardBinder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingBuilder" Collapsed="true">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAEAoAAEAAAAAAIQgoAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingBuilderBase" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQACJAAAAAAAAgAIIAACAAAAIAAAoBAAAAAABEEQBQA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingBuilderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.11" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingSetBase" Collapsed="true">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAACAAAAAAIgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingSet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingSet" Collapsed="true">
+    <Position X="7.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Contexts.BindingContext" Collapsed="true">
+    <Position X="23.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Contexts\BindingContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Contexts.BindingContextLifecycle" Collapsed="true">
+    <Position X="23.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Contexts\BindingContextLifecycle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Converters.AbstractConverter" Collapsed="true">
+    <Position X="23.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\AbstractConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Parameters.ParameterWrapConverter" Collapsed="true">
+    <Position X="23.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Parameters\ParameterWrapConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Converters.ConverterRegistry" Collapsed="true">
+    <Position X="23.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\ConverterRegistry.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Expressions.ExpressionVisitor" Collapsed="true">
+    <Position X="9.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAwAAQAAAAAISAAAAAEAAACAhAAAAAAQCA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Expressions\ExpressionVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Expressions.ParameterReplacer" Collapsed="true">
+    <Position X="8.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Expressions\EvaluatingVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Expressions.EvaluatingVisitor" Collapsed="true">
+    <Position X="10.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAgAAAAwAAAIAAEAIiACAAAEACAAAhAAAAAAYCA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Expressions\EvaluatingVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Parameters.ParameterWrapDelegateInvoker" Collapsed="true">
+    <Position X="4.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAIAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Parameters\ParameterWrapDelegateInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.13" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.PathParser" Collapsed="true">
+    <Position X="5.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAQAAAAAAAAAAAAAgAAAAAAAEAAAAAYAAAEA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\PathParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.ExpressionPathFinder" Collapsed="true">
+    <Position X="5.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\ExpressionPathFinder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingBuilder&lt;TTarget&gt;" Collapsed="true">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAoAAEAAAAAAIQgoAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingBuilder&lt;TTarget, TSource&gt;" Collapsed="true">
+    <Position X="11.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAIAAEAAAAAAIQgoAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingSet&lt;TTarget&gt;" Collapsed="true">
+    <Position X="9.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Builder.BindingSet&lt;TTarget, TSource&gt;" Collapsed="true">
+    <Position X="11.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\BindingSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Converters.AbstractConverter&lt;TFrom, TTo&gt;" Collapsed="true">
+    <Position X="23.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\AbstractConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Converters.GenericConverter&lt;TFrom, TTo&gt;" Collapsed="true">
+    <Position X="23.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAIAAAAAAAAgAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\GenericConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Expressions.Scope" Collapsed="true">
+    <Position X="2" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAABACAAAAAAAAAABACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Expressions\EvaluatingVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Expressions.ExpressionExtensions" Collapsed="true">
+    <Position X="4" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACABABAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Expressions\ExpressionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Parameters.ParameterWrapCommand" Collapsed="true">
+    <Position X="7.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQgAEAAAEAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Parameters\ParameterWrapCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Parameters.ParameterWrapProxyInvoker" Collapsed="true">
+    <Position X="9.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAIAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Parameters\ParameterWrapProxyInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Parameters.ParameterWrapScriptInvoker" Collapsed="true">
+    <Position X="11.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Parameters\ParameterWrapScriptInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.Path" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAMAAAAAACAgBAAkCACAAAQIAAAABQAAoAgAIAABIAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.MemberNode" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAIAQIACCFCAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.IndexedNode" Collapsed="true">
+    <Position X="15.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAEAAAAAAAIAACAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.IndexedNode&lt;T&gt;" Collapsed="true">
+    <Position X="15.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.StringIndexedNode" Collapsed="true">
+    <Position X="16.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.IntegerIndexedNode" Collapsed="true">
+    <Position X="14" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.PathExpressionVisitor" Collapsed="true">
+    <Position X="14.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAAAgoAAQYwBAUAAAAAISAAAAAEAAACAhAAAAAEQAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\PathExpressionVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.PathToken" Collapsed="true">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAIEAACCAAAAAAAQAAAAAgEAAAACAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\PathToken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.TextPathParser" Collapsed="true">
+    <Position X="16.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAgEAEACCAABAAAAACCAIACAAAAAAAMoEAAAAAAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\TextPathParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Paths.TypeFinderUtils" Collapsed="true">
+    <Position X="18.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\TypeFinderUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.DelegateExtensions" Collapsed="true">
+    <Position X="1.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\DelegateExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.ExpressionSourceDescription" Collapsed="true">
+    <Position X="12.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEAAAAAAAAABAAAAAQAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\ExpressionSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICBAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.143" Collapsed="true" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy&lt;T, TResult&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICBAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy&lt;TResult&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICBAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.214" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxyFactory" Collapsed="true">
+    <Position X="18.75" Y="20.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\ExpressionSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy" Collapsed="true">
+    <Position X="18.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAICAgAgSABAAQCAAAABAACAAAgQAEAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ChainedObjectSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.EventNodeProxy" Collapsed="true">
+    <Position X="27.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAgAACAAAgAAAAAAAAAAAAAgCAAAAQAEAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\EventNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.FieldNodeProxy" Collapsed="true">
+    <Position X="21.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAIAAAAgQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\FieldNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.InteractionNodeProxy" Collapsed="true">
+    <Position X="23.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAQiAAAgAAAAoQCACAAAAACAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\InteractionNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.ItemNodeProxy&lt;T&gt;" Collapsed="true">
+    <Position X="13.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAICAAAgQAAAQEAAQAAAAAABAAAQAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.148" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.IntItemNodeProxy" Collapsed="true">
+    <Position X="14.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.StringItemNodeProxy" Collapsed="true">
+    <Position X="12.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.MethodNodeProxy" Collapsed="true">
+    <Position X="29.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIIgAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\MethodNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.171" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.ObjectSourceDescription" Collapsed="true">
+    <Position X="13.75" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIEAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ObjectSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.ObjectSourceProxyFactory" Collapsed="true">
+    <Position X="16.75" Y="20.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAABAEAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ObjectSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.107" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.PropertyNodeProxy" Collapsed="true">
+    <Position X="25.25" Y="14.5" Width="1.5" />
+    <InheritanceLine Type="CFM.Framework.Binding.Proxy.Sources.NotifiableSourceProxyBase" FixedToPoint="true">
+      <Path>
+        <Point X="20.25" Y="13.177" />
+        <Point X="20.25" Y="14.125" />
+        <Point X="25.938" Y="14.125" />
+        <Point X="25.938" Y="14.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAICAAAgQAIAAACAAAAAAAAAAAAQAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\PropertyNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Object.UniversalNodeProxyFactory" Collapsed="true">
+    <Position X="12.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\UniversalNodeProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Text.LiteralSourceDescription" Collapsed="true">
+    <Position X="11.5" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Text\LiteralSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Text.LiteralSourceProxy" Collapsed="true">
+    <Position X="1.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Text\LiteralSourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Text.LiteralSourceProxyFactory" Collapsed="true">
+    <Position X="20.75" Y="20.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Text\LiteralSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.Text.ObservableLiteralSourceProxy" Collapsed="true">
+    <Position X="3.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Text\ObservableLiteralSourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.EmptSourceProxy" Collapsed="true">
+    <Position X="25.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAIAAACAAAACAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\EmptSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.186" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.SourceDescription" Collapsed="true">
+    <Position X="12.5" Y="20.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\SourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.SourceProxyBase" Collapsed="true">
+    <Position X="24.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABgAAAAYAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\SourceProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.NotifiableSourceProxyBase" Collapsed="true">
+    <Position X="19.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAASAAAAEAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\SourceProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.SourceProxyFactory" Collapsed="true">
+    <Position X="5.5" Y="20.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAAAAAACAAAAAABAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\SourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Sources.TypedSourceProxyFactory&lt;T&gt;" Collapsed="true">
+    <Position X="18.75" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAACAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\TypedSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UGUI.UnityEventExtentions" Collapsed="true">
+    <Position X="1.25" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UGUI\UnityEventExtentions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UGUI.UnityEventProxy" Collapsed="true">
+    <Position X="3.25" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UGUI\UnityEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UGUI.UnityFieldProxy" Collapsed="true">
+    <Position X="5.5" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UGUI\UnityFieldProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy" Collapsed="true">
+    <Position X="7.75" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UGUI\UnityPropertyProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UnityTargetProxyFactory" Collapsed="true">
+    <Position X="10" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACEAACAQCAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UGUI\UnityTargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UIElements.ClickableEventProxy" Collapsed="true">
+    <Position X="1.25" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UIElements\ClickableEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UIElements.ValueChangedEventProxy" Collapsed="true">
+    <Position X="3.25" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UIElements\ValueChangedEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UIElements.VisualElementFieldProxy" Collapsed="true">
+    <Position X="5.5" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UIElements\VisualElementFieldProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.UIElements.VisualElementPropertyProxy" Collapsed="true">
+    <Position X="7.75" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UIElements\VisualElementPropertyProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.VisualElementProxyFactory" Collapsed="true">
+    <Position X="10" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAEAAAAAQAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\UIElements\VisualElementProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.EventTargetProxy" Collapsed="true">
+    <Position X="1.25" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\EventTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.FieldTargetProxy" Collapsed="true">
+    <Position X="3.25" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\FieldTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.InteractionTargetProxy" Collapsed="true">
+    <Position X="5.5" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\InteractionTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.MethodTargetProxy" Collapsed="true">
+    <Position X="7.75" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\MethodTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.ObservableTargetProxy" Collapsed="true">
+    <Position X="1.25" Y="27.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\ObservableTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.PropertyTargetProxy" Collapsed="true">
+    <Position X="3.25" Y="27.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\PropertyTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.UniversalTargetProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\Universal\UniversalTargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.TargetProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="28.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAAAAAACAAAAAABAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\TargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Proxy.Targets.Universal.TargetProxyBase" Collapsed="true">
+    <Position X="1.25" Y="28.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\TargetProxyBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ParameterMismatchException" Collapsed="true">
+    <Position X="39" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ParameterMismatchException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyEventInfo" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40.75" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAQIAAAgAAAAAAAAAAgAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyEventInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFactory" Collapsed="true">
+    <Position X="42.5" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAIAAAAAABAEEAAAAAAAIAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFieldInfo" Collapsed="true">
+    <Position X="8.5" Y="42.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAJAAAggAAAIAACAQIAAAAAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyFieldInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFieldInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="8.5" Y="43.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABAAgAAAAAACACAAAAAAAAAAAAAAA0AAAg=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyFieldInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyInvoker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40.75" Y="31.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAKAAAAIAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyItemInfo" Collapsed="true">
+    <Position X="1.75" Y="42.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIEAJAAAggAAAIAAAAQIAAAAAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ListProxyItemInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="0.75" Y="43.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.DictionaryProxyItemInfo&lt;T, TKey, TValue&gt;" Collapsed="true">
+    <Position X="2.75" Y="43.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ArrayProxyItemInfo" Collapsed="true">
+    <Position X="5.5" Y="42.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAJAAAggAAAAAAAAQIAAABAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ArrayProxyItemInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="5.5" Y="43.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyMethodInfo" Collapsed="true">
+    <Position X="40" Y="46.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAIAAAAAIAAAAQIAAAAAAAAAMAAAAgEAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFuncInfo&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="29.75" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFuncInfo&lt;T, P1, TResult&gt;" Collapsed="true">
+    <Position X="34.25" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFuncInfo&lt;T, P1, P2, TResult&gt;" Collapsed="true">
+    <Position X="38.75" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyFuncInfo&lt;T, P1, P2, P3, TResult&gt;" Collapsed="true">
+    <Position X="41" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyActionInfo&lt;T&gt;" Collapsed="true">
+    <Position X="45.5" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyActionInfo&lt;T, P1&gt;" Collapsed="true">
+    <Position X="50" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyActionInfo&lt;T, P1, P2&gt;" Collapsed="true">
+    <Position X="54.5" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyActionInfo&lt;T, P1, P2, P3&gt;" Collapsed="true">
+    <Position X="23" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyPropertyInfo" Collapsed="true">
+    <Position X="12.75" Y="30.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIEAJAAAggAAAIAAAAQIAAAAAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyPropertyInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="11.5" Y="31.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABAAgAAAAAACACAAAAAAAIAAAAAAAwAAAg=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyType" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="42.5" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAKAQGAAgAChCEAgIABAAAEAAAgBABIAAyAAQAAAOAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.ProxyTypeExtentions" Collapsed="true">
+    <Position X="42.5" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAIAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\ProxyTypeExtentions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyFuncInfo&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="43.25" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyFuncInfo&lt;T, P1, TResult&gt;" Collapsed="true">
+    <Position X="47.75" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyFuncInfo&lt;T, P1, P2, TResult&gt;" Collapsed="true">
+    <Position X="52.25" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyFuncInfo&lt;T, P1, P2, P3, TResult&gt;" Collapsed="true">
+    <Position X="56.75" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAgAACAAAAAAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyActionInfo&lt;T&gt;" Collapsed="true">
+    <Position X="25.25" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyActionInfo&lt;T, P1&gt;" Collapsed="true">
+    <Position X="27.5" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyActionInfo&lt;T, P1, P2&gt;" Collapsed="true">
+    <Position X="32" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyActionInfo&lt;T, P1, P2, P3&gt;" Collapsed="true">
+    <Position X="36.5" Y="47.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAAACAACAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.StaticProxyPropertyInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="13.75" Y="31.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABAAgAAAAAACACAAAAAAAIAAAAAAAwAAAg=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\StaticProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Reflection.WeakProxyInvoker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39" Y="31.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAKAAAAIAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\WeakProxyInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.Registry.KeyValueRegistry&lt;K, V&gt;" Collapsed="true">
+    <Position X="26.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAJAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Registry\KeyValueRegistry.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CFM.Framework.Binding.BehaviourBindingExtension" Collapsed="true">
+    <Position X="32.75" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAQAAAABAIgAACAAIQAAAAAAAAIAACAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\BehaviourBindingExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.BindingDescription" Collapsed="true">
+    <Position X="34.5" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQoAAAAAEAAAAAAAAAQAAAAAgAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\BindingDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.BindingException" Collapsed="true">
+    <Position X="36.25" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\BindingException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.BindingServiceBundle" Collapsed="true">
+    <Position X="32.75" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\BindingServiceBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.TypeExtensions" Collapsed="true">
+    <Position X="34.5" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\TypeExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFM.Framework.Binding.UnityProxyRegister" Collapsed="true">
+    <Position X="36.25" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\UnityProxyRegister.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="CFM.Framework.Binding.Proxy.Sources.Object.PriorityFactoryPair" Collapsed="true">
+    <Position X="3.25" Y="20.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\ObjectSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFM.Framework.Binding.Proxy.Sources.PriorityFactoryPair" Collapsed="true">
+    <Position X="5.5" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\SourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFM.Framework.Binding.Proxy.Targets.PriorityFactoryPair" Collapsed="true">
+    <Position X="3.25" Y="28.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\TargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="CFM.Framework.Binding.IBinding" Collapsed="true">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\IBinding.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.IBindingFactory" Collapsed="true">
+    <Position X="2" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\IBindingFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.IInvoker" Collapsed="true">
+    <Position X="2" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\IInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.IScriptInvoker" Collapsed="true">
+    <Position X="1" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\IScriptInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyInvoker" Collapsed="true">
+    <Position X="3.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Binders.IBinder" Collapsed="true">
+    <Position X="2" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Binders\IBinder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Builder.IBindingBuilder" Collapsed="true">
+    <Position X="20.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Builder\IBindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Contexts.IBindingContext" Collapsed="true">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Contexts\IBindingContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Converters.IConverter" Collapsed="true">
+    <Position X="20.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\IConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Converters.IConverterRegistry" Collapsed="true">
+    <Position X="20.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\IConverterRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Paths.IPathParser" Collapsed="true">
+    <Position X="2" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\IPathParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Paths.IExpressionPathFinder" Collapsed="true">
+    <Position X="2" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\IExpressionPathFinder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Converters.IConverter&lt;TFrom, TTo&gt;" Collapsed="true">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Converters\IConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Paths.IPathNode" Collapsed="true">
+    <Position X="16.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.Expressions.IExpressionSourceProxy" Collapsed="true">
+    <Position X="5.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Expressions\IExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.IObtainable" Collapsed="true">
+    <Position X="3.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\IObtainable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.IModifiable" Collapsed="true">
+    <Position X="1.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\IModifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.INotifiable" Collapsed="true">
+    <Position X="7.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\INotifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.ISourceProxy" Collapsed="true">
+    <Position X="5.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\ISourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.Object.INodeProxyFactory" Collapsed="true">
+    <Position X="7.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\INodeProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.Object.INodeProxyFactoryRegister" Collapsed="true">
+    <Position X="7.75" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\Object\INodeProxyFactoryRegister.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.ISourceProxyFactory" Collapsed="true">
+    <Position X="5.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\ISourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Sources.ISourceProxyFactoryRegistry" Collapsed="true">
+    <Position X="3.25" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Sources\ISourceProxyFactoryRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Targets.ITargetProxy" Collapsed="true">
+    <Position X="12.5" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAAAAACAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\ITargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Targets.ITargetProxyFactory" Collapsed="true">
+    <Position X="12.5" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\ITargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Proxy.Targets.ITargetProxyFactoryRegister" Collapsed="true">
+    <Position X="12.5" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Proxy\Targets\ITargetProxyFactoryRegister.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyEventInfo" Collapsed="true">
+    <Position X="18.5" Y="52.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyEventInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFactory" Collapsed="true">
+    <Position X="39" Y="32.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFieldInfo" Collapsed="true">
+    <Position X="56.75" Y="52.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAggAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyFieldInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFieldInfo&lt;TValue&gt;" Collapsed="true">
+    <Position X="56.75" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyFieldInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFieldInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="56.75" Y="55.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyFieldInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyItemInfo" Collapsed="true">
+    <Position X="61.25" Y="52.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAggAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyItemInfo&lt;TKey, TValue&gt;" Collapsed="true">
+    <Position X="61.25" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyItemInfo&lt;T, TKey, TValue&gt;" Collapsed="true">
+    <Position X="61.25" Y="55.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyItemInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyMemberInfo" Collapsed="true">
+    <Position X="40" Y="51.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMemberInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyMethodInfo" Collapsed="true">
+    <Position X="37.75" Y="52.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAMAAAAAEAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFuncInfo&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="23" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFuncInfo&lt;T, P1, TResult&gt;" Collapsed="true">
+    <Position X="27.5" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFuncInfo&lt;T, P1, P2, TResult&gt;" Collapsed="true">
+    <Position X="32" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyFuncInfo&lt;T, P1, P2, P3, TResult&gt;" Collapsed="true">
+    <Position X="36.5" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyActionInfo&lt;T&gt;" Collapsed="true">
+    <Position X="41" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyActionInfo&lt;T, P1&gt;" Collapsed="true">
+    <Position X="45.5" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyActionInfo&lt;T, P1, P2&gt;" Collapsed="true">
+    <Position X="50" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyActionInfo&lt;T, P1, P2, P3&gt;" Collapsed="true">
+    <Position X="54.5" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyFuncInfo&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="20.75" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyFuncInfo&lt;T, P1, TResult&gt;" Collapsed="true">
+    <Position X="25.25" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyFuncInfo&lt;T, P1, P2, TResult&gt;" Collapsed="true">
+    <Position X="29.75" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyFuncInfo&lt;T, P1, P2, P3, TResult&gt;" Collapsed="true">
+    <Position X="34.25" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyActionInfo&lt;T&gt;" Collapsed="true">
+    <Position X="38.75" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyActionInfo&lt;T, P1&gt;" Collapsed="true">
+    <Position X="43.25" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyActionInfo&lt;T, P1, P2&gt;" Collapsed="true">
+    <Position X="47.75" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IStaticProxyActionInfo&lt;T, P1, P2, P3&gt;" Collapsed="true">
+    <Position X="52.25" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyMethodInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyObject" Collapsed="true">
+    <Position X="16.75" Y="54.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAgAgEAIAAAAAAAAAAAAAEEAAABAAQAgAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyObject&lt;T&gt;" Collapsed="true">
+    <Position X="15.5" Y="56" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAABAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyCollection" Collapsed="true">
+    <Position X="17.75" Y="56" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyCollection&lt;T&gt;" Collapsed="true">
+    <Position X="16.75" Y="57.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyPropertyInfo" Collapsed="true">
+    <Position X="59" Y="52.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAggAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyPropertyInfo&lt;TValue&gt;" Collapsed="true">
+    <Position X="59" Y="54.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyPropertyInfo&lt;T, TValue&gt;" Collapsed="true">
+    <Position X="59" Y="55.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyPropertyInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyRegistry" Collapsed="true">
+    <Position X="40.75" Y="32.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Reflection.IProxyType" Collapsed="true">
+    <Position X="42.5" Y="32.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAgACAAEAAAAAAAAAAAAAAAAAAASAAAAAACAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Reflection\IProxyType.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CFM.Framework.Binding.Registry.IKeyValueRegistry&lt;K, V&gt;" Collapsed="true">
+    <Position X="20.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Copy\Binding\Registry\IKeyValueRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
