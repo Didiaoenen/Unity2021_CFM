@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CFM.Framework.Binding.Reflection
 {
-    public class ProxyType : IProxyType
+    public class ProxyType : IProxyType, IProxyRegistry
     {
         private readonly Dictionary<string, IProxyEventInfo> events = new Dictionary<string, IProxyEventInfo>();
 

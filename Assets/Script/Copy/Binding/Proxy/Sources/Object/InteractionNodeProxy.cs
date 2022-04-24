@@ -1,11 +1,9 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-
+using CFM.Log;
 using CFM.Framework.Interactivity;
 using CFM.Framework.Binding.Reflection;
-
-using CFM.Log;
 
 namespace CFM.Framework.Binding.Proxy.Sources.Object
 {

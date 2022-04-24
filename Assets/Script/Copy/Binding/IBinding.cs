@@ -1,8 +1,10 @@
+using System;
+
 using CFM.Framework.Binding.Contexts;
 
 namespace CFM.Framework.Binding
 {
-    public interface IBinding
+    public interface IBinding : IDisposable
     {
         IBindingContext BindingContext { get; set; }
 

@@ -2,11 +2,9 @@ namespace CFM.Framework.Binding.Reflection
 {
     public interface IProxyRegistry
     {
-        void Register(IProxyFieldInfo info);
+        void Register(IProxyMemberInfo memberInfo);
 
-        void Register(IProxyPropertyInfo info);
-
-        void Register(IProxyMethodInfo info);
+        void Unregister(IProxyMemberInfo memberInfo);
     }
 }
 

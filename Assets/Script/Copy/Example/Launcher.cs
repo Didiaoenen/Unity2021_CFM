@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Globalization;
-
 using UnityEngine;
-
 using CFM.Framework.Views;
 using CFM.Framework.Binding;
 using CFM.Framework.Services;

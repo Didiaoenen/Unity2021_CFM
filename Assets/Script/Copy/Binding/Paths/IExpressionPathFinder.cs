@@ -5,7 +5,7 @@ namespace CFM.Framework.Binding.Paths
 {
     public interface IExpressionPathFinder
     {
-        List<Path> FindPath(LambdaExpression expression);
+        List<Path> FindPaths(LambdaExpression expression);
     }
 }
 

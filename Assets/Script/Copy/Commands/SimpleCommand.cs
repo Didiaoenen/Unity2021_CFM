@@ -11,7 +11,7 @@ namespace CFM.Framework.Commands
         public SimpleCommand(Action execute, bool keepStrongRef = false)
         {
             if (execute == null)
-                throw new ArgumentNullException("");
+                throw new ArgumentNullException("execute");
 
             this.execute = keepStrongRef ? execute : execute.AsWeak();
         }

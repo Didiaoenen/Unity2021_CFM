@@ -20,6 +20,15 @@ namespace CFM.Framework.Binding.Contexts
                 bindingContext = value;
             }
         }
+
+        protected virtual void OnDestroy()
+        {
+            if (bindingContext != null)
+            {
+                bindingContext.Dispose();
+                bindingContext = null;
+            }
+        }
     }
 }
 

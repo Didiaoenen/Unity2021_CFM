@@ -45,6 +45,7 @@ namespace CFM.Framework.Commands
     public class RelayCommand<T> : CommandBase
     {
         private readonly Action<T> execute;
+
         private readonly Func<bool> canExecute;
 
         public RelayCommand(Action<T> execute) : this(execute, null)

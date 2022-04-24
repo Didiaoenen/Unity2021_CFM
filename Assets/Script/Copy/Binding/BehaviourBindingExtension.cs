@@ -22,7 +22,7 @@ namespace CFM.Framework.Binding
                     binder = ContextManager.GetApplicationContext().GetService<IBinder>();
 
                 if (binder == null)
-                    throw new Exception("");
+                    throw new Exception("Data binding service is not initialized,please create a BindingServiceBundle service before using it.");
 
                 return binder;
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CFM.Framework.Binding.Reflection
 {
-    public class ProxyFactory
+    public class ProxyFactory : IProxyFactory
     {
         public static readonly ProxyFactory Default = new ProxyFactory();
 
@@ -16,7 +16,7 @@ namespace CFM.Framework.Binding.Reflection
             return GetType(type);
         }
 
-        protected virtual ProxyType GetType(Type type)
+        protected virtual IProxyType GetType(Type type)
         {
             ProxyType ret;
             if (types.TryGetValue(type, out ret) && ret != null)
@@ -30,7 +30,7 @@ namespace CFM.Framework.Binding.Reflection
             if (proxyMemberInfo == null)
                 return;
 
-            ProxyType proxyType = GetType(proxyMemberInfo.DeclaringType);
+            ProxyType proxyType = (ProxyType)GetType(proxyMemberInfo.DeclaringType);
             proxyType.Register(proxyMemberInfo);
         }
 
@@ -39,11 +39,11 @@ namespace CFM.Framework.Binding.Reflection
             if (proxyMemberInfo == null)
                 return;
 
-            ProxyType proxyType = GetType(proxyMemberInfo.DeclaringType);
+            ProxyType proxyType = (ProxyType)GetType(proxyMemberInfo.DeclaringType);
             proxyType.Unregister(proxyMemberInfo);
         }
 
-        protected ProxyType Create(Type type)
+        public IProxyType Create(Type type)
         {
             lock (_lock)
             {
