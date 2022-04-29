@@ -8,7 +8,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Commands
 
         private EventHandler canExecuteChanged;
 
-        public event EventHandler CanExecutChanged
+        public event EventHandler CanExecuteChanged
         {
             add { lock(_lock) { canExecuteChanged += value; } }
             remove { lock(_lock) { canExecuteChanged -= value; } }
