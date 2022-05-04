@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
 {
@@ -11,30 +12,50 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
         
         protected FieldInfo fieldInfo;
 
-        public ProxyFieldInfo(FieldInfo fieldInfo)
-        {
-        }
-
         public virtual bool IsValueType { get { return isValueType; } }
 
-        public Type ValueType => throw new NotImplementedException();
+        public virtual Type ValueType { get { return fieldInfo.FieldType; } }
 
-        public TypeCode ValueTypeCode => throw new NotImplementedException();
+        public virtual Type DeclaringType { get { return fieldInfo.DeclaringType; } }
 
-        public Type DeclaringType => throw new NotImplementedException();
+        public virtual string Name { get { return fieldInfo.Name; } }
 
-        public string Name => throw new NotImplementedException();
-
-        public bool IsStatic => throw new NotImplementedException();
-
-        public object GetValue(object target)
+        public virtual bool IsStatic { get { return fieldInfo.IsStatic; } }
+        
+        public TypeCode ValueTypeCode
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (typeCode == TypeCode.Empty)
+                    typeCode = Type.GetTypeCode(ValueType);
+            
+                return typeCode;
+            }
         }
 
-        public void SetValue(object target, object value)
+        public ProxyFieldInfo(FieldInfo fieldInfo)
         {
-            throw new NotImplementedException();
+            if (fieldInfo == null)
+                throw new ArgumentNullException(nameof(fieldInfo));
+
+            this.fieldInfo = fieldInfo;
+            isValueType = fieldInfo.DeclaringType.IsValueType;
+        }
+
+        public virtual object GetValue(object target)
+        {
+            return fieldInfo.GetValue(target);
+        }
+
+        public virtual void SetValue(object target, object value)
+        {
+            if (fieldInfo.IsInitOnly)
+                throw new MemberAccessException();
+
+            if (IsValueType)
+                throw new NotSupportedException();
+
+            fieldInfo.SetValue(target, value);
         }
     }
 
@@ -44,28 +65,149 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
 
         private Action<T, TValue> setter;
 
+        public override Type DeclaringType { get { return typeof(T); } }
+
+        public ProxyFieldInfo(string fieldName) : this(typeof(T).GetField(fieldName))
+        {
+
+        }
+
         public ProxyFieldInfo(FieldInfo fieldInfo) : base(fieldInfo)
         {
+            if (!typeof(TValue).Equals(fieldInfo.FieldType) || !DeclaringType.IsAssignableFrom(typeof(T)))
+                throw new ArgumentException();
+
+            getter = MakeGetter(fieldInfo);
+            setter = MakeSetter(fieldInfo);
+        }
+
+        private Action<T, TValue> MakeSetter(FieldInfo fieldInfo)
+        {
+            if (IsValueType)
+                return null;
+
+            if (fieldInfo.IsInitOnly)
+                return null;
+
+            try
+            {
+                bool expressionSupportRestricted = false;
+
+#if EBABLE_IL2CPP
+                expressionSupportRestricted = true;
+#endif
+
+                if (!expressionSupportRestricted || !(typeof(T).IsValueType || typeof(TValue).IsValueType))
+                {
+                    var targetExp = Expression.Parameter(typeof(T), "target");
+                    var paramExp = Expression.Parameter(typeof(TValue), "value");
+                    var fieldExp = Expression.Field(fieldInfo.IsStatic ? null : targetExp, fieldInfo);
+                    var assignExp = Expression.Assign(fieldExp, paramExp);
+                    var lambda = Expression.Lambda<Action<T, TValue>>(assignExp, targetExp, paramExp);
+                    return lambda.Compile();
+                }
+
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        private Func<T, TValue> MakeGetter(FieldInfo fieldInfo)
+        {
+            try
+            {
+                bool expressionSupportRestricted = false;
+
+#if ENABLE_IL2CPP
+                expressionSupportRestricted = true;
+#endif
+
+                if (!expressionSupportRestricted || !(typeof(T).IsValueType || typeof(TValue).IsValueType))
+                {
+                    var targetExp = Expression.Parameter(typeof(T), "target");
+                    var fieldExp = Expression.Field(fieldInfo.IsStatic ? null : targetExp, fieldInfo);
+                    var lambda = Expression.Lambda<Func<T, TValue>>(fieldExp, targetExp);
+                    return lambda.Compile();
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        public ProxyFieldInfo(string fieldName, Func<T, TValue> getter, Action<T, TValue> setter) : this(typeof(T).GetField(fieldName), getter, setter)
+        {
+
+        }
+
+        public ProxyFieldInfo(FieldInfo fieldInfo, Func<T, TValue> getter, Action<T, TValue> setter) : base(fieldInfo)
+        {
+            if (!typeof(TValue).Equals(this.fieldInfo.FieldType) || !DeclaringType.IsAssignableFrom(typeof(T)))
+                throw new ArgumentException();
+
+            this.getter = getter;
+            this.setter = setter;
         }
 
         public TValue GetValue(T target)
         {
-            throw new NotImplementedException();
+            if (getter != null)
+                return getter(target);
+            return (TValue)fieldInfo.GetValue(target);
         }
 
-        public void SetValue(T target, TValue value)
+        public override object GetValue(object target)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(object target, TValue value)
-        {
-            throw new NotImplementedException();
+            if (getter != null)
+                return getter((T)target);
+            return fieldInfo.GetValue(target);
         }
 
         TValue IProxyFieldInfo<TValue>.GetValue(object target)
         {
-            throw new NotImplementedException();
+            return GetValue((T)target);
+        }
+
+        public void SetValue(T target, TValue value)
+        {
+            if (fieldInfo.IsInitOnly)
+                throw new MemberAccessException();
+
+            if (IsValueType)
+                throw new NotSupportedException();
+
+            if (setter != null)
+            {
+                setter(target, value);
+                return;
+            }
+
+            fieldInfo.SetValue(target, value);
+        }
+
+        public override void SetValue(object target, object value)
+        {
+            if (fieldInfo.IsInitOnly)
+                throw new MemberAccessException();
+
+            if (IsValueType)
+                throw new NotSupportedException();
+
+            if (setter != null)
+            {
+                setter((T)target, (TValue)value);
+                return;
+            }
+
+            fieldInfo.SetValue(target, value);
+        }
+
+        public void SetValue(object target, TValue value)
+        {
+            setter((T)target, value);
         }
     }
 }

@@ -14,102 +14,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
     }
 
     [Serializable]
-    public class Path : IEnumerator<IPathNode>
-    {
-        private readonly object _lock = new object();
-
-        private List<IPathNode> nodes = new List<IPathNode>();
-
-        private PathToken token;
-
-        private int index = -1;
-
-        public IPathNode this[int index] { get { return nodes[index]; } }
-
-        public int Count { get { return nodes.Count; } }
-
-        public bool IsStatic { get { return nodes.Exists(n => n.IsStatic); } }
-
-        public IPathNode Current { get { return nodes[index]; } }
-
-        object IEnumerator.Current { get { return nodes[index]; } }
-
-        public Path() : this(null)
-        {
-
-        }
-
-        public Path(IPathNode root)
-        {
-            if (root != null)
-                Prepend(root);
-        }
-
-        public void Dispose()
-        {
-        }
-
-        ~Path()
-        {
-
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-
-        }
-
-        public bool MoveNext()
-        {
-            index++;
-            return index >= 0 && index < nodes.Count;
-        }
-
-        public void Reset()
-        {
-            index = -1;
-        }
-
-        public PathToken AsPathToken()
-        {
-            if (token != null)
-                return token;
-
-            lock(_lock)
-            {
-                if (token != null)
-                    return token;
-
-                if (nodes.Count <= 0)
-                    throw new InvalidOperationException("The path node is empty");
-
-                token = new PathToken(this, 0);
-                return token;
-            }
-        }
-
-        public void Append(IPathNode node)
-        {
-            nodes.Add(node);
-        }
-
-        public void Prepend(IPathNode node)
-        {
-            nodes.Insert(0, node);
-        }
-
-        public void PrependIndexed(string indexValue)
-        {
-            Prepend(new StringIndexNode(indexValue));
-        }
-
-        public void PrependIndexed(int indexValue)
-        {
-            Prepend(new IntegerIndexedNode(indexValue));
-        }
-    }
-
-    [Serializable]
     public abstract class IndexedNode : IPathNode
     {
         private object value;
@@ -170,6 +74,134 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
         public override void AppendTo(StringBuilder output)
         {
             output.AppendFormat("[\"{0}\"]", Value);
+        }
+    }
+
+    [Serializable]
+    public class Path : IEnumerator<IPathNode>
+    {
+        private readonly object _lock = new object();
+
+        private List<IPathNode> nodes = new List<IPathNode>();
+
+        private PathToken token;
+
+        private int index = -1;
+
+        public IPathNode this[int index] { get { return nodes[index]; } }
+
+        public int Count { get { return nodes.Count; } }
+
+        public bool IsStatic { get { return nodes.Exists(n => n.IsStatic); } }
+
+        public IPathNode Current { get { return nodes[index]; } }
+
+        object IEnumerator.Current { get { return nodes[index]; } }
+
+        public Path() : this(null)
+        {
+
+        }
+
+        public Path(IPathNode root)
+        {
+            if (root != null)
+                Prepend(root);
+        }
+
+        ~Path()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    nodes.Clear();
+                    index = -1;
+                }
+                disposed = true;
+            }
+        }
+
+        public bool MoveNext()
+        {
+            index++;
+            return index >= 0 && index < nodes.Count;
+        }
+
+        public void Reset()
+        {
+            index = -1;
+        }
+
+        public PathToken AsPathToken()
+        {
+            if (token != null)
+                return token;
+
+            lock(_lock)
+            {
+                if (token != null)
+                    return token;
+
+                if (nodes.Count <= 0)
+                    throw new InvalidOperationException("The path node is empty");
+
+                token = new PathToken(this, 0);
+                return token;
+            }
+        }
+
+        public void AppendIndexed(int indexValue)
+        {
+            Append(new IntegerIndexedNode(indexValue));
+        }
+
+        public void AppendIndexed(string indexValue)
+        {
+            Append(new StringIndexNode(indexValue));
+        }
+
+        public List<IPathNode> ToList()
+        {
+            return new List<IPathNode>(nodes);
+        }
+
+        public void Append(IPathNode node)
+        {
+            nodes.Add(node);
+        }
+
+        public void Prepend(IPathNode node)
+        {
+            nodes.Insert(0, node);
+        }
+
+        public void PrependIndexed(string indexValue)
+        {
+            Prepend(new StringIndexNode(indexValue));
+        }
+
+        public void PrependIndexed(int indexValue)
+        {
+            Prepend(new IntegerIndexedNode(indexValue));
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 

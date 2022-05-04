@@ -2,8 +2,8 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
-using Assembly_CSharp.Assets.Script.Simple.Commands;
 using Assembly_CSharp.Assets.Script.Simple.Execution;
+using Assembly_CSharp.Assets.Script.Simple.Commands;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Reflection;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
@@ -38,34 +38,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
         protected virtual void UnbindEvent()
         {
             clickable.clicked -= OnEvent;
-        }
-
-        protected virtual bool IsValid(Delegate handler)
-        {
-            if (handler is Action)
-                return true;
-
-            MethodInfo info = handler.Method;
-            if (!info.ReturnType.Equals(typeof(void)))
-                return false;
-
-            List<Type> parameterTypes = info.GetParameterTypes();
-            if (parameterTypes.Count == 0)
-                return true;
-
-            return false;
-        }
-
-        protected virtual bool IsValid(IProxyInvoker invoker)
-        {
-            IProxyMethodInfo info = invoker.ProxyMethodInfo;
-            if (!info.ReturnType.Equals(typeof(void)))
-                return false;
-
-            var parameters = info.Parameters;
-            if (parameters != null && parameters.Length != 0)
-                return false;
-            return true;
         }
 
         protected virtual void OnEvent()
@@ -161,6 +133,34 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             {
                 this.invoker = invoker;
             }
+        }
+
+        protected virtual bool IsValid(Delegate handler)
+        {
+            if (handler is Action)
+                return true;
+
+            MethodInfo info = handler.Method;
+            if (!info.ReturnType.Equals(typeof(void)))
+                return false;
+
+            List<Type> parameterTypes = info.GetParameterTypes();
+            if (parameterTypes.Count == 0)
+                return true;
+
+            return false;
+        }
+
+        protected virtual bool IsValid(IProxyInvoker invoker)
+        {
+            IProxyMethodInfo info = invoker.ProxyMethodInfo;
+            if (!info.ReturnType.Equals(typeof(void)))
+                return false;
+
+            var parameters = info.Parameters;
+            if (parameters != null && parameters.Length != 0)
+                return false;
+            return true;
         }
 
         public override void SetValue<TValue>(TValue value)

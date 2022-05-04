@@ -30,7 +30,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
                 throw new ArgumentNullException("unityEvent");
 
             this.unityEvent = unityEvent;
-            this.BindEvent();
+            BindEvent();
         }
 
         protected abstract void BindEvent();

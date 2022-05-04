@@ -1,6 +1,6 @@
-using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
 using System;
 using System.Collections.Generic;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 {
@@ -32,25 +32,25 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
         }
     }
 
-    public class BindingSet<TTarget, TSource> : BindingSetBase where TTarget : class
+    public class BindingSet : BindingSetBase
     {
-        private TTarget target;
+        private object target;
 
-        public BindingSet(IBindingContext context, TTarget target) : base(context)
+        public BindingSet(IBindingContext context, object target) : base(context)
         {
             this.target = target;
         }
 
-        public virtual BindingBuilder<TTarget, TSource> Bind()
+        public virtual BindingBuilder Bind()
         {
-            var builder = new BindingBuilder<TTarget, TSource>(context, target);
+            var builder = new BindingBuilder(context, target);
             builders.Add(builder);
             return builder;
         }
 
-        public virtual BindingBuilder<TChildTarget, TSource> Bind<TChildTarget>(TChildTarget target) where TChildTarget : class
+        public virtual BindingBuilder Bind(object target)
         {
-            var builder = new BindingBuilder<TChildTarget, TSource>(context, target);
+            var builder = new BindingBuilder(context, target);
             builders.Add(builder);
             return builder;
         }
@@ -80,25 +80,25 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
         }
     }
 
-    public class BindingSet : BindingSetBase
+    public class BindingSet<TTarget, TSource> : BindingSetBase where TTarget : class
     {
-        private object target;
+        private TTarget target;
 
-        public BindingSet(IBindingContext context, object target) : base(context)
+        public BindingSet(IBindingContext context, TTarget target) : base(context)
         {
             this.target = target;
         }
 
-        public virtual BindingBuilder Bind()
+        public virtual BindingBuilder<TTarget, TSource> Bind()
         {
-            var builder = new BindingBuilder(context, target);
+            var builder = new BindingBuilder<TTarget, TSource>(context, target);
             builders.Add(builder);
             return builder;
         }
 
-        public virtual BindingBuilder Bind(object target)
+        public virtual BindingBuilder<TChildTarget, TSource> Bind<TChildTarget>(TChildTarget target) where TChildTarget : class
         {
-            var builder = new BindingBuilder(context, target);
+            var builder = new BindingBuilder<TChildTarget, TSource>(context, target);
             builders.Add(builder);
             return builder;
         }

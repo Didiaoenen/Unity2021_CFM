@@ -84,21 +84,36 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             TypeCode typeCode = propertyInfo.ValueTypeCode;
             switch (typeCode)
             {
-                case TypeCode.String: return new UnityPropertyProxy<string>(target, propertyInfo, (UnityEvent<string>)updateTrigger);
-                case TypeCode.Boolean: return new UnityPropertyProxy<bool>(target, propertyInfo, (UnityEvent<bool>)updateTrigger);
-                case TypeCode.SByte: return new UnityPropertyProxy<sbyte>(target, propertyInfo, (UnityEvent<sbyte>)updateTrigger);
-                case TypeCode.Byte: return new UnityPropertyProxy<byte>(target, propertyInfo, (UnityEvent<byte>)updateTrigger);
-                case TypeCode.Int16: return new UnityPropertyProxy<short>(target, propertyInfo, (UnityEvent<short>)updateTrigger);
-                case TypeCode.UInt16: return new UnityPropertyProxy<ushort>(target, propertyInfo, (UnityEvent<ushort>)updateTrigger);
-                case TypeCode.Int32: return new UnityPropertyProxy<int>(target, propertyInfo, (UnityEvent<int>)updateTrigger);
-                case TypeCode.UInt32: return new UnityPropertyProxy<uint>(target, propertyInfo, (UnityEvent<uint>)updateTrigger);
-                case TypeCode.Int64: return new UnityPropertyProxy<long>(target, propertyInfo, (UnityEvent<long>)updateTrigger);
-                case TypeCode.UInt64: return new UnityPropertyProxy<ulong>(target, propertyInfo, (UnityEvent<ulong>)updateTrigger);
-                case TypeCode.Char: return new UnityPropertyProxy<char>(target, propertyInfo, (UnityEvent<char>)updateTrigger);
-                case TypeCode.Single: return new UnityPropertyProxy<float>(target, propertyInfo, (UnityEvent<float>)updateTrigger);
-                case TypeCode.Double: return new UnityPropertyProxy<double>(target, propertyInfo, (UnityEvent<double>)updateTrigger);
-                case TypeCode.Decimal: return new UnityPropertyProxy<decimal>(target, propertyInfo, (UnityEvent<decimal>)updateTrigger);
-                case TypeCode.DateTime: return new UnityPropertyProxy<DateTime>(target, propertyInfo, (UnityEvent<DateTime>)updateTrigger);
+                case TypeCode.String: 
+                    return new UnityPropertyProxy<string>(target, propertyInfo, (UnityEvent<string>)updateTrigger);
+                case TypeCode.Boolean: 
+                    return new UnityPropertyProxy<bool>(target, propertyInfo, (UnityEvent<bool>)updateTrigger);
+                case TypeCode.SByte: 
+                    return new UnityPropertyProxy<sbyte>(target, propertyInfo, (UnityEvent<sbyte>)updateTrigger);
+                case TypeCode.Byte: 
+                    return new UnityPropertyProxy<byte>(target, propertyInfo, (UnityEvent<byte>)updateTrigger);
+                case TypeCode.Int16: 
+                    return new UnityPropertyProxy<short>(target, propertyInfo, (UnityEvent<short>)updateTrigger);
+                case TypeCode.UInt16: 
+                    return new UnityPropertyProxy<ushort>(target, propertyInfo, (UnityEvent<ushort>)updateTrigger);
+                case TypeCode.Int32: 
+                    return new UnityPropertyProxy<int>(target, propertyInfo, (UnityEvent<int>)updateTrigger);
+                case TypeCode.UInt32: 
+                    return new UnityPropertyProxy<uint>(target, propertyInfo, (UnityEvent<uint>)updateTrigger);
+                case TypeCode.Int64: 
+                    return new UnityPropertyProxy<long>(target, propertyInfo, (UnityEvent<long>)updateTrigger);
+                case TypeCode.UInt64: 
+                    return new UnityPropertyProxy<ulong>(target, propertyInfo, (UnityEvent<ulong>)updateTrigger);
+                case TypeCode.Char: 
+                    return new UnityPropertyProxy<char>(target, propertyInfo, (UnityEvent<char>)updateTrigger);
+                case TypeCode.Single: 
+                    return new UnityPropertyProxy<float>(target, propertyInfo, (UnityEvent<float>)updateTrigger);
+                case TypeCode.Double: 
+                    return new UnityPropertyProxy<double>(target, propertyInfo, (UnityEvent<double>)updateTrigger);
+                case TypeCode.Decimal: 
+                    return new UnityPropertyProxy<decimal>(target, propertyInfo, (UnityEvent<decimal>)updateTrigger);
+                case TypeCode.DateTime: 
+                    return new UnityPropertyProxy<DateTime>(target, propertyInfo, (UnityEvent<DateTime>)updateTrigger);
                 case TypeCode.Object:
                 default:
                     {
@@ -120,21 +135,36 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             TypeCode typeCode = fieldInfo.ValueTypeCode;
             switch (typeCode)
             {
-                case TypeCode.String: return new UnityFieldProxy<string>(target, fieldInfo, (UnityEvent<string>)updateTrigger);
-                case TypeCode.Boolean: return new UnityFieldProxy<bool>(target, fieldInfo, (UnityEvent<bool>)updateTrigger);
-                case TypeCode.SByte: return new UnityFieldProxy<sbyte>(target, fieldInfo, (UnityEvent<sbyte>)updateTrigger);
-                case TypeCode.Byte: return new UnityFieldProxy<byte>(target, fieldInfo, (UnityEvent<byte>)updateTrigger);
-                case TypeCode.Int16: return new UnityFieldProxy<short>(target, fieldInfo, (UnityEvent<short>)updateTrigger);
-                case TypeCode.UInt16: return new UnityFieldProxy<ushort>(target, fieldInfo, (UnityEvent<ushort>)updateTrigger);
-                case TypeCode.Int32: return new UnityFieldProxy<int>(target, fieldInfo, (UnityEvent<int>)updateTrigger);
-                case TypeCode.UInt32: return new UnityFieldProxy<uint>(target, fieldInfo, (UnityEvent<uint>)updateTrigger);
-                case TypeCode.Int64: return new UnityFieldProxy<long>(target, fieldInfo, (UnityEvent<long>)updateTrigger);
-                case TypeCode.UInt64: return new UnityFieldProxy<ulong>(target, fieldInfo, (UnityEvent<ulong>)updateTrigger);
-                case TypeCode.Char: return new UnityFieldProxy<char>(target, fieldInfo, (UnityEvent<char>)updateTrigger);
-                case TypeCode.Single: return new UnityFieldProxy<float>(target, fieldInfo, (UnityEvent<float>)updateTrigger);
-                case TypeCode.Double: return new UnityFieldProxy<double>(target, fieldInfo, (UnityEvent<double>)updateTrigger);
-                case TypeCode.Decimal: return new UnityFieldProxy<decimal>(target, fieldInfo, (UnityEvent<decimal>)updateTrigger);
-                case TypeCode.DateTime: return new UnityFieldProxy<DateTime>(target, fieldInfo, (UnityEvent<DateTime>)updateTrigger);
+                case TypeCode.String: 
+                    return new UnityFieldProxy<string>(target, fieldInfo, (UnityEvent<string>)updateTrigger);
+                case TypeCode.Boolean: 
+                    return new UnityFieldProxy<bool>(target, fieldInfo, (UnityEvent<bool>)updateTrigger);
+                case TypeCode.SByte: 
+                    return new UnityFieldProxy<sbyte>(target, fieldInfo, (UnityEvent<sbyte>)updateTrigger);
+                case TypeCode.Byte: 
+                    return new UnityFieldProxy<byte>(target, fieldInfo, (UnityEvent<byte>)updateTrigger);
+                case TypeCode.Int16: 
+                    return new UnityFieldProxy<short>(target, fieldInfo, (UnityEvent<short>)updateTrigger);
+                case TypeCode.UInt16: 
+                    return new UnityFieldProxy<ushort>(target, fieldInfo, (UnityEvent<ushort>)updateTrigger);
+                case TypeCode.Int32: 
+                    return new UnityFieldProxy<int>(target, fieldInfo, (UnityEvent<int>)updateTrigger);
+                case TypeCode.UInt32: 
+                    return new UnityFieldProxy<uint>(target, fieldInfo, (UnityEvent<uint>)updateTrigger);
+                case TypeCode.Int64: 
+                    return new UnityFieldProxy<long>(target, fieldInfo, (UnityEvent<long>)updateTrigger);
+                case TypeCode.UInt64: 
+                    return new UnityFieldProxy<ulong>(target, fieldInfo, (UnityEvent<ulong>)updateTrigger);
+                case TypeCode.Char: 
+                    return new UnityFieldProxy<char>(target, fieldInfo, (UnityEvent<char>)updateTrigger);
+                case TypeCode.Single: 
+                    return new UnityFieldProxy<float>(target, fieldInfo, (UnityEvent<float>)updateTrigger);
+                case TypeCode.Double: 
+                    return new UnityFieldProxy<double>(target, fieldInfo, (UnityEvent<double>)updateTrigger);
+                case TypeCode.Decimal: 
+                    return new UnityFieldProxy<decimal>(target, fieldInfo, (UnityEvent<decimal>)updateTrigger);
+                case TypeCode.DateTime: 
+                    return new UnityFieldProxy<DateTime>(target, fieldInfo, (UnityEvent<DateTime>)updateTrigger);
                 case TypeCode.Object:
                 default:
                     {

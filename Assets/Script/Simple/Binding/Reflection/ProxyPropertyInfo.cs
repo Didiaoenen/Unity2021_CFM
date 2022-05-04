@@ -158,6 +158,19 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
             return (TValue)base.GetValue(target);
         }
 
+        TValue IProxyPropertyInfo<TValue>.GetValue(object target)
+        {
+            return GetValue((T)target);
+        }
+
+        public override object GetValue(object target)
+        {
+            if (getter != null)
+                return getter((T)target);
+
+            return base.GetValue(target);
+        }
+
         public void SetValue(T target, TValue value)
         {
             if (IsValueType)
@@ -177,11 +190,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
             SetValue((T)target, value);
         }
 
-        TValue IProxyPropertyInfo<TValue>.GetValue(object target)
-        {
-            return GetValue((T)target);
-        }
-
         public override void SetValue(object target, object value)
         {
             if (IsValueType)
@@ -194,14 +202,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
             }
 
             base.SetValue(target, value);
-        }
-
-        public override object GetValue(object target)
-        {
-            if (getter != null)
-                return getter((T)target);
-
-            return base.GetValue(target);
         }
     }
 }

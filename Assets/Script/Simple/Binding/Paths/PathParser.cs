@@ -1,6 +1,6 @@
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 {
@@ -61,7 +61,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 
                     var value = (expr as ConstantExpression).Value;
                     if (value is MethodInfo)
-                        return (MethodInfo)value;
+                        return value as MethodInfo;
                 }
                 return null;
             }
@@ -69,7 +69,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             {
                 var value = (target as ConstantExpression).Value;
                 if (value is MethodInfo)
-                    return (MethodInfo)value;
+                    return value as MethodInfo;
             }
             return null;
         }

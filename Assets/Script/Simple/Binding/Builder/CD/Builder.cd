@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Builder.BindingBuilderBase" Collapsed="true">
+    <Position X="4.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQACJAAAAAAAAgAIIAACAAAAIAAAoBAAAAAABEEQBQA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Builder\BindingBuilderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Builder.BindingBuilder" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAEAoAAEAAAAAAIQgoAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Builder.BindingBuilder&lt;TTarget&gt;" Collapsed="true">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAoAAEAAAAAAIQgoAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Builder.BindingBuilder&lt;TTarget, TSource&gt;" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAIAAEAAAAAAIQgoAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Builder\BindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Builder.IBindingBuilder" Collapsed="true">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Builder\IBindingBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

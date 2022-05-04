@@ -34,41 +34,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
             this.factory = factory;
         }
 
-        protected IProxyMethodInfo GetMethodInfo(string name, Type[] parameterTypes)
-        {
-            lock (_lock)
-            {
-                if (!methods.ContainsKey(name))
-                    return null;
-
-                List<IProxyMethodInfo> list = methods[name];
-                foreach (IProxyMethodInfo info in list)
-                {
-                    if (IsParameterMatch(info, parameterTypes))
-                        return info;
-                }
-                return null;
-            }
-        }
-
-        protected bool IsParameterMatch(IProxyMethodInfo proxyMethodInfo, Type[] parameterTypes)
-        {
-            ParameterInfo[] parameters = proxyMethodInfo.Parameters;
-            if ((parameters == null || parameters.Length == 0) && (parameterTypes == null || parameterTypes.Length == 0))
-                return true;
-
-            if (parameters != null && parameterTypes != null && parameters.Length == parameters.Length)
-            {
-                for (int i = 0; i < parameters.Length; i++)
-                {
-                    if (!parameters[i].Equals(parameterTypes[i]))
-                        return false;
-                }
-                return true;
-            }
-            return false;
-        }
-
         public IProxyType GetBase()
         {
             if (baseType != null)
@@ -614,6 +579,41 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 return null;
 
             return baseTypeInfo.GetMethod(name, parameterTypes, flags);
+        }
+
+        protected IProxyMethodInfo GetMethodInfo(string name, Type[] parameterTypes)
+        {
+            lock (_lock)
+            {
+                if (!methods.ContainsKey(name))
+                    return null;
+
+                List<IProxyMethodInfo> list = methods[name];
+                foreach (IProxyMethodInfo info in list)
+                {
+                    if (IsParameterMatch(info, parameterTypes))
+                        return info;
+                }
+                return null;
+            }
+        }
+
+        protected bool IsParameterMatch(IProxyMethodInfo proxyMethodInfo, Type[] parameterTypes)
+        {
+            ParameterInfo[] parameters = proxyMethodInfo.Parameters;
+            if ((parameters == null || parameters.Length == 0) && (parameterTypes == null || parameterTypes.Length == 0))
+                return true;
+
+            if (parameters != null && parameterTypes != null && parameters.Length == parameters.Length)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    if (!parameters[i].Equals(parameterTypes[i]))
+                        return false;
+                }
+                return true;
+            }
+            return false;
         }
 
         protected IProxyMethodInfo CreateProxyMethodInfo(MethodInfo methodInfo)

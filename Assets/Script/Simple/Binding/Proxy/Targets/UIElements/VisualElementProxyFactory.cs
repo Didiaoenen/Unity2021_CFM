@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Reflection;
-using Assembly_CSharp.Assets.Script.Simple.Observables;
 using UnityEngine.UIElements;
+using Assembly_CSharp.Assets.Script.Simple.Observables;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Reflection;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
 {
@@ -77,21 +77,36 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
             TypeCode typeCode = Type.GetTypeCode(type);
             switch (typeCode)
             {
-                case TypeCode.String: return new ValueChangedEventProxy<string>((INotifyValueChanged<string>)target);
-                case TypeCode.Boolean: return new ValueChangedEventProxy<bool>((INotifyValueChanged<bool>)target);
-                case TypeCode.SByte: return new ValueChangedEventProxy<sbyte>((INotifyValueChanged<sbyte>)target);
-                case TypeCode.Byte: return new ValueChangedEventProxy<byte>((INotifyValueChanged<byte>)target);
-                case TypeCode.Int16: return new ValueChangedEventProxy<short>((INotifyValueChanged<short>)target);
-                case TypeCode.UInt16: return new ValueChangedEventProxy<ushort>((INotifyValueChanged<ushort>)target);
-                case TypeCode.Int32: return new ValueChangedEventProxy<int>((INotifyValueChanged<int>)target);
-                case TypeCode.UInt32: return new ValueChangedEventProxy<uint>((INotifyValueChanged<uint>)target);
-                case TypeCode.Int64: return new ValueChangedEventProxy<long>((INotifyValueChanged<long>)target);
-                case TypeCode.UInt64: return new ValueChangedEventProxy<ulong>((INotifyValueChanged<ulong>)target);
-                case TypeCode.Char: return new ValueChangedEventProxy<char>((INotifyValueChanged<char>)target);
-                case TypeCode.Single: return new ValueChangedEventProxy<float>((INotifyValueChanged<float>)target);
-                case TypeCode.Double: return new ValueChangedEventProxy<double>((INotifyValueChanged<double>)target);
-                case TypeCode.Decimal: return new ValueChangedEventProxy<decimal>((INotifyValueChanged<decimal>)target);
-                case TypeCode.DateTime: return new ValueChangedEventProxy<DateTime>((INotifyValueChanged<DateTime>)target);
+                case TypeCode.String: 
+                    return new ValueChangedEventProxy<string>((INotifyValueChanged<string>)target);
+                case TypeCode.Boolean: 
+                    return new ValueChangedEventProxy<bool>((INotifyValueChanged<bool>)target);
+                case TypeCode.SByte: 
+                    return new ValueChangedEventProxy<sbyte>((INotifyValueChanged<sbyte>)target);
+                case TypeCode.Byte: 
+                    return new ValueChangedEventProxy<byte>((INotifyValueChanged<byte>)target);
+                case TypeCode.Int16: 
+                    return new ValueChangedEventProxy<short>((INotifyValueChanged<short>)target);
+                case TypeCode.UInt16: 
+                    return new ValueChangedEventProxy<ushort>((INotifyValueChanged<ushort>)target);
+                case TypeCode.Int32: 
+                    return new ValueChangedEventProxy<int>((INotifyValueChanged<int>)target);
+                case TypeCode.UInt32: 
+                    return new ValueChangedEventProxy<uint>((INotifyValueChanged<uint>)target);
+                case TypeCode.Int64: 
+                    return new ValueChangedEventProxy<long>((INotifyValueChanged<long>)target);
+                case TypeCode.UInt64: 
+                    return new ValueChangedEventProxy<ulong>((INotifyValueChanged<ulong>)target);
+                case TypeCode.Char: 
+                    return new ValueChangedEventProxy<char>((INotifyValueChanged<char>)target);
+                case TypeCode.Single: 
+                    return new ValueChangedEventProxy<float>((INotifyValueChanged<float>)target);
+                case TypeCode.Double: 
+                    return new ValueChangedEventProxy<double>((INotifyValueChanged<double>)target);
+                case TypeCode.Decimal: 
+                    return new ValueChangedEventProxy<decimal>((INotifyValueChanged<decimal>)target);
+                case TypeCode.DateTime: 
+                    return new ValueChangedEventProxy<DateTime>((INotifyValueChanged<DateTime>)target);
                 case TypeCode.Object:
                 default:
                     {
@@ -113,21 +128,36 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
             TypeCode typeCode = Type.GetTypeCode(type);
             switch (typeCode)
             {
-                case TypeCode.String: return new VisualElementPropertyProxy<string>(target, propertyInfo);
-                case TypeCode.Boolean: return new VisualElementPropertyProxy<bool>(target, propertyInfo);
-                case TypeCode.SByte: return new VisualElementPropertyProxy<sbyte>(target, propertyInfo);
-                case TypeCode.Byte: return new VisualElementPropertyProxy<byte>(target, propertyInfo);
-                case TypeCode.Int16: return new VisualElementPropertyProxy<short>(target, propertyInfo);
-                case TypeCode.UInt16: return new VisualElementPropertyProxy<ushort>(target, propertyInfo);
-                case TypeCode.Int32: return new VisualElementPropertyProxy<int>(target, propertyInfo);
-                case TypeCode.UInt32: return new VisualElementPropertyProxy<uint>(target, propertyInfo);
-                case TypeCode.Int64: return new VisualElementPropertyProxy<long>(target, propertyInfo);
-                case TypeCode.UInt64: return new VisualElementPropertyProxy<ulong>(target, propertyInfo);
-                case TypeCode.Char: return new VisualElementPropertyProxy<char>(target, propertyInfo);
-                case TypeCode.Single: return new VisualElementPropertyProxy<float>(target, propertyInfo);
-                case TypeCode.Double: return new VisualElementPropertyProxy<double>(target, propertyInfo);
-                case TypeCode.Decimal: return new VisualElementPropertyProxy<decimal>(target, propertyInfo);
-                case TypeCode.DateTime: return new VisualElementPropertyProxy<DateTime>(target, propertyInfo);
+                case TypeCode.String: 
+                    return new VisualElementPropertyProxy<string>(target, propertyInfo);
+                case TypeCode.Boolean: 
+                    return new VisualElementPropertyProxy<bool>(target, propertyInfo);
+                case TypeCode.SByte: 
+                    return new VisualElementPropertyProxy<sbyte>(target, propertyInfo);
+                case TypeCode.Byte: 
+                    return new VisualElementPropertyProxy<byte>(target, propertyInfo);
+                case TypeCode.Int16: 
+                    return new VisualElementPropertyProxy<short>(target, propertyInfo);
+                case TypeCode.UInt16: 
+                    return new VisualElementPropertyProxy<ushort>(target, propertyInfo);
+                case TypeCode.Int32: 
+                    return new VisualElementPropertyProxy<int>(target, propertyInfo);
+                case TypeCode.UInt32: 
+                    return new VisualElementPropertyProxy<uint>(target, propertyInfo);
+                case TypeCode.Int64: 
+                    return new VisualElementPropertyProxy<long>(target, propertyInfo);
+                case TypeCode.UInt64: 
+                    return new VisualElementPropertyProxy<ulong>(target, propertyInfo);
+                case TypeCode.Char: 
+                    return new VisualElementPropertyProxy<char>(target, propertyInfo);
+                case TypeCode.Single: 
+                    return new VisualElementPropertyProxy<float>(target, propertyInfo);
+                case TypeCode.Double: 
+                    return new VisualElementPropertyProxy<double>(target, propertyInfo);
+                case TypeCode.Decimal: 
+                    return new VisualElementPropertyProxy<decimal>(target, propertyInfo);
+                case TypeCode.DateTime: 
+                    return new VisualElementPropertyProxy<DateTime>(target, propertyInfo);
                 case TypeCode.Object:
                 default:
                     {
@@ -149,21 +179,36 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
             TypeCode typeCode = Type.GetTypeCode(type);
             switch (typeCode)
             {
-                case TypeCode.String: return new VisualElementFieldProxy<string>(target, fieldInfo);
-                case TypeCode.Boolean: return new VisualElementFieldProxy<bool>(target, fieldInfo);
-                case TypeCode.SByte: return new VisualElementFieldProxy<sbyte>(target, fieldInfo);
-                case TypeCode.Byte: return new VisualElementFieldProxy<byte>(target, fieldInfo);
-                case TypeCode.Int16: return new VisualElementFieldProxy<short>(target, fieldInfo);
-                case TypeCode.UInt16: return new VisualElementFieldProxy<ushort>(target, fieldInfo);
-                case TypeCode.Int32: return new VisualElementFieldProxy<int>(target, fieldInfo);
-                case TypeCode.UInt32: return new VisualElementFieldProxy<uint>(target, fieldInfo);
-                case TypeCode.Int64: return new VisualElementFieldProxy<long>(target, fieldInfo);
-                case TypeCode.UInt64: return new VisualElementFieldProxy<ulong>(target, fieldInfo);
-                case TypeCode.Char: return new VisualElementFieldProxy<char>(target, fieldInfo);
-                case TypeCode.Single: return new VisualElementFieldProxy<float>(target, fieldInfo);
-                case TypeCode.Double: return new VisualElementFieldProxy<double>(target, fieldInfo);
-                case TypeCode.Decimal: return new VisualElementFieldProxy<decimal>(target, fieldInfo);
-                case TypeCode.DateTime: return new VisualElementFieldProxy<DateTime>(target, fieldInfo);
+                case TypeCode.String: 
+                    return new VisualElementFieldProxy<string>(target, fieldInfo);
+                case TypeCode.Boolean: 
+                    return new VisualElementFieldProxy<bool>(target, fieldInfo);
+                case TypeCode.SByte: 
+                    return new VisualElementFieldProxy<sbyte>(target, fieldInfo);
+                case TypeCode.Byte: 
+                    return new VisualElementFieldProxy<byte>(target, fieldInfo);
+                case TypeCode.Int16: 
+                    return new VisualElementFieldProxy<short>(target, fieldInfo);
+                case TypeCode.UInt16: 
+                    return new VisualElementFieldProxy<ushort>(target, fieldInfo);
+                case TypeCode.Int32: 
+                    return new VisualElementFieldProxy<int>(target, fieldInfo);
+                case TypeCode.UInt32: 
+                    return new VisualElementFieldProxy<uint>(target, fieldInfo);
+                case TypeCode.Int64: 
+                    return new VisualElementFieldProxy<long>(target, fieldInfo);
+                case TypeCode.UInt64: 
+                    return new VisualElementFieldProxy<ulong>(target, fieldInfo);
+                case TypeCode.Char: 
+                    return new VisualElementFieldProxy<char>(target, fieldInfo);
+                case TypeCode.Single: 
+                    return new VisualElementFieldProxy<float>(target, fieldInfo);
+                case TypeCode.Double: 
+                    return new VisualElementFieldProxy<double>(target, fieldInfo);
+                case TypeCode.Decimal: 
+                    return new VisualElementFieldProxy<decimal>(target, fieldInfo);
+                case TypeCode.DateTime: 
+                    return new VisualElementFieldProxy<DateTime>(target, fieldInfo);
                 case TypeCode.Object:
                 default:
                     {

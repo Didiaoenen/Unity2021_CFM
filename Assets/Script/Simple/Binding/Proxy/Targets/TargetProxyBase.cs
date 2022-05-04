@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets
 {
@@ -49,14 +50,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets
             {
                 if (target is UIBehaviour)
                 {
-                    if (((UIBehaviour)target).IsDestroyed())
+                    if ((target as UIBehaviour).IsDestroyed())
                         return false;
                     return true;
                 }
 
-                if (target is UnityEngine.Object)
+                if (target is Object)
                 {
-                    var name = ((UnityEngine.Object)target).name;
+                    var name = (target as Object).name;
                     return true;
                 }
 

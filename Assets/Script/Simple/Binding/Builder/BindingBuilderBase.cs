@@ -173,15 +173,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
             return ConverterRegistry.Find(name);
         }
 
-        protected void CheckBindingDescription()
-        {
-            if (string.IsNullOrEmpty(description.TargetName))
-                return;
-
-            if (description.Source == null)
-                return;
-        }
-
         public void Build()
         {
             try
@@ -197,6 +188,15 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
             {
                 throw e;
             }
+        }
+
+        protected void CheckBindingDescription()
+        {
+            if (string.IsNullOrEmpty(description.TargetName))
+                return;
+
+            if (description.Source == null)
+                return;
         }
     }
 }

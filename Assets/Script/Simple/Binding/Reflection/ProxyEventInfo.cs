@@ -7,11 +7,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
     {
         protected EventInfo eventInfo;
 
-        public ProxyEventInfo(EventInfo eventInfo)
-        {
-            this.eventInfo = eventInfo;
-        }
-
         public Type DeclaringType { get { return eventInfo.DeclaringType; } }
 
         public string Name { get { return eventInfo.Name; } }
@@ -19,6 +14,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
         public bool IsStatic { get { return eventInfo.IsStatic(); } }
 
         public Type HandlerType { get { return eventInfo.EventHandlerType; } }
+
+        public ProxyEventInfo(EventInfo eventInfo)
+        {
+            this.eventInfo = eventInfo;
+        }
 
         public void Add(object target, Delegate handler)
         {

@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
+using Assembly_CSharp.Assets.Script.Simple.Execution;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Converters;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources;
-using Assembly_CSharp.Assets.Script.Simple.Execution;
-using UnityEngine.Events;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding
 {
@@ -217,6 +217,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding
             {
                 case BindingMode.Default:
                     return true;
+
                 case BindingMode.OneWay:
                 case BindingMode.OneTime:
                     return false;

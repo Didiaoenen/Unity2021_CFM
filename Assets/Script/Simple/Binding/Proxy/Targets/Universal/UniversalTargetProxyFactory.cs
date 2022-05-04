@@ -1,8 +1,8 @@
-using Assembly_CSharp.Assets.Script.Simple.Binding.Reflection;
-using Assembly_CSharp.Assets.Script.Simple.Interactivity;
-using Assembly_CSharp.Assets.Script.Simple.Observables;
 using System;
 using System.Reflection;
+using Assembly_CSharp.Assets.Script.Simple.Interactivity;
+using Assembly_CSharp.Assets.Script.Simple.Observables;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Reflection;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
 {

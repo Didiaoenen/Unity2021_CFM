@@ -25,6 +25,16 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
             return Create(type);
         }
 
+        protected ProxyType Create(Type type)
+        {
+            lock (_lock)
+            {
+                ProxyType proxyType = new ProxyType(type, this);
+                types.Add(type, proxyType);
+                return proxyType;
+            }
+        }
+
         public void Register(IProxyMemberInfo proxyMemberInfo)
         {
             if (proxyMemberInfo == null)
@@ -41,16 +51,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
 
             ProxyType proxyType = GetType(proxyMemberInfo.DeclaringType);
             proxyType.Unregister(proxyMemberInfo);
-        }
-
-        protected ProxyType Create(Type type)
-        {
-            lock (_lock)
-            {
-                ProxyType proxyType = new ProxyType(type, this);
-                types.Add(type, proxyType);
-                return proxyType;
-            }
         }
     }
 }

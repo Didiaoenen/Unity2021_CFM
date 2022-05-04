@@ -40,35 +40,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             target.UnregisterValueChangedCallback(OnValueChangedEvent);
         }
 
-        protected virtual bool IsValid(Delegate handler)
-        {
-            if (handler is Action<T>)
-                return true;
-        
-            MethodInfo info = handler.Method;
-            if (!info.ReturnType.Equals(typeof(void)))
-                return false;
-
-            List<Type> parameterTypes = info.GetParameterTypes();
-            if (parameterTypes.Count != 1)
-                return false;
-
-            return parameterTypes[0].IsAssignableFrom(typeof(T));
-        }
-
-        protected virtual bool IsValid(IProxyInvoker invoker)
-        {
-            IProxyMethodInfo info = invoker.ProxyMethodInfo;
-            if (!info.ReturnType.Equals(typeof(void)))
-                return false;
-
-            var parameters = info.Parameters;
-            if (parameters == null || parameters.Length != 1)
-                return false;
-
-            return parameters[0].ParameterType.IsAssignableFrom(typeof(T));
-        }
-
         protected virtual void OnValueChangedEvent(ChangeEvent<T> eventArgs)
         {
             try
@@ -163,6 +134,35 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             {
                 this.invoker = invoker;
             }
+        }
+
+        protected virtual bool IsValid(Delegate handler)
+        {
+            if (handler is Action<T>)
+                return true;
+
+            MethodInfo info = handler.Method;
+            if (!info.ReturnType.Equals(typeof(void)))
+                return false;
+
+            List<Type> parameterTypes = info.GetParameterTypes();
+            if (parameterTypes.Count != 1)
+                return false;
+
+            return parameterTypes[0].IsAssignableFrom(typeof(T));
+        }
+
+        protected virtual bool IsValid(IProxyInvoker invoker)
+        {
+            IProxyMethodInfo info = invoker.ProxyMethodInfo;
+            if (!info.ReturnType.Equals(typeof(void)))
+                return false;
+
+            var parameters = info.Parameters;
+            if (parameters == null || parameters.Length != 1)
+                return false;
+
+            return parameters[0].ParameterType.IsAssignableFrom(typeof(T));
         }
 
         public override void SetValue<TValue>(TValue value)

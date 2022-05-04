@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.EventSystems;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
+using Object = UnityEngine.Object;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding
 {
@@ -53,14 +54,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding
             {
                 if (target is UIBehaviour)
                 {
-                    if (((UIBehaviour)target).IsDestroyed())
+                    if ((target as UIBehaviour).IsDestroyed())
                         return false;
                     return true;
                 }
 
-                if (target is UnityEngine.Object)
+                if (target is Object)
                 {
-                    var name = ((UnityEngine.Object)target).name;
+                    var name = (target as Object).name;
                     return true;
                 }
 

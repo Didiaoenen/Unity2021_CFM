@@ -6,13 +6,13 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
 
         private IProxyMethodInfo proxyMethodInfo;
 
+        public virtual IProxyMethodInfo ProxyMethodInfo { get { return proxyMethodInfo; } }
+
         public ProxyInvoker(object target, IProxyMethodInfo proxyMethodInfo)
         {
             this.target = target;
             this.proxyMethodInfo = proxyMethodInfo;
         }
-
-        public virtual IProxyMethodInfo ProxyMethodInfo { get { return proxyMethodInfo; } }
 
         public object Invoke(params object[] args)
         {

@@ -6,7 +6,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text
 
         public LiteralSourceDescription()
         {
-            IsStatic = false;
+            IsStatic = true;
         }
 
         public override string ToString()
