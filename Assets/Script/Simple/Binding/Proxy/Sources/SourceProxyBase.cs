@@ -8,11 +8,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
 
         protected readonly object source;
 
-        public SourceProxyBase(object source)
-        {
-            this.source = source;
-        }
-
         public abstract Type Type { get; }
 
         public virtual TypeCode TypeCode
@@ -26,6 +21,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
         }
 
         public object Source { get { return source; } }
+
+        public SourceProxyBase(object source)
+        {
+            this.source = source;
+        }
     }
 
     public abstract class NotifiableSourceProxyBase : SourceProxyBase, INotifiable
@@ -36,15 +36,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
 
         public virtual event EventHandler ValueChanged
         {
-            add
-            {
-                lock (_lock) { valueChanged += value; }
-            }
-
-            remove
-            {
-                lock (_lock) { valueChanged -= value; }
-            }
+            add { lock (_lock) { valueChanged += value; } }
+            remove { lock (_lock) { valueChanged -= value; } }
         }
 
         public NotifiableSourceProxyBase(object source) : base(source)

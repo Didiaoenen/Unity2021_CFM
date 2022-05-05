@@ -48,11 +48,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
                 Type parameterType = del.ParameterType();
                 if (parameterType != null)
                 {
-                    proxy = (ISourceProxy)Activator.CreateInstance(typeof(ExpressionSourceProxy<,>).MakeGenericType(parameterType, returnType), source, del, list);
+                    proxy = Activator.CreateInstance(typeof(ExpressionSourceProxy<,>).MakeGenericType(parameterType, returnType), source, del, list) as ISourceProxy;
                 }
                 else
                 {
-                    proxy = (ISourceProxy)Activator.CreateInstance(typeof(ExpressionSourceProxy<>).MakeGenericType(returnType), del, list);
+                    proxy = Activator.CreateInstance(typeof(ExpressionSourceProxy<>).MakeGenericType(returnType), del, list) as ISourceProxy;
                 }
             }
             catch (Exception)

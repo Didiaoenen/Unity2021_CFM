@@ -28,7 +28,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
                     if (observaleValue == null)
                         throw new NullReferenceException(string.Format("{0}{1}", propertyInfo.Name, propertyInfo.DeclaringType.Name));
 
-                    return new ObservableTargetProxy(target, (IObservableProperty)observaleValue);
+                    return new ObservableTargetProxy(target, observaleValue as IObservableProperty);
                 }
 
                 if (typeof(IInteractionAction).IsAssignableFrom(valueType))
@@ -37,7 +37,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
                     if (interactionAction == null)
                         return null;
 
-                    return new InteractionTargetProxy(target, (IInteractionAction)interactionAction);
+                    return new InteractionTargetProxy(target, interactionAction as IInteractionAction);
                 }
 
                 return new PropertyTargetProxy(target, propertyInfo);
@@ -53,7 +53,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
                     if (observableValue == null)
                         throw new NullReferenceException(string.Format("{0}{1}", fieldInfo.Name, fieldInfo.DeclaringType.Name));
 
-                    return new ObservableTargetProxy(target, (IObservableProperty)observableValue);
+                    return new ObservableTargetProxy(target, observableValue as IObservableProperty);
                 }
 
                 return new FieldTargetProxy(target, fieldInfo);

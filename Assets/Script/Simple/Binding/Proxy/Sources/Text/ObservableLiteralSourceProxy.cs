@@ -12,7 +12,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text
         public ObservableLiteralSourceProxy(IObservableProperty source) : base(source)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
 
             observableProperty = source;
             observableProperty.ValueChanged += OnValueChanged;

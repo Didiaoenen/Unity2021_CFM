@@ -1,6 +1,6 @@
-using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 using System;
 using System.Collections.Generic;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 {

@@ -14,7 +14,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
             if (!target.GetType().IsSubclassOfGenericTypeDefinition(typeof(INotifyValueChanged<>)))
                 return null;
 
-            if ("RegisterValueChangedCallback".Equals(description.TargetName))
+            if (description.TargetName.Equals("RegisterValueChangedCallback"))
                 return CreateValueChangedEventProxy(target);
 
             IProxyType type = target.GetType().AsProxy();
@@ -37,10 +37,10 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
                     if (clickable == null)
                         throw new NullReferenceException(propertyInfo.Name);
 
-                    return new ClickableEventProxy(target, (Clickable)clickable);
+                    return new ClickableEventProxy(target, clickable as Clickable);
                 }
 
-                if (!"RegisterValueChangedCallback".Equals(description.UpdateTrigger))
+                if (!description.UpdateTrigger.Equals("RegisterValueChangedCallback"))
                     return null;
 
                 return CreateVisualElementPropertyProxy(target, propertyInfo);
@@ -58,7 +58,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
                     if (clickable == null)
                         throw new NullReferenceException(fieldInfo.Name);
 
-                    return new ClickableEventProxy(target, (Clickable)clickable);
+                    return new ClickableEventProxy(target, clickable as Clickable);
                 }
 
                 if (!"RegisterValueChangedCallback".Equals(description.UpdateTrigger))

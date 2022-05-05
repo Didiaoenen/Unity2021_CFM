@@ -36,11 +36,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
                 var intIndexNode = node as IntegerIndexedNode;
                 if (intIndexNode != null)
-                    return new IntItemNodeProxy((ICollection)source, intIndexNode.Value, itemInfo);
+                    return new IntItemNodeProxy(source as ICollection, intIndexNode.Value, itemInfo);
 
                 var stringIndexedNode = node as StringIndexNode;
                 if (stringIndexedNode != null)
-                    return new StringItemNodeProxy((ICollection)source, stringIndexedNode.Value, itemInfo);
+                    return new StringItemNodeProxy(source as ICollection, stringIndexedNode.Value, itemInfo);
 
                 return null;
             }
@@ -70,7 +70,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (observableValue == null)
                         return null;
 
-                    return new ObservableNodeProxy(source, (IObservableProperty)observableValue);
+                    return new ObservableNodeProxy(source, observableValue as IObservableProperty);
                 }
                 else if (typeof(IInteractionRequest).IsAssignableFrom(valueType))
                 {
@@ -78,7 +78,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (request == null)
                         return null;
 
-                    return new InteractionNodeProxy(source, (IInteractionRequest)request);
+                    return new InteractionNodeProxy(source, request as IInteractionRequest);
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (observableValue == null)
                         return null;
 
-                    return new ObservableNodeProxy(source, (IObservableProperty)observableValue);
+                    return new ObservableNodeProxy(source, observableValue as IObservableProperty);
                 }
                 else if (typeof(IInteractionRequest).IsAssignableFrom(valueType))
                 {
@@ -105,7 +105,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (request == null)
                         return null;
 
-                    return new InteractionNodeProxy(source, (IInteractionRequest)request);
+                    return new InteractionNodeProxy(source, request as IInteractionRequest);
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (observableValue == null)
                         throw new NullReferenceException(string.Format("{0},{1}", propertyInfo.Name, type.Name));
 
-                    return new ObservableNodeProxy((IObservableProperty)observableValue);
+                    return new ObservableNodeProxy(observableValue as IObservableProperty);
                 }
                 else if (typeof(IInteractionRequest).IsAssignableFrom(valueType))
                 {
@@ -157,7 +157,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                     if (request == null)
                         throw new NullReferenceException(string.Format("{0}{1}", propertyInfo.Name, type.Name));
 
-                    return new InteractionNodeProxy((IInteractionRequest)request);
+                    return new InteractionNodeProxy(request as IInteractionRequest);
                 }
                 else
                 {

@@ -47,7 +47,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
                 {
                     object unityEvent = propertyInfo.GetValue(target);
                     Type[] paramTypes = GetUnityEventParametersType(propertyInfo.ValueType);
-                    return CreateUnityEventProxy(target, (UnityEventBase)unityEvent, paramTypes);
+                    return CreateUnityEventProxy(target, unityEvent as UnityEventBase, paramTypes);
                 }
 
                 if (updateTrigger == null)
@@ -66,7 +66,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
                 {
                     object unityEvent = fieldInfo.GetValue(target);
                     Type[] paramTypes = GetUnityEventParametersType(fieldInfo.ValueType);
-                    return CreateUnityEventProxy(target, (UnityEventBase)unityEvent, paramTypes);
+                    return CreateUnityEventProxy(target, unityEvent as UnityEventBase, paramTypes);
                 }
 
                 if (updateTrigger == null)
