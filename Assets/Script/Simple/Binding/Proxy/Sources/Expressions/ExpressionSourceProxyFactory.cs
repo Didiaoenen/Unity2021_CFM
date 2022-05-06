@@ -1,8 +1,8 @@
-using Assembly_CSharp.Assets.Script.Simple.Binding.Expressions;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object;
 using System;
 using System.Collections.Generic;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Expressions;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
 {

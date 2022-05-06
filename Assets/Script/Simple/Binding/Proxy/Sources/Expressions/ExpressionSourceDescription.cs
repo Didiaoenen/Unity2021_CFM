@@ -1,6 +1,6 @@
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
 {
@@ -27,7 +27,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
                 Type[] types = expression.GetType().GetGenericArguments();
                 var delType = types[0];
 
-                if (typeof(Delegate).IsAssignableFrom(delType))
+                if (!typeof(Delegate).IsAssignableFrom(delType))
                     throw new NotSupportedException();
 
                 MethodInfo info = delType.GetMethod("Invoke");

@@ -61,7 +61,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
                     return new ClickableEventProxy(target, clickable as Clickable);
                 }
 
-                if (!"RegisterValueChangedCallback".Equals(description.UpdateTrigger))
+                if (!description.UpdateTrigger.Equals("RegisterValueChangedCallback"))
                     return null;
 
                 return CreateVisualElementFieldProxy(target, fieldInfo);

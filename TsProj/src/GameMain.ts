@@ -7,6 +7,8 @@ class GameMain {
 
     public name: string;
     
+    public btn: UnityEngine.UI.Button;
+
     constructor() {
         
     }
@@ -15,6 +17,8 @@ class GameMain {
         try {
 
             UnityEngine.Debug.Log("GameMain");
+
+            var v = this.btn["onClick"];
 
             let mainCamera = UnityEngine.GameObject.Find("Main Camera");
             let testJs = mainCamera.GetComponent($typeof(TestJS)) as TestJS;

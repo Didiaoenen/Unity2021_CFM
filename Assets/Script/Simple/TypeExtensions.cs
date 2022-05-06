@@ -35,7 +35,7 @@ namespace Assembly_CSharp.Assets.Script.Simple
             if (type == null)
                 return null;
 
-            if (type.Equals(typeof(string)))
+            if (type == typeof(string))
                 return string.Empty;
 
             if (!type.IsValueType)
@@ -107,9 +107,8 @@ namespace Assembly_CSharp.Assets.Script.Simple
             if (result == null)
                 return false;
 
-            var s = result as string;
-            if (s != null)
-                return s.ToLower().Equals(true.ToString().ToLower());
+            if (result is string)
+                return (result as string).ToLower().Equals(true.ToString().ToLower());
 
             if (result is bool)
                 return (bool)result;

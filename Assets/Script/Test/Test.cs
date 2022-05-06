@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assembly_CSharp.Assets.Script.Simple.Binding;
-using Assembly_CSharp.Assets.Script.Simple.Interactivity;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Binders;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Builder;
@@ -18,7 +17,8 @@ using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions;
-
+using Assembly_CSharp.Assets.Script.Simple.Interactivity;
+using Assembly_CSharp.Assets.Script.Simple.Commands;
 
 public class VMBase : INotifyPropertyChanged
 {
@@ -85,6 +85,10 @@ public class TestVM : VMBase
 {
     private string testString;
 
+    private float testExpression = 10f;
+
+    private SimpleCommand command;
+
     private InteractionRequest testRequest;
 
     public string TestString
@@ -93,14 +97,40 @@ public class TestVM : VMBase
         set { Set(ref testString, value, "TestString"); }
     }
 
+    public float TestExpression
+    {
+        get { return testExpression; }
+        set { Set(ref testExpression, value, "TestExpression"); }
+    }
+
     public IInteractionRequest TestRequest
     {
         get { return testRequest; }
     }
 
+    public ICommand TestCommand
+    {
+        get { return command; }
+    }
+
+    public Color TestColor
+    {
+        get { return Color.red; }
+    }
+
     public TestVM()
     {
+        command = new SimpleCommand(() =>
+        {
+            Debug.Log("TestCommand");
+        });
+
         testRequest = new InteractionRequest(this);
+    }
+
+    public void OnClick()
+    {
+        Debug.Log("OnClick");
     }
 }
 
@@ -108,6 +138,16 @@ public class Test : MonoBehaviour
 {
 
     public Text testText;
+
+    public Text testExpression;
+
+    public Button initButton;
+
+    public Button testButton;
+
+    public Button testCommand;
+
+    public InputField testInputField;
 
     private TestVM testVM;
 
@@ -117,11 +157,11 @@ public class Test : MonoBehaviour
 
     }
 
-    public void TestClick()
+    public void InitClick()
     {
         PathParser pathParser = new PathParser();
-        ExpressionPathFinder expressionPathFinder = new ExpressionPathFinder();
         ConverterRegistry converterRegistry = new ConverterRegistry();
+        ExpressionPathFinder expressionPathFinder = new ExpressionPathFinder();
 
         UniversalNodeProxyFactory universalNodeProxyFactory = new UniversalNodeProxyFactory();
         ObjectSourceProxyFactory objectSourceProxyFactory = new ObjectSourceProxyFactory();
@@ -135,7 +175,7 @@ public class Test : MonoBehaviour
         TargetProxyFactory targetProxyFactory = new TargetProxyFactory();
         targetProxyFactory.Register(new UniversalTargetProxyFactory(), 0);
         targetProxyFactory.Register(new UnityTargetProxyFactory(), 10);
-        targetProxyFactory.Register(new VisualElementProxyFactory(), 30);
+        targetProxyFactory.Register(new VisualElementProxyFactory(), 20);
 
         BindingFactory bindingFactory = new BindingFactory(sourceProxyFactory, targetProxyFactory);
         StandardBinder binder = new StandardBinder(bindingFactory);
@@ -148,12 +188,43 @@ public class Test : MonoBehaviour
         builder.PathParser = pathParser;
         builder.ConverterRegistry = converterRegistry;
         builder.For(v => v.TestFunc).To(vm => vm.TestRequest);
+
         var testBuilder = bindingSet.Bind(testText);
         testBuilder.PathParser = pathParser;
         testBuilder.ConverterRegistry = converterRegistry;
         testBuilder.For(v => v.text).To(vm => vm.TestString).OneWay();
-        bindingSet.Build();
 
+        var testButtonBuilder = bindingSet.Bind(testButton);
+        testButtonBuilder.PathParser = pathParser;
+        testButtonBuilder.ConverterRegistry = converterRegistry;
+        testButtonBuilder.For(v => v.onClick).To(vm => vm.OnClick);
+
+        var testCommandBuilder = bindingSet.Bind(testCommand);
+        testCommandBuilder.PathParser = pathParser;
+        testCommandBuilder.ConverterRegistry = converterRegistry;
+        testCommandBuilder.For(v => v.onClick).To(vm => vm.TestCommand).OneWay();
+
+        var testExpressionBuilder = bindingSet.Bind(testExpression);
+        testExpressionBuilder.PathParser = pathParser;
+        testExpressionBuilder.ConverterRegistry = converterRegistry;
+        testExpressionBuilder.For(v => v.text).ToExpression(vm => string.Format("{0}%", Mathf.FloorToInt(vm.TestExpression * 100f)));
+
+        testExpressionBuilder = bindingSet.Bind(testExpression);
+        testExpressionBuilder.PathParser = pathParser;
+        testExpressionBuilder.ConverterRegistry = converterRegistry;
+        testExpressionBuilder.For(v => v.color).To(vm => vm.TestColor).OneWay();
+
+        var testInputFieldBuilder = bindingSet.Bind(testInputField);
+        testInputFieldBuilder.PathParser = pathParser;
+        testInputFieldBuilder.ConverterRegistry = converterRegistry;
+        testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
+
+        //
+        bindingSet.Build();
+    }
+
+    public void TestClick()
+    {
         ((InteractionRequest)testVM.TestRequest).Raise();
     }
 

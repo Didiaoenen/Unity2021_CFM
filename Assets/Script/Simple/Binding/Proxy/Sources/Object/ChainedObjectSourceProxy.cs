@@ -6,7 +6,9 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
     public class ProxyEntry : IDisposable
     {
         private ISourceProxy proxy;
+
         private EventHandler handler;
+        
         public ProxyEntry(ISourceProxy proxy, PathToken token)
         {
             Proxy = proxy;

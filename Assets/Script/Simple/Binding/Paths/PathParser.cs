@@ -133,6 +133,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
                     {
                         path.Prepend(new MemberNode(info));
                         Parse(methodCall.Arguments[1], path);
+                        return;
                     }
                 }
 
