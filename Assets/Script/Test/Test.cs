@@ -83,6 +83,8 @@ public class VMBase : INotifyPropertyChanged
 
 public class TestVM : VMBase
 {
+    private bool testBool;
+
     private string testString;
 
     private float testExpression = 10f;
@@ -90,6 +92,20 @@ public class TestVM : VMBase
     private SimpleCommand command;
 
     private InteractionRequest testRequest;
+
+    private Vector3 testScale = Vector3.one;
+
+    public Vector3 TestScale
+    {
+        get { return testScale; }
+        set { Set(ref testScale, value, "TestScale"); }
+    }
+
+    public bool TestBool
+    {
+        get { return testBool; }
+        set { Set(ref testBool, value, "TestBool"); }
+    }
 
     public string TestString
     {
@@ -197,7 +213,7 @@ public class Test : MonoBehaviour
         var testButtonBuilder = bindingSet.Bind(testButton);
         testButtonBuilder.PathParser = pathParser;
         testButtonBuilder.ConverterRegistry = converterRegistry;
-        testButtonBuilder.For(v => v.onClick).To(vm => vm.OnClick);
+        testButtonBuilder.For(v => v.onClick).To(vm => vm.OnClick).OneWay();
 
         var testCommandBuilder = bindingSet.Bind(testCommand);
         testCommandBuilder.PathParser = pathParser;
@@ -219,6 +235,16 @@ public class Test : MonoBehaviour
         testInputFieldBuilder.ConverterRegistry = converterRegistry;
         testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
 
+        var testGameObjectBuilder = bindingSet.Bind(testInputField.gameObject);
+        testGameObjectBuilder.PathParser = pathParser;
+        testGameObjectBuilder.ConverterRegistry = converterRegistry;
+        testGameObjectBuilder.For(v => v.activeSelf).To(vm => vm.TestBool).TwoWay();
+
+        var testTransformBuilder = bindingSet.Bind(testInputField.transform);
+        testTransformBuilder.PathParser = pathParser;
+        testTransformBuilder.ConverterRegistry = converterRegistry;
+        testTransformBuilder.For(v => v.localScale).To(vm => vm.TestScale).TwoWay();
+
         //
         bindingSet.Build();
     }
@@ -233,6 +259,10 @@ public class Test : MonoBehaviour
         Debug.Log(args);
 
         testVM.TestString = "¹þ¹þ¹þ";
+
+        testVM.TestBool = true;
+
+        testVM.TestScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 }
 

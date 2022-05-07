@@ -56,12 +56,12 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             {
                 foreach (var expr in arguments)
                 {
-                    if (!(expr is ConstantExpression))
-                        continue;
-
-                    var value = (expr as ConstantExpression).Value;
-                    if (value is MethodInfo)
-                        return value as MethodInfo;
+                    if (expr is ConstantExpression)
+                    {
+                        var value = (expr as ConstantExpression).Value;
+                        if (value is MethodInfo)
+                            return value as MethodInfo;
+                    }
                 }
                 return null;
             }
@@ -251,11 +251,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 
             pathText = pathText.Replace(" ", "");
             if (string.IsNullOrEmpty(pathText))
-                throw new ArgumentException("");
+                throw new ArgumentException();
 
             int index = pathText.LastIndexOf('.');
             if (index <= 0)
-                throw new ArgumentException(nameof(pathText));
+                throw new ArgumentException();
 
             return pathText.Substring(0, index);
         }
@@ -267,11 +267,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 
             pathText = pathText.Replace(" ", "");
             if (string.IsNullOrEmpty(pathText))
-                throw new ArgumentException("");
+                throw new ArgumentException();
 
             int index = pathText.LastIndexOf('.');
             if (index <= 0)
-                throw new ArgumentException("pathText");
+                throw new ArgumentException();
 
             return pathText.Substring(index + 1);
         }
@@ -288,8 +288,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             var unary = expression.Body as UnaryExpression;
             if (unary != null && unary.NodeType == ExpressionType.Convert)
             {
-                MethodCallExpression methodCall = (MethodCallExpression)unary.Operand;
-                if (methodCall.Method.Name.Equals("CreateDelegate"))
+                var methodCall = unary.Operand as MethodCallExpression;
+                if (methodCall != null && methodCall.Method.Name.Equals("CreateDelegate"))
                 {
                     var info = GetDelegateMethodInfo(methodCall);
                     if (info != null)
@@ -300,13 +300,10 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             }
 
             var body = expression.Body as MemberExpression;
-            if (body == null)
-                throw new ArgumentException(string.Format("Invalid expression:{0}", expression));
+            if (body != null && body.Expression is ParameterExpression)
+                return body.Member.Name;
 
-            if (!(body.Expression is ParameterExpression))
-                throw new ArgumentException(string.Format("Invalid expression:{0}", expression));
-
-            return body.Member.Name;
+            throw new ArgumentException(string.Format("Invalid expression:{0}", expression));
         }
     }
 }

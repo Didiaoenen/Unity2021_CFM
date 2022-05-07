@@ -1,8 +1,8 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using System.Linq.Expressions;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
-using System.Linq;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 {
@@ -78,7 +78,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 
         protected virtual void Visit(IList<Expression> nodes)
         {
+            if (nodes == null || nodes.Count <= 0)
+                return;
 
+            foreach (Expression expression in nodes)
+                Visit(expression);
         }
 
         protected virtual Expression VisitBinary(BinaryExpression node)
@@ -90,6 +94,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             else
             {
                 List<Expression> list = new List<Expression>() { node.Left, node.Right, node.Conversion };
+                Visit(list);
             }
             return null;
         }
@@ -109,7 +114,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
         protected virtual Expression VisitLambda(LambdaExpression node)
         {
             if (node.Parameters != null)
-                Visit(node.Parameters.Select(p => (Expression)p).ToList());
+                Visit(node.Parameters.Select(p => p as Expression).ToList());
             return Visit(node.Body);
         }
 
@@ -218,7 +223,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
                         list.Add(path);
                     }
 
-                    MemberExpression me = (MemberExpression)current;
+                    var me = current as MemberExpression;
                     var field = me.Member as FieldInfo;
                     if (field != null)
                         path.Prepend(new MemberNode(field));
@@ -231,7 +236,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
                 }
                 else if (current is MethodCallExpression)
                 {
-                    MethodCallExpression mc = (MethodCallExpression)current;
+                    var mc = current as MethodCallExpression;
                     if (mc.Method.Name.Equals("get_Item") && mc.Arguments.Count == 1)
                     {
                         if (path == null)
