@@ -53,7 +53,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 var setMethod = propertyInfo.GetSetMethod();
                 if (setMethod == null)
                     return null;
-                return (Action<TValue>)setMethod.CreateDelegate(typeof(Action<TValue>));
+                return setMethod.CreateDelegate(typeof(Action<TValue>)) as Action<TValue>;
             }
             catch (Exception e)
             {
@@ -72,7 +72,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 var getMethod = propertyInfo.GetGetMethod();
                 if (getMethod == null)
                     return null;
-                return (Func<TValue>)getMethod.CreateDelegate(typeof(Func<TValue>));
+                return getMethod.CreateDelegate(typeof(Func<TValue>)) as Func<TValue>;
             }
             catch (Exception e)
             {

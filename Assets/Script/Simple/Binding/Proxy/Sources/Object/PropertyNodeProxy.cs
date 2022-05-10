@@ -8,6 +8,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
     {
         protected IProxyPropertyInfo propertyInfo;
 
+        private bool disposed = false;
+
         public override Type Type { get { return propertyInfo.ValueType; } }
 
         public override TypeCode TypeCode { get { return propertyInfo.ValueTypeCode; } }
@@ -71,18 +73,16 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
             propertyInfo.SetValue(source, value);
         }
 
-        private bool disposedValue = false;
-
         protected override void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
                 if (source != null && source is INotifyPropertyChanged)
                 {
                     var sourceNotify = source as INotifyPropertyChanged;
                     sourceNotify.PropertyChanged -= OnPropertyChanged;
                 }
-                disposedValue = true;
+                disposed = true;
                 base.Dispose(disposing);
             }
         }

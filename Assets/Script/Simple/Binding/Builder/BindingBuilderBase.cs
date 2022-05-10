@@ -23,13 +23,17 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         protected BindingDescription description;
 
-        private IPathParser pathParser;
-
         private IConverterRegistry converterRegistry;
 
-        public IPathParser PathParser { get; set; }
-
-        public IConverterRegistry ConverterRegistry { get; set; }
+        public IConverterRegistry ConverterRegistry
+        { 
+            get
+            {
+                if (converterRegistry == null)
+                    converterRegistry = new ConverterRegistry();
+                return converterRegistry;
+            }
+        }
 
         public BindingBuilderBase(IBindingContext context, object target)
         {
@@ -68,7 +72,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         protected void SetMemberPath(string pathText)
         {
-            Path path = PathParser.Parse(pathText);
+            Path path = UPathParser.Parse(pathText);
             SetMemberPath(path);
         }
 
@@ -91,7 +95,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         protected void SetStaticMemberPath(string pathText)
         {
-            Path path = PathParser.ParseStaticPath(pathText);
+            Path path = UPathParser.ParseStaticPath(pathText);
             SetStaticMemberPath(path);
         }
 

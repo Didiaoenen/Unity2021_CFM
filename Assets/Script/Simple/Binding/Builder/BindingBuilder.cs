@@ -2,6 +2,7 @@ using System;
 using System.Linq.Expressions;
 using UnityEngine.UIElements;
 using Assembly_CSharp.Assets.Script.Simple.Interactivity;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Converters;
 
@@ -101,21 +102,21 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget> For<TResult>(Expression<Func<TTarget, TResult>> memberExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, null);
             return this;
         }
 
         public BindingBuilder<TTarget> For<TResult>(Expression<Func<TTarget, TResult>> memberExpression, string updateTrigger)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, updateTrigger);
             return this;
         }
 
         public BindingBuilder<TTarget> For(Expression<Func<TTarget, EventHandler<InteractionEventArgs>>> memberExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, null);
             OneWayToSource();
             return this;
@@ -123,8 +124,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget> For<TResult, TEvent>(Expression<Func<TTarget, TResult>> memberExpression, Expression<Func<TTarget, TEvent>> updateTriggerExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
-            string updateTrigger = PathParser.ParseMemberName(updateTriggerExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
+            string updateTrigger = UPathParser.ParseMemberName(updateTriggerExpression);
             For(targetName, updateTrigger);
             return this;
         }
@@ -132,15 +133,15 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 #if UNITY_2019_1_OR_NEWER
         public BindingBuilder<TTarget> For<TResult>(Expression<Func<TTarget, Func<EventCallback<TResult>>, bool>> memberExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, null);
             return this;
         }
 
         public BindingBuilder<TTarget> For<TResult>(Expression<Func<TTarget, TResult>> memberExpression, Expression<Func<TTarget, Func<EventCallback<ChangeEvent<TResult>>, bool>>> updateTriggerExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
-            string updateTrigger = PathParser.ParseMemberName(updateTriggerExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
+            string updateTrigger = UPathParser.ParseMemberName(updateTriggerExpression);
             For(targetName, updateTrigger);
             return this;
         }
@@ -162,20 +163,20 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget> To<TResult>(Expression<Func<TResult>> path)
         {
-            SetStaticMemberPath(PathParser.ParseStaticPath(path));
+            SetStaticMemberPath(UPathParser.ParseStaticPath(path));
             OneWay();
             return this;
         }
 
         public BindingBuilder<TTarget> To<TParameter>(Expression<Func<Action<TParameter>>> path)
         {
-            SetStaticMemberPath(PathParser.ParseStaticPath(path));
+            SetStaticMemberPath(UPathParser.ParseStaticPath(path));
             return this;
         }
 
         public BindingBuilder<TTarget> To(Expression<Func<Action>> path)
         {
-            SetStaticMemberPath(PathParser.ParseStaticPath(path));
+            SetStaticMemberPath(UPathParser.ParseStaticPath(path));
             return this;
         }
 
@@ -255,14 +256,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget, TSource> For<TResult>(Expression<Func<TTarget, TResult>> memberExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, null);
             return this;
         }
 
         public BindingBuilder<TTarget, TSource> For<TResult>(Expression<Func<TTarget, TResult>> memberExpression, string updateTrigger)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, updateTrigger);
             return this;
         }
@@ -270,7 +271,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 #if UNITY_2019_1_OR_NEWER
         public BindingBuilder<TTarget, TSource> For(Expression<Func<TTarget, EventHandler<InteractionEventArgs>>> memberExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
             For(targetName, null);
             OneWayToSource();
             return this;
@@ -278,8 +279,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget, TSource> For<TResult, TEvent>(Expression<Func<TTarget, TResult>> memberExpression, Expression<Func<TTarget, TEvent>> updateTriggerExpression)
         {
-            string targetName = PathParser.ParseMemberName(memberExpression);
-            string updateTrigger = PathParser.ParseMemberName(updateTriggerExpression);
+            string targetName = UPathParser.ParseMemberName(memberExpression);
+            string updateTrigger = UPathParser.ParseMemberName(updateTriggerExpression);
             For(targetName, updateTrigger);
             return this;
         }
@@ -300,19 +301,19 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Builder
 
         public BindingBuilder<TTarget, TSource> To(Expression<Func<TSource, Action>> path)
         {
-            SetMemberPath(PathParser.Parse(path));
+            SetMemberPath(UPathParser.Parse(path));
             return this;
         }
 
         public BindingBuilder<TTarget, TSource> To<TResult>(Expression<Func<TSource, TResult>> path)
         {
-            SetMemberPath(PathParser.Parse(path));
+            SetMemberPath(UPathParser.Parse(path));
             return this;
         }
 
         public BindingBuilder<TTarget, TSource> To<TParameter>(Expression<Func<TSource, Action<TParameter>>> path)
         {
-            SetMemberPath(PathParser.Parse(path));
+            SetMemberPath(UPathParser.Parse(path));
             return this;
         }
 

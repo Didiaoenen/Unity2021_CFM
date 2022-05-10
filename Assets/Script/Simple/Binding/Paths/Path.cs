@@ -78,8 +78,64 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
     }
 
     [Serializable]
-    public class Path : IEnumerator<IPathNode>
+    public class MemberNode : IPathNode
     {
+        private readonly MemberInfo memberInfo;
+
+        private readonly string name;
+
+        private readonly Type type;
+
+        private readonly bool isStatic;
+
+        public MemberInfo MemberInfo { get { return memberInfo; } }
+
+        public string Name { get { return name; } }
+
+        public Type Type { get { return type; } }
+
+        public bool IsStatic { get { return isStatic; } }
+
+        public MemberNode(string name) : this(null, name, false)
+        {
+
+        }
+
+        public MemberNode(Type type, string name, bool isStatic)
+        {
+            this.type = type;
+            this.name = name;
+            this.isStatic = isStatic;
+        }
+
+        public MemberNode(MemberInfo memberInfo)
+        {
+            this.memberInfo = memberInfo;
+            name = memberInfo.Name;
+            type = memberInfo.DeclaringType;
+            isStatic = memberInfo.IsStatic();
+        }
+
+        public void AppendTo(StringBuilder output)
+        {
+            if (output.Length > 0)
+                output.Append(".");
+            if (IsStatic)
+                output.Append(type.FullName).Append(".");
+            output.Append(Name);
+        }
+
+        public override string ToString()
+        {
+            return "MemberNode:" + (Name == null ? "null" : Name);
+        }
+    }
+
+    [Serializable]
+    public class Path : DisposableBase, IEnumerator<IPathNode>
+    {
+        private bool disposed = false;
+
         private readonly object _lock = new object();
 
         private List<IPathNode> nodes = new List<IPathNode>();
@@ -109,20 +165,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
                 Prepend(root);
         }
 
-        ~Path()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (!disposed)
             {
@@ -205,57 +248,42 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
         }
     }
 
-    [Serializable]
-    public class MemberNode : IPathNode
+    public class PathToken
     {
-        private readonly MemberInfo memberInfo;
+        private Path path;
 
-        private readonly string name;
+        private int pathIndex;
 
-        private readonly Type type;
+        private PathToken nextToken;
 
-        private readonly bool isStatic;
-
-        public MemberInfo MemberInfo { get { return memberInfo; } }
-
-        public string Name { get { return name; } }
-
-        public Type Type { get { return type; } }
-
-        public bool IsStatic { get { return isStatic; } }
-
-        public MemberNode(string name) : this (null, name, false)
+        public PathToken(Path path, int pathIndex)
         {
-
+            this.path = path;
+            this.pathIndex = pathIndex;
         }
 
-        public MemberNode(Type type, string name, bool isStatic)
+        public Path Path { get { return path; } }
+
+        public int Index { get { return pathIndex; } }
+
+        public IPathNode Current { get { return path[pathIndex]; } }
+
+        public bool HasNext()
         {
-            this.type = type;
-            this.name = name;
-            this.isStatic = isStatic;
+            if (path.Count <= 0 || pathIndex >= path.Count - 1)
+                return false;
+            return true;
         }
 
-        public MemberNode(MemberInfo memberInfo)
+        public PathToken NextToken()
         {
-            this.memberInfo = memberInfo;
-            name = memberInfo.Name;
-            type = memberInfo.DeclaringType;
-            isStatic = memberInfo.IsStatic();
-        }
+            if (!HasNext())
+                throw new IndexOutOfRangeException();
 
-        public void AppendTo(StringBuilder output)
-        {
-            if (output.Length > 0)
-                output.Append(".");
-            if (IsStatic)
-                output.Append(type.FullName).Append(".");
-            output.Append(Name);
-        }
+            if (nextToken == null)
+                nextToken = new PathToken(path, pathIndex + 1);
 
-        public override string ToString()
-        {
-            return "MemberNode:" + (Name == null ? "null" : Name);
+            return nextToken;
         }
     }
 }

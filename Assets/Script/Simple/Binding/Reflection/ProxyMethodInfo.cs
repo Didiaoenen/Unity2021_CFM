@@ -83,7 +83,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Func<T, TResult>)this.methodInfo.CreateDelegate(typeof(Func<T, TResult>));
+                return methodInfo.CreateDelegate(typeof(Func<T, TResult>)) as Func<T, TResult>;
             }
             catch (Exception e)
             {
@@ -156,7 +156,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Func<T, P1, TResult>)methodInfo.CreateDelegate(typeof(Func<T, P1, TResult>));
+                return methodInfo.CreateDelegate(typeof(Func<T, P1, TResult>)) as Func<T, P1, TResult>;
             }
             catch (Exception e)
             {
@@ -229,7 +229,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Func<T, P1, P2, TResult>)methodInfo.CreateDelegate(typeof(Func<T, P1, P2, TResult>));
+                return methodInfo.CreateDelegate(typeof(Func<T, P1, P2, TResult>)) as Func<T, P1, P2, TResult>;
             }
             catch (Exception e)
             {
@@ -302,7 +302,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Func<T, P1, P2, P3, TResult>)methodInfo.CreateDelegate(typeof(Func<T, P1, P2, P3, TResult>));
+                return methodInfo.CreateDelegate(typeof(Func<T, P1, P2, P3, TResult>)) as Func<T, P1, P2, P3, TResult>;
             }
             catch (Exception e)
             {
@@ -371,7 +371,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Action<T>)methodInfo.CreateDelegate(typeof(Action<T>));
+                return methodInfo.CreateDelegate(typeof(Action<T>)) as Action<T>;
             }
             catch (Exception e)
             {
@@ -448,7 +448,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Action<T, P1>)methodInfo.CreateDelegate(typeof(Action<T, P1>));
+                return methodInfo.CreateDelegate(typeof(Action<T, P1>)) as Action<T, P1>;
             }
             catch (Exception e)
             {
@@ -524,7 +524,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Action<T, P1, P2>)methodInfo.CreateDelegate(typeof(Action<T, P1, P2>));
+                return methodInfo.CreateDelegate(typeof(Action<T, P1, P2>)) as Action<T, P1, P2>;
             }
             catch (Exception e)
             {
@@ -602,7 +602,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (isValueType)
                     return null;
 
-                return (Action<T, P1, P2, P3>)methodInfo.CreateDelegate(typeof(Action<T, P1, P2, P3>));
+                return methodInfo.CreateDelegate(typeof(Action<T, P1, P2, P3>)) as Action<T, P1, P2, P3>;
             }
             catch (Exception e)
             {

@@ -24,7 +24,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
         public override TValue GetValue<TValue>()
         {
             if (observableProperty is IObservableProperty<TValue>)
-                return ((IObservableProperty<TValue>)observableProperty).Value;
+                return (observableProperty as IObservableProperty<TValue>).Value;
 
             return (TValue)observableProperty.Value;
         }
@@ -38,7 +38,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
         {
             if (observableProperty is IObservableProperty<TValue>)
             {
-                ((IObservableProperty<TValue>)observableProperty).Value = value;
+                (observableProperty as IObservableProperty<TValue>).Value = value;
                 return;
             }
 

@@ -1,33 +1,44 @@
 using System;
+using System.Diagnostics;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
 {
     public class EmptySourceProxy : SourceProxyBase, IObtainable, IModifiable
     {
+        private SourceDescription description;
+
+        public override Type Type { get { return typeof(object); } }
+
         public EmptySourceProxy(SourceDescription description) : base(description)
         {
+            this.description = description;
         }
-
-        public override Type Type => throw new NotImplementedException();
 
         public object GetValue()
         {
-            throw new System.NotImplementedException();
+            DebugWarning();
+            return null;
         }
 
         public TValue GetValue<TValue>()
         {
-            throw new System.NotImplementedException();
+            DebugWarning();
+            return default(TValue);
         }
 
         public void SetValue(object value)
         {
-            throw new System.NotImplementedException();
+            DebugWarning();
         }
 
         public void SetValue<TValue>(TValue value)
         {
-            throw new System.NotImplementedException();
+            DebugWarning();
+        }
+
+        [Conditional("DEBUG")]
+        private void DebugWarning()
+        {
         }
     }
 }

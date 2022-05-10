@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.BindingProxyBase" Collapsed="true">
+    <Position X="15.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\BindingProxyBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.TargetProxyBase" Collapsed="true">
+    <Position X="15.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAAABAACAAQAIAAAACAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\TargetProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.ValueTargetProxyBase" Collapsed="true">
+    <Position X="23.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICAAAgAgCABAQAAAAEACAAAAQAUAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\TargetProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.EventTargetProxyBase" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\TargetProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.TargetProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAAAAAAAAAAAAABAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\TargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityEventProxyBase&lt;T&gt;" Collapsed="true">
+    <Position X="5.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAggAiAGAgACAB4AAAAAAAQACAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityEventProxy" Collapsed="true">
+    <Position X="4.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEoAAAAAAAAACAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityEventProxy&lt;T&gt;" Collapsed="true">
+    <Position X="6.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEoAAAAAAAAACAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityFieldProxy&lt;TValue&gt;" Collapsed="true">
+    <Position X="19.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAACAABAAAAAAAAAAAEAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityFieldProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityPropertyProxy&lt;TValue&gt;" Collapsed="true">
+    <Position X="27.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAACAABAAAAAAAAAAAEAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityPropertyProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.UnityTargetProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACEAACAQCAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UGUI\UnityTargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.ClickableEventProxy" Collapsed="true">
+    <Position X="11" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAAiAGAgAAAE4IAAAAAAQACAAAAQUAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UIElements\ClickableEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI.ValueChangedEventProxy&lt;T&gt;" Collapsed="true">
+    <Position X="8.25" Y="5.75" Width="1.5" />
+    <InheritanceLine Type="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.EventTargetProxyBase" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="4.427" />
+        <Point X="10.25" Y="5.375" />
+        <Point X="9" Y="5.375" />
+        <Point X="9" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAAiAGAgAAIA4AAAAAAAQACACAAQUAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UIElements\ValueChangedEventProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements.VisualElementFieldProxy&lt;TValue&gt;" Collapsed="true">
+    <Position X="21.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAABAAAAAAAAAAAEAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UIElements\VisualElementFieldProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements.VisualElementPropertyProxy&lt;TValue&gt;" Collapsed="true">
+    <Position X="25.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAABAAAAAAAAAAAEAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UIElements\VisualElementPropertyProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements.VisualElementProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAEAAAAAQAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\UIElements\VisualElementProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.EventTargetProxy" Collapsed="true">
+    <Position X="13.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAgAACACAgAAAAAAAAAAAAAgAAAAAQAEAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\EventTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.FieldTargetProxy" Collapsed="true">
+    <Position X="20.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAIAACAgQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\FieldTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.InteractionTargetProxy" Collapsed="true">
+    <Position X="18" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAIAACAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\InteractionTargetProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.MethodTargetProxy" Collapsed="true">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIIgAIAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\MethodTargetProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.ObservableTargetProxy" Collapsed="true">
+    <Position X="23.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAgCAgAAAABAAAAAAAAAAAEAAQQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\ObservableTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.PropertyTargetProxy" Collapsed="true">
+    <Position X="26.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAIAACAgQAIABAAAAAAAAAAAAAAQQAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\PropertyTargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal.UniversalTargetProxyFactory" Collapsed="true">
+    <Position X="5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\Universal\UniversalTargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.IModifiable" Collapsed="true">
+    <Position X="7.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\IModifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.INotifiable" Collapsed="true">
+    <Position X="9.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\INotifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.IObtainable" Collapsed="true">
+    <Position X="5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\IObtainable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.IScriptInvoker" Collapsed="true">
+    <Position X="11.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\IScriptInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.ITargetProxy" Collapsed="true">
+    <Position X="5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAAAAACAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\ITargetProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.ITargetProxyFactory" Collapsed="true">
+    <Position X="7.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\ITargetProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.ITargetProxyFactoryRegister" Collapsed="true">
+    <Position X="9.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Targets\ITargetProxyFactoryRegister.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

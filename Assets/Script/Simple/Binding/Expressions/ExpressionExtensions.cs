@@ -9,12 +9,12 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
     {
         public static Func<object[], object> DynamicCompile<T>(this Expression<T> expr)
         {
-            return DynamicCompile((LambdaExpression)expr);
+            return DynamicCompile(expr as LambdaExpression);
         }
 
         public static Func<object[], object> DynamicCompile(this LambdaExpression expr)
         {
-            return (Func<object[], object>)((ConstantExpression)new EvaluatingVisitor().Visit(expr)).Value;
+            return (new EvaluatingVisitor().Visit(expr) as ConstantExpression).Value as Func<object[], object>;
         }
 
         internal static object Get(this MemberInfo info, object root)

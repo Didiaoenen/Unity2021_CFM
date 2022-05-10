@@ -11,7 +11,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         public override TypeCode TypeCode { get { return fieldInfo.ValueTypeCode; } }
 
-
         public FieldNodeProxy(IProxyFieldInfo fieldInfo) : this(null, fieldInfo)
         {
         }

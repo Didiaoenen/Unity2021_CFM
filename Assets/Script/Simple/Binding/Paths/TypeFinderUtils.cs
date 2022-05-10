@@ -44,7 +44,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             foreach (Assembly assembly in listAssembly)
             {
                 var name = assembly.FullName;
-                if (Regex.IsMatch(name, "^((mscorlib)|(nunit)|(System)|(UnityEngine)|(Loxodon.Log))"))
+                if (Regex.IsMatch(name, "^((mscorlib)|(nunit)|(System)|(UnityEngine)|(CFM.Log))"))
                     continue;
 
                 assemblies.Add(assembly);

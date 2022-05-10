@@ -8,6 +8,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Observables
     {
         protected IObservableProperty property;
 
+        private bool disposed = false;
+
         public override Type Type { get { return property.Type; } }
 
         public ObservableNodeProxy(IObservableProperty property) : this(null, property)
@@ -56,16 +58,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Observables
             property.Value = value;
         }
 
-        private bool disposedValue = false;
-
         protected override void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
                 if (property != null)
                     property.ValueChanged -= OnValueChanged;
 
-                disposedValue = true;
+                disposed = true;
                 base.Dispose(disposing);
             }
         }

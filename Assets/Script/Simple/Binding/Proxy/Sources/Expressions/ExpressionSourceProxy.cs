@@ -97,7 +97,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
             foreach (ISourceProxy proxy in this.inners)
             {
                 if (proxy is INotifiable)
-                    ((INotifiable)proxy).ValueChanged += OnValueChanged;
+                    (proxy as INotifiable).ValueChanged += OnValueChanged;
             }
         }
 

@@ -6,8 +6,10 @@ using System.Collections.Generic;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 {
-    public class TextPathParser : IEnumerator<char>
+    public class TextPathParser : DisposableBase, IEnumerator<char>
     {
+        private bool disposed = false;
+
         protected string text;
 
         protected int total = 0;
@@ -33,10 +35,15 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             pos = -1;
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            text = null;
-            pos = -1;
+            if (!disposed)
+            {
+                text = null;
+                pos = -1;
+                disposed = true;
+                base.Dispose(disposing);
+            }
         }
 
         public bool MoveNext()
@@ -65,7 +72,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             MoveNext();
             do
             {
-                SkipWgiteSpaceAndCharacters('.');
+                SkipWidgetSpaceAndCharacters('.');
 
                 if (IsEOF())
                     break;
@@ -194,7 +201,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             return char.IsWhiteSpace(ch) || characters.Contains(ch);
         }
 
-        protected void SkipWgiteSpaceAndCharacters(params char[] characters)
+        protected void SkipWidgetSpaceAndCharacters(params char[] characters)
         {
             while (IsWhiteSpaceOrCharacter(Current, characters) && MoveNext())
             {

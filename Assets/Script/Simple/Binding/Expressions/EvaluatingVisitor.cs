@@ -96,18 +96,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left + (sbyte)right;
-                            case TypeCode.Byte: return (byte)left + (byte)right;
-                            case TypeCode.Int16: return (short)left + (short)right;
-                            case TypeCode.UInt16: return (ushort)left + (ushort)right;
-                            case TypeCode.Int32: return (int)left + (int)right;
-                            case TypeCode.UInt32: return (uint)left + (uint)right;
-                            case TypeCode.Int64: return (long)left + (long)right;
-                            case TypeCode.UInt64: return (ulong)left + (ulong)right;
-                            case TypeCode.Char: return (char)left + (char)right;
-                            case TypeCode.Single: return (float)left + (float)right;
-                            case TypeCode.Double: return (double)left + (double)right;
-                            case TypeCode.Decimal: return (decimal)left + (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left + (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left + (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left + (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left + (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left + (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left + (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left + (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left + (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left + (char)right;
+                            case TypeCode.Single: 
+                                return (float)left + (float)right;
+                            case TypeCode.Double: 
+                                return (double)left + (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left + (decimal)right;
                         }
                         break;
                     }
@@ -115,18 +127,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return checked((sbyte)left + (sbyte)right);
-                            case TypeCode.Byte: return checked((byte)left + (byte)right);
-                            case TypeCode.Int16: return checked((short)left + (short)right);
-                            case TypeCode.UInt16: return checked((ushort)left + (ushort)right);
-                            case TypeCode.Int32: return checked((int)left + (int)right);
-                            case TypeCode.UInt32: return checked((uint)left + (uint)right);
-                            case TypeCode.Int64: return checked((long)left + (long)right);
-                            case TypeCode.UInt64: return checked((ulong)left + (ulong)right);
-                            case TypeCode.Char: return checked((char)left + (char)right);
-                            case TypeCode.Single: return checked((float)left + (float)right);
-                            case TypeCode.Double: return checked((double)left + (double)right);
-                            case TypeCode.Decimal: return checked((decimal)left + (decimal)right);
+                            case TypeCode.SByte: 
+                                return checked((sbyte)left + (sbyte)right);
+                            case TypeCode.Byte: 
+                                return checked((byte)left + (byte)right);
+                            case TypeCode.Int16: 
+                                return checked((short)left + (short)right);
+                            case TypeCode.UInt16: 
+                                return checked((ushort)left + (ushort)right);
+                            case TypeCode.Int32: 
+                                return checked((int)left + (int)right);
+                            case TypeCode.UInt32: 
+                                return checked((uint)left + (uint)right);
+                            case TypeCode.Int64: 
+                                return checked((long)left + (long)right);
+                            case TypeCode.UInt64: 
+                                return checked((ulong)left + (ulong)right);
+                            case TypeCode.Char: 
+                                return checked((char)left + (char)right);
+                            case TypeCode.Single: 
+                                return checked((float)left + (float)right);
+                            case TypeCode.Double: 
+                                return checked((double)left + (double)right);
+                            case TypeCode.Decimal: 
+                                return checked((decimal)left + (decimal)right);
                         }
                         break;
                     }
@@ -134,18 +158,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left - (sbyte)right;
-                            case TypeCode.Byte: return (byte)left - (byte)right;
-                            case TypeCode.Int16: return (short)left - (short)right;
-                            case TypeCode.UInt16: return (ushort)left - (ushort)right;
-                            case TypeCode.Int32: return (int)left - (int)right;
-                            case TypeCode.UInt32: return (uint)left - (uint)right;
-                            case TypeCode.Int64: return (long)left - (long)right;
-                            case TypeCode.UInt64: return (ulong)left - (ulong)right;
-                            case TypeCode.Char: return (char)left - (char)right;
-                            case TypeCode.Single: return (float)left - (float)right;
-                            case TypeCode.Double: return (double)left - (double)right;
-                            case TypeCode.Decimal: return (decimal)left - (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left - (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left - (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left - (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left - (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left - (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left - (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left - (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left - (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left - (char)right;
+                            case TypeCode.Single: 
+                                return (float)left - (float)right;
+                            case TypeCode.Double: 
+                                return (double)left - (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left - (decimal)right;
                         }
                         break;
                     }
@@ -153,18 +189,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return checked((sbyte)left - (sbyte)right);
-                            case TypeCode.Byte: return checked((byte)left - (byte)right);
-                            case TypeCode.Int16: return checked((short)left - (short)right);
-                            case TypeCode.UInt16: return checked((ushort)left - (ushort)right);
-                            case TypeCode.Int32: return checked((int)left - (int)right);
-                            case TypeCode.UInt32: return checked((uint)left - (uint)right);
-                            case TypeCode.Int64: return checked((long)left - (long)right);
-                            case TypeCode.UInt64: return checked((ulong)left - (ulong)right);
-                            case TypeCode.Char: return checked((char)left - (char)right);
-                            case TypeCode.Single: return checked((float)left - (float)right);
-                            case TypeCode.Double: return checked((double)left - (double)right);
-                            case TypeCode.Decimal: return checked((decimal)left - (decimal)right);
+                            case TypeCode.SByte: 
+                                return checked((sbyte)left - (sbyte)right);
+                            case TypeCode.Byte: 
+                                return checked((byte)left - (byte)right);
+                            case TypeCode.Int16: 
+                                return checked((short)left - (short)right);
+                            case TypeCode.UInt16: 
+                                return checked((ushort)left - (ushort)right);
+                            case TypeCode.Int32: 
+                                return checked((int)left - (int)right);
+                            case TypeCode.UInt32: 
+                                return checked((uint)left - (uint)right);
+                            case TypeCode.Int64: 
+                                return checked((long)left - (long)right);
+                            case TypeCode.UInt64: 
+                                return checked((ulong)left - (ulong)right);
+                            case TypeCode.Char: 
+                                return checked((char)left - (char)right);
+                            case TypeCode.Single: 
+                                return checked((float)left - (float)right);
+                            case TypeCode.Double: 
+                                return checked((double)left - (double)right);
+                            case TypeCode.Decimal: 
+                                return checked((decimal)left - (decimal)right);
                         }
                         break;
                     }
@@ -172,18 +220,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left * (sbyte)right;
-                            case TypeCode.Byte: return (byte)left * (byte)right;
-                            case TypeCode.Int16: return (short)left * (short)right;
-                            case TypeCode.UInt16: return (ushort)left * (ushort)right;
-                            case TypeCode.Int32: return (int)left * (int)right;
-                            case TypeCode.UInt32: return (uint)left * (uint)right;
-                            case TypeCode.Int64: return (long)left * (long)right;
-                            case TypeCode.UInt64: return (ulong)left * (ulong)right;
-                            case TypeCode.Char: return (char)left * (char)right;
-                            case TypeCode.Single: return (float)left * (float)right;
-                            case TypeCode.Double: return (double)left * (double)right;
-                            case TypeCode.Decimal: return (decimal)left * (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left * (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left * (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left * (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left * (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left * (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left * (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left * (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left * (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left * (char)right;
+                            case TypeCode.Single: 
+                                return (float)left * (float)right;
+                            case TypeCode.Double: 
+                                return (double)left * (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left * (decimal)right;
                         }
                         break;
                     }
@@ -191,18 +251,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return checked((sbyte)left * (sbyte)right);
-                            case TypeCode.Byte: return checked((byte)left * (byte)right);
-                            case TypeCode.Int16: return checked((short)left * (short)right);
-                            case TypeCode.UInt16: return checked((ushort)left * (ushort)right);
-                            case TypeCode.Int32: return checked((int)left * (int)right);
-                            case TypeCode.UInt32: return checked((uint)left * (uint)right);
-                            case TypeCode.Int64: return checked((long)left * (long)right);
-                            case TypeCode.UInt64: return checked((ulong)left * (ulong)right);
-                            case TypeCode.Char: return checked((char)left * (char)right);
-                            case TypeCode.Single: return checked((float)left * (float)right);
-                            case TypeCode.Double: return checked((double)left * (double)right);
-                            case TypeCode.Decimal: return checked((decimal)left * (decimal)right);
+                            case TypeCode.SByte: 
+                                return checked((sbyte)left * (sbyte)right);
+                            case TypeCode.Byte: 
+                                return checked((byte)left * (byte)right);
+                            case TypeCode.Int16: 
+                                return checked((short)left * (short)right);
+                            case TypeCode.UInt16: 
+                                return checked((ushort)left * (ushort)right);
+                            case TypeCode.Int32: 
+                                return checked((int)left * (int)right);
+                            case TypeCode.UInt32: 
+                                return checked((uint)left * (uint)right);
+                            case TypeCode.Int64: 
+                                return checked((long)left * (long)right);
+                            case TypeCode.UInt64: 
+                                return checked((ulong)left * (ulong)right);
+                            case TypeCode.Char: 
+                                return checked((char)left * (char)right);
+                            case TypeCode.Single: 
+                                return checked((float)left * (float)right);
+                            case TypeCode.Double: 
+                                return checked((double)left * (double)right);
+                            case TypeCode.Decimal: 
+                                return checked((decimal)left * (decimal)right);
                         }
                         break;
                     }
@@ -210,18 +282,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left / (sbyte)right;
-                            case TypeCode.Byte: return (byte)left / (byte)right;
-                            case TypeCode.Int16: return (short)left / (short)right;
-                            case TypeCode.UInt16: return (ushort)left / (ushort)right;
-                            case TypeCode.Int32: return (int)left / (int)right;
-                            case TypeCode.UInt32: return (uint)left / (uint)right;
-                            case TypeCode.Int64: return (long)left / (long)right;
-                            case TypeCode.UInt64: return (ulong)left / (ulong)right;
-                            case TypeCode.Char: return (char)left / (char)right;
-                            case TypeCode.Single: return (float)left / (float)right;
-                            case TypeCode.Double: return (double)left / (double)right;
-                            case TypeCode.Decimal: return (decimal)left / (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left / (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left / (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left / (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left / (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left / (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left / (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left / (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left / (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left / (char)right;
+                            case TypeCode.Single: 
+                                return (float)left / (float)right;
+                            case TypeCode.Double: 
+                                return (double)left / (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left / (decimal)right;
                         }
                         break;
                     }
@@ -229,18 +313,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left % (sbyte)right;
-                            case TypeCode.Byte: return (byte)left % (byte)right;
-                            case TypeCode.Int16: return (short)left % (short)right;
-                            case TypeCode.UInt16: return (ushort)left % (ushort)right;
-                            case TypeCode.Int32: return (int)left % (int)right;
-                            case TypeCode.UInt32: return (uint)left % (uint)right;
-                            case TypeCode.Int64: return (long)left % (long)right;
-                            case TypeCode.UInt64: return (ulong)left % (ulong)right;
-                            case TypeCode.Char: return (char)left % (char)right;
-                            case TypeCode.Single: return (float)left % (float)right;
-                            case TypeCode.Double: return (double)left % (double)right;
-                            case TypeCode.Decimal: return (decimal)left % (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left % (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left % (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left % (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left % (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left % (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left % (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left % (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left % (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left % (char)right;
+                            case TypeCode.Single: 
+                                return (float)left % (float)right;
+                            case TypeCode.Double: 
+                                return (double)left % (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left % (decimal)right;
                         }
                         break;
                     }
@@ -248,16 +344,26 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left & (sbyte)right;
-                            case TypeCode.Byte: return (byte)left & (byte)right;
-                            case TypeCode.Int16: return (short)left & (short)right;
-                            case TypeCode.UInt16: return (ushort)left & (ushort)right;
-                            case TypeCode.Int32: return (int)left & (int)right;
-                            case TypeCode.UInt32: return (uint)left & (uint)right;
-                            case TypeCode.Int64: return (long)left & (long)right;
-                            case TypeCode.UInt64: return (ulong)left & (ulong)right;
-                            case TypeCode.Char: return (char)left & (char)right;
-                            case TypeCode.Boolean: return (bool)left & (bool)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left & (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left & (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left & (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left & (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left & (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left & (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left & (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left & (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left & (char)right;
+                            case TypeCode.Boolean: 
+                                return (bool)left & (bool)right;
                         }
                         break;
                     }
@@ -265,16 +371,26 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return Convert.ToByte(left) | Convert.ToByte(right);
-                            case TypeCode.Byte: return (byte)left | (byte)right;
-                            case TypeCode.Int16: return (short)left | (short)right;
-                            case TypeCode.UInt16: return (ushort)left | (ushort)right;
-                            case TypeCode.Int32: return (int)left | (int)right;
-                            case TypeCode.UInt32: return (uint)left | (uint)right;
-                            case TypeCode.Int64: return (long)left | (long)right;
-                            case TypeCode.UInt64: return (ulong)left | (ulong)right;
-                            case TypeCode.Char: return (char)left | (char)right;
-                            case TypeCode.Boolean: return (bool)left | (bool)right;
+                            case TypeCode.SByte: 
+                                return Convert.ToByte(left) | Convert.ToByte(right);
+                            case TypeCode.Byte: 
+                                return (byte)left | (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left | (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left | (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left | (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left | (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left | (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left | (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left | (char)right;
+                            case TypeCode.Boolean: 
+                                return (bool)left | (bool)right;
                         }
                         break;
                     }
@@ -282,16 +398,26 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left ^ (sbyte)right;
-                            case TypeCode.Byte: return (byte)left ^ (byte)right;
-                            case TypeCode.Int16: return (short)left ^ (short)right;
-                            case TypeCode.UInt16: return (ushort)left ^ (ushort)right;
-                            case TypeCode.Int32: return (int)left ^ (int)right;
-                            case TypeCode.UInt32: return (uint)left ^ (uint)right;
-                            case TypeCode.Int64: return (long)left ^ (long)right;
-                            case TypeCode.UInt64: return (ulong)left ^ (ulong)right;
-                            case TypeCode.Char: return (char)left ^ (char)right;
-                            case TypeCode.Boolean: return (bool)left ^ (bool)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left ^ (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left ^ (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left ^ (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left ^ (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left ^ (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left ^ (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left ^ (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left ^ (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left ^ (char)right;
+                            case TypeCode.Boolean: 
+                                return (bool)left ^ (bool)right;
                         }
                         break;
                     }
@@ -315,19 +441,32 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left == (sbyte)right;
-                            case TypeCode.Byte: return (byte)left == (byte)right;
-                            case TypeCode.Int16: return (short)left == (short)right;
-                            case TypeCode.UInt16: return (ushort)left == (ushort)right;
-                            case TypeCode.Int32: return (int)left == (int)right;
-                            case TypeCode.UInt32: return (uint)left == (uint)right;
-                            case TypeCode.Int64: return (long)left == (long)right;
-                            case TypeCode.UInt64: return (ulong)left == (ulong)right;
-                            case TypeCode.Char: return (char)left == (char)right;
-                            case TypeCode.Single: return (float)left == (float)right;
-                            case TypeCode.Double: return (double)left == (double)right;
-                            case TypeCode.Decimal: return (decimal)left == (decimal)right;
-                            case TypeCode.Boolean: return (bool)left == (bool)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left == (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left == (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left == (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left == (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left == (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left == (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left == (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left == (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left == (char)right;
+                            case TypeCode.Single: 
+                                return (float)left == (float)right;
+                            case TypeCode.Double: 
+                                return (double)left == (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left == (decimal)right;
+                            case TypeCode.Boolean: 
+                                return (bool)left == (bool)right;
                         }
                         break;
                     }
@@ -335,19 +474,32 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left != (sbyte)right;
-                            case TypeCode.Byte: return (byte)left != (byte)right;
-                            case TypeCode.Int16: return (short)left != (short)right;
-                            case TypeCode.UInt16: return (ushort)left != (ushort)right;
-                            case TypeCode.Int32: return (int)left != (int)right;
-                            case TypeCode.UInt32: return (uint)left != (uint)right;
-                            case TypeCode.Int64: return (long)left != (long)right;
-                            case TypeCode.UInt64: return (ulong)left != (ulong)right;
-                            case TypeCode.Char: return (char)left != (char)right;
-                            case TypeCode.Single: return (float)left != (float)right;
-                            case TypeCode.Double: return (double)left != (double)right;
-                            case TypeCode.Decimal: return (decimal)left != (decimal)right;
-                            case TypeCode.Boolean: return (bool)left != (bool)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left != (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left != (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left != (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left != (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left != (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left != (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left != (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left != (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left != (char)right;
+                            case TypeCode.Single: 
+                                return (float)left != (float)right;
+                            case TypeCode.Double: 
+                                return (double)left != (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left != (decimal)right;
+                            case TypeCode.Boolean: 
+                                return (bool)left != (bool)right;
                         }
                         break;
                     }
@@ -355,18 +507,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left < (sbyte)right;
-                            case TypeCode.Byte: return (byte)left < (byte)right;
-                            case TypeCode.Int16: return (short)left < (short)right;
-                            case TypeCode.UInt16: return (ushort)left < (ushort)right;
-                            case TypeCode.Int32: return (int)left < (int)right;
-                            case TypeCode.UInt32: return (uint)left < (uint)right;
-                            case TypeCode.Int64: return (long)left < (long)right;
-                            case TypeCode.UInt64: return (ulong)left < (ulong)right;
-                            case TypeCode.Char: return (char)left < (char)right;
-                            case TypeCode.Single: return (float)left < (float)right;
-                            case TypeCode.Double: return (double)left < (double)right;
-                            case TypeCode.Decimal: return (decimal)left < (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left < (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left < (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left < (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left < (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left < (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left < (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left < (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left < (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left < (char)right;
+                            case TypeCode.Single: 
+                                return (float)left < (float)right;
+                            case TypeCode.Double: 
+                                return (double)left < (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left < (decimal)right;
                         }
                         break;
                     }
@@ -374,18 +538,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left <= (sbyte)right;
-                            case TypeCode.Byte: return (byte)left <= (byte)right;
-                            case TypeCode.Int16: return (short)left <= (short)right;
-                            case TypeCode.UInt16: return (ushort)left <= (ushort)right;
-                            case TypeCode.Int32: return (int)left <= (int)right;
-                            case TypeCode.UInt32: return (uint)left <= (uint)right;
-                            case TypeCode.Int64: return (long)left <= (long)right;
-                            case TypeCode.UInt64: return (ulong)left <= (ulong)right;
-                            case TypeCode.Char: return (char)left <= (char)right;
-                            case TypeCode.Single: return (float)left <= (float)right;
-                            case TypeCode.Double: return (double)left <= (double)right;
-                            case TypeCode.Decimal: return (decimal)left <= (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left <= (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left <= (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left <= (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left <= (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left <= (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left <= (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left <= (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left <= (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left <= (char)right;
+                            case TypeCode.Single: 
+                                return (float)left <= (float)right;
+                            case TypeCode.Double: 
+                                return (double)left <= (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left <= (decimal)right;
                         }
                         break;
                     }
@@ -393,18 +569,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left > (sbyte)right;
-                            case TypeCode.Byte: return (byte)left > (byte)right;
-                            case TypeCode.Int16: return (short)left > (short)right;
-                            case TypeCode.UInt16: return (ushort)left > (ushort)right;
-                            case TypeCode.Int32: return (int)left > (int)right;
-                            case TypeCode.UInt32: return (uint)left > (uint)right;
-                            case TypeCode.Int64: return (long)left > (long)right;
-                            case TypeCode.UInt64: return (ulong)left > (ulong)right;
-                            case TypeCode.Char: return (char)left > (char)right;
-                            case TypeCode.Single: return (float)left > (float)right;
-                            case TypeCode.Double: return (double)left > (double)right;
-                            case TypeCode.Decimal: return (decimal)left > (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left > (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left > (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left > (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left > (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left > (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left > (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left > (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left > (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left > (char)right;
+                            case TypeCode.Single: 
+                                return (float)left > (float)right;
+                            case TypeCode.Double: 
+                                return (double)left > (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left > (decimal)right;
                         }
                         break;
                     }
@@ -412,18 +600,30 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left >= (sbyte)right;
-                            case TypeCode.Byte: return (byte)left >= (byte)right;
-                            case TypeCode.Int16: return (short)left >= (short)right;
-                            case TypeCode.UInt16: return (ushort)left >= (ushort)right;
-                            case TypeCode.Int32: return (int)left >= (int)right;
-                            case TypeCode.UInt32: return (uint)left >= (uint)right;
-                            case TypeCode.Int64: return (long)left >= (long)right;
-                            case TypeCode.UInt64: return (ulong)left >= (ulong)right;
-                            case TypeCode.Char: return (char)left >= (char)right;
-                            case TypeCode.Single: return (float)left >= (float)right;
-                            case TypeCode.Double: return (double)left >= (double)right;
-                            case TypeCode.Decimal: return (decimal)left >= (decimal)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left >= (sbyte)right;
+                            case TypeCode.Byte: 
+                                return (byte)left >= (byte)right;
+                            case TypeCode.Int16: 
+                                return (short)left >= (short)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left >= (ushort)right;
+                            case TypeCode.Int32: 
+                                return (int)left >= (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left >= (uint)right;
+                            case TypeCode.Int64: 
+                                return (long)left >= (long)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left >= (ulong)right;
+                            case TypeCode.Char: 
+                                return (char)left >= (char)right;
+                            case TypeCode.Single: 
+                                return (float)left >= (float)right;
+                            case TypeCode.Double: 
+                                return (double)left >= (double)right;
+                            case TypeCode.Decimal: 
+                                return (decimal)left >= (decimal)right;
                         }
                         break;
                     }
@@ -431,15 +631,24 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left >> (int)right;
-                            case TypeCode.Byte: return (byte)left >> (int)right;
-                            case TypeCode.Int16: return (short)left >> (int)right;
-                            case TypeCode.UInt16: return (ushort)left >> (int)right;
-                            case TypeCode.Int32: return (int)left >> (int)right;
-                            case TypeCode.UInt32: return (uint)left >> (int)right;
-                            case TypeCode.Int64: return (long)left >> (int)right;
-                            case TypeCode.UInt64: return (ulong)left >> (int)right;
-                            case TypeCode.Char: return (char)left >> (int)right;
+                            case TypeCode.SByte: 
+                                return (sbyte)left >> (int)right;
+                            case TypeCode.Byte: 
+                                return (byte)left >> (int)right;
+                            case TypeCode.Int16: 
+                                return (short)left >> (int)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left >> (int)right;
+                            case TypeCode.Int32: 
+                                return (int)left >> (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left >> (int)right;
+                            case TypeCode.Int64: 
+                                return (long)left >> (int)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left >> (int)right;
+                            case TypeCode.Char: 
+                                return (char)left >> (int)right;
                         }
                         break;
                     }
@@ -447,15 +656,24 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     {
                         switch (typeCode)
                         {
-                            case TypeCode.SByte: return (sbyte)left << (int)right;
-                            case TypeCode.Byte: return (byte)left << (int)right;
-                            case TypeCode.Int16: return (short)left << (int)right;
-                            case TypeCode.UInt16: return (ushort)left << (int)right;
-                            case TypeCode.Int32: return (int)left << (int)right;
-                            case TypeCode.UInt32: return (uint)left << (int)right;
-                            case TypeCode.Int64: return (long)left << (int)right;
-                            case TypeCode.UInt64: return (ulong)left << (int)right;
-                            case TypeCode.Char: return (char)left << (int)right;
+                            case TypeCode.SByte:
+                                return (sbyte)left << (int)right;
+                            case TypeCode.Byte: 
+                                return (byte)left << (int)right;
+                            case TypeCode.Int16: 
+                                return (short)left << (int)right;
+                            case TypeCode.UInt16: 
+                                return (ushort)left << (int)right;
+                            case TypeCode.Int32: 
+                                return (int)left << (int)right;
+                            case TypeCode.UInt32: 
+                                return (uint)left << (int)right;
+                            case TypeCode.Int64: 
+                                return (long)left << (int)right;
+                            case TypeCode.UInt64: 
+                                return (ulong)left << (int)right;
+                            case TypeCode.Char: 
+                                return (char)left << (int)right;
                         }
                         break;
                     }
@@ -584,11 +802,11 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     case ExpressionType.ArrayIndex:
                         if (expr.Right.Type.Equals(typeof(int)))
                         {
-                            result = ((Array)left).GetValue((int)right);
+                            result = (left as Array).GetValue((int)right);
                         }
                         else
                         {
-                            result = ((Array)left).GetValue((long)right);
+                            result = (left as Array).GetValue((long)right);
                         }
                         break;
                 }
@@ -607,7 +825,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
             object root = null;
             if (expr.Expression != null)
             {
-                root = ((ConstantExpression)Visit(expr.Expression)).Value;
+                root = (Visit(expr.Expression) as ConstantExpression).Value;
                 if (IsNullable(expr.Expression.Type))
                     return Expression.Constant(PerformOnNullable(root, expr.Member, new Expression[0]), expr.Type);
             }
@@ -631,7 +849,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
             if (expr.NodeType == ExpressionType.Quote)
                 return Expression.Constant(new ParameterReplacer(values).Visit(expr.Operand), expr.Type);
 
-            var val = ((ConstantExpression)Visit(expr.Operand)).Value;
+            var val = (Visit(expr.Operand) as ConstantExpression).Value;
             if (expr.IsLiftedToNull && val == null)
                 return Expression.Constant(null, expr.Type);
 
@@ -677,7 +895,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                     var convertMethod = typeof(Convert).GetMethod("To" + realTargetType.Name, new[] { val.GetType() });
                     return Expression.Constant(convertMethod.Invoke(null, new object[] { val }), expr.Type);
                 case ExpressionType.ArrayLength:
-                    return Expression.Constant(((Array)val).Length, expr.Type);
+                    return Expression.Constant((val as Array).Length, expr.Type);
                 case ExpressionType.Negate:
                     {
                         switch (typeCode)
@@ -850,14 +1068,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
 
         private object InvokeMethod(Func<object[], object> invoke, IEnumerable<Expression> arguments)
         {
-            var args = arguments.Select(a => ((ConstantExpression)Visit(a)).Value).ToArray();
+            var args = arguments.Select(a => (Visit(a) as ConstantExpression).Value).ToArray();
             var result = invoke(args);
             return result;
         }
 
         private object PerformOnNullable(object root, MemberInfo member, IEnumerable<Expression> arguments)
         {
-            var args = arguments.Select(a => ((ConstantExpression)Visit(a)).Value).ToArray();
+            var args = arguments.Select(a => (Visit(a) as ConstantExpression).Value).ToArray();
             if (member.Name.Equals("HasValue"))
                 return root != null;
 
@@ -876,7 +1094,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
             }
 
             if (member.Name.Equals("Equals"))
-                return object.Equals(root, args[0]);
+                return Equals(root, args[0]);
 
             if (member.Name.Equals("GetHashCode"))
             {
@@ -905,7 +1123,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
             }
             else
             {
-                root = ((ConstantExpression)Visit(expr.Object)).Value;
+                root = (Visit(expr.Object) as ConstantExpression).Value;
                 if (IsNullable(expr.Object.Type))
                     return Expression.Constant(PerformOnNullable(root, expr.Method, expr.Arguments), expr.Type);
             }
@@ -915,12 +1133,12 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
 
         protected override Expression VisitConditional(ConditionalExpression expr)
         {
-            return ((bool)((ConstantExpression)Visit(expr.Test)).Value) ? Visit(expr.IfTrue) : Visit(expr.IfFalse);
+            return ((bool)(Visit(expr.Test) as ConstantExpression).Value) ? Visit(expr.IfTrue) : Visit(expr.IfFalse);
         }
 
         protected override Expression VisitTypeBinary(TypeBinaryExpression expr)
         {
-            return Expression.Constant(expr.TypeOperand.IsInstanceOfType(((ConstantExpression)Visit(expr.Expression)).Value), expr.Type);
+            return Expression.Constant(expr.TypeOperand.IsInstanceOfType((Visit(expr.Expression) as ConstantExpression).Value), expr.Type);
         }
 
         protected override Expression VisitParameter(ParameterExpression expr)
@@ -936,7 +1154,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
 
         protected override Expression VisitInvocation(InvocationExpression expr)
         {
-            var toInvoke = (Delegate)((ConstantExpression)Visit(expr.Expression)).Value;
+            var toInvoke = (Visit(expr.Expression) as ConstantExpression).Value as Delegate;
             var result = InvokeMethod(args => toInvoke.DynamicInvoke(args), expr.Arguments);
             return Expression.Constant(result, expr.Type.Equals(typeof(void)) ? typeof(object) : expr.Type);
         }
@@ -945,7 +1163,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
         {
             var expressions = expr.Expressions;
             int count = expressions != null ? expressions.Count : 0;
-            Array array = (Array)Activator.CreateInstance(expr.Type, count);
+            Array array = Activator.CreateInstance(expr.Type, count) as Array;
             for (int i = 0; i < count; i++)
             {
                 var expression = Visit(expressions[i]);
@@ -971,7 +1189,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Expressions
                 }
             }
             var result = visitor.Visit(expr.Body);
-            return ((ConstantExpression)result).Value;
+            return (result as ConstantExpression).Value;
         }
     }
 

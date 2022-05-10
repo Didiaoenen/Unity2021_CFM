@@ -99,7 +99,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
 
             if (target is IDictionary)
             {
-                ((IDictionary)target)[key] = value;
+                (target as IDictionary)[key] = value;
                 return;
             }
 

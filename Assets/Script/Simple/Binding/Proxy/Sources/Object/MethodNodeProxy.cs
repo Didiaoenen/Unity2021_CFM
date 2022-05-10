@@ -9,6 +9,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         protected IProxyInvoker invoker;
 
+        public override Type Type { get { return typeof(IProxyInvoker); } }
+
         public MethodNodeProxy(IProxyMethodInfo methodInfo) : this (null, methodInfo)
         {
         }
@@ -18,8 +20,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
             this.methodInfo = methodInfo;
             invoker = new ProxyInvoker(this.source, this.methodInfo);
         }
-
-        public override Type Type { get { return typeof(IProxyInvoker); } }
 
         public object GetValue()
         {

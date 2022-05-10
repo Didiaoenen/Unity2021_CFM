@@ -12,6 +12,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         protected IProxyItemInfo itemInfo;
 
+        private bool disposed = false;
+
         protected bool isList;
 
         protected Regex regex;
@@ -55,18 +57,16 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         public abstract void SetValue<TValue>(TValue value);
 
-        private bool disposedValue = false;
-
         protected override void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
                 if (source != null && source is INotifyCollectionChanged)
                 {
                     var sourceCollection = source as INotifyCollectionChanged;
                     sourceCollection.CollectionChanged -= OnCollectionChanged;
                 }
-                disposedValue = true;
+                disposed = true;
                 base.Dispose(disposing);
             }
         }

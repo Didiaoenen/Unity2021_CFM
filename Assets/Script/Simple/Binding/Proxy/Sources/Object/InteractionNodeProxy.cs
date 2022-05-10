@@ -77,48 +77,48 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
         public virtual void SetValue(object value)
         {
             if (value != null && !(value is IProxyInvoker || value is Delegate || value is IScriptInvoker))
-                throw new ArgumentException("Binding object to InteractionRequest failed, unsupported object type", "value");
+                throw new ArgumentException();
 
-            if (this.invoker != null)
-                this.invoker = null;
+            if (invoker != null)
+                invoker = null;
 
-            if (this.handler != null)
-                this.handler = null;
+            if (handler != null)
+                handler = null;
 
-            if (this.scriptInvoker != null)
-                this.scriptInvoker = null;
+            if (scriptInvoker != null)
+                scriptInvoker = null;
 
             if (value == null)
                 return;
 
-            IProxyInvoker invoker = value as IProxyInvoker;
-            if (invoker != null)
+            var _invoker = value as IProxyInvoker;
+            if (_invoker != null)
             {
-                if (IsValid(invoker))
+                if (IsValid(_invoker))
                 {
-                    this.invoker = invoker;
+                    invoker = _invoker;
                     return;
                 }
 
-                throw new ArgumentException("Binding the IProxyInvoker to InteractionRequest failed, mismatched parameter type.");
+                throw new ArgumentException();
             }
 
-            Delegate handler = value as Delegate;
-            if (handler != null)
+            var _handler = value as Delegate;
+            if (_handler != null)
             {
-                if (IsValid(handler))
+                if (IsValid(_handler))
                 {
-                    this.handler = handler;
+                    handler = _handler;
                     return;
                 }
 
-                throw new ArgumentException("Binding the Delegate to InteractionRequest failed, mismatched parameter type.");
+                throw new ArgumentException();
             }
 
-            IScriptInvoker scriptInvoker = value as IScriptInvoker;
-            if (scriptInvoker != null)
+            var _scriptInvoker = value as IScriptInvoker;
+            if (_scriptInvoker != null)
             {
-                this.scriptInvoker = scriptInvoker;
+                scriptInvoker = _scriptInvoker;
             }
         }
 
@@ -153,7 +153,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         public virtual void SetValue<TValue>(TValue value)
         {
-            SetValue((object)value);
+            SetValue(value as object);
         }
 
         protected override void Dispose(bool disposing)

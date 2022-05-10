@@ -6,17 +6,24 @@ using System.Collections.Generic;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 {
-    public class PathExpressionVisitor
+    public class UExpressionPathFinder
     {
         private readonly List<Path> list = new List<Path>();
 
         public List<Path> Paths { get { return list; } }
 
+        public static List<Path> FindPaths(LambdaExpression expression)
+        {
+            UExpressionPathFinder visitor = new UExpressionPathFinder();
+            visitor.Visit(expression);
+            return visitor.Paths;
+        }
+
         public virtual Expression Visit(Expression expression)
         {
             if (expression == null)
                 return null;
-            
+
             var bin = expression as BinaryExpression;
             if (bin != null)
                 return VisitBinary(bin);
@@ -93,16 +100,16 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             }
             else
             {
-                List<Expression> list = new List<Expression>() { node.Left, node.Right, node.Conversion };
-                Visit(list);
+                List<Expression> expressionList = new List<Expression>() { node.Left, node.Right, node.Conversion };
+                Visit(expressionList);
             }
             return null;
         }
 
         protected virtual Expression VisitConditional(ConditionalExpression node)
         {
-            List<Expression> list = new List<Expression>() { node.IfFalse, node.IfTrue, node.Test };
-            Visit(list);
+            List<Expression> expressionList = new List<Expression>() { node.IfFalse, node.IfTrue, node.Test };
+            Visit(expressionList);
             return null;
         }
 
@@ -246,7 +253,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
                         }
 
                         var argument = mc.Arguments[0];
-                        if (!(argument is ConstantExpression))
+                        if (argument as ConstantExpression == null)
                             argument = ConvertMemberAccessToConstant(argument);
 
                         object value = (argument as ConstantExpression).Value;
@@ -277,7 +284,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
 
                         var left = binary.Left;
                         var right = binary.Right;
-                        if (!(right is ConstantExpression))
+                        if (right as ConstantExpression == null)
                             right = ConvertMemberAccessToConstant(right);
 
                         object value = (right as ConstantExpression).Value;

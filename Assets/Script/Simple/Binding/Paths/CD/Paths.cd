@@ -46,6 +46,42 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.PathToken">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAIAAACCAAAAAAAQAAAAAgEAAAACAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Paths\Path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.TextPathParser" Collapsed="true">
+    <Position X="11.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIgEAEACCAABAAQAACCAIACAAAAAAAMoEAAAAAAAAE=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Paths\TextPathParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.TypeFinderUtils" Collapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Paths\TypeFinderUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.UExpressionPathFinder" Collapsed="true">
+    <Position X="11.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAgoAAQYwBAUAAAAAISAAAAAEAIACAhAAAAAAQAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Paths\UExpressionPathFinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.UPathParser" Collapsed="true">
+    <Position X="11.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAQAAAAAAAAAAAAAgAAAAAAAEAAAAAYAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Paths\UPathParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Paths.IPathNode">
     <Position X="9" Y="2.5" Width="1.5" />
     <TypeIdentifier>

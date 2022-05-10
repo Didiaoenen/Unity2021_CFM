@@ -1,21 +1,38 @@
 using System.Linq;
 using System.Collections.Generic;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Contexts;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources;
+using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Binders
 {
     public class StandardBinder : IBinder
     {
-        protected IBindingFactory factory;
+        private ISourceProxyFactory sourceProxyFactory;
 
-        public StandardBinder(IBindingFactory factory)
+        private ITargetProxyFactory targetProxyFactory;
+
+        public ISourceProxyFactory SourceProxyFactory
         {
-            this.factory = factory;
+            get { return sourceProxyFactory; }
+            set { sourceProxyFactory = value; }
+        }
+
+        public ITargetProxyFactory TargetProxyFactory
+        {
+            get { return targetProxyFactory; }
+            set { targetProxyFactory = value; }
+        }
+
+        public StandardBinder(ISourceProxyFactory sourceProxyFactory, ITargetProxyFactory targetProxyFactory)
+        {
+            this.sourceProxyFactory = sourceProxyFactory;
+            this.targetProxyFactory = targetProxyFactory;
         }
 
         public IBinding Bind(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription)
         {
-            return factory.Create(bindingContext, source, target, bindingDescription);
+            return Binding.Create(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory);
         }
 
         public IEnumerable<IBinding> Bind(IBindingContext bindingContext, object source, object target, IEnumerable<BindingDescription> bindingDescritions)

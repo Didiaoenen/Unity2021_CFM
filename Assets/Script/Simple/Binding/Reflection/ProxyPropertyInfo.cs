@@ -106,7 +106,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (getMethod == null)
                     return null;
 
-                return (Func<T, TValue>)getMethod.CreateDelegate(typeof(Func<T, TValue>));
+                return getMethod.CreateDelegate(typeof(Func<T, TValue>)) as Func<T, TValue>;
             }
             catch (Exception e)
             {
@@ -125,7 +125,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Reflection
                 if (setMethod == null)
                     return null;
 
-                return (Action<T, TValue>)setMethod.CreateDelegate(typeof(Action<T, TValue>));
+                return setMethod.CreateDelegate(typeof(Action<T, TValue>)) as Action<T, TValue>;
             }
             catch (Exception e)
             {

@@ -47,23 +47,23 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
             if (target == null)
                 return;
 
-            if (this.command != null)
+            if (command != null)
             {
-                UnbindCommand(this.command);
-                this.command = null;
+                UnbindCommand(command);
+                command = null;
             }
 
-            if (this.invoker != null)
-                this.invoker = null;
+            if (invoker != null)
+                invoker = null;
 
-            if (this.handler != null)
-                this.handler = null;
+            if (handler != null)
+                handler = null;
 
             if (value == null)
                 return;
 
-            ICommand command = value as ICommand;
-            if (command != null)
+            var _command = value as ICommand;
+            if (_command != null)
             {
                 if (interactable == null)
                 {
@@ -72,40 +72,40 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI
                         interactable = interactablePropertyInfo.AsProxy();
                 }
 
-                this.command = command;
-                BindCommand(this.command);
+                command = _command;
+                BindCommand(command);
                 UpdateTargetInteractable();
                 return;
             }
 
-            IProxyInvoker proxyInvoker = value as IProxyInvoker;
-            if (proxyInvoker != null)
+            var _invoker = value as IProxyInvoker;
+            if (_invoker != null)
             {
-                if (IsValid(proxyInvoker))
+                if (IsValid(_invoker))
                 {
-                    this.invoker = proxyInvoker;
+                    invoker = _invoker;
                     return;
                 }
 
-                throw new ArgumentException("Bind method failed.the parameter types do not match.");
+                throw new ArgumentException();
             }
 
-            Delegate handler = value as Delegate;
-            if (handler != null)
+            var _handler = value as Delegate;
+            if (_handler != null)
             {
-                if (IsValid(handler))
+                if (IsValid(_handler))
                 {
-                    this.handler = handler;
+                    handler = _handler;
                     return;
                 }
 
-                throw new ArgumentException("Bind method failed.the parameter types do not match.");
+                throw new ArgumentException();
             }
 
-            IInvoker invoker = value as IInvoker;
-            if (invoker != null)
+            var _iInvoker = value as IInvoker;
+            if (_iInvoker != null)
             {
-                this.invoker = invoker;
+                invoker = _iInvoker;
             }
         }
 

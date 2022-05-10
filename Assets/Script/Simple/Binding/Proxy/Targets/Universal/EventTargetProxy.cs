@@ -23,7 +23,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
         public override void SetValue(object value)
         {
             if (value != null && !value.GetType().Equals(Type))
-                throw new ArgumentException("Binding delegate to event failed, mismatched delegate type", "value");
+                throw new ArgumentException();
 
             var target = Target;
             if (target == null)

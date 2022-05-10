@@ -15,7 +15,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 
         public override Type Type { get { return eventInfo.HandlerType; } }
 
-
         public EventNodeProxy(IProxyEventInfo eventInfo) : this (null, eventInfo)
         {
         }
@@ -32,13 +31,13 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                 throw new ArgumentException("Binding delegate to event failed, mismatched delegate type", "value");
 
             Unbind(Source, handler);
-            handler = (Delegate)value;
+            handler = value as Delegate;
             Bind(Source, handler);
         }
 
         public void SetValue<TValue>(TValue value)
         {
-            SetValue((object)value);
+            SetValue(value as object);
         }
 
         protected virtual void Bind(object target, Delegate handler)

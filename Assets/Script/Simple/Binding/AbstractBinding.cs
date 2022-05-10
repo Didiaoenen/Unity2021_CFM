@@ -5,13 +5,15 @@ using Object = UnityEngine.Object;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding
 {
-    public abstract class AbstractBinding : IBinding
+    public abstract class AbstractBinding : DisposableBase, IBinding
     {
         private IBindingContext bindingContext;
 
         private WeakReference target;
 
         private object dataContext;
+
+        private bool disposed = false;
 
         public virtual object Target
         {
@@ -75,22 +77,15 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding
 
         protected abstract void OnDataContextChanged();
 
-        public void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            bindingContext = null;
-            dataContext = null;
-            target = null;
-        }
-
-        ~AbstractBinding()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            if (!disposed)
+            {
+                bindingContext = null;
+                dataContext = null;
+                target = null;
+                disposed = true;
+            }
         }
     }
 }

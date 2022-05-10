@@ -13,7 +13,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UIElements
         public VisualElementPropertyProxy(object target, IProxyPropertyInfo propertyInfo) : base(target, propertyInfo)
         {
             if (target is INotifyValueChanged<TValue>)
-                notifyValueChanged = (INotifyValueChanged<TValue>)target;
+                notifyValueChanged = target as INotifyValueChanged<TValue>;
             else
                 notifyValueChanged = null;
         }

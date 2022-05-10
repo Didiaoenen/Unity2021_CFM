@@ -4,7 +4,7 @@ using Assembly_CSharp.Assets.Script.Simple.Binding.Binders;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Contexts
 {
-    public class BindingContext : IBindingContext
+    public class BindingContext : DisposableBase, IBindingContext
     {
         private readonly string DEFAULT_KEY = "_KEY_";
 
@@ -196,7 +196,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Contexts
         //----------------------------------------------------------------------------------
         private bool disposed = false;
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (!disposed)
             {
@@ -208,17 +208,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Contexts
                 }
                 disposed = true;
             }
-        }
-
-        ~BindingContext()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

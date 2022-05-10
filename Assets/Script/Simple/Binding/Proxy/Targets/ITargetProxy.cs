@@ -2,7 +2,7 @@ using System;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets
 {
-    public interface ITargetProxy : IBindingProxy
+    public interface ITargetProxy : IDisposable
     {
         Type Type { get; }
 

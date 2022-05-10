@@ -4,9 +4,9 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
     {
         public virtual bool IsSupported(SourceDescription description)
         {
-            if (!(description is T))
-                return false;
-            return true;
+            if (description is T)
+                return true;
+            return false;
         }
 
         public ISourceProxy CreateProxy(object source, SourceDescription description)
@@ -15,7 +15,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources
                 return null;
 
             ISourceProxy proxy = null;
-            if (TryCreateProxy(source, (T)description, out proxy))
+            if (TryCreateProxy(source, description as T, out proxy))
                 return proxy;
 
             return proxy;

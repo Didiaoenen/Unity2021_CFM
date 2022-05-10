@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assembly_CSharp.Assets.Script.Simple.Binding;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Binders;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Builder;
-using Assembly_CSharp.Assets.Script.Simple.Binding.Converters;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.UGUI;
 using Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal;
@@ -175,17 +173,13 @@ public class Test : MonoBehaviour
 
     public void InitClick()
     {
-        PathParser pathParser = new PathParser();
-        ConverterRegistry converterRegistry = new ConverterRegistry();
-        ExpressionPathFinder expressionPathFinder = new ExpressionPathFinder();
-
         UniversalNodeProxyFactory universalNodeProxyFactory = new UniversalNodeProxyFactory();
         ObjectSourceProxyFactory objectSourceProxyFactory = new ObjectSourceProxyFactory();
         objectSourceProxyFactory.Register(universalNodeProxyFactory, 0);
 
         SourceProxyFactory sourceProxyFactory = new SourceProxyFactory();
         sourceProxyFactory.Register(new LiteralSourceProxyFactory(), 0);
-        sourceProxyFactory.Register(new ExpressionSourceProxyFactory(sourceProxyFactory, expressionPathFinder), 1);
+        sourceProxyFactory.Register(new ExpressionSourceProxyFactory(sourceProxyFactory), 1);
         sourceProxyFactory.Register(objectSourceProxyFactory, 2);
 
         TargetProxyFactory targetProxyFactory = new TargetProxyFactory();
@@ -193,56 +187,36 @@ public class Test : MonoBehaviour
         targetProxyFactory.Register(new UnityTargetProxyFactory(), 10);
         targetProxyFactory.Register(new VisualElementProxyFactory(), 20);
 
-        BindingFactory bindingFactory = new BindingFactory(sourceProxyFactory, targetProxyFactory);
-        StandardBinder binder = new StandardBinder(bindingFactory);
-
+        StandardBinder binder = new StandardBinder(sourceProxyFactory, targetProxyFactory);
         BehaviourBindingExtension.Binder = binder;
 
         testVM = new TestVM();
         BindingSet<Test, TestVM> bindingSet = this.CreateBindingSet(testVM);
         var builder = bindingSet.Bind();
-        builder.PathParser = pathParser;
-        builder.ConverterRegistry = converterRegistry;
         builder.For(v => v.TestFunc).To(vm => vm.TestRequest);
 
         var testBuilder = bindingSet.Bind(testText);
-        testBuilder.PathParser = pathParser;
-        testBuilder.ConverterRegistry = converterRegistry;
         testBuilder.For(v => v.text).To(vm => vm.TestString).OneWay();
 
         var testButtonBuilder = bindingSet.Bind(testButton);
-        testButtonBuilder.PathParser = pathParser;
-        testButtonBuilder.ConverterRegistry = converterRegistry;
         testButtonBuilder.For(v => v.onClick).To(vm => vm.OnClick).OneWay();
 
         var testCommandBuilder = bindingSet.Bind(testCommand);
-        testCommandBuilder.PathParser = pathParser;
-        testCommandBuilder.ConverterRegistry = converterRegistry;
         testCommandBuilder.For(v => v.onClick).To(vm => vm.TestCommand).OneWay();
 
         var testExpressionBuilder = bindingSet.Bind(testExpression);
-        testExpressionBuilder.PathParser = pathParser;
-        testExpressionBuilder.ConverterRegistry = converterRegistry;
         testExpressionBuilder.For(v => v.text).ToExpression(vm => string.Format("{0}%", Mathf.FloorToInt(vm.TestExpression * 100f)));
 
         testExpressionBuilder = bindingSet.Bind(testExpression);
-        testExpressionBuilder.PathParser = pathParser;
-        testExpressionBuilder.ConverterRegistry = converterRegistry;
         testExpressionBuilder.For(v => v.color).To(vm => vm.TestColor).OneWay();
 
         var testInputFieldBuilder = bindingSet.Bind(testInputField);
-        testInputFieldBuilder.PathParser = pathParser;
-        testInputFieldBuilder.ConverterRegistry = converterRegistry;
         testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
 
         var testGameObjectBuilder = bindingSet.Bind(testInputField.gameObject);
-        testGameObjectBuilder.PathParser = pathParser;
-        testGameObjectBuilder.ConverterRegistry = converterRegistry;
         testGameObjectBuilder.For(v => v.activeSelf).To(vm => vm.TestBool).TwoWay();
 
         var testTransformBuilder = bindingSet.Bind(testInputField.transform);
-        testTransformBuilder.PathParser = pathParser;
-        testTransformBuilder.ConverterRegistry = converterRegistry;
         testTransformBuilder.For(v => v.localScale).To(vm => vm.TestScale).TwoWay();
 
         //

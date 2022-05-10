@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.EmptySourceProxy" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAIAAAAAAAACAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\EmptySourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.SourceDescription" Collapsed="true">
+    <Position X="24.75" Y="11.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\SourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.SourceProxyBase" Collapsed="true">
+    <Position X="11.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABgAAAAYAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\SourceProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.NotifiableSourceProxyBase" Collapsed="true">
+    <Position X="27.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAQAAAAEAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\SourceProxyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.SourceProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAAAAAAAAAAAAABAAAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\SourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.TypedSourceProxyFactory&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAACAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\TypedSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.DelegateExtensions" Collapsed="true">
+    <Position X="4.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\DelegateExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.ExpressionSourceDescription" Collapsed="true">
+    <Position X="22.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEAAAAAAAAABAAAAAQAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\ExpressionSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy" Collapsed="true">
+    <Position X="24" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAICBAAAAAAAAAAAAAAAABAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy&lt;TResult&gt;" Collapsed="true">
+    <Position X="29" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICBAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy&lt;T, TResult&gt;" Collapsed="true">
+    <Position X="26.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICBAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\ExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.ExpressionSourceProxyFactory" Collapsed="true">
+    <Position X="29.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\ExpressionSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.ProxyEntry" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgACCAIAAgAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ChainedObjectSourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy" Collapsed="true">
+    <Position X="33.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAICAgAgSABAAQAAAAABAACAAAgQAEAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ChainedObjectSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.EventNodeProxy" Collapsed="true">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAgAACAAAgAAAAAAAAAAAAAgCAAAAQAEAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\EventNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.FieldNodeProxy" Collapsed="true">
+    <Position X="9" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAIAAAAgQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\FieldNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.18" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.InteractionNodeProxy" Collapsed="true">
+    <Position X="11.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAQiAAAgAAAAoQAACAAAAACAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\InteractionNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.ItemNodeProxy&lt;T&gt;" Collapsed="true">
+    <Position X="37.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAAAAAICAAAgQAAAQEAAQAAAAAABAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.IntItemNodeProxy" Collapsed="true">
+    <Position X="36.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.StringItemNodeProxy" Collapsed="true">
+    <Position X="38.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ItemNodeProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.MethodNodeProxy" Collapsed="true">
+    <Position X="16.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIIgAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\MethodNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.21" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.ObjectSourceDescription" Collapsed="true">
+    <Position X="24.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIEAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ObjectSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.ObjectSourceProxyFactory" Collapsed="true">
+    <Position X="31.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAABAEAAAAAAAAgAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ObjectSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.PropertyNodeProxy" Collapsed="true">
+    <Position X="21.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAEAICAAAgQAIAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\PropertyNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.UniversalNodeProxyFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\UniversalNodeProxyFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Observables.ObservableNodeProxy" Collapsed="true">
+    <Position X="19" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAICAAAgAAAAAAAAAAAAAAAAEAAQAAAAAAAAE=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\ObservableNodeProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text.LiteralSourceDescription" Collapsed="true">
+    <Position X="26.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Text\LiteralSourceDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text.LiteralSourceProxy" Collapsed="true">
+    <Position X="14" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Text\LiteralSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.102" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text.LiteralSourceProxyFactory" Collapsed="true">
+    <Position X="33.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Text\LiteralSourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Text.ObservableLiteralSourceProxy" Collapsed="true">
+    <Position X="31.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAICgAAAAAAAAAAAAAAAAAAAEAAQAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Text\ObservableLiteralSourceProxy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.BindingProxyBase" Collapsed="true">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\BindingProxyBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.ISourceProxy" Collapsed="true">
+    <Position X="12.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\ISourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.ISourceProxyFactory" Collapsed="true">
+    <Position X="4.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\ISourceProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.ISourceProxyFactoryRegistry" Collapsed="true">
+    <Position X="6.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\ISourceProxyFactoryRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions.IExpressionSourceProxy" Collapsed="true">
+    <Position X="12.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Expressions\IExpressionSourceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.INodeProxyFactory" Collapsed="true">
+    <Position X="8.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\INodeProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object.INodeProxyFactoryRegister" Collapsed="true">
+    <Position X="10.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Proxy\Sources\Object\INodeProxyFactoryRegister.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

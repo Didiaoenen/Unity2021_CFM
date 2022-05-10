@@ -10,12 +10,9 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
     {
         private ISourceProxyFactory factory;
 
-        private IExpressionPathFinder pathFinder;
-
-        public ExpressionSourceProxyFactory(ISourceProxyFactory factory, IExpressionPathFinder pathFinder)
+        public ExpressionSourceProxyFactory(ISourceProxyFactory factory)
         {
             this.factory = factory;
-            this.pathFinder = pathFinder;
         }
 
         protected override bool TryCreateProxy(object source, ExpressionSourceDescription description, out ISourceProxy proxy)
@@ -23,7 +20,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Expressions
             proxy = null;
             var expression = description.Expression;
             List<ISourceProxy> list = new List<ISourceProxy>();
-            List<Path> paths = pathFinder.FindPaths(expression);
+            List<Path> paths = UExpressionPathFinder.FindPaths(expression);
             foreach (var path in paths)
             {
                 if (!path.IsStatic)

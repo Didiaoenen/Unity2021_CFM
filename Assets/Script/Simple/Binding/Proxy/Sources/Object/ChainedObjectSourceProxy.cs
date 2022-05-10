@@ -3,8 +3,10 @@ using Assembly_CSharp.Assets.Script.Simple.Binding.Paths;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
 {
-    public class ProxyEntry : IDisposable
+    public class ProxyEntry : DisposableBase
     {
+        private bool disposed = false;
+
         private ISourceProxy proxy;
 
         private EventHandler handler;
@@ -62,35 +64,25 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
             }
         }
 
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
                 Handler = null;
                 if (proxy != null)
                     proxy.Dispose();
                 proxy = null;
                 Token = null;
-                disposedValue = true;
+                disposed = true;
+                base.Dispose(disposing);
             }
-        }
-
-        ~ProxyEntry()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 
     public class ChainedObjectSourceProxy : NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable
     {
+        private bool disposedValue = false;
+
         private INodeProxyFactory factory;
 
         private ProxyEntry[] proxies;
@@ -291,8 +283,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Sources.Object
                 proxies[i] = null;
             }
         }
-
-        private bool disposedValue = false;
 
         protected override void Dispose(bool disposing)
         {

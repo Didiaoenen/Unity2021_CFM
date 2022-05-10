@@ -35,7 +35,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
                 return default(TValue);
 
             if (propertyInfo is IProxyPropertyInfo<TValue>)
-                return ((IProxyPropertyInfo<TValue>)propertyInfo).GetValue(target);
+                return (propertyInfo as IProxyPropertyInfo<TValue>).GetValue(target);
 
             return (TValue)propertyInfo.GetValue(target);
         }
@@ -57,7 +57,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Proxy.Targets.Universal
 
             if (propertyInfo is IProxyPropertyInfo<TValue>)
             {
-                ((IProxyPropertyInfo<TValue>)propertyInfo).SetValue(target, value);
+                (propertyInfo as IProxyPropertyInfo<TValue>).SetValue(target, value);
                 return;
             }
 
