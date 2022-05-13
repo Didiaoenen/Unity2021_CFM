@@ -3,7 +3,10 @@ Library
 Logs
 obj
 Temp
+Assets/Gen
+Assets/XLua
 Assets/Plugins
+Assets/ThirdParty
 TsProj/node_modules
 TsProj/output
 .vs

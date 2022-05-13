@@ -14,8 +14,7 @@ public class TestJS : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        var dataPath = UnityEngine.Application.dataPath;
-        var path = Path.Combine(UnityEngine.Application.dataPath, "../TsProj/output/");
+        var path = Path.Combine(Application.dataPath, "../TsProj/output/");
         jsEnv = new JsEnv(new DefaultLoader(path), 9229);
         jsEnv.Eval("require('GameMain')");
     }
@@ -23,7 +22,7 @@ public class TestJS : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

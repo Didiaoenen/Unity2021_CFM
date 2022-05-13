@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     // "suppressImplicitAnyIndexErrors": true,
     "typeRoots": [
-      "../Assets/Puerts/Typing",
+      "../Assets/ThirdParty/Puerts/Typing",
       "../Assets/Gen/Typing",
       "./node_modules/@types"
     ],
