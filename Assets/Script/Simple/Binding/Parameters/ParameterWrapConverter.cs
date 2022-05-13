@@ -13,7 +13,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Parameters
         public ParameterWrapConverter(object commandParameter)
         {
             if (commandParameter == null)
-                throw new ArgumentNullException("commandParameter");
+                throw new ArgumentNullException(nameof(commandParameter));
             
             this.commandParameter = commandParameter;
         }

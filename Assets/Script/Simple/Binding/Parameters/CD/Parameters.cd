@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Parameters.ParameterWrapCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQgAEAAAEAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Parameters\ParameterWrapCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Parameters.ParameterWrapConverter" Collapsed="true">
+    <Position X="1.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Parameters\ParameterWrapConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Parameters.ParameterWrapDelegateInvoker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAIAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Parameters\ParameterWrapDelegateInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Parameters.ParameterWrapProxyInvoker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAIAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Parameters\ParameterWrapProxyInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Parameters.ParameterWrapScriptInvoker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Parameters\ParameterWrapScriptInvoker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Assembly_CSharp.Assets.Script.Simple.Binding.Converters.AbstractConverter" Collapsed="true">
+    <Position X="1.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Simple\Binding\Converters\AbstractConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

@@ -32,7 +32,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Binders
 
         public IBinding Bind(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription)
         {
-            return Binding.Create(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory);
+            return new Binding(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory);
         }
 
         public IEnumerable<IBinding> Bind(IBindingContext bindingContext, object source, object target, IEnumerable<BindingDescription> bindingDescritions)

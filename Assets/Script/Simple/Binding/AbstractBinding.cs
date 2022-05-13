@@ -85,6 +85,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding
                 dataContext = null;
                 target = null;
                 disposed = true;
+                base.Dispose(disposing);
             }
         }
     }

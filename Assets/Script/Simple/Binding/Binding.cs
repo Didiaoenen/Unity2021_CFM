@@ -55,11 +55,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding
             }
         }
 
-        public static Binding Create(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription, ISourceProxyFactory sourceProxyFactory, ITargetProxyFactory targetProxyFactory)
-        {
-            return new Binding(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory);
-        }
-
         public Binding(IBindingContext bindingContext, object source, object target, BindingDescription bindingDescription, ISourceProxyFactory sourceProxyFactory, ITargetProxyFactory targetProxyFactory) : base(bindingContext, source, target)
         {
             targetTypeName = target.GetType().Name;
