@@ -1,0 +1,3 @@
+function class(classname, super)
+    print("this is class function")
+end
