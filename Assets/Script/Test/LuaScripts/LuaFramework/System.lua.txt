@@ -10,7 +10,6 @@ function class(classname, super)
     cls.super = super
     setmetatable(cls, {__index = super, __call = function (t, ...)
         local instance = {}
-        instance.getset_values = {}
         for k, v in pairs(t) do
             instance[k] = v
         end
@@ -33,7 +32,7 @@ function class(classname, super)
                     return
                 end
                 if t.__remove[k] then
-                    t.__remove[k](t, k, v)
+                    t.__remove[k](t, k)
                     return
                 end
                 rawset(t, k, v)
