@@ -1,0 +1,17 @@
+local ViewModelBase = require("LuaFramework/ViewModelBase")
+
+local TestVM = class("LuaFramework/TestVM", ViewModelBase)
+
+TestVM.__getter.Test = function (this, k, v)
+    return this.test
+end
+
+TestVM.__setter.Test = function (this, k, v)
+    this:Set({name = "test"}, v, "test")
+end
+
+function TestVM:ctor()
+    self.test = nil
+end
+
+return TestVM

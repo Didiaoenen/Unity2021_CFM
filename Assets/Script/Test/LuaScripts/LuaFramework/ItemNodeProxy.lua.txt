@@ -1,0 +1,24 @@
+local ItemNodeProxy = class("ItemNodeProxy")
+
+function ItemNodeProxy:ctor(source, key, itemInfo)
+    self.key = key
+    self.isList = source:GetName() == "List"
+    self.itemInfo = itemInfo
+
+    if self.source and self.source:GetName() == "INotifyCollectionChanged" then
+        self.source.CollectionChanged = function ()
+            self:OnCollectionChanged()
+        end
+
+    end
+end
+
+function ItemNodeProxy:OnCollectionChanged()
+    
+end
+
+function ItemNodeProxy:Dispose()
+    
+end
+
+return ItemNodeProxy

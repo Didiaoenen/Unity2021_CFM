@@ -1,0 +1,13 @@
+local SourceProxyBase = require("LuaFramework/SourceProxyBase")
+
+local LiteralSourceProxy = class("LiteralSourceProxy", SourceProxyBase)
+
+function LiteralSourceProxy:ctor(source)
+    self.super:ctor(source)
+end
+
+function LiteralSourceProxy:GetValue()
+    return self.source
+end
+
+return LiteralSourceProxy

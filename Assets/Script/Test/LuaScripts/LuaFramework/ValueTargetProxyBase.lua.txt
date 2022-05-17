@@ -1,0 +1,105 @@
+local TargetProxyBase = require("LuaFramework/TargetProxyBase")
+
+local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
+
+ValueTargetProxyBase.__getter.ValueChanged = function (this, k)
+    this.valueChanged = self.getset_values[k]
+
+    if not this.valueChanged or this.subScribed then
+        this:Subscribe()
+    end
+end
+
+ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
+    this.valueChanged = nil
+
+    if not this.valueChanged and this.subScribed then
+        this:Unsubscribe()
+    end
+end
+
+function ValueTargetProxyBase:ctor(target)
+    self.subScribed = false
+    self.valueChanged = nil
+end
+
+function ValueTargetProxyBase:Subscribe()
+    try
+    {
+        function ()
+            if self.subScribed then
+                return
+            end
+
+            local target = self.Target
+            if not target then
+                return
+            end
+
+            self.subScribed = true
+            self:DoSubscribeForValueChange(target)
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:DoSubscribeForValueChange(target)
+    
+end
+
+function ValueTargetProxyBase:Unsubscribe()
+    try
+    {
+        function ()
+            if not self.subScribed then
+                return
+            end
+
+            local target = self.Target
+            if not target then
+                return
+            end
+
+            self.subScribed = false
+            self:DoUnsubscribeForValueChange(target)
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
+    
+end
+
+function ValueTargetProxyBase:RaiseValueChanged()
+    try
+    {
+        function ()
+            local handler = self.valueChanged
+            if handler then
+                handler()
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:GetValue()
+    
+end
+
+function ValueTargetProxyBase:SetValue(value)
+    
+end
+
+function ValueTargetProxyBase:Dispose()
+    
+end
+
+return ValueTargetProxyBase

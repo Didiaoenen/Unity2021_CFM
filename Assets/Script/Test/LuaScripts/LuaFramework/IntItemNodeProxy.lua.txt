@@ -1,0 +1,11 @@
+local IntItemNodeProxy = class("IntItemNodeProxy")
+
+function IntItemNodeProxy:ctor(source, key, itemInfo)
+    
+end
+
+function IntItemNodeProxy:OnCollectionChanged(sender, e)
+    
+end
+
+return IntItemNodeProxy

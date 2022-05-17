@@ -1,0 +1,45 @@
+local AbstractBinding = class("AbstractBinding")
+
+AbstractBinding.__getter.BindingContext = function (this, k)
+    return this.bindingContext
+end
+
+AbstractBinding.__setter.BindingContext = function (this, k, v)
+    this.bindingContext = this.getset_values[k]
+end
+
+AbstractBinding.__getter.Target = function (this, k)
+    local target = this.target and this.target.Target
+    return this:IsAlive(target) and target
+end
+
+AbstractBinding.__getter.DataContext = function (this, k)
+    return this.dataContext
+end
+
+AbstractBinding.__setter.DataContext = function (this, k, v)
+    if v ~= this.getset_values[k] then
+        self.dataContext = v
+        self:OnDataContextChanged()
+    end
+end
+
+function AbstractBinding:ctor(bindingContext, dataContext, target)
+    self.bindingContext = bindingContext
+    self.dataContext = dataContext
+    self.target = target
+end
+
+function AbstractBinding:IsAlive(target)
+    
+end
+
+function AbstractBinding:OnDataContextChanged()
+    
+end
+
+function AbstractBinding:Dispose()
+    
+end
+
+return AbstractBinding

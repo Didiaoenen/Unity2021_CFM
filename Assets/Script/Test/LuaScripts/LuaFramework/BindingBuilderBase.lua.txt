@@ -1,0 +1,62 @@
+local BindingDescription = require("BindingDescription")
+
+local BindingBuilderBase = class("BindingBuilderBase")
+
+function BindingBuilderBase:ctor(context, target)
+    if not context or not target then
+        return
+    end
+
+    self.context = context
+    self.target = target
+
+    self.builded = false
+    self.description = BindingDescription()
+    self.description.Mode = BindingMode.Default
+end
+
+function BindingBuilderBase:SetMode(mode)
+    self.description.Mode = mode
+end
+
+function BindingBuilderBase:SetMemberPath(path)
+    
+end
+
+function BindingBuilderBase:SetExpression(expression)
+    
+end
+
+function BindingBuilderBase:SetCommandParameter(parameter)
+    
+end
+
+function BindingBuilderBase:CheckBindingDescription()
+    if not self.description.TargetName or self.description.TargetName == "" then
+        error("")
+    end
+
+    if not self.description.Source then
+        error("")        
+    end
+end
+
+function BindingBuilderBase:Build()
+    try
+    {
+        function ()
+            if self.builded then
+                return                
+            end 
+
+            self:CheckBindingDescription()
+            self.context:AddBySingleDesc(self.target, self.description, self.scopeKey)
+            self.builded = true
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+return BindingBuilderBase

@@ -1,0 +1,32 @@
+local EventTargetProxyBase = require("LuaFramework/EventTargetProxyBase")
+
+local EventTargetProxy = class("EventTargetProxy", EventTargetProxyBase)
+
+EventTargetProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.OneWay
+end
+
+function EventTargetProxy:ctor(target, eventInfo)
+    self.super:ctor(target)
+    self.eventInfo = eventInfo
+
+    self.handler = nil
+end
+
+function EventTargetProxy:SetValue()
+    
+end
+
+function EventTargetProxy:Bind()
+    
+end
+
+function EventTargetProxy:Unbind()
+    
+end
+
+function EventTargetProxy:Dispose()
+    
+end
+
+return EventTargetProxy

@@ -1,0 +1,31 @@
+local TypedSourceProxyFactory = class("TypedSourceProxyFactory")
+
+function TypedSourceProxyFactory:ctor()
+    
+end
+
+function TypedSourceProxyFactory:IsSupported(description)
+    if description:GetName() == "SourceDescription" then
+        return true
+    end 
+    return false
+end
+
+function TypedSourceProxyFactory:CreateProxy(source, description)
+    if not self:IsSupported(description) then
+        return
+    end
+
+    local proxy = nil
+    if self:TryCreateProxy(source, description, proxy) then
+        return proxy
+    end
+
+    return proxy
+end
+
+function TypedSourceProxyFactory:TryCreateProxy(source, description, proxy)
+    
+end
+
+return TypedSourceProxyFactory

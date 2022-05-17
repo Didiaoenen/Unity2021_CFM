@@ -1,0 +1,31 @@
+local FieldTargetProxy = require("LuaFramework/FieldTargetProxy")
+
+local UnityFieldProxy = class("UnityFieldProxy", FieldTargetProxy)
+
+UnityFieldProxy.__getter.DefaultMode = function (this, k)
+    
+end
+
+function UnityFieldProxy:ctor(target, fieldInfo, unityEvent)
+    self.unityEvent = unityEvent
+end
+
+function UnityFieldProxy:DoSubscribeForValueChange(target)
+    if not self.unityEvent or not target then
+        return
+    end
+
+    self.unityEvent:AddListener(self, self.OnValueChanged)
+end
+
+function UnityFieldProxy:DoUnsubscribeForValueChange(target)
+    if self.unityEvent then
+        self.unityEvent.RemoveListener(self, self.OnValueChanged);
+    end
+end
+
+function UnityFieldProxy:OnValueChanged()
+    self:RaiseValueChanged()
+end
+
+return UnityFieldProxy

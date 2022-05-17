@@ -1,0 +1,32 @@
+local SourceProxyBase = require("LuaFramework/SourceProxyBase")
+
+local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase)
+
+NotifiableSourceProxyBase.__getter.ValueChanged = function (this, k)
+    this.valueChanged = this.getset_values[k]
+end
+
+NotifiableSourceProxyBase.__setter.ValueChanged = function (this, k, v)
+    this.valueChanged = nil
+end
+
+function NotifiableSourceProxyBase:ctor(source)
+    self.super:ctor(source)
+    self.valueChanged = nil
+end
+
+function NotifiableSourceProxyBase:RaiseValueChanged()
+    try
+    {
+        function ()
+            if self.valueChanged then
+                self.valueChanged()
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+return NotifiableSourceProxyBase

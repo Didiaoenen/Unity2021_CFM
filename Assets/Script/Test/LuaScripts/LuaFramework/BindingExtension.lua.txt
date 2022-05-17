@@ -1,0 +1,18 @@
+local BindingSet = require("BindingSet")
+
+local BindingExtension = class("BindingExtension")
+
+function BindingExtension:ctor(behaviour)
+    self.behaviour = behaviour
+end
+
+function BindingExtension:BindingContext()
+    
+end
+
+function BindingExtension:CreateBindingSet()
+    local context = self:BindingContext()
+    return BindingSet(context, self.behaviour)
+end
+
+return BindingExtension

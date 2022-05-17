@@ -1,0 +1,23 @@
+local ObservableObject = require("LuaFramework/ObservableObject")
+
+local ViewModelBase = class("ViewModelBase", ObservableObject)
+
+function ViewModelBase:ctor(messenger)
+    self.messenger = messenger
+end
+
+function ViewModelBase:SetWithBroadCast(field, newValue, propertyName, broadcast)
+    if field ~= newValue then
+        self.super:Set(field, newValue, propertyName)
+
+        if broadcast then
+            self:Broadcast(self[field.name], newValue, propertyName)
+        end
+    end
+end
+
+function ViewModelBase:Broadcast(oldValue, newVlaue, propertyName)
+    
+end
+
+return ViewModelBase

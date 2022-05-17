@@ -1,0 +1,33 @@
+local TargetProxyBase = class("TargetProxyBase")
+
+TargetProxyBase.__getter.Target = function (this, k)
+    
+end
+
+TargetProxyBase.__getter.DefaultMode = function (this, k)
+    
+end
+
+function TargetProxyBase:ctor(target)
+    if not target then
+        error("")
+        return
+    end
+
+    self.target = target
+    self.targetName = target:GetName()
+end
+
+function TargetProxyBase:IsAlive(target)
+    try
+    {
+        function ()
+            
+        end,
+        catch = function ()
+            return false
+        end
+    }
+end
+
+return TargetProxyBase

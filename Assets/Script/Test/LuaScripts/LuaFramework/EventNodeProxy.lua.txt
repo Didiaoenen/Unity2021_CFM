@@ -1,0 +1,20 @@
+local EventNodeProxy = class("EventNodeProxy")
+
+function EventNodeProxy:ctor(source, eventInfo)
+    self.eventInfo = eventInfo
+    self.isStatic = self.eventInfo.IsStatic
+end
+
+function EventNodeProxy:Bind(target, handler)
+    
+end
+
+function EventNodeProxy:Unbind(target, handler)
+    
+end
+
+function EventNodeProxy:Dispose()
+    
+end
+
+return EventNodeProxy

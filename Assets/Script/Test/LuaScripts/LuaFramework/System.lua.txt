@@ -1,3 +1,89 @@
 function class(classname, super)
-    print("this is class function")
+    super = super or {}
+    
+    local cls = {}
+    cls.__classname = classname
+	cls.__add = {}
+	cls.__remove = {}
+    cls.__getter = {}
+	cls.__setter = {}
+    cls.super = super
+    setmetatable(cls, {__index = super, __call = function (t, ...)
+        local instance = {}
+        instance.getset_values = {}
+        for k, v in pairs(t) do
+            instance[k] = v
+        end
+        local meta = {
+            __index = function(t, k)
+                if cls[k] then
+                    return cls[k]
+                end
+                if t.__getter[k] then
+                    return t.__getter[k](t, k)
+                end
+            end,
+            __newindex = function(t, k, v)
+                if t.__setter[k] then
+                    t.__setter[k](t, k, v)
+                    return
+                end
+                if t.__add[k] then
+                    t.__add[k](t, k, v)
+                    return
+                end
+                if t.__remove[k] then
+                    t.__remove[k](t, k, v)
+                    return
+                end
+                rawset(t, k, v)
+            end
+        }
+        setmetatable(instance, meta)
+        instance:ctor(...)
+        return instance
+    end})
+
+    return cls
+end
+
+function try(block)
+	local main = block[1]
+	local catch = block.catch
+	local finally = block.finally
+	
+	local results = table.pack(pcall(main))
+	local status = results[1]
+	local e = results[2]
+	table.remove(results, 1)
+	
+    local result = results
+	local catched = false
+	if not status and catch and type(catch) == "function" then
+		catched = true
+		local results = table.pack(pcall(catch, e))
+		if results[1] then
+			table.remove(results, 1)
+			result = results
+			e = nil
+		else
+			e = results[2]
+		end		
+	end
+	
+	if finally and type(finally) == "function" then
+		pcall(finally)
+	end	
+	
+	if status then
+		return table.unpack(result)
+	elseif catched then
+		if not e then
+			return table.unpack(result)
+		else
+			error(e)
+		end
+	else
+		error(e)
+	end
 end

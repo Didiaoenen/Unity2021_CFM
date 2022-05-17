@@ -1,0 +1,125 @@
+local AbstractBinding = require("AbstractBinding")
+
+local Binding = class("Binding", AbstractBinding)
+
+function Binding:ctor(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory)
+    self.bindingDescription = bindingDescription
+
+    self.converter = self.bindingDescription.Converter
+    self.sourceProxyFactory = sourceProxyFactory
+    self.targetProxyFactory = targetProxyFactory
+
+    self:CreateTargetProxy(target, self.bindingDescription)
+    self:CreateSourceProxy(self.DataContext, self.bindingDescription.Source)
+    self:UpdateDataOnBind()
+end
+
+function Binding:CreateTargetProxy(target, description)
+    self.DisposeTargetProxy()
+
+    self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
+
+    if self:IsSubscribeTargetValueChanged(self.BindindMode) and self.targetProxy then
+        self.targetProxy.ValueChanged = function (sender, args)
+            self:UpdateSourceFromTarget()
+        end
+    end
+end
+
+function Binding:DisposeTargetProxy()
+    try
+    {
+        function ()
+            if self.targetProxy then
+                self.targetProxy:Dispose() 
+                self.targetProxy = nil
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Binding:UpdateSourceFromTarget()
+    
+end
+
+function Binding:CreateSourceProxy(source, description)
+    self:DisposeSourceProxy()
+
+    self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
+
+    if self:IsSubscribeSourceValueChanged(self.BindingMode) and self.sourceProxy then
+        self.sourceProxy.ValueChanged = function (sender, args)
+            self:UpdateTargetFromSource()
+        end
+    end
+end
+
+function Binding:DisposeSourceProxy()
+    try
+    {
+        function ()
+            if self.sourceProxy then
+                self.sourceProxy:Dispose() 
+                self.sourceProxy = nil
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Binding:UpdateTargetFromSource()
+    
+end
+
+function Binding:UpdateDataOnBind()
+    try
+    {
+        function ()
+            if self:UpdateTargetOnFirstBind(self.BindindMode) and self.sourceProxy then
+                self:UpdateTargetFromSource()
+            end
+
+            if self:UpdateSourceOnFirstBind(self.BindindMode) and self.targetProxy then
+                self:UpdateSourceFromSource()
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Binding:UpdateTargetOnFirstBind(bindingMode)
+    if bindingMode == BindingMode.Default then
+        return true
+    elseif bindingMode == BindingMode.OneWay then
+        return true
+    elseif bindingMode == BindingMode.OneTime then
+        return true
+    elseif bindingMode == BindingMode.TwoWay then
+        return true
+    elseif bindingMode == BindingMode.OneWayToSource then
+        return false
+    end
+end
+
+function Binding:UpdateSourceOnFirstBind(bindingMode)
+    if bindingMode == BindingMode.OneWayToSource then
+        return true
+    elseif bindingMode == BindingMode.Default then
+        return false
+    elseif bindingMode == BindingMode.OneWay then
+        return false
+    elseif bindingMode == BindingMode.OneTime then
+        return false
+    elseif bindingMode == BindingMode.TwoWay then
+        return false
+    end
+end
+
+return Binding

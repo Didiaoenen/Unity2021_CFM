@@ -1,0 +1,92 @@
+local BindingContext = class("BindingContext")
+
+BindingContext.__getter.DataContext = function(this, k)
+    return this.dataContext
+end
+
+BindingContext.__setter.DataContext = function(this, k, v)
+    if v ~= this.storeKV[k] then
+        this.dataContext = v
+        this:OnDataContextChanged();
+        this:RaiseDataContextChanged();
+    end
+end
+
+function BindingContext:ctor(owner, binder, dataContext)
+    self.owner = owner
+    self.binder = binder
+    self.dataContext = dataContext
+
+    --
+    self.bindings = {}
+    self.dataContextChanged = nil
+    self.DEFAULT_KEY = "_KEY_"
+end
+
+function BindingContext:OnDataContextChanged()
+    try
+    {
+        function ()
+            for k, binding in pairs(self.bindings) do
+                for i, v in ipairs(binding) do
+                    v.DataContext = self.DataContext
+                end
+            end
+        end,
+        catch = function()
+            
+        end
+    }
+end
+
+function BindingContext:RaiseDataContextChanged()
+    try
+    {
+        function ()
+            local handler = self.dataContextChanged
+            if handler then
+                handler()          
+            end
+        end,
+        catch = function()
+            
+        end
+    }
+end
+
+function BindingContext:GetOrCreateList(key)
+    if not key then
+        key = self.DEFAULT_KEY        
+    end
+
+    if not self.bindings[key] then
+        self.bindings[key] = {}
+    end
+    
+    return self.bindings[key]
+end
+
+function BindingContext:Add(binding, key)
+    if not binding then
+        return        
+    end
+
+    local list = self:GetOrCreateList()
+    binding.BindingContext = self
+    table.insert(list, binding)
+end
+
+function BindingContext:AddBySingleDesc(target, description, key)
+    local binding = self.binder:Bind(self, self.DataContext, target, description)
+    self:Add(binding, key)
+end
+
+function BindingContext:Clear()
+    
+end
+
+function BindingContext:Dispose()
+    self:Clear()
+end
+
+return BindingContext

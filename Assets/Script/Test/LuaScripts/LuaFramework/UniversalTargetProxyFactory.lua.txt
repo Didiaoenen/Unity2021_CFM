@@ -1,0 +1,77 @@
+local ObservableTargetProxy = require("LuaFramework/ObservableTargetProxy")
+local InteractionTargetProxy = require("LuaFramework/InteractionTargetProxy")
+local PropertyTargetProxy = require("LuaFramework/PropertyTargetProxy")
+local FieldTargetProxy = require("LuaFramework/FieldTargetProxy")
+local EventTargetProxy = require("LuaFramework/EventTargetProxy")
+local MethodTargetProxy = require("LuaFramework/MethodTargetProxy")
+
+local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory")
+
+function UniversalTargetProxyFactory:ctor()
+    
+end
+
+function UniversalTargetProxyFactory:CreateProxy(target, description)
+    local object = CS[target]
+    local memberInfo = object[description.TargetName]
+    if not memberInfo then
+        error("")
+        return
+    end
+
+    if memberInfo:GetName() == "IProxyPropertyInfo" then
+        if memberInfo:GetNameContaine() == "IObservableProperty" then
+            local observable = memberInfo[target]
+            if not observable then
+                error("")
+                return
+            end
+
+            return ObservableTargetProxy(target, observable)
+        end
+
+        if memberInfo:GetNameContaine() == "IInteractionAction" then
+            local interaction = memberInfo[target]
+            if not interaction then
+                return
+            end
+
+            return InteractionTargetProxy(target, interaction)
+        end
+
+        return PropertyTargetProxy(target, memberInfo)
+    end
+
+    if memberInfo:GetName() == "IProxyFieldInfo" then
+        if memberInfo:GetNameContaine() == "IObservableProperty" then
+            local observable = memberInfo[target]
+            if not observable then
+                error("")
+                return
+            end
+
+            return ObservableTargetProxy(target, observable)
+        end
+
+        if memberInfo:GetNameContaine() == "IInteractionAction" then
+            local interaction = memberInfo[target]
+            if not interaction then
+                return
+            end
+
+            return InteractionTargetProxy(target, interaction)
+        end
+
+        return FieldTargetProxy(target, memberInfo)
+    end
+
+    if memberInfo:GetName() == "IProxyEventInfo" then
+        return EventTargetProxy(target, memberInfo)
+    end
+
+    if memberInfo:GetName() == "IProxyMethodInfo" then
+        return MethodTargetProxy(target, memberInfo)
+    end
+end
+
+return UniversalTargetProxyFactory

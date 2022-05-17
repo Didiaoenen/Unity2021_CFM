@@ -1,0 +1,108 @@
+local IntItemNodeProxy = require("LuaFramework/IntItemNodeProxy")
+local StringItemNodeProxy = require("LuaFramework/StringItemNodeProxy")
+local ObservableNodeProxy = require("LuaFramework/ObservableNodeProxy")
+local InteractionNodeProxy = require("LuaFramework/InteractionNodeProxy")
+local PropertyNodeProxy = require("LuaFramework/PropertyNodeProxy")
+local MethodNodeProxy = require("LuaFramework/MethodNodeProxy")
+local EventNodeProxy = require("LuaFramework/EventNodeProxy")
+
+local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory")
+
+function UniversalNodeProxyFactory:ctor()
+    
+end
+
+function UniversalNodeProxyFactory:Create(source, path)
+    local node = path.Current
+    if not source then
+        error("")
+        return
+    end
+
+    if node.IsStatic then
+        return self:CreateStaticProxy(node)
+    end
+
+    return self:CreateProxy(source, node)
+end
+
+function UniversalNodeProxyFactory:CreateProxy(source, node)
+    local object = CS[source]
+    if node:GetName() == "IndexedNode" then
+        if source:GetNameContains() ~= "ICollection" then
+            error("")
+            return
+        end
+
+        local itemInfo = object:GetItem()
+        if not itemInfo then
+            error("")
+            return
+        end
+
+        if node:GetName() == "IntegerIndexedNode" then
+            return IntItemNodeProxy(source, node.Value, itemInfo)
+        end
+
+        if node:GetName() == "StringIndexedNode" then
+            return StringItemNodeProxy(source, node.Value, itemInfo)
+        end
+    end 
+
+    if node:GetName() ~= "MemberNode" then
+        return
+    end
+
+    local memberInfo = node.MemberInfo
+    if memberInfo and memberInfo:GetName() ~= source:GetName() then
+        return
+    end
+
+    if not memberInfo then
+        memberInfo = source:FindFirstMemberInfo(node.Name)
+    end
+
+    if not memberInfo then
+        error("")
+        return
+    end
+
+    if memberInfo:GetNameContaine() == "PropertyInfo" then
+        local propertyInfo = object[node]
+        if propertyInfo:GetNameContaine() == "IObservableProperty" then
+            local observable = propertyInfo[node]
+            if not observable then
+                return
+            end
+
+            return ObservableNodeProxy(source, observable)
+        elseif propertyInfo:GetNameContaine() == "IInteractionRequest" then
+            local request = propertyInfo[node]
+            if not request then
+                return
+            end
+
+            return InteractionNodeProxy(source, request)
+        else
+            return PropertyNodeProxy(source, propertyInfo)
+        end
+    end
+
+    if memberInfo:GetNameContaine() == "FieldInfo" then
+
+    end
+
+    if memberInfo:GetName() == "MethodInfo" then
+        return MethodNodeProxy(source, memberInfo)
+    end
+
+    if memberInfo:GetName() == "EventInfo" then
+        return EventNodeProxy(source, memberInfo)
+    end
+end
+
+function UniversalNodeProxyFactory:CreateStaticProxy()
+    
+end
+
+return UniversalNodeProxyFactory

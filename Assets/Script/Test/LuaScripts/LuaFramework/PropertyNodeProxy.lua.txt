@@ -1,0 +1,25 @@
+local PropertyNodeProxy = class("PropertyNodeProxy")
+
+function PropertyNodeProxy:ctor(source, propertyInfo)
+    self.propertyInfo = propertyInfo
+
+    if not self.source then
+        return
+    end
+
+    if self.source:GetName() == "IProxyPropertyInfo" then
+        self.source.PropertyChanged = function ()
+            self:OnPropertyChanged()
+        end
+    end
+end
+
+function PropertyNodeProxy:OnPropertyChanged()
+    
+end
+
+function PropertyNodeProxy:Dispose()
+    
+end
+
+return PropertyNodeProxy

@@ -1,0 +1,15 @@
+local NotifyPropertyChanged = class("NotifyPropertyChanged")
+
+NotifyPropertyChanged.__add.PropertyChanged = function (this, k, v)
+    self.propertyChanged = v
+end
+
+NotifyPropertyChanged.__remove.PropertyChanged = function (this, k, v)
+    self.propertyChanged = nil
+end
+
+function NotifyPropertyChanged:ctor()
+    self.propertyChanged = nil
+end
+
+return NotifyPropertyChanged

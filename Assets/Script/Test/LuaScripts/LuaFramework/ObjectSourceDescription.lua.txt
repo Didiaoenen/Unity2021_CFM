@@ -1,0 +1,15 @@
+local ObjectSourceDescription = class("ObjectSourceDescription")
+
+ObjectSourceDescription.__getter.Path = function (this, k)
+    
+end
+
+ObjectSourceDescription.__setter.Path = function (this, k, v)
+    
+end
+
+function ObjectSourceDescription:ctor()
+    self.path = nil
+end
+
+return ObjectSourceDescription

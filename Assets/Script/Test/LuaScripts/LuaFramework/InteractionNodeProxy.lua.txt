@@ -1,0 +1,32 @@
+local InteractionNodeProxy = class("InteractionNodeProxy")
+
+function InteractionNodeProxy:ctor(source, request)
+    self.request = request
+    self:BindEvent()
+end
+
+function InteractionNodeProxy:BindEvent()
+    
+end
+
+function InteractionNodeProxy:UnbindEvent()
+    
+end
+
+function InteractionNodeProxy:OnRaised(sender, args)
+    try
+    {
+        function ()
+            
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function InteractionNodeProxy:Dispose()
+    
+end
+
+return InteractionNodeProxy

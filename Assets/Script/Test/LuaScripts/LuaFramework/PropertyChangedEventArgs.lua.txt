@@ -1,0 +1,7 @@
+local PropertyChangedEventArgs = class("PropertyChangedEventArgs")
+
+function PropertyChangedEventArgs:ctor()
+    
+end
+
+return PropertyChangedEventArgs

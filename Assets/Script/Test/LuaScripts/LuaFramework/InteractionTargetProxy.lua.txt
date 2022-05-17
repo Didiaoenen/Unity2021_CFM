@@ -1,0 +1,20 @@
+local TargetProxyBase = require("LuaFramework/TargetProxyBase")
+
+local InteractionTargetProxy = class("InteractionTargetProxy", TargetProxyBase)
+
+InteractionTargetProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.OneWayToSource
+end
+
+function InteractionTargetProxy:ctor(target, interactionAction)
+    self.self:ctor(target)
+    self.handler = function (sender, args)
+        interactionAction:OnRequest(sender, args)
+    end
+end
+
+function InteractionTargetProxy:GetValue()
+    return self.handler
+end
+
+return InteractionTargetProxy

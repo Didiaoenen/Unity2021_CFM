@@ -1,0 +1,35 @@
+local ExpressionSourceProxy = class("ExpressionSourceProxy")
+
+function ExpressionSourceProxy:ctor(source, func, type, inners)
+    self.type = type
+    self.func = func
+    self.inners = inners
+
+    if source then
+        self.args = { source }
+    else
+        self.args = nil
+    end
+
+    if not self.inners or #self.inners <= 0 then
+        return
+    end
+
+    for i, v in ipairs(self.inners) do
+        if v:GetName() == "INotifiable" then
+            v.ValueChanged = function ()
+                self:OnValueChanged()
+            end
+        end
+    end
+end
+
+function ExpressionSourceProxy:OnValueChanged(sender, e)
+    self:RaiseValueChanged()
+end
+
+function ExpressionSourceProxy:Dispose()
+    
+end
+
+return ExpressionSourceProxy

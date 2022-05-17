@@ -1,0 +1,70 @@
+local SourceProxyFactory = class("SourceProxyFactory")
+
+function SourceProxyFactory:ctor()
+    self.factories = {}
+end
+
+function SourceProxyFactory:CreateProxy(source, description)
+    try
+    {
+        function ()
+            if source then
+                local proxy = {}
+                if self:TryCreateProxy(source, description, proxy) then
+                    return proxy
+                end                
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function SourceProxyFactory:TryCreateProxy(source, description, proxy)
+    for i, v in ipairs(self.factories) do
+        local factory = v.factory
+        if factory then
+            try
+            {
+                function ()
+                    proxy = factory:CreateProxy(source, description)
+                    if proxy then
+                        return true
+                    end
+                end,
+                catch = function ()
+                    
+                end
+            }
+        end
+    end
+
+    return false
+end
+
+function SourceProxyFactory:Register(factory, priority)
+    if not factory then
+        return        
+    end
+
+    table.insert(self.factories, {factory = factory, priority = priority or 100})
+    table.sort(self.factories, function (a, b)
+        return a.priority > b.priority
+    end)
+end
+
+function SourceProxyFactory:Unregister(factory)
+    if not factory then
+        return
+    end
+
+    for i, v in ipairs(self.factories) do
+        if v.factory == factory then
+            table.remove(self.factories, i)
+            return
+        end
+    end
+end
+
+return SourceProxyFactory

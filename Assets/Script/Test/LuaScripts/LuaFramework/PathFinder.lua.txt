@@ -1,0 +1,7 @@
+local PathFinder = class("PathFinder")
+
+function PathFinder.FindPaths(expression)
+    return {}
+end
+
+return PathFinder

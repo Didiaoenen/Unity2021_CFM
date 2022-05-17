@@ -1,0 +1,8 @@
+local MethodNodeProxy = class("MethodNodeProxy")
+
+function MethodNodeProxy:ctor(source, methodInfo)
+    self.methodInfo = methodInfo
+    self.invoker = ProxyInvoker(self.source, self.methodInfo)
+end
+
+return MethodNodeProxy

@@ -1,0 +1,15 @@
+local SourceProxyBase = class("SourceProxyBase")
+
+SourceProxyBase.__getter.Source = function (this, k)
+    
+end
+
+SourceProxyBase.__setter.Source = function (this, k, v)
+    
+end
+
+function SourceProxyBase:ctor(source)
+    self.source = source
+end
+
+local SourceProxyBase

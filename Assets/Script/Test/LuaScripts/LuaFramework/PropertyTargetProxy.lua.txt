@@ -1,0 +1,67 @@
+local ValueTargetProxyBase = require("LuaFramework/ValueTargetProxyBase")
+
+local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase)
+
+PropertyTargetProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.TwoWay
+end
+
+function PropertyTargetProxy:ctor(target, propertyInfo)
+    self.super:ctor(target)
+    self.propertyInfo = propertyInfo
+end
+
+function PropertyTargetProxy:DoSubscribeForValueChange(target)
+    if target:GetName() == "INotifyPropertyChanged" then
+        target.PropertyChanged = function ()
+            self:OnPropertyChanged()
+        end
+    end
+end
+
+function PropertyTargetProxy:DoUnsubscribeForValueChange(target)
+    if target:GetName() == "INotifyPropertyChanged" then
+        target.PropertyChanged = nil
+    end
+end
+
+function PropertyTargetProxy:OnPropertyChanged(sender, e)
+    local name = e.PropertyName
+    if not name or name == "" or name == self.propertyInfo.Name then
+        local target = self.Target
+        if not target then
+            return
+        end
+
+        self:RaiseValueChanged()
+    end
+end
+
+function PropertyTargetProxy:GetValue()
+    local target = self.Traget
+    if not target then
+        return
+    end
+
+    if self.propertyInfo:GetName() == "IProxyPropertyInfo" then
+        return self.propertyInfo:GetValue()
+    end
+
+    return self.propertyInfo:GetValue()
+end
+
+function PropertyTargetProxy:SetValue(value)
+    local target = self.Target
+    if not target then
+        return
+    end
+
+    if self.propertyInfo:GetName() == "IProxyPropertyInfo" then
+        self.propertyInfo:SetValue(target, value)
+        return
+    end
+
+    self.propertyInfo:SetValue(target, value)
+end
+
+return PropertyTargetProxy

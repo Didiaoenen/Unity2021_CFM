@@ -1,0 +1,18 @@
+local ObservableNodeProxy = class("ObservableNodeProxy")
+
+function ObservableNodeProxy:ctor(source, property)
+    self.property = property
+    self.property.ValueChanged = function ()
+        self:OnValueChanged()
+    end
+end
+
+function ObservableNodeProxy:OnValueChanged(sender, e)
+    
+end
+
+function ObservableNodeProxy:Dispose()
+    
+end
+
+return ObservableNodeProxy

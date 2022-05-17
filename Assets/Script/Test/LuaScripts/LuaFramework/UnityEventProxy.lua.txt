@@ -1,0 +1,53 @@
+local UnityEventProxyBase = class("UnityEventProxyBase")
+
+local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase)
+
+function UnityEventProxy:ctor(target, unityEvent)
+    self.super:ctor(target, unityEvent)
+end
+
+function UnityEventProxy:BindEvent()
+    self.unityEvent:AddListener(self, self.OnEvent)
+end
+
+function UnityEventProxy:UnbindEvent()
+    self.unityEvent:RemoveListener(self, self.OnEvent)
+end
+
+function UnityEventProxy:IsValidHandler(handler)
+    
+end
+
+function UnityEventProxy:IsValidInvoker(invoker)
+    
+end
+
+function UnityEventProxy:OnEvent(parameter)
+    try
+    {
+        function ()
+            if self.command then
+                self.command:Execute(parameter)
+                return
+            end
+
+            if self.invoker then
+                self.parameter:Invoke(parameter)
+                return
+            end
+
+            if self.handler then
+                if self.handler:GetName() == "UnityAction" then
+                    self.handler(parameter)
+                else
+                    self.handler:DynamicInvoke(parameter)
+                end
+            end
+        end,
+        chatch = function ()
+            
+        end
+    }
+end
+
+return UnityEventProxy
