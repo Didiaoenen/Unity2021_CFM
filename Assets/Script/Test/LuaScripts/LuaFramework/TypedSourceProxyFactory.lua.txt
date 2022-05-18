@@ -5,10 +5,7 @@ function TypedSourceProxyFactory:ctor()
 end
 
 function TypedSourceProxyFactory:IsSupported(description)
-    if description:GetName() == "SourceDescription" then
-        return true
-    end 
-    return false
+    return true
 end
 
 function TypedSourceProxyFactory:CreateProxy(source, description)
@@ -16,12 +13,12 @@ function TypedSourceProxyFactory:CreateProxy(source, description)
         return
     end
 
-    local proxy = nil
+    local proxy = {}
     if self:TryCreateProxy(source, description, proxy) then
-        return proxy
+        return proxy.ref
     end
 
-    return proxy
+    return proxy.ref
 end
 
 function TypedSourceProxyFactory:TryCreateProxy(source, description, proxy)

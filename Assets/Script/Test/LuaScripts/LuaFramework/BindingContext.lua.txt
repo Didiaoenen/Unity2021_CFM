@@ -5,17 +5,17 @@ BindingContext.__getter.DataContext = function(this, k)
 end
 
 BindingContext.__setter.DataContext = function(this, k, v)
-    if v ~= this.storeKV[k] then
+    if v ~= this.dataContext then
         this.dataContext = v
-        this:OnDataContextChanged();
-        this:RaiseDataContextChanged();
+        this:OnDataContextChanged()
+        this:RaiseDataContextChanged()
     end
 end
 
 function BindingContext:ctor(owner, binder, dataContext)
     self.owner = owner
     self.binder = binder
-    self.dataContext = dataContext
+    self.DataContext = dataContext
 
     --
     self.bindings = {}

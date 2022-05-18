@@ -5,41 +5,24 @@ function SourceProxyFactory:ctor()
 end
 
 function SourceProxyFactory:CreateProxy(source, description)
-    try
-    {
-        function ()
-            if source then
-                local proxy = {}
-                if self:TryCreateProxy(source, description, proxy) then
-                    return proxy
-                end                
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    if source then
+        local proxy = {}
+        if self:TryCreateProxy(source, description, proxy) then
+            return proxy.ref
+        end                
+    end
 end
 
 function SourceProxyFactory:TryCreateProxy(source, description, proxy)
     for i, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            try
-            {
-                function ()
-                    proxy = factory:CreateProxy(source, description)
-                    if proxy then
-                        return true
-                    end
-                end,
-                catch = function ()
-                    
-                end
-            }
+            proxy.ref = factory:CreateProxy(source, description)
+            if proxy.ref then
+                return true
+            end
         end
     end
-
     return false
 end
 

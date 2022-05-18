@@ -16,29 +16,29 @@ function ObjectSourceProxyFactory:TryCreateProxy(source, description, proxy)
     end
 
     if #path == 1 then
-        proxy = self:Create(source, path)
-        if proxy then
+        proxy.ref = self:Create(source, path)
+        if proxy.ref then
             return true
         end
         return false
     end
 
-    proxy = ChainedObjectSourceProxy(source, path, self)
+    proxy.ref = ChainedObjectSourceProxy(source, path, self)
     return true
 end
 
 function ObjectSourceProxyFactory:Create(source, path)
-    local proxy = nil
+    local proxy = {}
     for i, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy = factory:Create(source, path)
-            if proxy then
-                return proxy
+            proxy.ref = factory:Create(source, path)
+            if proxy.ref then
+                return proxy.ref
             end
         end
     end
-    return proxy
+    return proxy.ref
 end
 
 function ObjectSourceProxyFactory:Register(factory, priority)

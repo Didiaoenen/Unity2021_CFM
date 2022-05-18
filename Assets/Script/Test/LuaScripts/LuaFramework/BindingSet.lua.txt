@@ -1,8 +1,10 @@
-local BindingBuilder = require("BindingBuilder")
+local BindingSetBase = require("LuaFramework/BindingSetBase")
 
-local BindingSet = class("BindingSet")
+local BindingBuilder = require("LuaFramework/BindingBuilder")
 
-function BindingSet:cotr(context, target)
+local BindingSet = class("BindingSet", BindingSetBase)
+
+function BindingSet:ctor(context, target)
     self.super:ctor(context)
     self.target = target
 end

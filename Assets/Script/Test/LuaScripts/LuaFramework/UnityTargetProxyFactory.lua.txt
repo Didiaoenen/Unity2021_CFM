@@ -9,8 +9,8 @@ function UnityTargetProxyFactory:ctor()
 end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
-    local object = CS.UnityEngine[target]
-    local memberInfo = object[description.TargetName];
+    local object = {}
+    local memberInfo = target[description.TargetName]
     if not memberInfo then
         error("")        
         return
@@ -18,7 +18,7 @@ function UnityTargetProxyFactory:CreateProxy(target, description)
 
     local updateTrigger = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then
-        local updateTriggerInfo = object[description.UpdateTrigger]
+        local updateTriggerInfo = target[description.UpdateTrigger]
         
         if not updateTriggerInfo then
             error("")
@@ -26,40 +26,10 @@ function UnityTargetProxyFactory:CreateProxy(target, description)
         end
     end
 
-    if memberInfo:GetName() == "IProxyPropertyInfo" then
-        if memberInfo:NameContains() == "IObservableProperty" then
-            return
-        end  
-
-        if memberInfo:NameContains() == "UnityEventBase" then
-            local unityEvent = memberInfo[target]
-            return self:CreateUnityEventProxy(target, unityEvent)
-        end
-
-        if not updateTrigger then
-            error("")
-            return
-        end
-
-        return self:CreateUnityPropertyProxy(target, memberInfo, updateTrigger)
-    end
-
-    if memberInfo:GetName() == "IProxyFieldInfo" then
-        if memberInfo:NameContains() == "IObservableProperty" then
-            return
-        end
-
-        if memberInfo:NameContains() == "UnityEventBase" then
-            local unityEvent = memberInfo[target]
-            return self:CreateUnityEventProxy(target, unityEvent)
-        end
-
-        if not updateTrigger then
-            error("")
-            return
-        end
-
-        return self:CreateUnityFieldProxy(target, memberInfo, updateTrigger)
+    if type(memberInfo) == "userdata" then
+        return self:CreateUnityEventProxy(target, memberInfo, updateTrigger)
+    else
+        return
     end
 end
 

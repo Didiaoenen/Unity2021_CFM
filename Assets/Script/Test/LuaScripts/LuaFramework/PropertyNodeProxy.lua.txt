@@ -1,21 +1,33 @@
-local PropertyNodeProxy = class("PropertyNodeProxy")
+local NotifiableSourceProxyBase = require("LuaFramework/NotifiableSourceProxyBase")
+
+local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase)
 
 function PropertyNodeProxy:ctor(source, propertyInfo)
+    self.super:ctor(source)
     self.propertyInfo = propertyInfo
 
     if not self.source then
         return
     end
-
-    if self.source:GetName() == "IProxyPropertyInfo" then
-        self.source.PropertyChanged = function ()
-            self:OnPropertyChanged()
-        end
+    
+    self.source.PropertyChanged = function ()
+        self:OnPropertyChanged()
     end
 end
 
-function PropertyNodeProxy:OnPropertyChanged()
-    
+function PropertyNodeProxy:OnPropertyChanged(sender, e)
+    local name = e.PropertyName
+    if name and name ~= "" then
+        self:RaiseValueChanged()
+    end
+end
+
+function PropertyNodeProxy:GetValue()
+    return self.propertyInfo
+end
+
+function PropertyNodeProxy:SetValue(value)
+    self.propertyInfo = value
 end
 
 function PropertyNodeProxy:Dispose()

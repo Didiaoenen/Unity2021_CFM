@@ -1,12 +1,14 @@
-local BindingBuilderBase = require("BindingBuilderBase")
+local BindingBuilderBase = require("LuaFramework/BindingBuilderBase")
 
 local BindingBuilder = class("BindingBuilder", BindingBuilderBase)
 
 function BindingBuilder:ctor(context, target)
-    
+    self.super:ctor(context, target)
 end
 
 function BindingBuilder:For(targetName, updateTrigger)
+    self.description.TargetName = targetName
+    self.description.UpdateTrigger = updateTrigger
     return self
 end
 

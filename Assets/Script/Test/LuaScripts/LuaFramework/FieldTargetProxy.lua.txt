@@ -12,30 +12,21 @@ function FieldTargetProxy:ctor(target, fieldInfo)
 end
 
 function FieldTargetProxy:GetValue()
-    local target = self.Target
+    local target = self.target
     if not target then
         return
     end
 
-    if self.fieldInfo:GetName() == "IProxyFieldInfo" then
-        return self.fieldInfo:GetValue(target)
-    end
-
-    return self.fieldInfo:GetValue(target)
+    return self.fieldInfo
 end
 
 function FieldTargetProxy:SetValue(value)
-    local target = self.Target
+    local target = self.target
     if not target then
         return
     end
 
-    if self.fieldInfo:GetName() == "IProxyFieldInfo" then
-        self.fieldInfo:SetValue(target, value)
-        return
-    end
-
-    self.fieldInfo:SetValue(target, value)
+    target[self.fieldInfo] = value
 end
 
 return FieldTargetProxy

@@ -15,7 +15,7 @@ function class(classname, super)
         end
         local meta = {
             __index = function(t, k)
-                if cls[k] then
+                if cls[k] ~= nil then
                     return cls[k]
                 end
                 if t.__getter[k] then
@@ -85,4 +85,12 @@ function try(block)
 	else
 		error(e)
 	end
+end
+
+function split(str, sep)
+	sep = sep or ""
+	local items = {}
+    local pattern = string.format("([^%s]+)", sep)
+    string.gsub(str, pattern, function (c) table.insert(items, c) end)  
+    return items
 end

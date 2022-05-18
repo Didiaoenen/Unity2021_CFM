@@ -1,0 +1,15 @@
+local SourceDescription = class("SourceDescription")
+
+SourceDescription.__getter.IsStatic = function (this, k)
+    return this.isStatic
+end
+
+SourceDescription.__setter.IsStatic = function (this, k, v)
+    this.isStatic = v
+end
+
+function SourceDescription:ctor()
+    self.isStatic = false
+end
+
+return SourceDescription

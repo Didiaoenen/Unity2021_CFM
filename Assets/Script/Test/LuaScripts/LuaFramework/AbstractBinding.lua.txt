@@ -5,7 +5,7 @@ AbstractBinding.__getter.BindingContext = function (this, k)
 end
 
 AbstractBinding.__setter.BindingContext = function (this, k, v)
-    this.bindingContext = this.getset_values[k]
+    this.bindingContext = v
 end
 
 AbstractBinding.__getter.Target = function (this, k)
@@ -18,7 +18,7 @@ AbstractBinding.__getter.DataContext = function (this, k)
 end
 
 AbstractBinding.__setter.DataContext = function (this, k, v)
-    if v ~= this.getset_values[k] then
+    if v ~= self.dataContext then
         self.dataContext = v
         self:OnDataContextChanged()
     end

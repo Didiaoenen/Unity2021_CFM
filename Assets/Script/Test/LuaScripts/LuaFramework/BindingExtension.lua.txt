@@ -24,7 +24,7 @@ function BindingExtension:ctor(behaviour)
     self.behaviour = behaviour
 end
 
-function BindingContext:CreateBindingSet()
+function BindingExtension:CreateBindingSet()
     local context = self.BindingContext
     return BindingSet(context, self.behaviour)
 end
@@ -35,11 +35,11 @@ function BindingExtension:CreateBindingSetWithContext(dataContext)
     return BindingSet(context, self.behaviour)
 end
 
-function BindingContext:SetDataContext(dataContext)
+function BindingExtension:SetDataContext(dataContext)
     self.BindingContext.DataContext = dataContext
 end
 
-function BindingContext:GetDataContext()
+function BindingExtension:GetDataContext()
     return self.BindingContext.DataContext
 end
 

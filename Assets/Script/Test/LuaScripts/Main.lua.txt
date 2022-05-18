@@ -2,8 +2,12 @@ require("LuaPanda").start("127.0.0.1", 8818)
 
 CS = CS or {}
 
+Executors = CS.Assembly_CSharp.Assets.Script.Simple.Execution.Executors
+
 require("LuaFramework/System")
-require("LuaFramework/PathFinder")
+PathParse = require("LuaFramework/PathParse")
+PathFinder = require("LuaFramework/PathFinder")
+BindingMode = require("LuaFramework/BindingMode")
 
 local ObjectSourceProxyFactory = require("LuaFramework/ObjectSourceProxyFactory")
 local UniversalNodeProxyFactory = require("LuaFramework/UniversalNodeProxyFactory")
@@ -15,7 +19,7 @@ local UniversalTargetProxyFactory = require("LuaFramework/UniversalTargetProxyFa
 local UnityTargetProxyFactory = require("LuaFramework/UnityTargetProxyFactory")
 local StandardBinder = require("LuaFramework/StandardBinder")
 
-local TestVM = require("LuaFramework/TestVM")
+local TestV = require("LuaFramework/TestV")
 
 function __G__TRACKBACK__(msg)
     error("----------------------------------------")
@@ -39,8 +43,7 @@ function Main()
 
     local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
 
-    local testVM = TestVM()
-    testVM.Test = 1
+    TestV(binder)
 
     local a = nil
 end

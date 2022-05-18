@@ -2,15 +2,15 @@ local TargetProxyBase = require("LuaFramework/TargetProxyBase")
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
 
-ValueTargetProxyBase.__getter.ValueChanged = function (this, k)
-    this.valueChanged = self.getset_values[k]
+ValueTargetProxyBase.__add.ValueChanged = function (this, k, v)
+    this.valueChanged = v
 
-    if not this.valueChanged or this.subScribed then
+    if this.valueChanged and not this.subScribed then
         this:Subscribe()
     end
 end
 
-ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
+ValueTargetProxyBase.__remove.ValueChanged = function (this, k)
     this.valueChanged = nil
 
     if not this.valueChanged and this.subScribed then
@@ -19,6 +19,7 @@ ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
 end
 
 function ValueTargetProxyBase:ctor(target)
+    self.super:ctor(target)
     self.subScribed = false
     self.valueChanged = nil
 end

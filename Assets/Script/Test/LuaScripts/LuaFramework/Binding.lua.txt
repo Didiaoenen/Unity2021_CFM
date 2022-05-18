@@ -1,8 +1,24 @@
-local AbstractBinding = require("AbstractBinding")
+local AbstractBinding = require("LuaFramework/AbstractBinding")
 
 local Binding = class("Binding", AbstractBinding)
 
+Binding.__getter.BindingMode = function (this, k)
+    if this.bindingMode ~= BindingMode.Default then
+        return this.bindingMode
+    end
+
+    this.bindingMode = this.bindingDescription.Mode
+    if this.bindingMode == BindingMode.Default then
+        this.bindingMode = this.targetProxy.DefaultMode
+    end
+
+    return this.bindingMode
+end
+
 function Binding:ctor(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory)
+    self.super:ctor(bindingContext, source, target)
+    
+    self.bindingMode = BindingMode.Default
     self.bindingDescription = bindingDescription
 
     self.converter = self.bindingDescription.Converter
@@ -10,19 +26,33 @@ function Binding:ctor(bindingContext, source, target, bindingDescription, source
     self.targetProxyFactory = targetProxyFactory
 
     self:CreateTargetProxy(target, self.bindingDescription)
-    self:CreateSourceProxy(self.DataContext, self.bindingDescription.Source)
+    self:CreateSourceProxy(self.dataContext, self.bindingDescription.Source)
     self:UpdateDataOnBind()
 end
 
 function Binding:CreateTargetProxy(target, description)
-    self.DisposeTargetProxy()
+    self:DisposeTargetProxy()
 
     self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-    if self:IsSubscribeTargetValueChanged(self.BindindMode) and self.targetProxy then
+    if self:IsSubscribeTargetValueChanged(self.BindingMode) and self.targetProxy then
         self.targetProxy.ValueChanged = function (sender, args)
             self:UpdateSourceFromTarget()
         end
+    end
+end
+
+function Binding:IsSubscribeTargetValueChanged(bindingMode)
+    if bindingMode == BindingMode.Default then
+        return true
+    elseif bindingMode == BindingMode.OneWay then
+        return false
+    elseif bindingMode == BindingMode.OneTime then
+        return false
+    elseif bindingMode == BindingMode.TwoWay then
+        return true
+    elseif bindingMode == BindingMode.OneWayToSource then
+        return true
     end
 end
 
@@ -57,6 +87,20 @@ function Binding:CreateSourceProxy(source, description)
     end
 end
 
+function Binding:IsSubscribeSourceValueChanged(bindingMode)
+    if bindingMode == BindingMode.Default then
+        return true
+    elseif bindingMode == BindingMode.OneWay then
+        return true
+    elseif bindingMode == BindingMode.TwoWay then
+        return true
+    elseif bindingMode == BindingMode.OneTime then
+        return false
+    elseif bindingMode == BindingMode.OneWayToSource then
+        return false
+    end
+end
+
 function Binding:DisposeSourceProxy()
     try
     {
@@ -73,19 +117,35 @@ function Binding:DisposeSourceProxy()
 end
 
 function Binding:UpdateTargetFromSource()
-    
+    Executors.RunOnMainThread(function ()
+        local value = self.sourceProxy:GetValue()
+        self:SetTargetValue(self.targetProxy, value);
+    end)
+end
+
+function Binding:SetTargetValue(modifier, value)
+    modifier:SetValue(value)
+end
+
+function Binding:UpdateSourceFromTarget()
+    local value = self.targetProxy:GetValue()
+    self:SetSourceValue(self.sourceProxy, value)
+end
+
+function Binding:SetSourceValue(modifier, value)
+    modifier:SetValue(value)
 end
 
 function Binding:UpdateDataOnBind()
     try
     {
         function ()
-            if self:UpdateTargetOnFirstBind(self.BindindMode) and self.sourceProxy then
+            if self:UpdateTargetOnFirstBind(self.BindingMode) and self.sourceProxy then
                 self:UpdateTargetFromSource()
             end
 
-            if self:UpdateSourceOnFirstBind(self.BindindMode) and self.targetProxy then
-                self:UpdateSourceFromSource()
+            if self:UpdateSourceOnFirstBind(self.BindingMode) and self.targetProxy then
+                self:UpdateSourceFromTarget()
             end
         end,
         catch = function ()

@@ -1,0 +1,7 @@
+local PathParse = class("PathParse")
+
+function PathParse.Parse(pathText)
+    return split(pathText, ".")
+end
+
+return PathParse

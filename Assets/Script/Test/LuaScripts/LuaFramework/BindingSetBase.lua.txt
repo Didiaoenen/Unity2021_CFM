@@ -1,0 +1,23 @@
+local BindingSetBase = class("BindingSetBase")
+
+function BindingSetBase:ctor(context)
+    self.context = context
+    self.builders = {}
+end
+
+function BindingSetBase:Build()
+    for i, builder in ipairs(self.builders) do
+        try
+        {
+            function ()
+                builder:Build()
+            end,
+            catch = function ()
+                
+            end
+        }
+    end
+    self.builders = {}
+end
+
+return BindingSetBase

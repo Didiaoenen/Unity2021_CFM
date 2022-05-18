@@ -1,0 +1,26 @@
+local BindingExtension = require("LuaFramework/BindingExtension")
+local TestVM = require("LuaFramework/TestVM")
+
+local TestV = class("TestV")
+
+function TestV:ctor(binder)
+
+    local text = CS.UnityEngine.GameObject.Find("Canvas/Text"):GetComponent(typeof(CS.UnityEngine.UI.Text))
+    local button = CS.UnityEngine.GameObject.Find("Canvas/Button"):GetComponent(typeof(CS.UnityEngine.UI.Button))
+
+    local testVM = TestVM()
+    local be = BindingExtension(self)
+    be.Binder = binder
+    local set = be:CreateBindingSetWithContext(testVM)
+    local builder = set:BindByTarget(text)
+    builder:For("text"):To("Test")
+    builder:Build()
+
+    testVM.Test = "123"
+end
+
+function TestV:TestFunc()
+    print("hahaha")
+end
+
+return TestV

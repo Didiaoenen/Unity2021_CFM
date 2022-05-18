@@ -1,0 +1,22 @@
+local InteractionRequest = class("InteractionRequest")
+
+InteractionRequest.__getter.Raised = function (this, k)
+    return self.raised
+end
+
+InteractionRequest.__setter.Raised = function (this, k, v)
+    self.raised = v
+end
+
+function InteractionRequest:ctor(sender)
+    self.sender = sender or self
+    self.raised = nil
+end
+
+function InteractionRequest:Raise(callback)
+    if self.Raised then
+        self.Raised(self.sender)
+    end
+end
+
+return InteractionRequest

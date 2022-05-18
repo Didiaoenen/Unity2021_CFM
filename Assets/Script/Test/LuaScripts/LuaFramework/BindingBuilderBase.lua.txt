@@ -1,4 +1,6 @@
-local BindingDescription = require("BindingDescription")
+local BindingDescription = require("LuaFramework/BindingDescription")
+
+local ObjectSourceDescription = require("LuaFramework/ObjectSourceDescription")
 
 local BindingBuilderBase = class("BindingBuilderBase")
 
@@ -11,6 +13,7 @@ function BindingBuilderBase:ctor(context, target)
     self.target = target
 
     self.builded = false
+    self.scopeKey = nil
     self.description = BindingDescription()
     self.description.Mode = BindingMode.Default
 end
@@ -19,7 +22,17 @@ function BindingBuilderBase:SetMode(mode)
     self.description.Mode = mode
 end
 
-function BindingBuilderBase:SetMemberPath(path)
+function BindingBuilderBase:SetMemberPath(pathText)
+    local path = PathParse.Parse(pathText)
+    self:SetMemberPathWithPath(path)
+end
+
+function BindingBuilderBase:SetMemberPathWithPath(path)
+    self.description.Source = ObjectSourceDescription()
+    self.description.Source.Path = path
+end
+
+function BindingBuilderBase:SetStaticMemberPath(pathText)
     
 end
 

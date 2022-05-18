@@ -3,11 +3,11 @@ local SourceProxyBase = require("LuaFramework/SourceProxyBase")
 local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase)
 
 NotifiableSourceProxyBase.__getter.ValueChanged = function (this, k)
-    this.valueChanged = this.getset_values[k]
+    return this.valueChanged
 end
 
 NotifiableSourceProxyBase.__setter.ValueChanged = function (this, k, v)
-    this.valueChanged = nil
+    this.valueChanged = v
 end
 
 function NotifiableSourceProxyBase:ctor(source)

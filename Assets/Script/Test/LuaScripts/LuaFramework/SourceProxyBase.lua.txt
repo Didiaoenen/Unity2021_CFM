@@ -1,15 +1,15 @@
 local SourceProxyBase = class("SourceProxyBase")
 
 SourceProxyBase.__getter.Source = function (this, k)
-    
+    return this.source
 end
 
 SourceProxyBase.__setter.Source = function (this, k, v)
-    
+    this.source = v
 end
 
 function SourceProxyBase:ctor(source)
     self.source = source
 end
 
-local SourceProxyBase
+return SourceProxyBase

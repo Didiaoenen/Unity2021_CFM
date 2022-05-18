@@ -1,4 +1,4 @@
-local Binding = class("LuaFramework/Binding")
+local Binding = require("LuaFramework/Binding")
 
 local StandardBinder = class("StandardBinder")
 

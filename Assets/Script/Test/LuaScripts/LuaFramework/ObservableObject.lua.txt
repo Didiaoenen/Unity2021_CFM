@@ -31,7 +31,7 @@ function ObservableObject:ParserPropertyName(expression)
 end
 
 function ObservableObject:Set(field, newValue, property, broadcast)
-    if field ~= newValue then
+    if self[field.name] ~= newValue then
         self[field.name] = newValue
         self:RaisePropertyChanged(property)
     end
