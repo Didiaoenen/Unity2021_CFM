@@ -12,23 +12,19 @@ function PropertyTargetProxy:ctor(target, propertyInfo)
 end
 
 function PropertyTargetProxy:DoSubscribeForValueChange(target)
-    if target:GetName() == "INotifyPropertyChanged" then
-        target.PropertyChanged = function ()
-            self:OnPropertyChanged()
-        end
+    target.PropertyChanged = function ()
+        self:OnPropertyChanged()
     end
 end
 
 function PropertyTargetProxy:DoUnsubscribeForValueChange(target)
-    if target:GetName() == "INotifyPropertyChanged" then
-        target.PropertyChanged = nil
-    end
+    target.PropertyChanged = nil
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender, e)
     local name = e.PropertyName
-    if not name or name == "" or name == self.propertyInfo.Name then
-        local target = self.Target
+    if not name or name == "" then
+        local target = self.target
         if not target then
             return
         end
@@ -38,30 +34,21 @@ function PropertyTargetProxy:OnPropertyChanged(sender, e)
 end
 
 function PropertyTargetProxy:GetValue()
-    local target = self.Traget
+    local target = self.target
     if not target then
         return
     end
 
-    if self.propertyInfo:GetName() == "IProxyPropertyInfo" then
-        return self.propertyInfo:GetValue()
-    end
-
-    return self.propertyInfo:GetValue()
+    return target[self.propertyInfo]
 end
 
 function PropertyTargetProxy:SetValue(value)
-    local target = self.Target
+    local target = self.target
     if not target then
         return
     end
 
-    if self.propertyInfo:GetName() == "IProxyPropertyInfo" then
-        self.propertyInfo:SetValue(target, value)
-        return
-    end
-
-    self.propertyInfo:SetValue(target, value)
+    target[self.propertyInfo] = value
 end
 
 return PropertyTargetProxy

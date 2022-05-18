@@ -20,7 +20,7 @@ function UniversalTargetProxyFactory:CreateProxy(target, description)
 
     if type(memberInfo) == "userdata" then
     else
-        return FieldTargetProxy(target, description.TargetName)
+        return PropertyTargetProxy(target, description.TargetName)
     end
 end
 
