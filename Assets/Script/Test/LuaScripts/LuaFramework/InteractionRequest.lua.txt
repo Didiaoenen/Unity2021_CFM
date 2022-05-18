@@ -1,11 +1,11 @@
 local InteractionRequest = class("InteractionRequest")
 
 InteractionRequest.__getter.Raised = function (this, k)
-    return self.raised
+    return this.raised
 end
 
 InteractionRequest.__setter.Raised = function (this, k, v)
-    self.raised = v
+    this.raised = v
 end
 
 function InteractionRequest:ctor(sender)

@@ -1,7 +1,7 @@
 local TargetProxyBase = class("TargetProxyBase")
 
 TargetProxyBase.__getter.Target = function (this, k)
-    return self.target
+    return this.target
 end
 
 TargetProxyBase.__getter.DefaultMode = function (this, k)

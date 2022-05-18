@@ -13,7 +13,7 @@ function TestV:ctor(binder)
     be.Binder = binder
     local set = be:CreateBindingSetWithContext(testVM)
     local builder = set:BindByTarget(text)
-    builder:For("text"):To("Test")
+    builder:For("text"):To("Test"):OneWay()
     builder:Build()
 
     testVM.Test = "123"

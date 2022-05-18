@@ -10,8 +10,8 @@ function PropertyNodeProxy:ctor(source, propertyInfo)
         return
     end
     
-    self.source.PropertyChanged = function ()
-        self:OnPropertyChanged()
+    self.source.PropertyChanged = function (sender, e)
+        self:OnPropertyChanged(sender, e)
     end
 end
 
@@ -23,11 +23,21 @@ function PropertyNodeProxy:OnPropertyChanged(sender, e)
 end
 
 function PropertyNodeProxy:GetValue()
-    return self.propertyInfo
+    local source = self.source
+    if not source then
+        return
+    end
+
+    return source[self.propertyInfo]
 end
 
 function PropertyNodeProxy:SetValue(value)
-    self.propertyInfo = value
+    local source = self.source
+    if not source then
+        return
+    end
+
+    source[self.propertyInfo] = value
 end
 
 function PropertyNodeProxy:Dispose()

@@ -15,26 +15,122 @@ function class(classname, super)
         end
         local meta = {
             __index = function(t, k)
+                local inSuper = nil
+                inSuper = function (cur)
+                    local curSuper = cur.super
+                    if curSuper then
+                        if curSuper[k] ~= nil then
+                            return curSuper[k]
+                        else
+                            inSuper(curSuper)
+                        end
+                    else
+                        return
+                    end
+                end
+
+                local getInSuper = nil
+                getInSuper = function (cur)
+                    local curSuper = cur.super
+                    if curSuper and curSuper.__getter then
+                        if curSuper.__getter[k] ~= nil then
+                            return curSuper.__getter[k](curSuper, k)
+                        else
+                            getInSuper(curSuper)
+                        end
+                    else
+                        return
+                    end
+                end
+                
                 if cls[k] ~= nil then
                     return cls[k]
+                else
+                    local superValue = inSuper(cls)
+                    if superValue then
+                        return superValue
+                    end
                 end
-                if t.__getter[k] then
+
+                if t.__getter[k] ~= nil then
                     return t.__getter[k](t, k)
+                else
+                    return getInSuper(t)
                 end
             end,
             __newindex = function(t, k, v)
-                if t.__setter[k] then
+                local setInSuper = nil
+                setInSuper = function (cur)
+                    local curSuper = cur.super
+                    if curSuper and curSuper.__setter then
+                        if curSuper.__setter[k] ~= nil then
+                            curSuper.__setter[k](curSuper, k, v)
+                            return true
+                        else
+                            return setInSuper(curSuper)
+                        end
+                    else
+                        return false
+                    end
+                end
+
+                local addInSuper = nil
+                addInSuper = function (cur)
+                    local curSuper = cur.super
+                    if curSuper and curSuper.__add then
+                        if curSuper.__add[k] ~= nil then
+                            curSuper.__add[k](curSuper, k, v)
+                            return true
+                        else
+                            return addInSuper(curSuper)
+                        end
+                    else
+                        return false
+                    end
+                end
+
+                local removeInSuper = nil
+                removeInSuper = function (cur)
+                    local curSuper = cur.super
+                    if curSuper and curSuper.__remove then
+                        if curSuper.__remove[k] ~= nil then
+                            curSuper.__remove[k](curSuper, k)
+                            return true
+                        else
+                            return removeInSuper(curSuper)
+                        end
+                    else
+                        return false
+                    end
+                end
+
+                if t.__setter[k] ~= nil then
                     t.__setter[k](t, k, v)
                     return
+                else
+                    if setInSuper(t) then
+                        return
+                    end
                 end
-                if t.__add[k] then
+
+                if t.__add[k] ~= nil then
                     t.__add[k](t, k, v)
                     return
+                else
+                    if addInSuper(t) then
+                        return
+                    end
                 end
-                if t.__remove[k] then
+
+                if t.__remove[k] ~= nil then
                     t.__remove[k](t, k)
                     return
+                else
+                    if removeInSuper(t) then
+                        return
+                    end
                 end
+
                 rawset(t, k, v)
             end
         }

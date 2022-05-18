@@ -1,7 +1,7 @@
 local PropertyChangedEventArgs = class("PropertyChangedEventArgs")
 
 PropertyChangedEventArgs.__getter.PropertyName = function (this, k)
-    return self.propertyName
+    return this.propertyName
 end
 
 function PropertyChangedEventArgs:ctor(propertyName)

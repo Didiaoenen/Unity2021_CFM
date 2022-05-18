@@ -9,7 +9,7 @@ TestVM.__getter.Test = function (this, k)
 end
 
 TestVM.__setter.Test = function (this, k, v)
-    this:Set({name = "test"}, v, "test")
+    this:Set({name = "test"}, v, "Test")
 end
 
 TestVM.__getter.TestRequest = function (this, k)

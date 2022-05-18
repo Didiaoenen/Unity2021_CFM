@@ -27,8 +27,7 @@ function UniversalNodeProxyFactory:Create(source, path)
 end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
-    local memberNode = source[node]
-    return PropertyNodeProxy(source, memberNode)
+    return PropertyNodeProxy(source, node)
 end
 
 function UniversalNodeProxyFactory:CreateStaticProxy()
