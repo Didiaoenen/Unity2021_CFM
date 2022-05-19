@@ -34,7 +34,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Binding.Paths
             var unary = expression.Body as UnaryExpression;
             if (unary != null && unary.NodeType == ExpressionType.Convert)
             {
-                Parse(unary, path);
+                Parse(unary.Operand, path);
                 return path;
             }
 

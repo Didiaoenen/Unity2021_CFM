@@ -1,6 +1,6 @@
 function class(classname, super)
     super = super or {}
-    
+
     local cls = {}
     cls.__classname = classname
 	cls.__add = {}
@@ -34,7 +34,7 @@ function class(classname, super)
                     local curSuper = cur.super
                     if curSuper and curSuper.__getter then
                         if curSuper.__getter[k] ~= nil then
-                            return curSuper.__getter[k](curSuper, k)
+                            return curSuper.__getter[k](t, k)
                         else
                             getInSuper(curSuper)
                         end
@@ -64,7 +64,7 @@ function class(classname, super)
                     local curSuper = cur.super
                     if curSuper and curSuper.__setter then
                         if curSuper.__setter[k] ~= nil then
-                            curSuper.__setter[k](curSuper, k, v)
+                            curSuper.__setter[k](t, k, v)
                             return true
                         else
                             return setInSuper(curSuper)
@@ -79,7 +79,7 @@ function class(classname, super)
                     local curSuper = cur.super
                     if curSuper and curSuper.__add then
                         if curSuper.__add[k] ~= nil then
-                            curSuper.__add[k](curSuper, k, v)
+                            curSuper.__add[k](t, k, v)
                             return true
                         else
                             return addInSuper(curSuper)
@@ -94,7 +94,7 @@ function class(classname, super)
                     local curSuper = cur.super
                     if curSuper and curSuper.__remove then
                         if curSuper.__remove[k] ~= nil then
-                            curSuper.__remove[k](curSuper, k)
+                            curSuper.__remove[k](t, k)
                             return true
                         else
                             return removeInSuper(curSuper)
@@ -181,6 +181,16 @@ function try(block)
 	else
 		error(e)
 	end
+end
+
+function Bind(ui, callback, ...)
+    if not ui or not callback then
+        return
+    end
+    local args = {...}
+    return function (eventData)
+        callback(ui, eventData, table.unpack(args))
+    end
 end
 
 function split(str, sep)

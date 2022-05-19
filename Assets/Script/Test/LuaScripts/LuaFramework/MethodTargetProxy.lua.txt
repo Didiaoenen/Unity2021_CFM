@@ -20,8 +20,13 @@ function MethodTargetProxy:GetValue()
     return self.invoker
 end
 
-function MethodTargetProxy:Invoke(args)
-    
+function MethodTargetProxy:Invoke(sender, args)
+    local target = self.target
+    if not target then
+        return
+    end
+
+    target[self.methodInfo](target, sender, args)
 end
 
 return MethodTargetProxy

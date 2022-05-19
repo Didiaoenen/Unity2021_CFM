@@ -1,0 +1,29 @@
+local CommandBase = class("CommandBase")
+
+CommandBase.__add.CanExecuteChanged = function (this, k, v)
+    this.canExecuteChanged = v
+end
+
+CommandBase.__remove.CanExecuteChanged = function (this, k)
+    this.canExecuteChanged = nil
+end
+
+function CommandBase:ctor()
+    self.canExecuteChanged = nil
+end
+
+function CommandBase:RaiseCanExecuteChanged()
+    if self.canExecuteChanged then
+        self.canExecuteChanged(self)
+    end
+end
+
+function CommandBase:CanExecute(parameter)
+    
+end
+
+function CommandBase:Execute(parameter)
+    
+end
+
+return CommandBase

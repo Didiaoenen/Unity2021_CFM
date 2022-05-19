@@ -1,0 +1,31 @@
+local CommandBase = require("LuaFramework/CommandBase")
+
+local SimpleCommand = class("SimpleCommand", CommandBase)
+
+SimpleCommand.__getter.Enabled = function (this, k)
+    return this.enabled
+end
+
+SimpleCommand.__setter.Enabled = function (this, k, v)
+    if v ~= this.enabled then
+        self.enabled = v
+        self:RaiseCanExecuteChanged()
+    end
+end
+
+function SimpleCommand:ctor(execute)
+    self.execute = execute
+    self.enabled = true
+end
+
+function SimpleCommand:CanExecute(parameter)
+    return self.Enabled
+end
+
+function SimpleCommand:Execute(parameter)
+    if self:CanExecute(parameter) and self.execute then
+        self.execute()
+    end
+end
+
+return SimpleCommand

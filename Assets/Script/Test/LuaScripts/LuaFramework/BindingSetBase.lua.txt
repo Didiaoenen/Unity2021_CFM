@@ -7,15 +7,7 @@ end
 
 function BindingSetBase:Build()
     for i, builder in ipairs(self.builders) do
-        try
-        {
-            function ()
-                builder:Build()
-            end,
-            catch = function ()
-                
-            end
-        }
+        builder:Build()
     end
     self.builders = {}
 end

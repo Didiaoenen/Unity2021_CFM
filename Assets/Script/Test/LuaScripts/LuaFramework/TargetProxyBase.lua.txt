@@ -30,4 +30,8 @@ function TargetProxyBase:IsAlive(target)
     }
 end
 
+function TargetProxyBase:ContainsName(name)
+    return false
+end
+
 return TargetProxyBase

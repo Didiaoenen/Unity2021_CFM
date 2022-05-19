@@ -1,3 +1,5 @@
+local InteractionEventArgs = require("LuaFramework/InteractionEventArgs")
+
 local InteractionRequest = class("InteractionRequest")
 
 InteractionRequest.__getter.Raised = function (this, k)
@@ -13,9 +15,13 @@ function InteractionRequest:ctor(sender)
     self.raised = nil
 end
 
-function InteractionRequest:Raise(callback)
+function InteractionRequest:Raise(context, callback)
     if self.Raised then
-        self.Raised(self.sender)
+        self.Raised(self.sender, InteractionEventArgs(context, function ()
+            if callback then
+                callback()
+            end
+        end))
     end
 end
 

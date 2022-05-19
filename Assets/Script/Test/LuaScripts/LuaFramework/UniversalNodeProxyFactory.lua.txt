@@ -27,7 +27,25 @@ function UniversalNodeProxyFactory:Create(source, path)
 end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
-    return PropertyNodeProxy(source, node)
+    local memberInfo = source[node]
+    if not memberInfo then
+        error("")
+        return
+    end
+
+    if type(memberInfo) == "function" then
+        return MethodNodeProxy(source, node)
+    elseif type(memberInfo) == "userdata" then
+
+    else
+        if type(memberInfo) == "table" then
+            if source[node].__classname == "InteractionRequest" then
+                return InteractionNodeProxy(source, node)
+            end
+        end
+
+        return PropertyNodeProxy(source, node)
+    end
 end
 
 function UniversalNodeProxyFactory:CreateStaticProxy()

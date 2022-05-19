@@ -1,0 +1,16 @@
+local InteractionEventArgs = class("InteractionEventArgs")
+
+InteractionEventArgs.__getter.Context = function (this, k)
+    return this.context
+end
+
+InteractionEventArgs.__getter.Callback = function (this, k)
+    return this.callback
+end
+
+function InteractionEventArgs:ctor(context, callback)
+    self.context = context
+    self.callback = callback
+end
+
+return InteractionEventArgs

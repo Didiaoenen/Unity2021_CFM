@@ -1,6 +1,7 @@
-local InteractionRequest = require("LuaFramework/InteractionRequest")
-
 local ViewModelBase = require("LuaFramework/ViewModelBase")
+
+local InteractionRequest = require("LuaFramework/InteractionRequest")
+local SimpleCommand = require("LuaFramework/SimpleCommand")
 
 local TestVM = class("TestVM", ViewModelBase)
 
@@ -16,13 +17,28 @@ TestVM.__getter.TestRequest = function (this, k)
     return this.testRequest
 end
 
-TestVM.__setter.TestRequest = function (this, k)
-    return this.testRequest
+TestVM.__setter.TestRequest = function (this, k, v)
+    this.testRequest = v
+end
+
+TestVM.__getter.TestCommand = function (this, k)
+    return this.testCommand
+end
+
+TestVM.__setter.TestCommand = function (this, k, v)
+    this.testCommand = v
 end
 
 function TestVM:ctor()
-    self.test = nil
+    self.test = ""
     self.testRequest = InteractionRequest(self)
+    self.testCommand = SimpleCommand(function ()
+        print("SimpleCommand")
+    end)
+end
+
+function TestVM:OnClick()
+    print("OnClick")
 end
 
 return TestVM

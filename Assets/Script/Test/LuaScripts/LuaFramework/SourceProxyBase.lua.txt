@@ -12,4 +12,8 @@ function SourceProxyBase:ctor(source)
     self.source = source
 end
 
+function SourceProxyBase:ContainsName(name)
+    return false
+end
+
 return SourceProxyBase

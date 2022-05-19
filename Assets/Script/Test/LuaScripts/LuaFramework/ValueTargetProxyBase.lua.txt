@@ -18,6 +18,8 @@ ValueTargetProxyBase.__remove.ValueChanged = function (this, k)
     end
 end
 
+local names = {"INotifiable"}
+
 function ValueTargetProxyBase:ctor(target)
     self.super:ctor(target)
     self.subScribed = false
@@ -32,7 +34,7 @@ function ValueTargetProxyBase:Subscribe()
                 return
             end
 
-            local target = self.Target
+            local target = self.target
             if not target then
                 return
             end
@@ -97,6 +99,15 @@ end
 
 function ValueTargetProxyBase:SetValue(value)
     
+end
+
+function ValueTargetProxyBase:ContainsName(name)
+    for i, v in ipairs(names) do
+        if v == name then
+            return true
+        end
+    end
+    return false
 end
 
 function ValueTargetProxyBase:Dispose()

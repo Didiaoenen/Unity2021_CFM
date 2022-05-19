@@ -1,8 +1,17 @@
-local MethodNodeProxy = class("MethodNodeProxy")
+local SourceProxyBase = require("LuaFramework/SourceProxyBase")
+
+local ProxyInvoker = require("LuaFramework/ProxyInvoker")
+
+local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase)
 
 function MethodNodeProxy:ctor(source, methodInfo)
+    self.super:ctor(source)
     self.methodInfo = methodInfo
     self.invoker = ProxyInvoker(self.source, self.methodInfo)
+end
+
+function MethodNodeProxy:GetValue()
+    return self.invoker
 end
 
 return MethodNodeProxy

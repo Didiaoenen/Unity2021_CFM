@@ -35,7 +35,7 @@ function Binding:CreateTargetProxy(target, description)
 
     self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-    if self:IsSubscribeTargetValueChanged(self.BindingMode) and self.targetProxy then
+    if self:IsSubscribeTargetValueChanged(self.BindingMode) and self.targetProxy:ContainsName("INotifiable") then
         self.targetProxy.ValueChanged = function (sender, args)
             self:UpdateSourceFromTarget()
         end
@@ -80,7 +80,7 @@ function Binding:CreateSourceProxy(source, description)
 
     self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
-    if self:IsSubscribeSourceValueChanged(self.BindingMode) and self.sourceProxy then
+    if self:IsSubscribeSourceValueChanged(self.BindingMode) and self.sourceProxy:ContainsName("INotifiable") then
         self.sourceProxy.ValueChanged = function (sender, args)
             self:UpdateTargetFromSource()
         end

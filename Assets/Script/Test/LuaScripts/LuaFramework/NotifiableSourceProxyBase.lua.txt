@@ -10,6 +10,8 @@ NotifiableSourceProxyBase.__setter.ValueChanged = function (this, k, v)
     this.valueChanged = v
 end
 
+local names = {"INotifiable"}
+
 function NotifiableSourceProxyBase:ctor(source)
     self.super:ctor(source)
     self.valueChanged = nil
@@ -27,6 +29,15 @@ function NotifiableSourceProxyBase:RaiseValueChanged()
             
         end
     }
+end
+
+function NotifiableSourceProxyBase:ContainsName(name)
+    for i, v in ipairs(names) do
+        if v == name then
+            return true
+        end
+    end
+    return false
 end
 
 return NotifiableSourceProxyBase

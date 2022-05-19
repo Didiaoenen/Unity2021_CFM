@@ -210,8 +210,8 @@ public class Test : MonoBehaviour
         //testExpressionBuilder = bindingSet.Bind(testExpression);
         //testExpressionBuilder.For(v => v.color).To(vm => vm.TestColor).OneWay();
 
-        //var testInputFieldBuilder = bindingSet.Bind(testInputField);
-        //testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
+        var testInputFieldBuilder = bindingSet.Bind(testInputField);
+        testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
 
         //var testGameObjectBuilder = bindingSet.Bind(testInputField.gameObject);
         //testGameObjectBuilder.For(v => v.activeSelf).To(vm => vm.TestBool).TwoWay();

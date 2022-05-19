@@ -9,7 +9,6 @@ function UnityTargetProxyFactory:ctor()
 end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
-    local object = {}
     local memberInfo = target[description.TargetName]
     if not memberInfo then
         error("")        
@@ -18,18 +17,24 @@ function UnityTargetProxyFactory:CreateProxy(target, description)
 
     local updateTrigger = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then
-        local updateTriggerInfo = target[description.UpdateTrigger]
+        updateTrigger = target[description.UpdateTrigger]
         
-        if not updateTriggerInfo then
+        if not updateTrigger then
             error("")
-            return            
+            return          
         end
     end
 
     if type(memberInfo) == "userdata" then
-        return self:CreateUnityEventProxy(target, memberInfo, updateTrigger)
+        if typeof(CS.UnityEngine.Events.UnityEventBase):IsAssignableFrom(memberInfo:GetType()) then
+            return self:CreateUnityEventProxy(target, description.TargetName)
+        end
     else
-        return
+        if not updateTrigger then
+            return
+        end
+
+        return self:CreateUnityPropertyProxy(target, description.TargetName, description.UpdateTrigger)
     end
 end
 
@@ -38,11 +43,11 @@ function UnityTargetProxyFactory:CreateUnityPropertyProxy(target, propertyInfo, 
 end
 
 function UnityTargetProxyFactory:CreateUnityFieldProxy(target, fieldInfo, updateTrigger)
-    return UnityFieldProxy(target, fieldInfo, updateTrigger);
+    return UnityFieldProxy(target, fieldInfo, updateTrigger)
 end
 
 function UnityTargetProxyFactory:CreateUnityEventProxy(target, unityEvent)
-    return UnityEventProxy(target, unityEvent);
+    return UnityEventProxy(target, unityEvent)
 end
 
 return UnityTargetProxyFactory

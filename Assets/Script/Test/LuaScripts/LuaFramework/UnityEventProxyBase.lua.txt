@@ -1,4 +1,4 @@
-local EventTargetProxyBase = require("EventTargetProxyBase")
+local EventTargetProxyBase = require("LuaFramework/EventTargetProxyBase")
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase)
 
@@ -14,7 +14,6 @@ function UnityEventProxyBase:ctor(target, unityEvent)
     self.handler = nil
     self.interactable = nil
     self.unityEvent = unityEvent
-    self:BindEvent()
 end
 
 function UnityEventProxyBase:BindEvent()
@@ -30,7 +29,7 @@ function  UnityEventProxyBase:IsValidInvoker(invoker)
 end
 
 function UnityEventProxyBase:SetValue(value)
-    local target = self.Target
+    local target = self.target
     if not target then
         return
     end
@@ -52,56 +51,39 @@ function UnityEventProxyBase:SetValue(value)
         return
     end
 
-    if value:GetName() == "ICommand" then
-        if not self.interactable then
-            
+    if type(value) == "userdata" then
+    
+    else
+        if type(value) == "table" then
+            if value.__classname == "ProxyInvoker" then
+                self.invoker = value
+            elseif value.__classname == "SimpleCommand" then
+                if not self.interactable then
+                    self.interactable = "interactable"
+                end
+
+                self.command = value
+                self:BindCommand(self.command)
+                self:UpdateTargetInteractable()
+            end
         end
-
-        self.command = value
-        self:BindCommand(self.command)
-        self:UpdateTargetInteractable()
-    end
-
-    if value:GetName() == "IProxyInvoker" then
-        if self:IsValidInvoker(value) then
-            self.invoker = value
-            return
-        end
-
-        error("")
-    end
-
-    if value:GetName() == "Delegate" then
-        if self.IsValidHandler(value) then
-            self.handler = value
-            return
-        end
-
-        error("")
-    end
-
-    if value:GetName() == "IInvoker" then
-        self.invoker = value
     end
 end
 
 function UnityEventProxyBase:OnCanExecuteChanged(sender, e)
-    Executors.RunOnMainThread(self.UpdateTargetInteractable)
+    Executors.RunOnMainThread(function ()
+        self:UpdateTargetInteractable()
+    end)
 end
 
 function UnityEventProxyBase:UpdateTargetInteractable()
-    local target = self.Target
+    local target = self.target
     if not self.interactable or not target then
         return
     end
 
     local value = not self.command and false or self.command:CanExecute()
-    if self.interactable:GetName() == "IProxyPropertyInfo" then
-        self.interactable:SetValue(target, value)
-        return
-    end
-
-    self.interactable:SetValue(target, value)
+    target[self.interactable] = value
 end
 
 function UnityEventProxyBase:BindCommand(command)
@@ -109,8 +91,8 @@ function UnityEventProxyBase:BindCommand(command)
         return
     end
 
-    command.CanExecuteChanged = function ()
-        self:OnCanExecuteChanged()
+    command.CanExecuteChanged = function (sender, e)
+        self:OnCanExecuteChanged(sender, e)
     end
 end
 

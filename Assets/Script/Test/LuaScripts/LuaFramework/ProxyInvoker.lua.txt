@@ -1,0 +1,21 @@
+local ProxyInvoker = class("ProxyInvoker")
+
+ProxyInvoker.__getter.ProxyMethodInfo = function (this, k)
+    return this.proxyMethodInfo
+end
+
+function ProxyInvoker:ctor(target, proxyMethodInfo)
+    self.target = target
+    self.proxyMethodInfo = proxyMethodInfo
+end
+
+function ProxyInvoker:Invoke(...)
+    local target = self.target
+    if not target then
+        error("")
+        return
+    end
+    return target[self.proxyMethodInfo](target, ...)
+end
+
+return ProxyInvoker

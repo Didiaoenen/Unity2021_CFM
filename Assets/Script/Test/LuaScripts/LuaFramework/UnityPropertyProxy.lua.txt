@@ -7,20 +7,20 @@ UnityPropertyProxy.__getter.DefaultMode = function (this, k)
 end
 
 function UnityPropertyProxy:ctor(target, propertyInfo, unityEvent)
+    self.super:ctor(target, propertyInfo)
     self.unityEvent = unityEvent
 end
 
 function UnityPropertyProxy:DoSubscribeForValueChange(target)
-    if not self.unityEvent or not target then
-        return
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
+        self.target[self.unityEvent]:AddListener(Bind(self, self.OnValueChanged))
     end
-
-    self.unityEvent:AddListener(self, self.OnValueChanged)
 end
 
 function UnityPropertyProxy:DoUnsubscribeForValueChange()
-    if self.unityEvent then
-        self.unityEvent:RemoveListener(self, self.OnValueChanged)
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
     end
 end
 
