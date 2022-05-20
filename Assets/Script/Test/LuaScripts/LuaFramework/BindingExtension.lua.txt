@@ -13,7 +13,7 @@ end
 
 BindingExtension.__getter.BindingContext = function (this, k)
     if not this.bindingContext then
-        this.bindingContext = BindingContext(this.behaviour, this.Binder)
+        this.bindingContext = BindingContext(this.behaviour, this.binder)
     end
     return this.bindingContext
 end

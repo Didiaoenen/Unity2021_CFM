@@ -28,7 +28,7 @@ end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
     local memberInfo = source[node]
-    if not memberInfo then
+    if memberInfo == nil then
         error("")
         return
     end
@@ -36,7 +36,7 @@ function UniversalNodeProxyFactory:CreateProxy(source, node)
     if type(memberInfo) == "function" then
         return MethodNodeProxy(source, node)
     elseif type(memberInfo) == "userdata" then
-
+        return PropertyNodeProxy(source, node)
     else
         if type(memberInfo) == "table" then
             if source[node].__classname == "InteractionRequest" then

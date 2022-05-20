@@ -36,9 +36,7 @@ function Binding:CreateTargetProxy(target, description)
     self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
     if self:IsSubscribeTargetValueChanged(self.BindingMode) and self.targetProxy:ContainsName("INotifiable") then
-        self.targetProxy.ValueChanged = function (sender, args)
-            self:UpdateSourceFromTarget()
-        end
+        self.targetProxy.ValueChanged = {this = self, callback = self.UpdateSourceFromTarget}
     end
 end
 
@@ -71,19 +69,13 @@ function Binding:DisposeTargetProxy()
     }
 end
 
-function Binding:UpdateSourceFromTarget()
-    
-end
-
 function Binding:CreateSourceProxy(source, description)
     self:DisposeSourceProxy()
 
     self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
     if self:IsSubscribeSourceValueChanged(self.BindingMode) and self.sourceProxy:ContainsName("INotifiable") then
-        self.sourceProxy.ValueChanged = function (sender, args)
-            self:UpdateTargetFromSource()
-        end
+        self.sourceProxy.ValueChanged = {this = self, callback = self.UpdateTargetFromSource}
     end
 end
 

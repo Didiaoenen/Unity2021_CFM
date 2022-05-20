@@ -12,14 +12,27 @@ BindingContext.__setter.DataContext = function(this, k, v)
     end
 end
 
+BindingContext.__setter.DataContextChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.dataContextChanged, v)
+    else
+        for i, value in ipairs(this.dataContextChanged) do
+            if v.this == value.this then
+                table.remove(this.dataContextChanged, i)
+                break
+            end
+        end
+    end
+end
+
 function BindingContext:ctor(owner, binder, dataContext)
     self.owner = owner
     self.binder = binder
-    self.DataContext = dataContext
+    self.dataContext = dataContext
 
     --
     self.bindings = {}
-    self.dataContextChanged = nil
+    self.dataContextChanged = {}
     self.DEFAULT_KEY = "_KEY_"
 end
 
@@ -29,7 +42,7 @@ function BindingContext:OnDataContextChanged()
         function ()
             for k, binding in pairs(self.bindings) do
                 for i, v in ipairs(binding) do
-                    v.DataContext = self.DataContext
+                    v.DataContext = self.dataContext
                 end
             end
         end,
@@ -43,9 +56,8 @@ function BindingContext:RaiseDataContextChanged()
     try
     {
         function ()
-            local handler = self.dataContextChanged
-            if handler then
-                handler()          
+            for i, v in ipairs(self.dataContextChanged) do
+                v.callback(v.this)
             end
         end,
         catch = function()
@@ -77,7 +89,7 @@ function BindingContext:Add(binding, key)
 end
 
 function BindingContext:AddBySingleDesc(target, description, key)
-    local binding = self.binder:Bind(self, self.DataContext, target, description)
+    local binding = self.binder:Bind(self, self.dataContext, target, description)
     self:Add(binding, key)
 end
 

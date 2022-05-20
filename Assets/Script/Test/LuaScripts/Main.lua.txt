@@ -9,6 +9,8 @@ PathParse = require("LuaFramework/PathParse")
 PathFinder = require("LuaFramework/PathFinder")
 BindingMode = require("LuaFramework/BindingMode")
 
+UnityProxyRegister = require("LuaFramework/UnityProxyRegister")
+
 local ObjectSourceProxyFactory = require("LuaFramework/ObjectSourceProxyFactory")
 local UniversalNodeProxyFactory = require("LuaFramework/UniversalNodeProxyFactory")
 local SourceProxyFactory = require("LuaFramework/SourceProxyFactory")
@@ -29,6 +31,9 @@ function __G__TRACKBACK__(msg)
 end
 
 function Main()
+
+    UnityProxyRegister = UnityProxyRegister()
+
     local objectSourceProxyFactory = ObjectSourceProxyFactory()
     objectSourceProxyFactory:Register(UniversalNodeProxyFactory(), 0)
 

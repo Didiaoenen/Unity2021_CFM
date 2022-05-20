@@ -12,13 +12,11 @@ function PropertyTargetProxy:ctor(target, propertyInfo)
 end
 
 function PropertyTargetProxy:DoSubscribeForValueChange(target)
-    target.PropertyChanged = function ()
-        self:OnPropertyChanged()
-    end
+    target.PropertyChanged = {this = self, callback = self.OnPropertyChanged}
 end
 
 function PropertyTargetProxy:DoUnsubscribeForValueChange(target)
-    target.PropertyChanged = nil
+    target.PropertyChanged = {this = self}
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender, e)
@@ -39,7 +37,12 @@ function PropertyTargetProxy:GetValue()
         return
     end
 
-    return target[self.propertyInfo]
+    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    if proxyInfo then
+        return proxyInfo.getter(target)
+    else
+        return self.target[self.propertyInfo]
+    end
 end
 
 function PropertyTargetProxy:SetValue(value)
@@ -48,7 +51,12 @@ function PropertyTargetProxy:SetValue(value)
         return
     end
 
-    target[self.propertyInfo] = value
+    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    if proxyInfo then
+        proxyInfo.setter(target, value)
+    else
+        self.target[self.propertyInfo] = value
+    end
 end
 
 return PropertyTargetProxy

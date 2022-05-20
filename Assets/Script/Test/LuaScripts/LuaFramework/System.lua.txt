@@ -1,52 +1,79 @@
+function clone(object)
+    local lookup_table = {}
+    local function _copy(object)
+        if type(object) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        local newObject = {}
+        lookup_table[object] = newObject
+        for key, value in pairs(object) do
+            newObject[_copy(key)] = _copy(value)
+        end
+        return setmetatable(newObject, getmetatable(object))
+    end
+    return _copy(object)
+end
+
 function class(classname, super)
     super = super or {}
 
     local cls = {}
     cls.__classname = classname
-	cls.__add = {}
-	cls.__remove = {}
     cls.__getter = {}
 	cls.__setter = {}
     cls.super = super
-    setmetatable(cls, {__index = super, __call = function (t, ...)
-        local instance = {}
-        for k, v in pairs(t) do
-            instance[k] = v
-        end
+
+    local __meta = {__index = super, __call = function (t, ...)
+        
+        local instance = clone(t)
+        instance.super = clone(instance.super)
+        local __meta = clone(getmetatable(t))
+        __meta.__index = instance.super
+        setmetatable(t, __meta)
+
+        local __cls = clone(cls)
+        __cls.super = instance.super
+        local __meta = clone(getmetatable(__cls))
+        __meta.__index = instance.super
+        setmetatable(__cls, __meta)
+
         local meta = {
             __index = function(t, k)
-                local inSuper = nil
-                inSuper = function (cur)
+
+                local insuper
+                insuper = function (cur)
                     local curSuper = cur.super
                     if curSuper then
                         if curSuper[k] ~= nil then
                             return curSuper[k]
                         else
-                            inSuper(curSuper)
+                            return insuper(curSuper)
                         end
                     else
                         return
                     end
                 end
 
-                local getInSuper = nil
-                getInSuper = function (cur)
+                local getinsuper
+                getinsuper = function (cur)
                     local curSuper = cur.super
                     if curSuper and curSuper.__getter then
                         if curSuper.__getter[k] ~= nil then
                             return curSuper.__getter[k](t, k)
                         else
-                            getInSuper(curSuper)
+                            return getinsuper(curSuper)
                         end
                     else
                         return
                     end
                 end
                 
-                if cls[k] ~= nil then
-                    return cls[k]
+                if __cls[k] ~= nil then
+                    return __cls[k]
                 else
-                    local superValue = inSuper(cls)
+                    local superValue = insuper(__cls)
                     if superValue then
                         return superValue
                     end
@@ -55,49 +82,20 @@ function class(classname, super)
                 if t.__getter[k] ~= nil then
                     return t.__getter[k](t, k)
                 else
-                    return getInSuper(t)
+                    return getinsuper(t)
                 end
             end,
             __newindex = function(t, k, v)
-                local setInSuper = nil
-                setInSuper = function (cur)
+                
+                local setsuper
+                setsuper = function (cur)
                     local curSuper = cur.super
                     if curSuper and curSuper.__setter then
                         if curSuper.__setter[k] ~= nil then
                             curSuper.__setter[k](t, k, v)
                             return true
                         else
-                            return setInSuper(curSuper)
-                        end
-                    else
-                        return false
-                    end
-                end
-
-                local addInSuper = nil
-                addInSuper = function (cur)
-                    local curSuper = cur.super
-                    if curSuper and curSuper.__add then
-                        if curSuper.__add[k] ~= nil then
-                            curSuper.__add[k](t, k, v)
-                            return true
-                        else
-                            return addInSuper(curSuper)
-                        end
-                    else
-                        return false
-                    end
-                end
-
-                local removeInSuper = nil
-                removeInSuper = function (cur)
-                    local curSuper = cur.super
-                    if curSuper and curSuper.__remove then
-                        if curSuper.__remove[k] ~= nil then
-                            curSuper.__remove[k](t, k)
-                            return true
-                        else
-                            return removeInSuper(curSuper)
+                            return setsuper(curSuper)
                         end
                     else
                         return false
@@ -108,25 +106,7 @@ function class(classname, super)
                     t.__setter[k](t, k, v)
                     return
                 else
-                    if setInSuper(t) then
-                        return
-                    end
-                end
-
-                if t.__add[k] ~= nil then
-                    t.__add[k](t, k, v)
-                    return
-                else
-                    if addInSuper(t) then
-                        return
-                    end
-                end
-
-                if t.__remove[k] ~= nil then
-                    t.__remove[k](t, k)
-                    return
-                else
-                    if removeInSuper(t) then
+                    if setsuper(t) then
                         return
                     end
                 end
@@ -137,8 +117,9 @@ function class(classname, super)
         setmetatable(instance, meta)
         instance:ctor(...)
         return instance
-    end})
+    end}
 
+    setmetatable(cls, __meta)
     return cls
 end
 
@@ -183,7 +164,7 @@ function try(block)
 	end
 end
 
-function Bind(ui, callback, ...)
+function bindevent(ui, callback, ...)
     if not ui or not callback then
         return
     end

@@ -2,27 +2,32 @@ local SourceProxyBase = require("LuaFramework/SourceProxyBase")
 
 local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase)
 
-NotifiableSourceProxyBase.__getter.ValueChanged = function (this, k)
-    return this.valueChanged
-end
-
 NotifiableSourceProxyBase.__setter.ValueChanged = function (this, k, v)
-    this.valueChanged = v
+    if v and v.callback ~= nil then
+        table.insert(this.valueChanged, v)
+    else
+        for i, value in ipairs(this.valueChanged) do
+            if v.this == value.this then
+                table.remove(this.valueChanged, i)
+                break
+            end
+        end
+    end
 end
 
 local names = {"INotifiable"}
 
 function NotifiableSourceProxyBase:ctor(source)
     self.super:ctor(source)
-    self.valueChanged = nil
+    self.valueChanged = {}
 end
 
 function NotifiableSourceProxyBase:RaiseValueChanged()
     try
     {
         function ()
-            if self.valueChanged then
-                self.valueChanged()
+            for i, v in ipairs(self.valueChanged) do
+                v.callback(v.this)
             end
         end,
         catch = function ()

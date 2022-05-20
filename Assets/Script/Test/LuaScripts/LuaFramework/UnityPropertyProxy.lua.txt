@@ -14,7 +14,7 @@ end
 function UnityPropertyProxy:DoSubscribeForValueChange(target)
     if self.target[self.unityEvent] then
         self.target[self.unityEvent]:RemoveAllListeners()
-        self.target[self.unityEvent]:AddListener(Bind(self, self.OnValueChanged))
+        self.target[self.unityEvent]:AddListener(bindevent(self, self.OnValueChanged))
     end
 end
 

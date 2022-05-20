@@ -3,6 +3,7 @@ local ObservableObject = require("LuaFramework/ObservableObject")
 local ViewModelBase = class("ViewModelBase", ObservableObject)
 
 function ViewModelBase:ctor(messenger)
+    self.super:ctor()
     self.messenger = messenger
 end
 

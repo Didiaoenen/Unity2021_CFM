@@ -21,7 +21,7 @@ function UniversalTargetProxyFactory:CreateProxy(target, description)
     if type(memberInfo) == "function" then
         return MethodTargetProxy(target, description.TargetName)
     elseif type(memberInfo) == "userdata" then
-
+        return PropertyTargetProxy(target, description.TargetName)
     else
         if type(memberInfo) == "table" then
 

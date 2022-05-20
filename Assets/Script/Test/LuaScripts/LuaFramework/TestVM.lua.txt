@@ -13,6 +13,30 @@ TestVM.__setter.Test = function (this, k, v)
     this:Set({name = "test"}, v, "Test")
 end
 
+TestVM.__getter.TestColor = function (this, k)
+    return this.testColor
+end
+
+TestVM.__setter.TestColor = function (this, k, v)
+    this:Set({name = "testColor"}, v, "TestColor")
+end
+
+TestVM.__getter.TestLocalScale = function (this, k)
+    return this.testLocalScale
+end
+
+TestVM.__setter.TestLocalScale = function (this, k, v)
+    this:Set({name = "testLocalScale"}, v, "TestLocalScale")
+end
+
+TestVM.__getter.TestActive = function (this, k)
+    return this.testActive
+end
+
+TestVM.__setter.TestActive = function (this, k, v)
+    this:Set({name = "testActive"}, v, "TestActive")
+end
+
 TestVM.__getter.TestRequest = function (this, k)
     return this.testRequest
 end
@@ -30,7 +54,13 @@ TestVM.__setter.TestCommand = function (this, k, v)
 end
 
 function TestVM:ctor()
+    self.super:ctor()
+
+    --
     self.test = ""
+    self.testColor = CS.UnityEngine.Color.red
+    self.testLocalScale = CS.UnityEngine.Vector3(0.5, 0.5, 0.5)
+    self.testActive = false
     self.testRequest = InteractionRequest(self)
     self.testCommand = SimpleCommand(function ()
         print("SimpleCommand")

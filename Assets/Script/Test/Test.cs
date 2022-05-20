@@ -195,8 +195,8 @@ public class Test : MonoBehaviour
         //var builder = bindingSet.Bind();
         //builder.For(v => v.TestFunc).To(vm => vm.TestRequest);
 
-        var testBuilder = bindingSet.Bind(testText);
-        testBuilder.For(v => v.text).To(vm => vm.TestString).OneWay();
+        //var testBuilder = bindingSet.Bind(testText);
+        //testBuilder.For(v => v.text).To(vm => vm.TestString).OneWay();
 
         //var testButtonBuilder = bindingSet.Bind(testButton);
         //testButtonBuilder.For(v => v.onClick).To(vm => vm.OnClick).OneWay();
@@ -210,11 +210,11 @@ public class Test : MonoBehaviour
         //testExpressionBuilder = bindingSet.Bind(testExpression);
         //testExpressionBuilder.For(v => v.color).To(vm => vm.TestColor).OneWay();
 
-        var testInputFieldBuilder = bindingSet.Bind(testInputField);
-        testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
+        //var testInputFieldBuilder = bindingSet.Bind(testInputField);
+        //testInputFieldBuilder.For(v => v.text, v => v.onValueChanged).To(vm => vm.TestString).TwoWay();
 
-        //var testGameObjectBuilder = bindingSet.Bind(testInputField.gameObject);
-        //testGameObjectBuilder.For(v => v.activeSelf).To(vm => vm.TestBool).TwoWay();
+        var testGameObjectBuilder = bindingSet.Bind(testInputField.gameObject);
+        testGameObjectBuilder.For(v => v.activeSelf).To(vm => vm.TestBool).TwoWay();
 
         //var testTransformBuilder = bindingSet.Bind(testInputField.transform);
         //testTransformBuilder.For(v => v.localScale).To(vm => vm.TestScale).TwoWay();

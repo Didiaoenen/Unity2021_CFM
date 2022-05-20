@@ -17,7 +17,9 @@ function ObservableObject:RaisePropertyChangedWithParam(param)
     {
         function ()
             if self.propertyChanged then
-                self.propertyChanged(self, param)
+                for i, v in ipairs(self.propertyChanged) do
+                    v.callback(v.this, self, param)
+                end
             end
         end,
         catch = function ()

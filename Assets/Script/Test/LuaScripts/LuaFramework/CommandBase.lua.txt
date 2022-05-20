@@ -1,20 +1,25 @@
 local CommandBase = class("CommandBase")
 
-CommandBase.__add.CanExecuteChanged = function (this, k, v)
-    this.canExecuteChanged = v
-end
-
-CommandBase.__remove.CanExecuteChanged = function (this, k)
-    this.canExecuteChanged = nil
+CommandBase.__setter.CanExecuteChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.canExecuteChanged, v)
+    else
+        for i, value in ipairs(this.canExecuteChanged) do
+            if v.this == value.this then
+                table.remove(this.canExecuteChanged, i)
+                break
+            end
+        end
+    end
 end
 
 function CommandBase:ctor()
-    self.canExecuteChanged = nil
+    self.canExecuteChanged = {}
 end
 
 function CommandBase:RaiseCanExecuteChanged()
-    if self.canExecuteChanged then
-        self.canExecuteChanged(self)
+    for i, v in ipairs(self.canExecuteChanged) do
+        v.callback(v.this)
     end
 end
 

@@ -19,6 +19,15 @@ function TestV:ctor(binder)
     local builder = set:BindByTarget(text)
     builder:For("text"):To("Test"):OneWay()
     
+    -- local builder = set:BindByTarget(text)
+    -- builder:For("color"):To("TestColor"):OneWay()
+
+    -- local builder = set:BindByTarget(text.transform)
+    -- builder:For("localScale"):To("TestLocalScale"):OneWay()
+
+    -- local builder = set:BindByTarget(text.gameObject)
+    -- builder:For("activeSelf"):To("TestActive"):TwoWay()
+
     -- local builder = set:BindByTarget(button)
     -- builder:For("onClick"):To("OnClick"):OneWay()
 

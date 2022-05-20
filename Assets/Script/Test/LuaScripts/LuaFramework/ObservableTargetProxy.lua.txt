@@ -29,13 +29,11 @@ function ObservableTargetProxy:SetValue(value)
 end
 
 function ObservableTargetProxy:DoSubscribeForValueChange(target)
-    self.observableProperty.ValueChanged = function ()
-        self:OnVlaueChanged()
-    end
+    self.observableProperty.ValueChanged = {this = self, callback = self.OnVlaueChanged}
 end
 
 function ObservableTargetProxy:DoUnsubscribeForValueChange(target)
-    self.observableProperty.ValueChanged = nil
+    self.observableProperty.ValueChanged = {this = self}
 end
 
 function ObservableTargetProxy:OnVlaueChanged(sender, e)

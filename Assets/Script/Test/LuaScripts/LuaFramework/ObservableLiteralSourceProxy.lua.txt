@@ -11,9 +11,7 @@ function ObservableLiteralSourceProxy:ctor(source)
     end
 
     self.observableProperty = source
-    self.observableProperty.ValueChanged = function ()
-        self:OnValueChanged()
-    end
+    self.observableProperty.ValueChanged = {this = self, callback = self.OnValueChanged}
 end
 
 function ObservableLiteralSourceProxy:OnValueChanged(sender, e)

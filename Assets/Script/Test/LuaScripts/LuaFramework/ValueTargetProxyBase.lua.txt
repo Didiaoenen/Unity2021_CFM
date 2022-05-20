@@ -2,19 +2,19 @@ local TargetProxyBase = require("LuaFramework/TargetProxyBase")
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
 
-ValueTargetProxyBase.__add.ValueChanged = function (this, k, v)
-    this.valueChanged = v
-
-    if this.valueChanged and not this.subScribed then
-        this:Subscribe()
-    end
-end
-
-ValueTargetProxyBase.__remove.ValueChanged = function (this, k)
-    this.valueChanged = nil
-
-    if not this.valueChanged and this.subScribed then
-        this:Unsubscribe()
+ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        if this.valueChanged and not this.subScribed then
+            table.insert(this.valueChanged, v)
+            this:Subscribe()
+        end
+    else
+        for i, value in ipairs(this.valueChanged) do
+            if v.this == value.this then
+                table.remove(this.valueChanged, i)
+                break
+            end
+        end
     end
 end
 
@@ -23,7 +23,7 @@ local names = {"INotifiable"}
 function ValueTargetProxyBase:ctor(target)
     self.super:ctor(target)
     self.subScribed = false
-    self.valueChanged = nil
+    self.valueChanged = {}
 end
 
 function ValueTargetProxyBase:Subscribe()
@@ -60,7 +60,7 @@ function ValueTargetProxyBase:Unsubscribe()
                 return
             end
 
-            local target = self.Target
+            local target = self.target
             if not target then
                 return
             end
@@ -82,9 +82,8 @@ function ValueTargetProxyBase:RaiseValueChanged()
     try
     {
         function ()
-            local handler = self.valueChanged
-            if handler then
-                handler()
+            for i, v in ipairs(self.valueChanged) do
+                v.callback(v.this)
             end
         end,
         catch = function ()

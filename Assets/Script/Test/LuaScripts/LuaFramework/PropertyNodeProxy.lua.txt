@@ -9,10 +9,8 @@ function PropertyNodeProxy:ctor(source, propertyInfo)
     if not self.source then
         return
     end
-    
-    self.source.PropertyChanged = function (sender, e)
-        self:OnPropertyChanged(sender, e)
-    end
+
+    self.source.PropertyChanged = {this = self, callback = self.OnPropertyChanged}
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender, e)
@@ -28,7 +26,12 @@ function PropertyNodeProxy:GetValue()
         return
     end
 
-    return source[self.propertyInfo]
+    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    if proxyInfo then
+        return proxyInfo.getter(source)
+    else
+        return self.source[self.propertyInfo]
+    end
 end
 
 function PropertyNodeProxy:SetValue(value)
@@ -37,7 +40,12 @@ function PropertyNodeProxy:SetValue(value)
         return
     end
 
-    source[self.propertyInfo] = value
+    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    if proxyInfo then
+        proxyInfo.setter(source, value)
+    else
+        self.source[self.propertyInfo] = value
+    end
 end
 
 function PropertyNodeProxy:Dispose()
