@@ -1,0 +1,28 @@
+local InteractionEventArgs = require("LuaFramework/Interactivity/InteractionEventArgs")
+
+local InteractionRequest = class("InteractionRequest")
+
+InteractionRequest.__getter.Raised = function (this, k)
+    return this.raised
+end
+
+InteractionRequest.__setter.Raised = function (this, k, v)
+    this.raised = v
+end
+
+function InteractionRequest:ctor(sender)
+    self.sender = sender or self
+    self.raised = nil
+end
+
+function InteractionRequest:Raise(context, callback)
+    if self.Raised then
+        self.Raised(self.sender, InteractionEventArgs(context, function ()
+            if callback then
+                callback()
+            end
+        end))
+    end
+end
+
+return InteractionRequest

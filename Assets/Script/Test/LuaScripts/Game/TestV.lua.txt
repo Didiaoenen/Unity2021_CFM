@@ -1,0 +1,51 @@
+local BindingExtension = require("LuaFramework/Binding/BindingExtension")
+local TestVM = require("Game/TestVM")
+
+local TestV = class("TestV")
+
+function TestV:ctor(binder)
+
+    local text = CS.UnityEngine.GameObject.Find("Canvas/Text"):GetComponent(typeof(CS.UnityEngine.UI.Text))
+    local button = CS.UnityEngine.GameObject.Find("Canvas/Button"):GetComponent(typeof(CS.UnityEngine.UI.Button))
+    local inputField = CS.UnityEngine.GameObject.Find("Canvas/InputField"):GetComponent(typeof(CS.UnityEngine.UI.InputField))
+
+    local testVM = TestVM()
+    local be = BindingExtension(self)
+    be.Binder = binder
+    local set = be:CreateBindingSetWithContext(testVM)
+    -- local builder = set:Bind()
+    -- builder:For("TestFunc"):To("TestRequest")
+
+    local builder = set:BindByTarget(text)
+    builder:For("text"):To("Test"):OneWay()
+    
+    -- local builder = set:BindByTarget(text)
+    -- builder:For("color"):To("TestColor"):OneWay()
+
+    -- local builder = set:BindByTarget(text.transform)
+    -- builder:For("localScale"):To("TestLocalScale"):OneWay()
+
+    -- local builder = set:BindByTarget(text.gameObject)
+    -- builder:For("activeSelf"):To("TestActive"):TwoWay()
+
+    -- local builder = set:BindByTarget(button)
+    -- builder:For("onClick"):To("OnClick"):OneWay()
+
+    -- local builder = set:BindByTarget(button)
+    -- builder:For("onClick"):To("TestCommand"):OneWay()
+
+    local builder = set:BindByTarget(inputField)
+    builder:For("text", "onValueChanged"):To("Test"):TwoWay()
+
+    set:Build()
+
+    testVM.Test = "123"
+
+    -- testVM.TestRequest:Raise()
+end
+
+function TestV:TestFunc(sender, args)
+    print("hahaha")
+end
+
+return TestV

@@ -1,0 +1,116 @@
+local TargetProxyBase = require("LuaFramework/Binding/Proxy/Targets/TargetProxyBase")
+
+local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
+
+ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        if this.valueChanged and not this.subScribed then
+            table.insert(this.valueChanged, v)
+            this:Subscribe()
+        end
+    else
+        for i, value in ipairs(this.valueChanged) do
+            if v.this == value.this then
+                table.remove(this.valueChanged, i)
+                break
+            end
+        end
+    end
+end
+
+local names = {"INotifiable"}
+
+function ValueTargetProxyBase:ctor(target)
+    self.super:ctor(target)
+    self.subScribed = false
+    self.valueChanged = {}
+end
+
+function ValueTargetProxyBase:Subscribe()
+    try
+    {
+        function ()
+            if self.subScribed then
+                return
+            end
+
+            local target = self.target
+            if not target then
+                return
+            end
+
+            self.subScribed = true
+            self:DoSubscribeForValueChange(target)
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:DoSubscribeForValueChange(target)
+    
+end
+
+function ValueTargetProxyBase:Unsubscribe()
+    try
+    {
+        function ()
+            if not self.subScribed then
+                return
+            end
+
+            local target = self.target
+            if not target then
+                return
+            end
+
+            self.subScribed = false
+            self:DoUnsubscribeForValueChange(target)
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
+    
+end
+
+function ValueTargetProxyBase:RaiseValueChanged()
+    try
+    {
+        function ()
+            for i, v in ipairs(self.valueChanged) do
+                v.callback(v.this)
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function ValueTargetProxyBase:GetValue()
+    
+end
+
+function ValueTargetProxyBase:SetValue(value)
+    
+end
+
+function ValueTargetProxyBase:ContainsName(name)
+    for i, v in ipairs(names) do
+        if v == name then
+            return true
+        end
+    end
+    return false
+end
+
+function ValueTargetProxyBase:Dispose()
+    
+end
+
+return ValueTargetProxyBase

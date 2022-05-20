@@ -1,0 +1,55 @@
+local IntItemNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/IntItemNodeProxy")
+local StringItemNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/StringItemNodeProxy")
+local ObservableNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/ObservableNodeProxy")
+local InteractionNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/InteractionNodeProxy")
+local PropertyNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/PropertyNodeProxy")
+local MethodNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/MethodNodeProxy")
+local EventNodeProxy = require("LuaFramework/Binding/Proxy/Sources/Object/EventNodeProxy")
+
+local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory")
+
+function UniversalNodeProxyFactory:ctor()
+    
+end
+
+function UniversalNodeProxyFactory:Create(source, path)
+    local node = path[1]
+    if not source and not node.IsStatic then
+        error("")
+        return
+    end
+
+    if node.IsStatic then
+        return self:CreateStaticProxy(node)
+    end
+
+    return self:CreateProxy(source, node)
+end
+
+function UniversalNodeProxyFactory:CreateProxy(source, node)
+    local memberInfo = source[node]
+    if memberInfo == nil then
+        error("")
+        return
+    end
+
+    if type(memberInfo) == "function" then
+        return MethodNodeProxy(source, node)
+    elseif type(memberInfo) == "userdata" then
+        return PropertyNodeProxy(source, node)
+    else
+        if type(memberInfo) == "table" then
+            if source[node].__classname == "InteractionRequest" then
+                return InteractionNodeProxy(source, node)
+            end
+        end
+
+        return PropertyNodeProxy(source, node)
+    end
+end
+
+function UniversalNodeProxyFactory:CreateStaticProxy()
+    
+end
+
+return UniversalNodeProxyFactory

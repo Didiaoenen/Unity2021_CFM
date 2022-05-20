@@ -1,0 +1,43 @@
+local ValueTargetProxyBase = require("LuaFramework/Binding/Proxy/Targets/ValueTargetProxyBase")
+
+local ObservableTargetProxy = class("ObservableTargetProxy", ValueTargetProxyBase)
+
+ObservableTargetProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.TwoWay
+end
+
+function ObservableTargetProxy:ctor(target, observableProperty)
+    self.super:ctor(target)
+    self.observableProperty = observableProperty
+end
+
+function ObservableTargetProxy:GetValue()
+    if self.observableProperty:GetName() == "IObservableProperty" then
+        return self.observableProperty.Value
+    end
+
+    return self.observableProperty.Value
+end
+
+function ObservableTargetProxy:SetValue(value)
+    if self.observableProperty:GetName() == "IObservableProperty" then
+        self.observableProperty.Value = value
+        return
+    end
+
+    self.observableProperty.Value = value
+end
+
+function ObservableTargetProxy:DoSubscribeForValueChange(target)
+    self.observableProperty.ValueChanged = {this = self, callback = self.OnVlaueChanged}
+end
+
+function ObservableTargetProxy:DoUnsubscribeForValueChange(target)
+    self.observableProperty.ValueChanged = {this = self}
+end
+
+function ObservableTargetProxy:OnVlaueChanged(sender, e)
+    self:RaiseValueChanged()
+end
+
+return ObservableTargetProxy

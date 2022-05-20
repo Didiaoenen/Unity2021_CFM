@@ -1,0 +1,49 @@
+local UnityEventProxyBase = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityEventProxyBase")
+
+local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase)
+
+function UnityEventProxy:ctor(target, unityEvent)
+    self.super:ctor(target, unityEvent)
+    self:BindEvent()
+end
+
+function UnityEventProxy:BindEvent()
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
+        self.target[self.unityEvent]:AddListener(bindevent(self, self.OnEvent))
+    end
+end
+
+function UnityEventProxy:UnbindEvent()
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
+    end
+end
+
+function UnityEventProxy:IsValidHandler(handler)
+    
+end
+
+function UnityEventProxy:IsValidInvoker(invoker)
+    
+end
+
+function UnityEventProxy:OnEvent(parameter)
+    try
+    {
+        function ()
+            if self.invoker then
+                self.invoker:Invoke()
+            end
+
+            if self.command then
+                self.command:Execute()
+            end
+        end,
+        chatch = function ()
+            
+        end
+    }
+end
+
+return UnityEventProxy

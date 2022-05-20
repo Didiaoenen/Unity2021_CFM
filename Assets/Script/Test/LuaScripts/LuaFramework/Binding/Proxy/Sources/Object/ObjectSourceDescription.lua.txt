@@ -1,0 +1,18 @@
+local SourceDescription = require("LuaFramework/Binding/Proxy/Sources/SourceDescription")
+
+local ObjectSourceDescription = class("ObjectSourceDescription", SourceDescription)
+
+ObjectSourceDescription.__getter.Path = function (this, k)
+    return this.path
+end
+
+ObjectSourceDescription.__setter.Path = function (this, k, v)
+    this.path = v
+end
+
+function ObjectSourceDescription:ctor()
+    self.path = nil
+    self.IsStatic = false
+end
+
+return ObjectSourceDescription

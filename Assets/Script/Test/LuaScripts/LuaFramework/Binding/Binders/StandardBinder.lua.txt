@@ -1,0 +1,14 @@
+local Binding = require("LuaFramework/Binding/Binding")
+
+local StandardBinder = class("StandardBinder")
+
+function StandardBinder:ctor(sourceProxyFactory, targetProxyFactory)
+    self.sourceProxyFactory = sourceProxyFactory
+    self.targetProxyFactory = targetProxyFactory
+end
+
+function StandardBinder:Bind(bindingContext, source, target, bindingDecription)
+    return Binding(bindingContext, source, target, bindingDecription, self.sourceProxyFactory, self.targetProxyFactory)
+end
+
+return StandardBinder

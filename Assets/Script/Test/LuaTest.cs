@@ -50,7 +50,7 @@ public class LuaTest : MonoBehaviour
         scriptEnv.SetMetaTable(meta);
         meta.Dispose();
 
-        string scriptText = (script.Type == ScriptReferenceType.TextAsset) ? script.Text.text : string.Format("require(\"{0}\");", script.Filename);
+        string scriptText = (script.Type == ScriptReferenceType.TextAsset) ? script.Text.text : string.Format("require(\"Game.{0}\");", script.Filename);
         luaEnv.DoString(scriptText, script.Filename, scriptEnv);
 
         onAwake = scriptEnv.Get<Action<MonoBehaviour>>("Awake");

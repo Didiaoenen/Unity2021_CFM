@@ -1,0 +1,59 @@
+require("Debug/LuaPanda").start("127.0.0.1", 8818)
+
+CS = CS or {}
+
+Executors = CS.Assembly_CSharp.Assets.Script.Simple.Execution.Executors
+
+require("LuaFramework/System")
+PathParse = require("LuaFramework/Binding/Paths/PathParse")
+PathFinder = require("LuaFramework/Binding/Paths/PathFinder")
+BindingMode = require("LuaFramework/Binding/BindingMode")
+
+UnityProxyRegister = require("LuaFramework/Binding/UnityProxyRegister")
+
+local ObjectSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Object/ObjectSourceProxyFactory")
+local UniversalNodeProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Object/UniversalNodeProxyFactory")
+local SourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/SourceProxyFactory")
+local LiteralSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Text/LiteralSourceProxyFactory")
+local ExpressionSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Expressions/ExpressionSourceProxyFactory")
+local TargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/TargetProxyFactory")
+local UniversalTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/Universal/UniversalTargetProxyFactory")
+local UnityTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityTargetProxyFactory")
+local StandardBinder = require("LuaFramework/Binding/Binders/StandardBinder")
+
+local TestV = require("Game/TestV")
+
+function __G__TRACKBACK__(msg)
+    error("----------------------------------------")
+    error("LUA ERROR: " .. tostring(msg) .. "\n")
+    error(debug.traceback())
+    error("----------------------------------------")
+end
+
+function Main()
+
+    UnityProxyRegister = UnityProxyRegister()
+
+    local objectSourceProxyFactory = ObjectSourceProxyFactory()
+    objectSourceProxyFactory:Register(UniversalNodeProxyFactory(), 0)
+
+    local sourceProxyFactory = SourceProxyFactory()
+    sourceProxyFactory:Register(LiteralSourceProxyFactory(), 0)
+    sourceProxyFactory:Register(ExpressionSourceProxyFactory(sourceProxyFactory), 1)
+    sourceProxyFactory:Register(objectSourceProxyFactory, 2)
+
+    local targetProxyFactory = TargetProxyFactory()
+    targetProxyFactory:Register(UniversalTargetProxyFactory(), 0)
+    targetProxyFactory:Register(UnityTargetProxyFactory(), 10)
+
+    local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
+
+    TestV(binder)
+
+    local a = nil
+end
+
+local status, msg = pcall(Main, __G__TRACKBACK__)
+if not status then
+    print(msg)
+end

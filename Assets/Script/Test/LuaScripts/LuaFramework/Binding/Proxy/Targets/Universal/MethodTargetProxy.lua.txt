@@ -1,0 +1,32 @@
+local TargetProxyBase = require("LuaFramework/Binding/Proxy/Targets/TargetProxyBase")
+
+local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase)
+
+MethodTargetProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.OneWayToSource
+end
+
+MethodTargetProxy.__getter.ProxyMethodInfo = function (this, k)
+    return this.methodInfo
+end
+
+function MethodTargetProxy:ctor(target, methodInfo)
+    self.super:ctor(target)
+    self.methodInfo = methodInfo
+    self.invoker = self
+end
+
+function MethodTargetProxy:GetValue()
+    return self.invoker
+end
+
+function MethodTargetProxy:Invoke(sender, args)
+    local target = self.target
+    if not target then
+        return
+    end
+
+    target[self.methodInfo](target, sender, args)
+end
+
+return MethodTargetProxy

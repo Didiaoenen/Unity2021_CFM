@@ -1,0 +1,33 @@
+local ObservableTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/ObservableTargetProxy")
+local InteractionTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/InteractionTargetProxy")
+local PropertyTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/PropertyTargetProxy")
+local FieldTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/FieldTargetProxy")
+local EventTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/EventTargetProxy")
+local MethodTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/MethodTargetProxy")
+
+local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory")
+
+function UniversalTargetProxyFactory:ctor()
+    
+end
+
+function UniversalTargetProxyFactory:CreateProxy(target, description)
+    local memberInfo = target[description.TargetName]
+    if not memberInfo then
+        error("")
+        return
+    end
+
+    if type(memberInfo) == "function" then
+        return MethodTargetProxy(target, description.TargetName)
+    elseif type(memberInfo) == "userdata" then
+        return PropertyTargetProxy(target, description.TargetName)
+    else
+        if type(memberInfo) == "table" then
+
+        end
+        return PropertyTargetProxy(target, description.TargetName)
+    end
+end
+
+return UniversalTargetProxyFactory

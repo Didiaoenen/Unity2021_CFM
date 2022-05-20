@@ -1,0 +1,31 @@
+local PropertyTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/PropertyTargetProxy")
+
+local UnityPropertyProxy = class("UnityPropertyProxy", PropertyTargetProxy)
+
+UnityPropertyProxy.__getter.DefaultMode = function (this, k)
+    return BindingMode.TwoWay
+end
+
+function UnityPropertyProxy:ctor(target, propertyInfo, unityEvent)
+    self.super:ctor(target, propertyInfo)
+    self.unityEvent = unityEvent
+end
+
+function UnityPropertyProxy:DoSubscribeForValueChange(target)
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
+        self.target[self.unityEvent]:AddListener(bindevent(self, self.OnValueChanged))
+    end
+end
+
+function UnityPropertyProxy:DoUnsubscribeForValueChange()
+    if self.target[self.unityEvent] then
+        self.target[self.unityEvent]:RemoveAllListeners()
+    end
+end
+
+function UnityPropertyProxy:OnValueChanged(value)
+    self:RaiseValueChanged()
+end
+
+return UnityPropertyProxy
