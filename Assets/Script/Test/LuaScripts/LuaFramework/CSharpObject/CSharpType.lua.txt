@@ -1,0 +1,22 @@
+CSharpType = {
+    -- UnityEngine
+    GameObject = CS.UnityEngine.GameObject,
+    Resources = CS.UnityEngine.Resources,
+    WaitForSeconds = CS.UnityEngine.WaitForSeconds,
+    Object = CS.UnityEngine.Object,
+
+    -- UnityEngine.UI
+    Text = CS.UnityEngine.UI.Text,
+    Button = CS.UnityEngine.UI.Button,
+    InputField = CS.UnityEngine.UI.InputField,
+
+    -- Custom
+    AsyncResult = CS.AsyncResult,
+    Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous
+}
+
+
+CSharpTypeName = {
+    TestTemp_1_Single = "TestTemp`1[System.Single]",
+    ProgressResult_1_Single = "ProgressResult`1[System.Single]",
+}

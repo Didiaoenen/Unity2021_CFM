@@ -28,11 +28,11 @@ function TestV:ctor(binder)
     -- local builder = set:BindByTarget(text.gameObject)
     -- builder:For("activeSelf"):To("TestActive"):TwoWay()
 
-    -- local builder = set:BindByTarget(button)
-    -- builder:For("onClick"):To("OnClick"):OneWay()
+    local builder = set:BindByTarget(button)
+    builder:For("onClick"):To("OnClick"):OneWay()
 
-    -- local builder = set:BindByTarget(button)
-    -- builder:For("onClick"):To("TestCommand"):OneWay()
+    local builder = set:BindByTarget(button)
+    builder:For("onClick"):To("TestCommand"):OneWay()
 
     local builder = set:BindByTarget(inputField)
     builder:For("text", "onValueChanged"):To("Test"):TwoWay()

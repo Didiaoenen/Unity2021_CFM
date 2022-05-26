@@ -1,0 +1,127 @@
+local BlockingCoroutineTransitionExecutor = class("BlockingCoroutineTransitionExecutor")
+
+BlockingCoroutineTransitionExecutor.__getter.IsRunning = function (this, k)
+    return this.running
+end
+
+BlockingCoroutineTransitionExecutor.__getter.Count = function (this, k)
+    return #(this.transitions)
+end
+
+function BlockingCoroutineTransitionExecutor:ctor()
+    self.taskResult = nil
+    self.running = false
+    self.transitions = {}
+end
+
+function BlockingCoroutineTransitionExecutor:Execute(transition)
+    try
+    {
+        function ()
+            if transition.__classname == "ShowTransition" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
+                local index = table.findlastindex(self.transitions, function (i, v)
+                    return v.__classname == "ShowTransition" and 
+                    v.Window.WindowType == WindowType.QUEUED_POPUP and
+                    v.Window.WindowManager == transition.Window.WindowManager and
+                    v.Window.WindowPriority >= transition.Window.WindowPriority
+                end)
+                if index > 0 then
+                    table.insert(self.transitions, index + 1, transition)
+                    return
+                end
+
+                index = table.findindex(self.transitions, function (i, v)
+                    return v.__classname == "ShowTransition" and
+                    v.Window.WindowType == WindowType.QUEUED_POPUP and
+                    v.Window.WindowManager == transition.Window.WindowManager and
+                    v.Window.WindowPriority >= transition.Window.WindowPriority
+                end)
+                if index > 0 then
+                    table.insert(self.transitions, index, transition)
+                    return
+                end
+            end
+
+            table.insert(self.transitions, transition)
+        end,
+        finally = function ()
+            if not self.running then
+                self.taskResult = Executors.RunOnCoroutine(function ()
+                    self:DoTask()
+                end)
+            end
+        end
+    }
+end
+
+function BlockingCoroutineTransitionExecutor:ShutDone()
+    if self.taskResult then
+        self.taskResult:Cancel()
+        self.running = false
+        self.taskResult = nil
+    end
+    self.transitions = nil
+end
+
+function BlockingCoroutineTransitionExecutor:DoTask()
+    try
+    {
+        function ()
+            self.running = true
+            Coroutine.Ins().Wait(0)
+            while #(self.transitions) > 0 do
+                local transition = table.find(self.transitions, function (i, v)
+                    return self:Check(v)
+                end)
+                if transition then
+                    table.remove(self.transitions, transition)
+                    local result = Executors.RunOnCoroutine(function ()
+                        transition:TransitionTask()
+                    end)
+                    Coroutine.Ins().Yield(result:WaitForDone())
+
+                    local manager = transition.Window.WindowManager
+                    local current = manager.Current
+                    local exist = table.exists(self.transitions, function (i, v)
+                        return v.Window.WindowManager == manager
+                    end)
+                    if manager.Activated and current and not current.Activated and not exist then
+                        local activate = current:Activate(transition.AnimationDisabled)
+                        Coroutine.Ins().Yield(activate:WaitForDone())
+                    end
+                else
+                    Coroutine.Ins().Wait(0)
+                end
+            end
+        end,
+        finally = function ()
+            self.running = false
+            self.taskResult = nil
+        end
+    }
+end
+
+function BlockingCoroutineTransitionExecutor:Check(transition)
+    if transition.__classname ~= "ShowTransition" then
+        return
+    end
+
+    local window = transition.Window
+    local manager = window.WindowManager
+    local current = manager.Current
+    if not current then
+        return true
+    end
+
+    if current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS then
+        return false
+    end
+
+    if current.WindowType == WindowType.QUEUED_POPUP and not (current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) then
+        return false
+    end
+
+    return true
+end
+
+return BlockingCoroutineTransitionExecutor

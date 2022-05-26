@@ -1,0 +1,197 @@
+local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
+
+local Transition = class("Transition")
+
+Transition.__getter.Window = function (this, k)
+    return this.window
+end
+
+Transition.__setter.Window = function (this, k, v)
+    this.window = v
+end
+
+Transition.__getter.IsDone = function (this, k)
+    return this.done
+end
+
+Transition.__setter.IsDone = function (this, k, v)
+    this.done = v
+end
+
+Transition.__getter.AnimationDisabled = function (this, k)
+    return this.animationDisabled
+end
+
+Transition.__setter.AnimationDisabled = function (this, k, v)
+    this.animationDisabled = v
+end
+
+Transition.__getter.Layer = function (this, k)
+    return this.layer
+end
+
+Transition.__setter.Layer = function (this, k, v)
+    this.layer = v
+end
+
+Transition.__getter.OverlayPolicy = function (this, k)
+    return this.overlayPolicy
+end
+
+Transition.__setter.OverlayPolicy = function (this, k, v)
+    this.overlayPolicy = v
+end
+
+function Transition:ctor(window)
+    self.window = window
+    self.done = false
+    self.animationDisabled = false
+    self.layer = 0
+    self.overlayPolicy = nil
+    self.running = false
+    self.bound = false
+    self.onStart = nil
+    self.onStateChanged = nil
+    self.onFinish = nil
+end
+
+function Transition:Bind()
+    if self.bound then
+        return
+    end
+
+    self.bound = true
+    if self.window then
+        self.window.StateChanged = {this = self, callback = self.StateChanged}
+    end
+end
+
+function Transition:Unbind()
+    if not self.bound then
+        return
+    end
+
+    self.bound = false
+    if self.window then
+        self.window.StateChanged = nil
+    end
+end
+
+function Transition:WaitForDone()
+    return Executors.WaitWhild(function ()
+        return not self.done
+    end)
+end
+
+function Transition:StateChanged(sender, e)
+    self:RaiseStateChanged(sender, e.State)
+end
+
+function Transition:RaiseStateChanged(window, state)
+    try
+    {
+        function ()
+            if self.onStateChanged then
+                self.onStateChanged(window, state)
+            end    
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Transition:RaiseStart()
+    try
+    {
+        function ()
+            if self.onStart then
+                self.onStart()
+            end    
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Transition:RaiseFinished()
+    try
+    {
+        function ()
+            if self.onFinish then
+                self.onFinish()
+            end    
+        end,
+        catch = function ()
+            
+        end
+    }
+end
+
+function Transition:OnStart()
+    self:Bind()
+    self:RaiseStart()
+end
+
+function Transition:OnEnd()
+    self.done = true
+    self:RaiseFinished()
+    self:Unbind()
+end
+
+function Transition:GetAwaiter()
+    return TransitionAwaiter(self)
+end
+
+function Transition:OnStartByCallBack(callback)
+    if self.running then
+        return self    
+    end
+
+    self.onStart = callback
+    return self
+end
+
+function Transition:OnStateChanged(callback)
+    if self.running then
+        return self
+    end
+
+    self.onStateChanged = callback
+    return self
+end
+
+function Transition:OnFinish(callback)
+    if self.done then
+        callback()
+        return self
+    end
+
+    self.onFinish = callback
+    return self
+end
+
+function Transition:DisableAnimation(disabled)
+    if self.running then
+        return self
+    end
+
+    self.animationDisabled = disabled
+    return self
+end
+
+function Transition:TransitionTask()
+    self.running = true
+    self:OnStart()
+    Coroutine.Ins().Yield(Coroutine.Ins().GetEnumerator(function ()
+        self:DoTransition()
+    end))
+    self:OnEnd()
+end
+
+function Transition:DoTransition()
+    
+end
+
+return Transition

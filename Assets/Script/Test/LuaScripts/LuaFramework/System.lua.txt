@@ -181,3 +181,58 @@ function split(str, sep)
     string.gsub(str, pattern, function (c) table.insert(items, c) end)  
     return items
 end
+
+function table.foreach(t, callback)
+    for k, v in pairs(t) do
+        if callback then
+            callback(k, v)
+        end
+    end
+end
+
+function table.findlastindex(t, callback)
+    local t = {}
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            table.insert(t, i)
+        end
+    end
+    return t[#(t)]
+end
+
+function table.findindex(t, callback)
+    local t = {}
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            table.insert(t, i)
+            break
+        end
+    end
+    return t[1]
+end
+
+function table.find(t, callback)
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            return v
+        end
+    end
+end
+
+function table.remove(t, obj)
+    for i, v in ipairs(t) do
+        if v == obj then
+            table.remove(t, i)
+            break
+        end
+    end
+end
+
+function table.exists(t, callback)
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            return true
+        end
+    end
+    return false
+end

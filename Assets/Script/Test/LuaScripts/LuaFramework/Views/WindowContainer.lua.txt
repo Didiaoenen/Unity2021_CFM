@@ -1,0 +1,170 @@
+local Window = require("LuaFramework/Views/Window")
+
+local WindowContainer = class("WindowContainer", Window)
+
+WindowContainer.__getter.Activated = function (this, k)
+    return this.localWindowManager.Activated
+end
+
+WindowContainer.__setter.Activated = function (this, k, v)
+    this.localWindowManager.Activated = v
+end
+
+WindowContainer.__getter.Current = function (this, k)
+    return this.localWindowManager.Current
+end
+
+WindowContainer.__getter.Count = function (this, k)
+    return this.localWindowManager.Count
+end
+
+function WindowContainer:ctor()
+    self.super:ctor()
+    self.localWindowManager = nil
+end
+
+function WindowContainer.Create(name)
+    return WindowContainer.CreateWithManager(nil, name)
+end
+
+function WindowContainer.CreateWithManager(windowManager, name)
+    local root = CS.UnityEngine.GameObject(name, typeof(CS.UnityEngine.CanvasGroup))
+    local rectTransform = root:AddComponent(typeof(CS.UnityEngine.RectTransform))
+    rectTransform.anchorMin = CS.UnityEngine.Vector2.zero
+    rectTransform.anchorMax = CS.UnityEngine.Vector2.one
+    rectTransform.offsetMin = CS.UnityEngine.Vector2.zero
+    rectTransform.offsetMax = CS.UnityEngine.Vector2.zero
+    rectTransform.pivot = CS.UnityEngine.Vector2(0.5, 0.5)
+    rectTransform.localPosition = CS.UnityEngine.Vector3.zero
+
+    self.WindowManager = windowManager
+    self:Create()
+    self:Show(true)
+    return self
+end
+
+function WindowContainer:OnCreate(bundle)
+    self.WindowType = WindowType.FULL
+    self.localWindowManager = WindowManager.Ins()
+end
+
+function WindowContainer:OnActivatedChanged()
+    if self.localWindowManager then
+        self.localWindowManager.Activated = self.Activated
+    end
+    self.super:OnActivatedChanged()
+end
+
+function WindowContainer:Activate(ignoreAnimation)
+    if not self.Visibility then
+        error("")
+        return
+    end
+
+    if self.localWindowManager.Current then
+        self.Activated = true
+        return self.localWindowManager.Current:Activate(ignoreAnimation)
+    end
+
+    local result = AsyncResult()
+    try
+    {
+        function ()
+            if self.Activated then
+                result:SetResult()
+                return result
+            end
+
+            if not ignoreAnimation and self.ActivationAnimation then
+                self.ActivationAnimation:OnStart(function ()
+                    self.State = WindowState.ACTIVATION_ANIMATION_BEGIN
+                end):OnEnd(function ()
+                    self.State = WindowState.ACTIVATION_ANIMATION_END
+                    self.Activated = true
+                    self.State = WindowState.ACTIVATED
+                    result:SetResult()
+                end):Play()
+            else
+                self.Activated = true
+                self.State = WindowState.ACTIVATED
+                result:SetResult()
+            end
+        end,
+        catch = function (e)
+            result:SetException(e)
+        end
+    }
+
+    return result
+end
+
+function WindowContainer:Passivate(ignoreAnimation)
+    if not self.Visibility then
+        error("")
+        return
+    end
+
+    if self.localWindowManager.Current then
+        local currResult = self.localWindowManager.Current:Passivate(ignoreAnimation)
+        currResult:Callbackable():OnCallback(function (r)
+            self.Activated = false
+        end)
+        return currResult
+    end
+
+    local result = AsyncResult()
+    try
+    {
+        function ()
+            if not self.Activated then
+                result:SetResult()
+                return result
+            end
+
+            self.Activated = false
+            self.State = WindowState.PASSIVATED
+
+            if not ignoreAnimation and self.PassivationAnimation then
+                self.PassivationAnimation:OnStart(function ()
+                    self.State = WindowState.PASSIVATION_ANIMATION_BEGIN
+                end):OnEnd(function ()
+                    self.State = WindowState.PASSIVATION_ANIMATION_END
+                    result:SetResult()
+                end)
+            else
+                result:SetResult()
+            end
+        end,
+        catch = function ()
+            
+        end
+    }
+
+    return result
+end
+
+function WindowContainer:Add(window)
+    self.localWindowManager:Add(window)
+end
+
+function WindowContainer:Remove(window)
+    self.localWindowManager:Remove(window)
+end
+
+function WindowContainer:Clear()
+    self.localWindowManager:Clear()
+end
+
+function WindowContainer:Show(window)
+    return self.localWindowManager:Show(window)
+end
+
+function WindowContainer:Hide(window)
+    return self.localWindowManager:Hide(window)
+end
+
+function WindowContainer:Dismiss(window)
+    return self.localWindowManager:Dismiss(window)
+end
+
+return WindowContainer

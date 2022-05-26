@@ -1,0 +1,91 @@
+local View = class("View")
+
+View.__getter.EnterAnimation = function (this, k)
+    return this.enterAnimation
+end
+
+View.__setter.EnterAnimation = function (this, k, v)
+    this.enterAnimation = v
+end
+
+View.__getter.ExitAnimation = function (this, k)
+    return this.exitAnimation
+end
+
+View.__setter.ExitAnimation = function (this, k ,v)
+    this.exitAnimation = v
+end
+
+View.__getter.Name = function (this, k)
+    return this.gameObject and this.gameObject.name
+end
+
+View.__setter.Name = function (this, k, v)
+    if this.gameObject then
+        this.gameObject.name = v
+    end
+end
+
+View.__getter.Parent = function (this, k)
+    return this.transform and this.transform.parent
+end
+
+View.__getter.Owner = function (this, k)
+    return this.gameObject
+end
+
+View.__getter.Transform = function (this, k)
+    return this.transform
+end
+
+View.__getter.CanvasGroup = function (this, k)
+    if not self.canvasGroup then
+        self.canvasGroup = self.transform:GetComponent(typeof(CS.UnityEngine.CanvasGroup))
+    end
+    return self.canvasGroup
+end
+
+View.__getter.Visibility = function (this, k)
+    return self.gameObject and self.gameObject.activeSelf
+end
+
+View.__setter.Visibility = function (this, k, v)
+    if self.gameObject and v ~= self.gameObject.activeSelf then
+        self.gameObject.activeSelf = v
+    end
+end
+
+View.__getter.Interactable = function (this, k)
+    if this.gameObject then
+        return this.CanvasGroup.interactable
+    end
+end
+
+View.__setter.Interactable = function (this, k, v)
+    if this.gameObject then
+        this.CanvasGroup.interactable = v
+    end
+end
+
+function View:ctor()
+    self.enterAnimation = nil
+    self.exitAnimation = nil
+    self.rectTransform = nil
+    self.canvasGroup = nil
+    self.gameObject = nil
+    self.transform = nil
+end
+
+function View:OnEnable()
+    self:OnVisibilityChanged()
+end
+
+function View:OnDisable()
+    self:OnVisibilityChanged()
+end
+
+function View:OnVisibilityChanged()
+    
+end
+
+return View

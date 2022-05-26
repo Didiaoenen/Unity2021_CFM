@@ -1,0 +1,33 @@
+WindowType = {
+    FULL = 1,
+    POPUP = 2,
+    DIALOG = 3,
+    PROGRESS = 4,
+    QUEUED_POPUP = 5,
+}
+
+WindowState = {
+    NONE = 1,
+    CREATE_BEGIN = 2,
+    CREATE_END = 3,
+    ENTER_ANIMATION_BEGIN = 4,
+    VISIBLE = 5,
+    ENTER_ANIMATION_END = 6,
+    ACTIVATION_ANIMATION_BEGIN = 7,
+    ACTIVATED = 8,
+    ACTIVATION_ANIMATION_END = 9,
+    PASSIVATION_ANIMATION_BEGIN = 10,
+    PASSIVATED = 11,
+    PASSIVATION_ANIMATION_END = 12,
+    EXIT_ANIMATION_BEGIN = 13,
+    INVISIBLE = 14,
+    EXIT_ANIMATION_END = 15,
+    DISMISS_BEGIN = 16,
+    DISMISS_END = 17
+}
+
+ActionType = {
+    None = 1,
+    Hide = 2,
+    Dismiss = 3
+}

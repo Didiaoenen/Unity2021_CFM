@@ -1,0 +1,51 @@
+local AsyncResult = class("AsyncResult")
+
+AsyncResult.__getter.IsDone = function (this, k)
+    return this.csharp.done
+end
+
+AsyncResult.__getter.Result = function (this, k)
+    return this.csharp.result
+end
+
+AsyncResult.__getter.IsCancellationRequested = function (this, k)
+    return this.csharp.cancellationRequested
+end
+
+AsyncResult.__getter.IsCancelled = function (this, k)
+    return this.csharp.cancelled
+end
+
+function AsyncResult:ctor(cancelable)
+    self.csharp = CSharpType.AsyncResult(cancelable)
+end
+
+function AsyncResult:SetException(errorMsg)
+    error(errorMsg)
+end
+
+function AsyncResult:SetResult(result)
+    self.csharp:SetResult(result)
+end
+
+function AsyncResult:SetCancelled()
+    self.csharp:SetCancelled()
+end
+
+function AsyncResult:Cancel()
+    return self.csharp:Cancel()
+end
+
+function AsyncResult:Callbackable()
+    return self.csharp:Callbackable()
+end
+
+function AsyncResult:Synchronized()
+    return self.csharp:Synchronized()
+end
+
+function AsyncResult:WaitForDone()
+    return self.csharp:WaitForDone()
+end
+
+return AsyncResult

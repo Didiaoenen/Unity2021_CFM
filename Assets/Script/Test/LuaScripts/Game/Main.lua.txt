@@ -5,9 +5,14 @@ CS = CS or {}
 Executors = CS.Assembly_CSharp.Assets.Script.Simple.Execution.Executors
 
 require("LuaFramework/System")
+require("LuaFramework/Views/WindowEnum")
+require("LuaFramework/CSharpObject/CSharpType")
 PathParse = require("LuaFramework/Binding/Paths/PathParse")
 PathFinder = require("LuaFramework/Binding/Paths/PathFinder")
 BindingMode = require("LuaFramework/Binding/BindingMode")
+
+Coroutine = require("LuaFramework/CSharpObject/Coroutine")
+DefaultUIViewLocator = require("LuaFramework/Views/Locators/DefaultUIViewLocator")
 
 UnityProxyRegister = require("LuaFramework/Binding/UnityProxyRegister")
 
@@ -49,6 +54,18 @@ function Main()
     local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
 
     TestV(binder)
+
+    local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
+
+    result:Callbackable():OnProgressCallback(function (progress)
+        print(progress)
+    end)
+
+    result:Callbackable():OnCallback(function (result)
+        print("---")
+
+        result.Result.transform:SetParent(CSharpType.GameObject.Find("GameObject").transform)
+    end)
 
     local a = nil
 end

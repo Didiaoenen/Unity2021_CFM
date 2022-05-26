@@ -1,0 +1,21 @@
+local WindowStateEventArgs = class("WindowStateEventArgs")
+
+WindowStateEventArgs.__getter.Window = function (this, k)
+    return this.window
+end
+
+WindowStateEventArgs.__getter.State = function (this, k)
+    return this.state
+end
+
+WindowStateEventArgs.__getter.OldState = function (this, k)
+    return this.oldState
+end
+
+function WindowStateEventArgs:ctor(window, oldState, newState)
+    self.window = window
+    self.oldState = oldState
+    self.state = newState
+end
+
+return WindowStateEventArgs

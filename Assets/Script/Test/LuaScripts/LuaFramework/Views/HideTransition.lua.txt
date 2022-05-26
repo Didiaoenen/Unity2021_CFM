@@ -1,0 +1,35 @@
+local Transition = require("LuaFramework.Views.Transition")
+
+local HideTransition = class("HideTransition", Transition)
+
+function HideTransition:ctor(manager, window, dismiss)
+    self.super:ctor(window)
+    self.dismiss = dismiss
+    self.manager = manager
+end
+
+function HideTransition:DoTransition()
+    local current = self.Window
+    if self.manager:IndexOf(current) == 1 then
+        if current.Activated then
+            local passivate = current:Passivate(self.AnimationDisabled)
+            Coroutine.Ins():Yield(passivate:WaitForDone())
+        end
+
+        if current.Visibility then
+            local hide = current:DoHide(self.AnimationDisabled)
+            Coroutine.Ins():Yield(hide:WaitForDone())
+        end
+    else
+        if current.Visibility then
+            local hide = current:DoHide(self.AnimationDisabled)
+            Coroutine.Ins():Yield(hide:WaitForDone())
+        end
+    end
+
+    if self.dismiss then
+        current:DoDismiss()
+    end
+end
+
+return HideTransition

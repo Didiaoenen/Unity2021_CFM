@@ -1,0 +1,36 @@
+local util = require "xlua.util"
+
+local Coroutine = class("Coroutine")
+
+local instance = nil
+
+function Coroutine.Ins()
+    if not instance then
+        instance = Coroutine()
+        instance:ctor()
+        return instance
+    end
+    return instance
+end
+
+function Coroutine:ctor()
+    
+end
+
+function Coroutine.GetEnumerator(callback)
+    return util.cs_generator(function() 
+        if callback then
+            callback()
+        end
+    end)
+end
+
+function Coroutine.Yield(enumerator)
+    coroutine.yield(enumerator)
+end
+
+function Coroutine.Wait(time)
+    coroutine.yield(CSharpType.WaitForSeconds(time))
+end
+
+return Coroutine

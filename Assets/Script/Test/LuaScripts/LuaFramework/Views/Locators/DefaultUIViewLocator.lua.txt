@@ -1,0 +1,51 @@
+local DefaultUIViewLocator = class("DefaultUIViewLocator")
+
+local instance = nil
+
+function DefaultUIViewLocator.Ins()
+    if not instance then
+        instance = DefaultUIViewLocator()
+        instance:ctor()
+        return instance
+    end
+    return instance
+end
+
+function DefaultUIViewLocator:ctor()
+    
+end
+
+function DefaultUIViewLocator:LoadAsync(name, type)
+    local result = CSharpType.Asynchronous[CSharpTypeName.ProgressResult_1_Single](true)
+    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+        self:DoLoad(result, name, type)
+    end))
+    return result
+end
+
+function DefaultUIViewLocator:DoLoad(promise, name, type)
+    try
+    {
+        function ()
+
+        end,
+        catch = function ()
+            
+        end
+    }
+
+    promise:UpdateProgress(0)
+    local request = CSharpType.Resources.LoadAsync(name, type)
+    while not request.isDone do
+        promise:UpdateProgress(request.progress)
+        Coroutine.Ins().Wait(0)
+    end
+
+    local ins = CSharpType.Object.Instantiate(request.asset)
+    ins.name = name
+
+    promise:UpdateProgress(1)
+    promise:SetResult(ins)
+end
+
+return DefaultUIViewLocator

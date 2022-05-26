@@ -1,0 +1,66 @@
+local Transition = require("LuaFramework.Views.Transition")
+
+local ShowTransition = class("ShowTransition", Transition)
+
+function ShowTransition:ctor(manager, window)
+    self.super:ctor(window)
+    self.manager = manager
+end
+
+function ShowTransition:Overlay(previous, current)
+    if not previous or previous.WindowType == WindowType.FULL then
+        return ActionType.None
+    end
+
+    if previous.WindowType == WindowType.POPUP then
+        return ActionType.Dismiss
+    end
+
+    return ActionType.None
+end
+
+function ShowTransition:DoTransition()
+    local current = self.Window
+    local layer = (self.Layer < 0 or current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) and 0 or self.Layer
+    if layer < 0 then
+        local visibleCount = self.manager.VisibleCount
+        if layer > visibleCount then
+            layer = visibleCount
+        end
+    end
+    self.Layer = layer
+
+    local previous = self.manager:GetVisibleWindow(layer)
+    if previous then
+        if previous.Activated then
+            local passivate = previous:Passivate(self.AnimationDisabled)
+            Coroutine.Ins():Yield(passivate:WaitForDone())
+        end
+
+        local policy = self.OverlayPolicy
+        if not policy then
+            policy = self.Overlay
+        end
+
+        local actionType = policy(previous, current)
+        if actionType == ActionType.Hide then
+            previous:DoHide(self.AnimationDisabled)
+        elseif actionType == ActionType.Dismiss then
+            previous:DoHide(self.AnimationDisabled):Callbackable():OnCallback(function (r)
+                previous:DoDismiss()
+            end)
+        end
+    end
+
+    if not current.Visibility then
+        local show = current:DoShow(self.AnimationDisabled)
+        Coroutine.Ins():Yield(show:WaitForDone())
+    end
+
+    if self.manager.Activated and current == self.manager.Current then
+        local activate = current:Activate(self.AnimationDisabled)
+        Coroutine.Ins():Yield(activate:WaitForDone())
+    end
+end
+
+return ShowTransition

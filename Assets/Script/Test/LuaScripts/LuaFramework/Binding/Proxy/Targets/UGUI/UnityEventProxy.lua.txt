@@ -9,7 +9,6 @@ end
 
 function UnityEventProxy:BindEvent()
     if self.target[self.unityEvent] then
-        self.target[self.unityEvent]:RemoveAllListeners()
         self.target[self.unityEvent]:AddListener(bindevent(self, self.OnEvent))
     end
 end

@@ -1,0 +1,203 @@
+local ShowTransition = require("Luaframework.Views.ShowTransition")
+local HideTransition = require("Luaframework.Views.HideTransition")
+
+local WindowManager = class("WindowManager")
+
+-- private
+local instance = nil
+
+local blockingExecutor = nil
+
+local GetTransitionExecutor = function ()
+    if not blockingExecutor then
+        blockingExecutor = BlockingCoroutineTransitionExecutor()
+    end
+    return blockingExecutor
+end
+
+WindowManager.Ins = function (this, k)
+    if not instance then
+        instance = WindowManager()
+        instance:ctor()
+        return instance
+    end
+    return instance
+end
+
+-- public
+WindowManager.__getter.Activated = function (this, k)
+    return this.activated
+end
+
+WindowManager.__setter.Activated = function (this, k, v)
+    this.activated = v
+end
+
+WindowManager.__getter.Count = function (this, k)
+    return #(this.windows)
+end
+
+WindowManager.__getter.Current = function (this, k)
+    if not this.windows or this.Count then
+        return
+    end
+
+    return this.windows[1]
+end
+
+function WindowManager:ctor()
+    self.lastActivated = true
+    self.activated = true
+    self.windows = {}
+end
+
+function WindowManager:OnEnable()
+    self.Activated = self.lastActivated
+end
+
+function WindowManager:OnDisable()
+    self.lastActivated = self.Activated
+    self.Activated = false
+end
+
+function WindowManager:OnDestroy()
+
+end
+
+function WindowManager:OnApplicationQuit()
+    
+end
+
+function WindowManager:Clear()
+    for i, v in ipairs(self.windows) do
+        
+    end
+end
+
+function WindowManager:Add(window)
+    if not window then
+        error("")
+        return
+    end
+    table.insert(self.windows, window)
+    self:AddChild(window.Transform)
+end
+
+function WindowManager:Remove(window)
+    if not window then
+        error("")
+        return
+    end
+    self:RemoveChild(window.Transform)
+end
+
+function WindowManager:Contains(window)
+    return table.exists(self.windows, window)
+end
+
+function WindowManager:IndexOf(window)
+    for i, v in ipairs(self.windows) do
+        if v == window then
+            return i
+        end
+    end
+    return 0
+end
+
+function WindowManager:MoveToIndex(window, index)
+    if not window then
+        error("")
+        return
+    end
+
+    local oldIndex = self:IndexOf(window)
+    try
+    {
+        function ()
+            if oldIndex <= 0 or oldIndex == index then
+                return
+            end
+
+            table.remove(self.windows, oldIndex)
+            table.insert(self.windows, window)
+        end,
+        finally = function ()
+            if window.Transform then
+                if index == 1 then
+                    window.Transform:SetAsLastSibling()
+                else
+                    local preWindow = self.windows[index - 1]
+                    local preWindowPosition = self:GetChildIndex(preWindow.Transform)
+                    local currWindowPosition = oldIndex >= index  and preWindowPosition - 1 or preWindowPosition
+                    self.transform:SetSiblingIndex(currWindowPosition)
+                end
+            end
+        end
+    }
+end
+
+function WindowManager:GetChildIndex(child)
+    local transform = self.transform
+    local count = transform.childCount
+    for i = count, 1, -1 do
+        if transform:GetChild(i - 1) == child then
+            return i
+        end
+    end
+    return 0
+end
+
+function WindowManager:AddChild(child, worldPositionStays)
+    if not child or child.parent == self.transform then
+        return
+    end
+
+    child.gameObject.layer = self.gameObject.layer
+    child:SetParent(self.transform, worldPositionStays)
+    child:SetAsFirstSibling()
+end
+
+function WindowManager:RemoveChild(child, worldPositionStays)
+    if not child or child.parent == self.transform then
+        return
+    end
+
+    child:SetParent(nil, worldPositionStays)
+end
+
+function WindowManager:Show(window)
+    local transition = ShowTransition(self, window)
+    GetTransitionExecutor():Execute(transition)
+    return transition:OnStateChanged(function (w, state)
+        if state == WindowState.VISIBLE then
+            self:MoveToIndex(w, transition.Layer)
+        end
+    end)
+end
+
+function WindowManager:Hide(window)
+    local transition = HideTransition(self, window, false)
+    GetTransitionExecutor():Execute(transition)
+    return transition.OnStateChanged(function (w, state)
+        if state == WindowState.INVISIBLE then
+            self:MoveToLast(w)
+        end
+    end)
+end
+
+function WindowManager:Dissmiss(window)
+    local transition = HideTransition(self, window, true)
+    GetTransitionExecutor():Execute(transition)
+    return transition.OnStateChanged(function (w, state)
+        if state == WindowState.INVISIBLE then
+            self:MoveToLast(w)
+        end
+    end)
+end
+
+function WindowManager:CreateWindow(name, ...)
+    local window = require(name)
+    window():Create()
+end
+
+return WindowManager

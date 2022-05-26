@@ -1,6 +1,7 @@
 using Assembly_CSharp.Assets.Script.Simple.Execution;
 using System;
 using System.Threading;
+using XLua;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
 {
