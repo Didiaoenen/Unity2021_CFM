@@ -34,24 +34,35 @@ View.__getter.Owner = function (this, k)
     return this.gameObject
 end
 
+View.__setter.Owner = function (this, k, v)
+    this.gameObject = v
+end
+
 View.__getter.Transform = function (this, k)
     return this.transform
 end
 
+View.__setter.Transform = function (this, k, v)
+    this.transform = v
+end
+
 View.__getter.CanvasGroup = function (this, k)
-    if not self.canvasGroup then
-        self.canvasGroup = self.transform:GetComponent(typeof(CS.UnityEngine.CanvasGroup))
+    if not this.canvasGroup then
+        this.canvasGroup = this.gameObject:GetComponent(typeof(CSharpType.CanvasGroup))
+        if this.canvasGroup:Equals(nil) then
+            this.canvasGroup = this.gameObject:AddComponent(typeof(CSharpType.CanvasGroup))
+        end
     end
-    return self.canvasGroup
+    return this.canvasGroup
 end
 
 View.__getter.Visibility = function (this, k)
-    return self.gameObject and self.gameObject.activeSelf
+    return this.gameObject and this.gameObject.activeSelf
 end
 
 View.__setter.Visibility = function (this, k, v)
-    if self.gameObject and v ~= self.gameObject.activeSelf then
-        self.gameObject.activeSelf = v
+    if this.gameObject and v ~= this.gameObject.activeSelf then
+        this.gameObject:SetActive(v)
     end
 end
 

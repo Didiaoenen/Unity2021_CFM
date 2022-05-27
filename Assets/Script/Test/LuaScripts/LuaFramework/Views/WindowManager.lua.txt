@@ -1,5 +1,6 @@
 local ShowTransition = require("Luaframework.Views.ShowTransition")
 local HideTransition = require("Luaframework.Views.HideTransition")
+local BlockingCoroutineTransitionExecutor = require("Luaframework.Views.BlockingCoroutineTransitionExecutor")
 
 local WindowManager = class("WindowManager")
 
@@ -15,7 +16,8 @@ local GetTransitionExecutor = function ()
     return blockingExecutor
 end
 
-WindowManager.Ins = function (this, k)
+-- public
+WindowManager.Ins = function ()
     if not instance then
         instance = WindowManager()
         instance:ctor()
@@ -24,7 +26,6 @@ WindowManager.Ins = function (this, k)
     return instance
 end
 
--- public
 WindowManager.__getter.Activated = function (this, k)
     return this.activated
 end
@@ -38,7 +39,7 @@ WindowManager.__getter.Count = function (this, k)
 end
 
 WindowManager.__getter.Current = function (this, k)
-    if not this.windows or this.Count then
+    if not this.windows or this.Count <= 0 then
         return
     end
 
@@ -175,6 +176,10 @@ function WindowManager:Show(window)
     end)
 end
 
+function WindowManager:DoShow()
+    
+end
+
 function WindowManager:Hide(window)
     local transition = HideTransition(self, window, false)
     GetTransitionExecutor():Execute(transition)
@@ -183,6 +188,10 @@ function WindowManager:Hide(window)
             self:MoveToLast(w)
         end
     end)
+end
+
+function WindowManager:DoHide()
+    
 end
 
 function WindowManager:Dissmiss(window)
@@ -195,9 +204,26 @@ function WindowManager:Dissmiss(window)
     end)
 end
 
-function WindowManager:CreateWindow(name, ...)
+function WindowManager:DoDissmiss()
+    
+end
+
+function WindowManager:GetVisibleWindow(index)
+    if not self.windows or #(self.windows) <= 0 then
+        return
+    end
+
+    local currIndex = -1
+    for i, v in ipairs(self.windows) do
+        if index == i - 1 then
+            return v
+        end
+    end
+end
+
+function WindowManager.Create(name, ...)
     local window = require(name)
-    window():Create()
+    window(...):Create()
 end
 
 return WindowManager

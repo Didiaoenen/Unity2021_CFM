@@ -1,9 +1,12 @@
 local BindingExtension = require("LuaFramework/Binding/BindingExtension")
 local TestVM = require("Game/TestVM")
 
-local TestV = class("TestV")
+local Window = require("LuaFramework/Views/Window")
+
+local TestV = class("TestV", Window)
 
 function TestV:ctor(binder)
+    self.super:ctor()
 
     local text = CS.UnityEngine.GameObject.Find("Canvas/Text"):GetComponent(typeof(CS.UnityEngine.UI.Text))
     local button = CS.UnityEngine.GameObject.Find("Canvas/Button"):GetComponent(typeof(CS.UnityEngine.UI.Button))
@@ -46,6 +49,11 @@ end
 
 function TestV:TestFunc(sender, args)
     print("hahaha")
+end
+
+function TestV:OnCreate(bundle)
+    self.super:OnCreate()
+    print("child OnCreate")
 end
 
 return TestV

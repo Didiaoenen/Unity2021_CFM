@@ -9,6 +9,7 @@ function HideTransition:ctor(manager, window, dismiss)
 end
 
 function HideTransition:DoTransition()
+    self.super:DoTransition()
     local current = self.Window
     if self.manager:IndexOf(current) == 1 then
         if current.Activated then

@@ -1,3 +1,5 @@
+local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
+
 local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
 
 local Transition = class("Transition")
@@ -73,7 +75,7 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        self.window.StateChanged = nil
+        self.window.StateChanged = {this = self}
     end
 end
 
@@ -184,14 +186,17 @@ end
 function Transition:TransitionTask()
     self.running = true
     self:OnStart()
-    Coroutine.Ins().Yield(Coroutine.Ins().GetEnumerator(function ()
+    
+    local result = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
         self:DoTransition()
     end))
+    Coroutine.Ins().Yield(result:WaitForDone())
+
     self:OnEnd()
 end
 
 function Transition:DoTransition()
-    
+    print("DoTransition")
 end
 
 return Transition

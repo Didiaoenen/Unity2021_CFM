@@ -1,4 +1,6 @@
+local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
+local Messenger = require("LuaFramework.Messaging.Messenger")
 
 local View = require("LuaFramework.Views.View")
 
@@ -79,8 +81,8 @@ end
 Window.__setter.Activated = function (this, k, v)
     if v ~= this.activated then
         this.activated = v
-        self:OnActivatedChanged()
-        self:RaiseActivatedChanged()
+        this:OnActivatedChanged()
+        this:RaiseActivatedChanged()
     end
 end
 
@@ -92,7 +94,7 @@ Window.__setter.State = function (this, k, v)
     if v ~= this.state then
         local old = this.state
         this.state = v
-        self:RaiseStateChanged(old, this.state)
+        this:RaiseStateChanged(old, this.state)
     end
 end
 
@@ -241,6 +243,7 @@ function Window:Activate(ignoreAnimation)
             
         end
     }
+    return result
 end
 
 function Window:Passivate(ignoreAnimation)
@@ -275,6 +278,7 @@ function Window:Passivate(ignoreAnimation)
             
         end
     }
+    return result
 end
 
 function Window:Create(bundle)
@@ -285,19 +289,31 @@ function Window:Create(bundle)
     if self.created then
         return
     end
-
-    self.State = WindowState.CREATE_BEGIN
-    self.Visibility = false
-    self.Interactable = self.Activated
     
-    self:OnCreate(bundle)
-    self.WindowManager:Add(self)
-    self.created = true
-    self.State = WindowState.CREATE_END
+    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+
+        self.State = WindowState.CREATE_BEGIN
+
+        local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
+        Coroutine.Ins().Yield(result:WaitForDone())
+        print("加载完成。。。")
+
+        self.Owner = result.Result
+        self.Transform = self.Owner.transform
+
+        self.Visibility = false
+        self.Interactable = self.Activated
+        self:OnCreate(bundle)
+        self.WindowManager:Add(self)
+        self.created = true
+        self.State = WindowState.CREATE_END
+
+        self:Show()
+    end))
 end
 
 function Window:OnCreate()
-    
+    print("parent OnCreate")
 end
 
 function Window:Show(ignoreAnimation)
@@ -335,6 +351,9 @@ function Window:DoShow(ignoreAnimation)
                 else
                     promise:SetResult()
                 end
+            end,
+            catch = function ()
+                
             end
         }
     end
@@ -419,7 +438,7 @@ function Window:DoDismiss()
                 self.WindowManager:Remove(self)
 
                 if self.gameObject then
-                    CS.UnityEngine.GameObject.Destroy(self.gameObject)
+                    CSharpType.Object.Destroy(self.gameObject)
                 end
                 self.State = WindowState.DISMISS_END
                 self.dismissTransition = nil

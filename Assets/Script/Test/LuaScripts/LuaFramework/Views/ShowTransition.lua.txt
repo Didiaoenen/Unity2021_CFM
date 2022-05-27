@@ -1,3 +1,4 @@
+local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
 local Transition = require("LuaFramework.Views.Transition")
 
 local ShowTransition = class("ShowTransition", Transition)
@@ -20,6 +21,7 @@ function ShowTransition:Overlay(previous, current)
 end
 
 function ShowTransition:DoTransition()
+    self.super:DoTransition()
     local current = self.Window
     local layer = (self.Layer < 0 or current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) and 0 or self.Layer
     if layer < 0 then
@@ -42,7 +44,7 @@ function ShowTransition:DoTransition()
             policy = self.Overlay
         end
 
-        local actionType = policy(previous, current)
+        local actionType = policy(self, previous, current)
         if actionType == ActionType.Hide then
             previous:DoHide(self.AnimationDisabled)
         elseif actionType == ActionType.Dismiss then

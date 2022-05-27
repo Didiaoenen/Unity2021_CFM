@@ -1,20 +1,20 @@
 CSharpType = {
     -- UnityEngine
-    GameObject = CS.UnityEngine.GameObject,
-    Resources = CS.UnityEngine.Resources,
-    WaitForSeconds = CS.UnityEngine.WaitForSeconds,
     Object = CS.UnityEngine.Object,
+    Resources = CS.UnityEngine.Resources,
+    GameObject = CS.UnityEngine.GameObject,
+    CanvasGroup = CS.UnityEngine.CanvasGroup,
+    WaitForSeconds = CS.UnityEngine.WaitForSeconds,
 
     -- UnityEngine.UI
     Text = CS.UnityEngine.UI.Text,
     Button = CS.UnityEngine.UI.Button,
     InputField = CS.UnityEngine.UI.InputField,
 
-    -- Custom
-    AsyncResult = CS.AsyncResult,
-    Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous
+    -- NameSpace
+    Execution = CS.Assembly_CSharp.Assets.Script.Simple.Execution,
+    Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous,
 }
-
 
 CSharpTypeName = {
     TestTemp_1_Single = "TestTemp`1[System.Single]",

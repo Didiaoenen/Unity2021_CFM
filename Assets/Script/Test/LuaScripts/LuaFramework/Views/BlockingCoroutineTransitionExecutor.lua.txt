@@ -46,9 +46,9 @@ function BlockingCoroutineTransitionExecutor:Execute(transition)
         end,
         finally = function ()
             if not self.running then
-                self.taskResult = Executors.RunOnCoroutine(function ()
+                self.taskResult = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
                     self:DoTask()
-                end)
+                end))
             end
         end
     }
@@ -74,10 +74,10 @@ function BlockingCoroutineTransitionExecutor:DoTask()
                     return self:Check(v)
                 end)
                 if transition then
-                    table.remove(self.transitions, transition)
-                    local result = Executors.RunOnCoroutine(function ()
+                    table.removeobj(self.transitions, transition)
+                    local result = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
                         transition:TransitionTask()
-                    end)
+                    end))
                     Coroutine.Ins().Yield(result:WaitForDone())
 
                     local manager = transition.Window.WindowManager

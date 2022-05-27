@@ -26,7 +26,7 @@ local UniversalTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/
 local UnityTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityTargetProxyFactory")
 local StandardBinder = require("LuaFramework/Binding/Binders/StandardBinder")
 
-local TestV = require("Game/TestV")
+WindowManager = require("LuaFramework/Views/WindowManager")
 
 function __G__TRACKBACK__(msg)
     error("----------------------------------------")
@@ -53,19 +53,26 @@ function Main()
 
     local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
 
-    TestV(binder)
+    -- TestV(binder)
 
-    local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
+    -- Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+    --     local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
+    --     Coroutine.Ins().Yield(result:WaitForDone())
+    --     print("***")
+    -- end))
 
-    result:Callbackable():OnProgressCallback(function (progress)
-        print(progress)
-    end)
 
-    result:Callbackable():OnCallback(function (result)
-        print("---")
+    -- result:Callbackable():OnProgressCallback(function (progress)
+    --     print(progress)
+    -- end)
 
-        result.Result.transform:SetParent(CSharpType.GameObject.Find("GameObject").transform)
-    end)
+    -- result:Callbackable():OnCallback(function (result)
+    --     print("---")
+
+    --     result.Result.transform:SetParent(CSharpType.GameObject.Find("GameObject").transform)
+    -- end)
+
+    WindowManager.Ins().Create("Game/TestV", binder)
 
     local a = nil
 end

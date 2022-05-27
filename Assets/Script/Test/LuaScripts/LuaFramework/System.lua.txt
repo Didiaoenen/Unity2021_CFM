@@ -219,7 +219,7 @@ function table.find(t, callback)
     end
 end
 
-function table.remove(t, obj)
+function table.removeobj(t, obj)
     for i, v in ipairs(t) do
         if v == obj then
             table.remove(t, i)

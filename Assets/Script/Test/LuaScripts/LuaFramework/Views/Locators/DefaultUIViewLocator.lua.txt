@@ -38,7 +38,7 @@ function DefaultUIViewLocator:DoLoad(promise, name, type)
     local request = CSharpType.Resources.LoadAsync(name, type)
     while not request.isDone do
         promise:UpdateProgress(request.progress)
-        Coroutine.Ins().Wait(0)
+        Coroutine.Ins().Wait(3)
     end
 
     local ins = CSharpType.Object.Instantiate(request.asset)
