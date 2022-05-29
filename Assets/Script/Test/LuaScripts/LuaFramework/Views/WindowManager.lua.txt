@@ -81,7 +81,7 @@ function WindowManager:Add(window)
         return
     end
     table.insert(self.windows, window)
-    self:AddChild(window.Transform)
+    -- self:AddChild(window.Transform)
 end
 
 function WindowManager:Remove(window)
@@ -89,7 +89,8 @@ function WindowManager:Remove(window)
         error("")
         return
     end
-    self:RemoveChild(window.Transform)
+    -- self:RemoveChild(window.Transform)
+    return table.removeobj(self.windows, window)
 end
 
 function WindowManager:Contains(window)
@@ -115,7 +116,7 @@ function WindowManager:MoveToIndex(window, index)
     try
     {
         function ()
-            if oldIndex <= 0 or oldIndex == index then
+            if oldIndex <= 0 or oldIndex - 1 == index then
                 return
             end
 
@@ -124,12 +125,12 @@ function WindowManager:MoveToIndex(window, index)
         end,
         finally = function ()
             if window.Transform then
-                if index == 1 then
+                if index == 0 then
                     window.Transform:SetAsLastSibling()
                 else
-                    local preWindow = self.windows[index - 1]
+                    local preWindow = self.windows[index]
                     local preWindowPosition = self:GetChildIndex(preWindow.Transform)
-                    local currWindowPosition = oldIndex >= index  and preWindowPosition - 1 or preWindowPosition
+                    local currWindowPosition = oldIndex > index  and preWindowPosition or preWindowPosition + 1
                     self.transform:SetSiblingIndex(currWindowPosition)
                 end
             end
@@ -159,7 +160,7 @@ function WindowManager:AddChild(child, worldPositionStays)
 end
 
 function WindowManager:RemoveChild(child, worldPositionStays)
-    if not child or child.parent == self.transform then
+    if not child or child.parent ~= self.transform then
         return
     end
 
@@ -183,7 +184,7 @@ end
 function WindowManager:Hide(window)
     local transition = HideTransition(self, window, false)
     GetTransitionExecutor():Execute(transition)
-    return transition.OnStateChanged(function (w, state)
+    return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
             self:MoveToLast(w)
         end
@@ -194,10 +195,10 @@ function WindowManager:DoHide()
     
 end
 
-function WindowManager:Dissmiss(window)
+function WindowManager:Dismiss(window)
     local transition = HideTransition(self, window, true)
     GetTransitionExecutor():Execute(transition)
-    return transition.OnStateChanged(function (w, state)
+    return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
             self:MoveToLast(w)
         end

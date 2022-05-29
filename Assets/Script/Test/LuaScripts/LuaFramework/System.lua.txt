@@ -128,39 +128,33 @@ function try(block)
 	local catch = block.catch
 	local finally = block.finally
 	
-	local results = table.pack(pcall(main))
-	local status = results[1]
-	local e = results[2]
-	table.remove(results, 1)
+	local mstatus, mresult = pcall(main)
+
+	local catched, cresult, fresult
 	
-    local result = results
-	local catched = false
 	if not status and catch and type(catch) == "function" then
 		catched = true
-		local results = table.pack(pcall(catch, e))
-		if results[1] then
-			table.remove(results, 1)
-			result = results
-			e = nil
-		else
-			e = results[2]
-		end		
+		cresult = catch(mresult)
 	end
 	
 	if finally and type(finally) == "function" then
-		pcall(finally)
-	end	
+		fresult = finally()
+	end
 	
-	if status then
-		return table.unpack(result)
-	elseif catched then
-		if not e then
-			return table.unpack(result)
-		else
-			error(e)
-		end
+	if mstatus then
+        if not fresult then
+            if not cresult then
+                return mresult
+            else
+                return cresult
+            end
+        else
+            return fresult
+        end
 	else
-		error(e)
+        if not catched then
+            error(mstatus)
+        end
 	end
 end
 
@@ -222,8 +216,7 @@ end
 function table.removeobj(t, obj)
     for i, v in ipairs(t) do
         if v == obj then
-            table.remove(t, i)
-            break
+            return table.remove(t, i)
         end
     end
 end

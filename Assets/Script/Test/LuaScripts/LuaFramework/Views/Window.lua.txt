@@ -159,9 +159,6 @@ function Window:RaiseActivatedChanged()
             for i, v in ipairs(self.activatedChanged) do
                 v.callback(v.this, self)
             end
-        end,
-        catch = function ()
-            
         end
     }
 end
@@ -173,9 +170,6 @@ function Window:RaiseVisibilityChanged()
             for i, v in ipairs(self.visibilityChanged) do
                 v.callback(v.this, self)
             end
-        end,
-        catch = function ()
-            
         end
     }
 end
@@ -187,9 +181,6 @@ function Window:RaiseOnDismissed()
             for i, v in ipairs(self.onDismissed) do
                 v.callback(v.this, self)
             end
-        end,
-        catch = function ()
-            
         end
     }
 end
@@ -203,9 +194,6 @@ function Window:RaiseStateChanged(oldState, newState)
             for i, v in ipairs(self.stateChanged) do
                 v.callback(v.this, self, eventArgs)
             end
-        end,
-        catch = function ()
-            
         end
     }
 end
@@ -238,9 +226,6 @@ function Window:Activate(ignoreAnimation)
                 self.State = WindowState.ACTIVATED
                 result:SetResult()
             end
-        end,
-        catch = function ()
-            
         end
     }
     return result
@@ -273,9 +258,6 @@ function Window:Passivate(ignoreAnimation)
             else
                 result:SetResult()
             end
-        end,
-        catch = function ()
-            
         end
     }
     return result
@@ -300,6 +282,7 @@ function Window:Create(bundle)
 
         self.Owner = result.Result
         self.Transform = self.Owner.transform
+        self.Parent = CSharpType.GameObject.Find("GameObject").transform
 
         self.Visibility = false
         self.Interactable = self.Activated
@@ -351,9 +334,6 @@ function Window:DoShow(ignoreAnimation)
                 else
                     promise:SetResult()
                 end
-            end,
-            catch = function ()
-                
             end
         }
     end
@@ -424,6 +404,7 @@ function Window:Dismiss(ignoreAnimation)
     end
 
     self.dismissTransition = self.WindowManager:Dismiss(self):DisableAnimation(ignoreAnimation)
+    return self.dismissTransition
 end
 
 function Window:DoDismiss()
@@ -443,9 +424,6 @@ function Window:DoDismiss()
                 self.State = WindowState.DISMISS_END
                 self.dismissTransition = nil
             end
-        end,
-        catch = function ()
-            
         end
     }
 end

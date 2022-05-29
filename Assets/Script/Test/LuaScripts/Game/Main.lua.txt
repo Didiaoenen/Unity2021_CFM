@@ -74,10 +74,18 @@ function Main()
 
     WindowManager.Ins().Create("Game/TestV", binder)
 
+    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+        Coroutine.Ins().Wait(15)
+
+        WindowManager.Ins().Current:Hide()
+    end))
+
+    require("Game.TestOOP")
+
     local a = nil
 end
 
-local status, msg = pcall(Main, __G__TRACKBACK__)
+local status, msg = xpcall(Main, __G__TRACKBACK__)
 if not status then
     print(msg)
 end

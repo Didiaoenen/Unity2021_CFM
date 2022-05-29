@@ -85,10 +85,10 @@ function BlockingCoroutineTransitionExecutor:DoTask()
                     local exist = table.exists(self.transitions, function (i, v)
                         return v.Window.WindowManager == manager
                     end)
-                    if manager.Activated and current and not current.Activated and not exist then
-                        local activate = current:Activate(transition.AnimationDisabled)
-                        Coroutine.Ins().Yield(activate:WaitForDone())
-                    end
+                    -- if manager.Activated and current and not current.Activated and not exist then
+                    --     local activate = current:Activate(transition.AnimationDisabled)
+                    --     Coroutine.Ins().Yield(activate:WaitForDone())
+                    -- end
                 else
                     Coroutine.Ins().Wait(0)
                 end
@@ -103,7 +103,7 @@ end
 
 function BlockingCoroutineTransitionExecutor:Check(transition)
     if transition.__classname ~= "ShowTransition" then
-        return
+        return true
     end
 
     local window = transition.Window

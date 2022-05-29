@@ -1,0 +1,125 @@
+require("OOP.Class");
+
+local Point = class();
+Point.x = 0;
+Point.y = 0;
+
+function Point:ctor(x,y)
+    if x and y then
+        self.x = x;
+        self.y = y;
+    end
+end
+
+function Point:dtor()
+    print(self,"Point已析构。")
+end
+
+function Point:PrintXY()
+    print("x = " .. self.x);
+    print("y = " .. self.y);
+end
+
+local Point3D = class(Point);
+Point3D.z = 0;
+
+function Point3D:ctor(x,y,z)
+    Point.ctor(self,x,y);
+    if z then
+        self.z = z;
+    end
+end
+
+function Point3D:dtor()
+    print(self,"Point3D已析构。")
+end
+
+function Point3D:PrintXYZ()
+    self:PrintXY();
+    print("z = " .. self.z);
+end
+
+local Color = class();
+Color.r = 0;
+Color.g = 0;
+Color.b = 0;
+function Color:ctor(r,g,b)
+    if r and g and b then
+        self.r = r;
+        self.g = g;
+        self.b = b;
+    end
+end
+
+function Color:dtor()
+    print(self,"Color已析构。")
+end
+
+function Color:PrintRGB()
+    print("r = " .. self.r);
+    print("g = " .. self.g);
+    print("b = " .. self.b);
+end
+
+-- 顶点属性继承空间点（Point3D）与颜色（Color）。
+local Vertex = class(Point3D,Color);
+function Vertex:ctor(p,c)
+    if p then
+        Point3D.ctor(self,p.x,p.y,p.z);
+    end
+    if c then
+        Color.ctor(self,c.r,c.g,c.b);
+    end
+end
+
+function Vertex:dtor()
+    -- 不要再调用Color/Point/Point3D的析构函数，它们会被自动调用。
+    print(self,"Vertex已析构。")
+end
+
+local vertex1 = Vertex.new({x = 0,y = 1,z = 2},{r = 99,g = 88, b = 77});
+local vertex2 = Vertex.new({x = 10,y = 11,z = 12},{r = 199,g = 188, b = 177});
+-- 访问继承的方法等。
+
+vertex1:PrintXY();
+vertex1:PrintXYZ();
+vertex1:PrintRGB();
+
+print(vertex1.is(Point))
+print(vertex1.is(Point3D))
+print(vertex1.is(Color))
+print(vertex1.is(Vertex))
+
+vertex2:PrintXY();
+vertex2:PrintXYZ();
+vertex2:PrintRGB();
+
+print(vertex2.is(Point))
+print(vertex2.is(Point3D))
+print(vertex2.is(Color))
+print(vertex2.is(Vertex))
+
+-- 析构将自动级联调用。
+-- 输出：
+-- table: xxxxxxxx Vertex已析构。
+-- table: xxxxxxxx Point3D已析构。
+-- table: xxxxxxxx Point已析构。
+-- table: xxxxxxxx Color已析构。
+vertex1:delete();
+
+-- 析构将自动级联调用。
+-- 输出：
+-- table: xxxxxxxx Vertex已析构。
+-- table: xxxxxxxx Point3D已析构。
+-- table: xxxxxxxx Point已析构。
+-- table: xxxxxxxx Color已析构。
+vertex2:delete();
+
+local TestVertex = class();
+
+local testVertex = TestVertex.new()
+
+print(testVertex.is(Point))
+print(testVertex.is(Point3D))
+print(testVertex.is(Color))
+print(testVertex.is(Vertex))

@@ -30,6 +30,10 @@ View.__getter.Parent = function (this, k)
     return this.transform and this.transform.parent
 end
 
+View.__setter.Parent = function (this, k, v)
+    this.transform.parent = v
+end
+
 View.__getter.Owner = function (this, k)
     return this.gameObject
 end
