@@ -1,0 +1,7 @@
+local Text = class("Text")
+
+function Text:ctor()
+    
+end
+
+return Text

@@ -1,0 +1,7 @@
+local GraphicRaycaster = class("GraphicRaycaster")
+
+function GraphicRaycaster:ctor()
+    
+end
+
+return GraphicRaycaster

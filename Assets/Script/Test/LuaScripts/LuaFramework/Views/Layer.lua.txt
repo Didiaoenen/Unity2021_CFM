@@ -1,0 +1,28 @@
+local Layer = class("Layer")
+
+Layer.__getter.Name = function (this, k)
+    return this.name
+end
+
+function Layer:ctor(data)
+    assert(data, "")
+    self.name = data.Name
+    self.orderStep = data.orderStep
+    self.orderInLayer = data.OrderInLayer
+
+    self.maxOrder = self.orderInLayer
+    self.minOrder = self.orderInLayer
+end
+
+function Layer:PushWindowOrder()
+    local oldOrder = self.maxOrder
+	self.maxOrder = self.maxOrder + self.orderStep
+	return oldOrder
+end
+
+function Layer:PopWindowOder()
+    assert(self.maxOrder > self.minOrder)
+	self.maxOrder = self.maxOrder - self.orderStep
+end
+
+return Layer

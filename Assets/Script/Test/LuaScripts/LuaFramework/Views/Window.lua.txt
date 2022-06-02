@@ -1,442 +1,63 @@
-local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
-local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
-local Messenger = require("LuaFramework.Messaging.Messenger")
+local WindowView = require("LuaFramework.Views.WindowView")
 
-local View = require("LuaFramework.Views.View")
+local Window = class("Window", WindowView)
 
-local Window = class("Window", View)
-
-Window.__getter.Messenger = function (this, k)
-    return this.messenger
+Window.__getter.SubView = function (this, k)
+    return this.subView
 end
 
-Window.__getter.WindowManager = function (this, k)
-    return WindowManager.Ins()
-end
+function Window:ctor(bundle)
+    self.super:ctor(bundle)
 
-Window.__setter.ActivatedChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.activatedChanged, v)
-    else
-        for i, value in ipairs(this.activatedChanged) do
-            if v.this == value.this then
-                table.remove(this.activatedChanged, i)
-                break
-            end
-        end
-    end
-end
-
-Window.__setter.VisibilityChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.visibilityChanged, v)
-    else
-        for i, value in ipairs(this.visibilityChanged) do
-            if v.this == value.this then
-                table.remove(this.visibilityChanged, i)
-                break
-            end
-        end
-    end
-end
-
-Window.__setter.OnDismissed = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.onDismissed, v)
-    else
-        for i, value in ipairs(this.onDismissed) do
-            if v.this == value.this then
-                table.remove(this.onDismissed, i)
-                break
-            end
-        end
-    end
-end
-
-Window.__setter.StateChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.stateChanged, v)
-    else
-        for i, value in ipairs(this.stateChanged) do
-            if v.this == value.this then
-                table.remove(this.stateChanged, i)
-                break
-            end
-        end
-    end
-end
-
-Window.__getter.Created = function (this, k, v)
-    return this.created
-end
-
-Window.__getter.Dismissed = function (this, k, v)
-    return this.dismissed
-end
-
-Window.__getter.Activated = function (this, k)
-    return this.activated
-end
-
-Window.__setter.Activated = function (this, k, v)
-    if v ~= this.activated then
-        this.activated = v
-        this:OnActivatedChanged()
-        this:RaiseActivatedChanged()
-    end
-end
-
-Window.__getter.State = function (this, k)
-    return this.state
-end
-
-Window.__setter.State = function (this, k, v)
-    if v ~= this.state then
-        local old = this.state
-        this.state = v
-        this:RaiseStateChanged(old, this.state)
-    end
-end
-
-Window.__getter.WindowType = function (this, k)
-    return this.windowType
-end
-
-Window.__setter.WindowType = function (this, k, v)
-    this.windowType = v
-end
-
-Window.__getter.WindowPriority = function (this, k)
-    return this.windowPriority
-end
-
-Window.__setter.WindowPriority = function (this, k, v)
-    if v < 0 then
-        self.windowPriority = 0
-    elseif v > 10 then
-        self.windowPriority = 10
-    else
-        self.windowPriority = v
-    end
-end
-
-function Window:ctor()
-    self.super:ctor()
-    self.messenger = Messenger()
-    self.windowType = WindowType.FULL
-    self.windowPriority = 0
-    self.stateBroadcast = true
-    self.windowManager = nil
-    self.created = false
-    self.dismissed = false
-    self.activated = false
-    self.dismissTransition = nil
-    self.state = WindowState.NONE
-    self.activatedChanged = {}
-    self.visibilityChanged = {}
-    self.onDismissed = {}
-    self.stateChanged = {}
+    self.subView = {}
+    self.viewStack = {}
 end
 
 function Window:OnEnable()
     self.super:OnEnable()
-    self:RaiseVisibilityChanged()
 end
 
 function Window:OnDisable()
-    self:RaiseVisibilityChanged()
     self.super:OnDisable()
 end
 
-function Window:OnActivatedChanged()
-    self.Interactable = self.activated
-end
-
-function Window:RaiseActivatedChanged()
-    try
-    {
-        function ()
-            for i, v in ipairs(self.activatedChanged) do
-                v.callback(v.this, self)
-            end
-        end
-    }
-end
-
-function Window:RaiseVisibilityChanged()
-    try
-    {
-        function ()
-            for i, v in ipairs(self.visibilityChanged) do
-                v.callback(v.this, self)
-            end
-        end
-    }
-end
-
-function Window:RaiseOnDismissed()
-    try
-    {
-        function ()
-            for i, v in ipairs(self.onDismissed) do
-                v.callback(v.this, self)
-            end
-        end
-    }
-end
-
-function Window:RaiseStateChanged(oldState, newState)
-    try
-    {
-        function ()
-            local eventArgs = WindowStateEventArgs(self, oldState, newState)
-            
-            for i, v in ipairs(self.stateChanged) do
-                v.callback(v.this, self, eventArgs)
-            end
-        end
-    }
-end
-
-function Window:Activate(ignoreAnimation)
-    local result = AsyncResult()
-    try
-    {
-        function ()
-            if not self.Visibility then
-                return result
-            end
-
-            if self.Activated then
-                result:SetResult()
-                return result
-            end
-
-            if not ignoreAnimation and self.ActivationAnimation then
-                self.ActivationAnimation:OnStart(function ()
-                    self.State = WindowState.ACTIVATION_ANIMATION_BEGIN
-                end):OnEnd(function ()
-                    self.State = WindowState.ACTIVATION_ANIMATION_END
-                    self.Activated = true
-                    self.State = WindowState.ACTIVATED
-                    result:SetResult()
-                end):Play()
-            else
-                self.Activated = true
-                self.State = WindowState.ACTIVATED
-                result:SetResult()
-            end
-        end
-    }
-    return result
-end
-
-function Window:Passivate(ignoreAnimation)
-    local result = AsyncResult()
-    try
-    {
-        function ()
-            if not self.Visibility then
-                return result
-            end
-
-            if not self.Activated then
-                result:SetResult()
-                return result
-            end
-
-            self.Activated = false
-            self.State = WindowState.PASSIVATED
-
-            if not ignoreAnimation and self.ActivationAnimation then
-                self.ActivationAnimation:OnStart(function ()
-                    self.State = WindowState.PASSIVATION_ANIMATION_BEGIN
-                end):OnEnd(function ()
-                    self.State = WindowState.PASSIVATION_ANIMATION_END
-                    result:SetResult()
-                end):Play()
-            else
-                result:SetResult()
-            end
-        end
-    }
-    return result
-end
-
-function Window:Create(bundle)
-    if self.dismissTransition or self.dismissed then
-        return
-    end
-
-    if self.created then
-        return
-    end
-    
-    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
-
-        self.State = WindowState.CREATE_BEGIN
-
-        local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
-        Coroutine.Ins().Yield(result:WaitForDone())
-        print("加载完成。。。")
-
-        self.Owner = result.Result
-        self.Transform = self.Owner.transform
-        self.Parent = CSharpType.GameObject.Find("GameObject").transform
-
-        self.Visibility = false
-        self.Interactable = self.Activated
-        self:OnCreate(bundle)
-        self.WindowManager:Add(self)
-        self.created = true
-        self.State = WindowState.CREATE_END
-
-        self:Show()
-    end))
-end
-
-function Window:OnCreate()
-    print("parent OnCreate")
-end
-
-function Window:Show(ignoreAnimation)
-    if self.dismissTransition or self.dismissed then
-        return
-    end
-
-    if self.Visibility then
-        return
-    end
-
-    return self.WindowManager:Show(self):DisableAnimation(ignoreAnimation)
-end
-
-function Window:DoShow(ignoreAnimation)
-    local result = AsyncResult()
-    local action = function (promise)
-        try
-        {
-            function ()
-                if not self.created then
-                    self:Create()
-                end
-
-                self:OnShow()
-                self.Visibility = true
-                self.State = WindowState.VISIBLE
-                if not ignoreAnimation and self.EnterAnimation then
-                    self.EnterAnimation:OnStart(function ()
-                        self.State = WindowState.ENTER_ANIMATION_BEGIN
-                    end):OnEnd(function ()
-                        self.State = WindowState.ENTER_ANIMATION_END
-                        promise:SetResult()
-                    end):Play()
-                else
-                    promise:SetResult()
-                end
-            end
-        }
-    end
-    action(result)
-    return result
-end
-
 function Window:OnShow()
-    
-end
-
-function Window:Hide(ignoreAnimation)
-    if not self.created then
-        return
+    for i, v in ipairs(self.subView) do
+        if v.WindowState == WindowState.VISIBLE then
+            v:OnShow()
+        end
     end
-
-    if self.dismissed then
-        return
-    end
-
-    if not self.Visibility then
-        return
-    end
-
-    return self.WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
-end
-
-function Window:DoHide(ignoreAnimation)
-    local result = AsyncResult()
-    local action = function (promise)
-        try
-        {
-            function ()
-                if not ignoreAnimation and self.ExitAnimation then
-                    self.ExitAnimation:OnStart(function ()
-                        self.State = WindowState.EXIT_ANIMATION_BEGIN
-                    end):OnEnd(function ()
-                        self.State = WindowState.EXIT_ANIMATION_END
-                        self.Visibility = false
-                        self.State = WindowState.INVISIBLE
-                        self:OnHide()
-                        promise:SetResult()
-                    end):Play()
-                else
-                    self.Visibility = false
-                    self.State = WindowState.INVISIBLE
-                    self:OnHide()
-                    promise:SetResult()
-                end
-            end
-        }
-    end
-    action(result)
-    return result
 end
 
 function Window:OnHide()
-    
-end
-
-function Window:Dismiss(ignoreAnimation)
-    if self.dismissTransition then
-        return self.dismissTransition
-    end
-
-    if self.dismissed then
-        return
-    end
-
-    self.dismissTransition = self.WindowManager:Dismiss(self):DisableAnimation(ignoreAnimation)
-    return self.dismissTransition
-end
-
-function Window:DoDismiss()
-    try
-    {
-        function ()
-            if not self.dismissed then
-                self.State = WindowState.DISMISS_BEGIN
-                self.dismissed = true
-                self:OnDismiss()
-                self:RaiseOnDismissed()
-                self.WindowManager:Remove(self)
-
-                if self.gameObject then
-                    CSharpType.Object.Destroy(self.gameObject)
-                end
-                self.State = WindowState.DISMISS_END
-                self.dismissTransition = nil
-            end
+    for i, v in ipairs(self.subView) do
+        if v.WindowState == WindowState.INVISIBLE then
+            v:OnHide()
         end
-    }
-end
-
-function Window:OnDismiss()
-    
-end
-
-function Window:OnDestroy()
-    if not self.dismissed and not self.dismissTransition then
-        self:Dismiss(true)
     end
-    self.super:OnDestroy()
+end
+
+function Window:CreateSubView(name, bundle)
+    assert(name, "")
+
+    return self.WindowManager.Create(name, bundle)
+end
+
+function Window:AddSubView(view)
+    table.insert(self.subView, view)
+end
+
+function Window:PushOpenView(view)
+    -- need check
+    table.insert(self.viewStack, view)
+end
+
+function Window:PopOpenView()
+    return table.remove(self.viewStack, #(self.viewStack))
+end
+
+function Window:GetViewStackTop()
+    return self.viewStack[#(self.viewStack)]
 end
 
 return Window

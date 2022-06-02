@@ -1,0 +1,7 @@
+local Canvas = class("Canvas")
+
+function Canvas:ctor(handler)
+    
+end
+
+return Canvas

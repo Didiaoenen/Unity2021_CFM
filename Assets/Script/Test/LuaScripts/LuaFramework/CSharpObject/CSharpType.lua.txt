@@ -1,10 +1,15 @@
 CSharpType = {
     -- UnityEngine
     Object = CS.UnityEngine.Object,
+    Canvas = CS.UnityEngine.Canvas,
     Resources = CS.UnityEngine.Resources,
+    Transform = CS.UnityEngine.Transform,
     GameObject = CS.UnityEngine.GameObject,
     CanvasGroup = CS.UnityEngine.CanvasGroup,
     WaitForSeconds = CS.UnityEngine.WaitForSeconds,
+    Vector3 = CS.UnityEngine.Vector3,
+    Quaternion = CS.UnityEngine.Quaternion,
+    GraphicRaycaster = CS.UnityEngine.GraphicRaycaster,
 
     -- UnityEngine.UI
     Text = CS.UnityEngine.UI.Text,

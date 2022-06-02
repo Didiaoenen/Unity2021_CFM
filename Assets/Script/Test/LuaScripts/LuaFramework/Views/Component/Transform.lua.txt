@@ -1,0 +1,9 @@
+local Transform = class("Transform")
+
+Transform.CSharpType = CSharpType.Transform
+
+function Transform:ctor()
+    
+end
+
+return Transform

@@ -1,0 +1,7 @@
+local GanvasGroup = class("GanvasGroup")
+
+function GanvasGroup:ctor()
+    
+end
+
+return GanvasGroup

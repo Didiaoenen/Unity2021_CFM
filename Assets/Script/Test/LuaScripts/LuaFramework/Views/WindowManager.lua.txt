@@ -46,10 +46,21 @@ WindowManager.__getter.Current = function (this, k)
     return this.windows[1]
 end
 
+WindowManager.__getter.WindowStack = function (this, k)
+    return this.windowStack
+end
+
+WindowManager.__setter.WindowStack = function (this, k, v)
+    this.windowStack = v
+end
+
 function WindowManager:ctor()
     self.lastActivated = true
     self.activated = true
     self.windows = {}
+    self.windowStack = {}
+    self.windowViews = {}
+    self.hideWindows = {}
 end
 
 function WindowManager:OnEnable()
@@ -172,13 +183,9 @@ function WindowManager:Show(window)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.VISIBLE then
-            self:MoveToIndex(w, transition.Layer)
+            -- self:MoveToIndex(w, transition.Layer)
         end
     end)
-end
-
-function WindowManager:DoShow()
-    
 end
 
 function WindowManager:Hide(window)
@@ -186,13 +193,9 @@ function WindowManager:Hide(window)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
-            self:MoveToLast(w)
+            -- self:MoveToLast(w)
         end
     end)
-end
-
-function WindowManager:DoHide()
-    
 end
 
 function WindowManager:Dismiss(window)
@@ -200,13 +203,9 @@ function WindowManager:Dismiss(window)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
-            self:MoveToLast(w)
+            -- self:MoveToLast(w)
         end
     end)
-end
-
-function WindowManager:DoDissmiss()
-    
 end
 
 function WindowManager:GetVisibleWindow(index)
@@ -222,9 +221,31 @@ function WindowManager:GetVisibleWindow(index)
     end
 end
 
-function WindowManager.Create(name, ...)
+function WindowManager:PushWindowStack(window)
+   table.insert(self.windowStack, window) 
+end
+
+function WindowManager:PopWindowStack()
+    return table.remove(self.windowStack, #(self.windowStack))
+end
+
+function WindowManager:GetWindowStackTop()
+    return self.windowStack[#(self.windowStack)]
+end
+
+function WindowManager.Create(name, bundle)
     local window = require(name)
-    window(...):Create()
+    window(bundle):Create()
+
+    if window.windowType == WindowType.NONE then
+        self.Current:AddSubView(window)
+    elseif window.windowType == WindowType.FULL then
+        self:PushWindowStack(window)
+    else
+        table.insert(self.windowViews, window)
+    end
+
+    return window
 end
 
 return WindowManager

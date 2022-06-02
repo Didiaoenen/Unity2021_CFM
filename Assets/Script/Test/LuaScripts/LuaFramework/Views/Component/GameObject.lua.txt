@@ -1,0 +1,13 @@
+local GameObject = class("GameObject")
+
+GameObject.CSharpType = CSharpType.GameObject
+
+function GameObject:ctor()
+    
+end
+
+function GameObject:SetActive(active)
+    
+end
+
+return GameObject

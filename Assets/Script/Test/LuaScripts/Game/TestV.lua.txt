@@ -5,8 +5,10 @@ local Window = require("LuaFramework/Views/Window")
 
 local TestV = class("TestV", Window)
 
-function TestV:ctor(binder)
-    self.super:ctor()
+TestV.prefabPath = "Cube"
+
+function TestV:ctor(bundle)
+    self.super:ctor(bundle)
 
     local text = CS.UnityEngine.GameObject.Find("Canvas/Text"):GetComponent(typeof(CS.UnityEngine.UI.Text))
     local button = CS.UnityEngine.GameObject.Find("Canvas/Button"):GetComponent(typeof(CS.UnityEngine.UI.Button))
@@ -14,7 +16,7 @@ function TestV:ctor(binder)
 
     local testVM = TestVM()
     local be = BindingExtension(self)
-    be.Binder = binder
+    be.Binder = bundle.binder
     local set = be:CreateBindingSetWithContext(testVM)
     -- local builder = set:Bind()
     -- builder:For("TestFunc"):To("TestRequest")
@@ -54,6 +56,18 @@ end
 function TestV:OnCreate(bundle)
     self.super:OnCreate()
     print("child OnCreate")
+
+    local transOne = self.transform:Find("GameObjectOne")
+    local transTwo = self.transform:Find("GameObjectTwo")
+    self:CreateSubView("Game/TestSubV", {parent = transOne})
+    self:CreateSubView("Game/TestSubV", {parent = transTwo})
+end
+
+function TestV:OnShow()
+    self.super:OnShow()
+    print("child OnShow")
+
+
 end
 
 return TestV

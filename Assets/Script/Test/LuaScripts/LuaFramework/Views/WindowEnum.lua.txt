@@ -1,9 +1,10 @@
 WindowType = {
-    FULL = 1,
-    POPUP = 2,
-    DIALOG = 3,
-    PROGRESS = 4,
-    QUEUED_POPUP = 5,
+    NONE = 1,
+    FULL = 2,
+    POPUP = 3,
+    DIALOG = 4,
+    PROGRESS = 5,
+    QUEUED_POPUP = 6,
 }
 
 WindowState = {

@@ -1,5 +1,7 @@
 local View = class("View")
 
+View.prefabPath = ""
+
 View.__getter.EnterAnimation = function (this, k)
     return this.enterAnimation
 end
@@ -27,11 +29,11 @@ View.__setter.Name = function (this, k, v)
 end
 
 View.__getter.Parent = function (this, k)
-    return this.transform and this.transform.parent
+    return this.parent
 end
 
 View.__setter.Parent = function (this, k, v)
-    this.transform.parent = v
+    this.parent = v
 end
 
 View.__getter.Owner = function (this, k)
@@ -50,14 +52,20 @@ View.__setter.Transform = function (this, k, v)
     this.transform = v
 end
 
+View.__getter.Canvas = function (this, k)
+    return this.canvas
+end
+
+View.__setter.Canvas = function (this, k, v)
+    this.canvas = v
+end
+
 View.__getter.CanvasGroup = function (this, k)
-    if not this.canvasGroup then
-        this.canvasGroup = this.gameObject:GetComponent(typeof(CSharpType.CanvasGroup))
-        if this.canvasGroup:Equals(nil) then
-            this.canvasGroup = this.gameObject:AddComponent(typeof(CSharpType.CanvasGroup))
-        end
-    end
     return this.canvasGroup
+end
+
+View.__setter.CanvasGroup = function (this, k, v)
+    this.canvasGroup = v
 end
 
 View.__getter.Visibility = function (this, k)
@@ -82,13 +90,28 @@ View.__setter.Interactable = function (this, k, v)
     end
 end
 
-function View:ctor()
+View.__getter.GraphicRaycaster = function (this, k)
+    return this.graphicRaycaster
+end
+
+View.__setter.GraphicRaycaster = function (this, k, v)
+    this.graphicRaycaster = v
+end
+
+function View:ctor(bundle)
     self.enterAnimation = nil
     self.exitAnimation = nil
     self.rectTransform = nil
     self.canvasGroup = nil
     self.gameObject = nil
     self.transform = nil
+    self.canvas = nil
+    self.graphicRaycaster = nil
+
+    self.components = {}
+
+    --
+    self.parent = table.containskey(bundle, "parent") and bundle.parent
 end
 
 function View:OnEnable()
@@ -101,6 +124,30 @@ end
 
 function View:OnVisibilityChanged()
     
+end
+
+function View:SetParent(parent)
+    assert(parent, "")
+    self.parent = parent
+    self.transform:SetParent(parent)
+end
+
+function View:GetComponent(name)
+    local component = Canvas(self.variables[name])
+    table.insert(self.components, component)
+    return component
+end
+
+function View:AddComponent(component)
+    assert(self.gameObject, "")
+    return component(self.gameObject:AddComponent(component.CSharpType))
+end
+
+function View:Destroy()
+    for i, v in ipairs(self.components) do
+        v:Destroy()
+    end
+    self.components = nil
 end
 
 return View

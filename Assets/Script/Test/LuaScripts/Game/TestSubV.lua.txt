@@ -1,0 +1,11 @@
+local WindowView = require("LuaFramework/Views/WindowView")
+
+local TestSubV = class("TestSubV", WindowView)
+
+TestSubV.prefabPath = "Sphere"
+
+function TestSubV:ctor(...)
+    self.super:ctor(...)
+end
+
+return TestSubV

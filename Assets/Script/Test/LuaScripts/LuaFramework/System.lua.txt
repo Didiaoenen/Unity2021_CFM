@@ -229,3 +229,21 @@ function table.exists(t, callback)
     end
     return false
 end
+
+function table.containskey(t, key)
+    for k, v in pairs(t) do
+        if k == key then
+            return true
+        end
+    end
+    return false
+end
+
+function table.containsvalue(t, value)
+    for k, v in pairs(t) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end

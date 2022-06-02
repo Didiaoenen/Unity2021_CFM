@@ -1,0 +1,7 @@
+local Button = class("Button")
+
+function Button:ctor(handler)
+    
+end
+
+return Button
