@@ -237,13 +237,13 @@ function WindowManager.Create(name, bundle)
     local window = require(name)
     window(bundle):Create()
 
-    if window.windowType == WindowType.NONE then
-        self.Current:AddSubView(window)
-    elseif window.windowType == WindowType.FULL then
-        self:PushWindowStack(window)
-    else
-        table.insert(self.windowViews, window)
-    end
+    -- if window.windowType == WindowType.NONE then
+    --     self.Current:AddSubView(window)
+    -- elseif window.windowType == WindowType.FULL then
+    --     self:PushWindowStack(window)
+    -- else
+    --     table.insert(self.windowViews, window)
+    -- end
 
     return window
 end

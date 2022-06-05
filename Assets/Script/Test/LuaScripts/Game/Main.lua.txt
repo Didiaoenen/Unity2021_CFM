@@ -72,6 +72,8 @@ function Main()
     --     result.Result.transform:SetParent(CSharpType.GameObject.Find("GameObject").transform)
     -- end)
 
+    require("Game.TestOOP")
+
     WindowManager.Ins().Create("Game/TestV", {binder = binder})
 
     Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
@@ -79,8 +81,6 @@ function Main()
 
         -- WindowManager.Ins().Current:Hide()
     end))
-
-    -- require("Game.TestOOP")
 
     local a = nil
 end

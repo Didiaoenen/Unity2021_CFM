@@ -79,15 +79,15 @@ View.__setter.Visibility = function (this, k, v)
 end
 
 View.__getter.Interactable = function (this, k)
-    if this.gameObject then
-        return this.CanvasGroup.interactable
-    end
+    -- if this.gameObject then
+    --     return this.CanvasGroup.interactable
+    -- end
 end
 
 View.__setter.Interactable = function (this, k, v)
-    if this.gameObject then
-        this.CanvasGroup.interactable = v
-    end
+    -- if this.gameObject then
+    --     this.CanvasGroup.interactable = v
+    -- end
 end
 
 View.__getter.GraphicRaycaster = function (this, k)

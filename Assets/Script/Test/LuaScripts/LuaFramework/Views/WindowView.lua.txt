@@ -2,9 +2,7 @@ local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
 local Messenger = require("LuaFramework.Messaging.Messenger")
 
-local View = require("LuaFramework.Views.View")
-
-local WindowView = class("WindowView", View)
+local WindowView = class("WindowView")
 
 WindowView.__getter.Messenger = function (this, k)
     return this.messenger
@@ -120,32 +118,147 @@ WindowView.__setter.WindowPriority = function (this, k, v)
     end
 end
 
+WindowView.__getter.EnterAnimation = function (this, k)
+    return this.enterAnimation
+end
+
+WindowView.__setter.EnterAnimation = function (this, k, v)
+    this.enterAnimation = v
+end
+
+WindowView.__getter.ExitAnimation = function (this, k)
+    return this.exitAnimation
+end
+
+WindowView.__setter.ExitAnimation = function (this, k ,v)
+    this.exitAnimation = v
+end
+
+WindowView.__getter.Name = function (this, k)
+    return this.gameObject and this.gameObject.name
+end
+
+WindowView.__setter.Name = function (this, k, v)
+    if this.gameObject then
+        this.gameObject.name = v
+    end
+end
+
+WindowView.__getter.Parent = function (this, k)
+    return this.parent
+end
+
+WindowView.__setter.Parent = function (this, k, v)
+    this.parent = v
+end
+
+WindowView.__getter.Owner = function (this, k)
+    return this.gameObject
+end
+
+WindowView.__setter.Owner = function (this, k, v)
+    this.gameObject = v
+end
+
+WindowView.__getter.Transform = function (this, k)
+    return this.transform
+end
+
+WindowView.__setter.Transform = function (this, k, v)
+    this.transform = v
+end
+
+WindowView.__getter.Canvas = function (this, k)
+    return this.canvas
+end
+
+WindowView.__setter.Canvas = function (this, k, v)
+    this.canvas = v
+end
+
+WindowView.__getter.CanvasGroup = function (this, k)
+    return this.canvasGroup
+end
+
+WindowView.__setter.CanvasGroup = function (this, k, v)
+    this.canvasGroup = v
+end
+
+WindowView.__getter.Visibility = function (this, k)
+    return this.gameObject and this.gameObject.activeSelf
+end
+
+WindowView.__setter.Visibility = function (this, k, v)
+    if this.gameObject and v ~= this.gameObject.activeSelf then
+        this.gameObject:SetActive(v)
+    end
+end
+
+WindowView.__getter.Interactable = function (this, k)
+    -- if this.gameObject then
+    --     return this.CanvasGroup.interactable
+    -- end
+end
+
+WindowView.__setter.Interactable = function (this, k, v)
+    -- if this.gameObject then
+    --     this.CanvasGroup.interactable = v
+    -- end
+end
+
+WindowView.__getter.GraphicRaycaster = function (this, k)
+    return this.graphicRaycaster
+end
+
+WindowView.__setter.GraphicRaycaster = function (this, k, v)
+    this.graphicRaycaster = v
+end
+
 function WindowView:ctor(bundle)
-    self.super:ctor(bundle)
+    self.graphicRaycaster = nil
+    self.canvasGroup = nil
+    self.gameObject = nil
+    self.transform = nil
+    self.canvas = nil
+
     self.messenger = Messenger()
-    self.windowType = WindowType.FULL
-    self.windowPriority = 0
-    self.stateBroadcast = true
     self.windowManager = nil
+
+    self.dismissTransition = nil
+    self.enterAnimation = nil
+    self.exitAnimation = nil
+
     self.created = false
     self.dismissed = false
     self.activated = false
-    self.dismissTransition = nil
+    self.stateBroadcast = true
+    self.windowPriority = 0
+    self.windowType = WindowType.FULL
     self.state = WindowState.NONE
+    
     self.activatedChanged = {}
     self.visibilityChanged = {}
     self.onDismissed = {}
     self.stateChanged = {}
+
+    self.components = {}
+
+    --
+    self.parent = table.containskey(bundle, "parent") and bundle.parent
 end
 
 function WindowView:OnEnable()
-    self.super:OnEnable()
     self:RaiseVisibilityChanged()
 end
 
 function WindowView:OnDisable()
     self:RaiseVisibilityChanged()
-    self.super:OnDisable()
+end
+
+function WindowView:SetParent(parent)
+    assert(parent, "")
+    self.parent = parent
+    self.transform:SetParent(parent)
 end
 
 function WindowView:OnActivatedChanged()
@@ -461,6 +574,24 @@ function WindowView:OnInit()
     self.Canvas:SetOverrideSorting(true)
     self.Canvas:SetSortingOrder(layer:PushWindowOrder())
     self.CanvasGroup:SetAlpha(1)
+end
+
+function WindowView:GetComponent(name)
+    local component = Canvas(self.variables[name])
+    table.insert(self.components, component)
+    return component
+end
+
+function WindowView:AddComponent(component)
+    assert(self.gameObject, "")
+    return component(self.gameObject:AddComponent(component.CSharpType))
+end
+
+function WindowView:Destroy()
+    for i, v in ipairs(self.components) do
+        v:Destroy()
+    end
+    self.components = nil
 end
 
 --[[
