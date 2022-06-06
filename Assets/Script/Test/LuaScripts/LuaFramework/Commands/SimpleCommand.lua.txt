@@ -1,4 +1,4 @@
-local CommandBase = require("LuaFramework/Commands/CommandBase")
+local CommandBase = require("LuaFramework.Commands.CommandBase")
 
 local SimpleCommand = class("SimpleCommand", CommandBase)
 

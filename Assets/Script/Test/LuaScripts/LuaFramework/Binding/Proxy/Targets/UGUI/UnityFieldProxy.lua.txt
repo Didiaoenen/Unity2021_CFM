@@ -1,4 +1,4 @@
-local FieldTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/FieldTargetProxy")
+local FieldTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.FieldTargetProxy")
 
 local UnityFieldProxy = class("UnityFieldProxy", FieldTargetProxy)
 

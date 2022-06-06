@@ -36,7 +36,7 @@ function TransitionShow:DoTransition()
     if previous then
         if previous.Activated then
             local passivate = previous:Passivate(self.AnimationDisabled)
-            Coroutine.Ins():Yield(passivate:WaitForDone())
+            Coroutine.Yield(passivate:WaitForDone())
         end
 
         local policy = self.OverlayPolicy
@@ -56,12 +56,12 @@ function TransitionShow:DoTransition()
 
     if not current.Visibility then
         local show = current:DoShow(self.AnimationDisabled)
-        Coroutine.Ins():Yield(show:WaitForDone())
+        Coroutine.Yield(show:WaitForDone())
     end
 
     if self.manager.Activated and current == self.manager.Current then
         local activate = current:Activate(self.AnimationDisabled)
-        Coroutine.Ins():Yield(activate:WaitForDone())
+        Coroutine.Yield(activate:WaitForDone())
     end
 end
 

@@ -1,4 +1,4 @@
-local InteractionEventArgs = require("LuaFramework/Interactivity/InteractionEventArgs")
+local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEventArgs")
 
 local InteractionRequest = class("InteractionRequest")
 

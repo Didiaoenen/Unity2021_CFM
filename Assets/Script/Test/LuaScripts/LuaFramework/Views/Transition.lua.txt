@@ -187,10 +187,10 @@ function Transition:TransitionTask()
     self.running = true
     self:OnStart()
     
-    local result = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
+    local result = Executors.RunOnCoroutine(Coroutine.GetEnumerator(function ()
         self:DoTransition()
     end))
-    Coroutine.Ins().Yield(result:WaitForDone())
+    Coroutine.Yield(result:WaitForDone())
 
     self:OnEnd()
 end

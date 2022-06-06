@@ -1,4 +1,4 @@
-local Window = require("LuaFramework/Views/Window")
+local Window = require("LuaFramework.Views.Window")
 
 local WindowContainer = class("WindowContainer", Window)
 

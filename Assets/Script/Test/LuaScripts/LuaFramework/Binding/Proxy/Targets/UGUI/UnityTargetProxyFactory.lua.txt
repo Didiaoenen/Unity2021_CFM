@@ -1,6 +1,6 @@
-local UnityPropertyProxy = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityPropertyProxy")
-local UnityFieldProxy = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityFieldProxy")
-local UnityEventProxy = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityEventProxy")
+local UnityPropertyProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy")
+local UnityFieldProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityFieldProxy")
+local UnityEventProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxy")
 
 local UnityTargetProxyFactory = class("UnityTargetProxyFactory")
 

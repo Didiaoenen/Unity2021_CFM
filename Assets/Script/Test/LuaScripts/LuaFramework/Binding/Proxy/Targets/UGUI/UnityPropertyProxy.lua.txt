@@ -1,4 +1,4 @@
-local PropertyTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/PropertyTargetProxy")
+local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
 
 local UnityPropertyProxy = class("UnityPropertyProxy", PropertyTargetProxy)
 

@@ -1,6 +1,6 @@
-local SourceProxyBase = require("LuaFramework/Binding/Proxy/Sources/SourceProxyBase")
+local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
 
-local ProxyInvoker = require("LuaFramework/Binding/Reflection/ProxyInvoker")
+local ProxyInvoker = require("LuaFramework.Binding.Reflection.ProxyInvoker")
 
 local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase)
 

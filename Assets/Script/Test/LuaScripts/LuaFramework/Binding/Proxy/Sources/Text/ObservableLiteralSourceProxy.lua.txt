@@ -1,4 +1,4 @@
-local NotifiableSourceProxyBase = require("LuaFramework/Binding/Proxy/Sources/NotifiableSourceProxyBase")
+local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
 
 local ObservableLiteralSourceProxy = class("ObservableLiteralSourceProxy", NotifiableSourceProxyBase)
 

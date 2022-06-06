@@ -1,6 +1,6 @@
-local TypedSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/TypedSourceProxyFactory")
-local ObjectSourceDescription = require("LuaFramework/Binding/Proxy/Sources/Object/ObjectSourceDescription")
-local ExpressionSourceProxy = require("LuaFramework/Binding/Proxy/Sources/Expressions/ExpressionSourceProxy")
+local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
+local ExpressionSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxy")
 
 local ExpressionSourceProxyFactory = class("ExpressionSourceProxyFactory", TypedSourceProxyFactory)
 

@@ -1,5 +1,5 @@
-local NotifyPropertyChanged = require("LuaFramework/Binding/NotifyPropertyChanged")
-local PropertyChangedEventArgs = require("LuaFramework/Binding/PropertyChangedEventArgs")
+local NotifyPropertyChanged = require("LuaFramework.Binding.NotifyPropertyChanged")
+local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEventArgs")
 
 local ObservableObject = class("ObservableObject", NotifyPropertyChanged)
 

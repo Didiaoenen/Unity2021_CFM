@@ -1,7 +1,7 @@
-local ObservableLiteralSourceProxy = require("LuaFramework/Binding/Proxy/Sources/Text/ObservableLiteralSourceProxy")
-local LiteralSourceProxy = require("LuaFramework/Binding/Proxy/Sources/Text/LiteralSourceProxy")
+local ObservableLiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.ObservableLiteralSourceProxy")
+local LiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.LiteralSourceProxy")
 
-local TypedSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/TypedSourceProxyFactory")
+local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
 
 local LiteralSourceProxyFactory = class("LiteralSourceProxyFactory", TypedSourceProxyFactory)
 

@@ -1,5 +1,5 @@
-local BindingSet = require("LuaFramework/Binding/Builder/BindingSet")
-local BindingContext = require("LuaFramework/Binding/Contexts/BindingContext")
+local BindingSet = require("LuaFramework.Binding.Builder.BindingSet")
+local BindingContext = require("LuaFramework.Binding.Contexts.BindingContext")
 
 local BindingExtension = class("BindingExtension")
 

@@ -1,4 +1,4 @@
-local BindingBuilderBase = require("LuaFramework/Binding/Builder/BindingBuilderBase")
+local BindingBuilderBase = require("LuaFramework.Binding.Builder.BindingBuilderBase")
 
 local BindingBuilder = class("BindingBuilder", BindingBuilderBase)
 

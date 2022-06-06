@@ -1,15 +1,10 @@
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
-local BindingExtension = require("LuaFramework/Binding/BindingExtension")
-local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
-local Messenger = require("LuaFramework.Messaging.Messenger")
 
-local ViewModelBase = require("Game/ViewModels/ViewModelBase")
-
-local Canvas = require("LuaFramework.Views.Components.Canvas")
-local CanvasGroup = require("LuaFramework.Views.Components.CanvasGroup")
-local GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
+local ViewModelBase = require("Game.ViewModels.ViewModelBase")
 
 local WindowViewBase = class("WindowViewBase")
+
+WindowViewBase.PrefabPath = ""
 
 WindowViewBase.__getter.Messenger = function (this, k)
     return this.messenger
@@ -178,12 +173,10 @@ end
 function WindowViewBase:ctor(bundle)
     self.bundle = bundle
 
+    self.messenger = Messenger()
+
     self.gameObject = nil
     self.transform = nil
-    self.canvas = nil
-
-    self.messenger = Messenger()
-    self.windowManager = nil
 
     self.dismissTransition = nil
     self.enterAnimation = nil
@@ -323,12 +316,12 @@ function WindowViewBase:Create(bundle)
         return
     end
     
-    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+    Executors.RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
 
         self.State = WindowState.CREATE_BEGIN
 
-        local result = DefaultUIViewLocator.Ins():LoadAsync(self.prefabPath, typeof(CSharpType.GameObject))
-        Coroutine.Ins().Yield(result:WaitForDone())
+        local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, typeof(CSharpType.GameObject))
+        Coroutine.Yield(result:WaitForDone())
         print("加载完成。。。")
 
         self.Visibility = false
@@ -496,6 +489,11 @@ function WindowViewBase:OnDestroy()
         self:Dismiss(true)
     end
     
+    table.foreach(self.components, function (i, v)
+        v:Destroy()
+    end)
+    self.components = nil
+
     local layer = WindowManager:GetLayer(self.windowType)
     layer:PopWindowOder()
 end
@@ -509,13 +507,6 @@ end
 function WindowViewBase:AddComponent(component)
     assert(self.gameObject, "")
     return component(self.gameObject:AddComponent(typeof(component.CSharpType)))
-end
-
-function WindowViewBase:Destroy()
-    table.foreach(self.components, function (i, v)
-        v:Destroy()
-    end)
-    self.components = nil
 end
 
 return WindowViewBase

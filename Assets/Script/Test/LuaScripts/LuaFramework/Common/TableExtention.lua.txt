@@ -1,0 +1,72 @@
+
+function table.foreach(t, callback)
+    for i, v in ipairs(t) do
+        if callback then
+            callback(i, v)
+        end
+    end
+end
+
+function table.findlastindex(t, callback)
+    local t = {}
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            table.insert(t, i)
+        end
+    end
+    return t[#(t)]
+end
+
+function table.findindex(t, callback)
+    local t = {}
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            table.insert(t, i)
+            break
+        end
+    end
+    return t[1]
+end
+
+function table.find(t, callback)
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            return v
+        end
+    end
+end
+
+function table.removeobj(t, obj)
+    for i, v in ipairs(t) do
+        if v == obj then
+            return table.remove(t, i)
+        end
+    end
+end
+
+function table.exists(t, callback)
+    for i, v in ipairs(t) do
+        if callback and callback(i, v) then
+            return true
+        end
+    end
+    return false
+end
+
+function table.containskey(t, key)
+    for k, v in pairs(t) do
+        if k == key then
+            return true
+        end
+    end
+    return false
+end
+
+function table.containsvalue(t, value)
+    for k, v in pairs(t) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end

@@ -1,6 +1,6 @@
-local ViewModelBase = require("Game/ViewModels/ViewModelBase")
-local InteractionRequest = require("LuaFramework/Interactivity/InteractionRequest")
-local SimpleCommand = require("LuaFramework/Commands/SimpleCommand")
+local ViewModelBase = require("Game.ViewModels.ViewModelBase")
+local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local TestVM = class("TestVM", ViewModelBase)
 

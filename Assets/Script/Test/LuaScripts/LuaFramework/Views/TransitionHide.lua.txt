@@ -14,17 +14,17 @@ function TransitionHide:DoTransition()
     if self.manager:IndexOf(current) == 1 then
         if current.Activated then
             local passivate = current:Passivate(self.AnimationDisabled)
-            Coroutine.Ins():Yield(passivate:WaitForDone())
+            Coroutine:Yield(passivate:WaitForDone())
         end
 
         if current.Visibility then
             local hide = current:DoHide(self.AnimationDisabled)
-            Coroutine.Ins():Yield(hide:WaitForDone())
+            Coroutine:Yield(hide:WaitForDone())
         end
     else
         if current.Visibility then
             local hide = current:DoHide(self.AnimationDisabled)
-            Coroutine.Ins():Yield(hide:WaitForDone())
+            Coroutine:Yield(hide:WaitForDone())
         end
     end
 

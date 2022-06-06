@@ -1,5 +1,5 @@
-local TypedSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/TypedSourceProxyFactory")
-local ChainedObjectSourceProxy = require("LuaFramework/Binding/Proxy/Sources/Object/ChainedObjectSourceProxy")
+local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
 
 local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory)
 

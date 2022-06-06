@@ -1,4 +1,4 @@
-local ObjectSourceDescription = require("LuaFramework/Binding/Proxy/Sources/Object/ObjectSourceDescription")
+local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 
 local BindingDescription = class("BindingDescription")
 

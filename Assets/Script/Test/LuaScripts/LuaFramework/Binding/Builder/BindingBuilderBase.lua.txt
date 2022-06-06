@@ -1,5 +1,5 @@
-local BindingDescription = require("LuaFramework/Binding/BindingDescription")
-local ObjectSourceDescription = require("LuaFramework/Binding/Proxy/Sources/Object/ObjectSourceDescription")
+local BindingDescription = require("LuaFramework.Binding.BindingDescription")
+local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 
 local BindingBuilderBase = class("BindingBuilderBase")
 

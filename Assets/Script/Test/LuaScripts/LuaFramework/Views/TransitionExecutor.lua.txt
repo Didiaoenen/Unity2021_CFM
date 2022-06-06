@@ -46,7 +46,7 @@ function TransitionExecutor:Execute(transition)
         end,
         finally = function ()
             if not self.running then
-                self.taskResult = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
+                self.taskResult = Executors.RunOnCoroutine(Coroutine.GetEnumerator(function ()
                     self:DoTask()
                 end))
             end
@@ -68,17 +68,17 @@ function TransitionExecutor:DoTask()
     {
         function ()
             self.running = true
-            Coroutine.Ins().Wait(0)
+            Coroutine.Wait(0)
             while #(self.transitions) > 0 do
                 local transition = table.find(self.transitions, function (i, v)
                     return self:Check(v)
                 end)
                 if transition then
                     table.removeobj(self.transitions, transition)
-                    local result = Executors.RunOnCoroutine(Coroutine.Ins().GetEnumerator(function ()
+                    local result = Executors.RunOnCoroutine(Coroutine.GetEnumerator(function ()
                         transition:TransitionTask()
                     end))
-                    Coroutine.Ins().Yield(result:WaitForDone())
+                    Coroutine.Yield(result:WaitForDone())
 
                     local manager = transition.Window.WindowManager
                     local current = manager.Current
@@ -87,10 +87,10 @@ function TransitionExecutor:DoTask()
                     end)
                     -- if manager.Activated and current and not current.Activated and not exist then
                     --     local activate = current:Activate(transition.AnimationDisabled)
-                    --     Coroutine.Ins().Yield(activate:WaitForDone())
+                    --     Coroutine.Yield(activate:WaitForDone())
                     -- end
                 else
-                    Coroutine.Ins().Wait(0)
+                    Coroutine.Wait(0)
                 end
             end
         end,

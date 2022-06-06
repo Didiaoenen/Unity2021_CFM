@@ -1,4 +1,4 @@
-local AbstractBinding = require("LuaFramework/Binding/AbstractBinding")
+local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
 
 local Binding = class("Binding", AbstractBinding)
 

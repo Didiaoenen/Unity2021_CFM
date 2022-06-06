@@ -1,4 +1,4 @@
-local ValueTargetProxyBase = require("LuaFramework/Binding/Proxy/Targets/ValueTargetProxyBase")
+local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
 
 local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase)
 

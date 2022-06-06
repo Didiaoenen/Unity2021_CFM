@@ -1,9 +1,9 @@
-local ObservableTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/ObservableTargetProxy")
-local InteractionTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/InteractionTargetProxy")
-local PropertyTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/PropertyTargetProxy")
-local FieldTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/FieldTargetProxy")
-local EventTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/EventTargetProxy")
-local MethodTargetProxy = require("LuaFramework/Binding/Proxy/Targets/Universal/MethodTargetProxy")
+local ObservableTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.ObservableTargetProxy")
+local InteractionTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.InteractionTargetProxy")
+local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
+local FieldTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.FieldTargetProxy")
+local EventTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxy")
+local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")
 
 local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory")
 

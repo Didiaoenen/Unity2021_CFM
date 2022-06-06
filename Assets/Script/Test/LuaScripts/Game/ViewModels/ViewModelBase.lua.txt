@@ -1,4 +1,4 @@
-local ObservableObject = require("LuaFramework/Observables/ObservableObject")
+local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject)
 

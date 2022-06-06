@@ -1,4 +1,4 @@
-local UnityEventProxyBase = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityEventProxyBase")
+local UnityEventProxyBase = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxyBase")
 
 local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase)
 

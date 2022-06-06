@@ -1,88 +1,24 @@
-require("Debug/LuaPanda").start("127.0.0.1", 8818)
+require("Debug.LuaPanda").start("127.0.0.1", 8818)
 
-CS = CS or {}
+require("LuaFramework.Global")
 
-Executors = CS.Assembly_CSharp.Assets.Script.Simple.Execution.Executors
+function Main()
+    require("Game.TestOOP")
 
-require("LuaFramework/System")
-require("LuaFramework/Views/WindowEnum")
-require("LuaFramework/CSharpObject/CSharpType")
-PathParse = require("LuaFramework/Binding/Paths/PathParse")
-PathFinder = require("LuaFramework/Binding/Paths/PathFinder")
-BindingMode = require("LuaFramework/Binding/BindingMode")
+    WindowManager.Open("Game.TestV", {binder = binder})
 
-Coroutine = require("LuaFramework/CSharpObject/Coroutine")
-DefaultUIViewLocator = require("LuaFramework/Views/Locators/DefaultUIViewLocator")
+    Executors.RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
+        Coroutine.Wait(15)
 
-UnityProxyRegister = require("LuaFramework/Binding/UnityProxyRegister")
-
-local ObjectSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Object/ObjectSourceProxyFactory")
-local UniversalNodeProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Object/UniversalNodeProxyFactory")
-local SourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/SourceProxyFactory")
-local LiteralSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Text/LiteralSourceProxyFactory")
-local ExpressionSourceProxyFactory = require("LuaFramework/Binding/Proxy/Sources/Expressions/ExpressionSourceProxyFactory")
-local TargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/TargetProxyFactory")
-local UniversalTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/Universal/UniversalTargetProxyFactory")
-local UnityTargetProxyFactory = require("LuaFramework/Binding/Proxy/Targets/UGUI/UnityTargetProxyFactory")
-local StandardBinder = require("LuaFramework/Binding/Binders/StandardBinder")
-
-WindowManager = require("LuaFramework/Views/WindowManager")
+        -- WindowManager.Current:Hide()
+    end))
+end
 
 function __G__TRACKBACK__(msg)
     error("----------------------------------------")
     error("LUA ERROR: " .. tostring(msg) .. "\n")
     error(debug.traceback())
     error("----------------------------------------")
-end
-
-function Main()
-
-    UnityProxyRegister = UnityProxyRegister()
-
-    local objectSourceProxyFactory = ObjectSourceProxyFactory()
-    objectSourceProxyFactory:Register(UniversalNodeProxyFactory(), 0)
-
-    local sourceProxyFactory = SourceProxyFactory()
-    sourceProxyFactory:Register(LiteralSourceProxyFactory(), 0)
-    sourceProxyFactory:Register(ExpressionSourceProxyFactory(sourceProxyFactory), 1)
-    sourceProxyFactory:Register(objectSourceProxyFactory, 2)
-
-    local targetProxyFactory = TargetProxyFactory()
-    targetProxyFactory:Register(UniversalTargetProxyFactory(), 0)
-    targetProxyFactory:Register(UnityTargetProxyFactory(), 10)
-
-    local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
-
-    -- TestV(binder)
-
-    -- Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
-    --     local result = DefaultUIViewLocator.Ins():LoadAsync("Cube", typeof(CSharpType.GameObject))
-    --     Coroutine.Ins().Yield(result:WaitForDone())
-    --     print("***")
-    -- end))
-
-
-    -- result:Callbackable():OnProgressCallback(function (progress)
-    --     print(progress)
-    -- end)
-
-    -- result:Callbackable():OnCallback(function (result)
-    --     print("---")
-
-    --     result.Result.transform:SetParent(CSharpType.GameObject.Find("GameObject").transform)
-    -- end)
-
-    require("Game.TestOOP")
-
-    WindowManager.Ins().Create("Game/TestV", {binder = binder})
-
-    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
-        Coroutine.Ins().Wait(15)
-
-        -- WindowManager.Ins().Current:Hide()
-    end))
-
-    local a = nil
 end
 
 local status, msg = xpcall(Main, __G__TRACKBACK__)

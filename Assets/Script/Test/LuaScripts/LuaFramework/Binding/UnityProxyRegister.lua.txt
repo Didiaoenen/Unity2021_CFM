@@ -1,5 +1,15 @@
 local UnityProxyRegister = class("UnityProxyRegister")
 
+local instance = nil
+
+function UnityProxyRegister.Instance()
+    if not instance then
+        instance = UnityProxyRegister()
+        instance:ctor()
+    end
+    return instance
+end
+
 function UnityProxyRegister:ctor()
     self.registerProxies = {}
     self:Initialize()

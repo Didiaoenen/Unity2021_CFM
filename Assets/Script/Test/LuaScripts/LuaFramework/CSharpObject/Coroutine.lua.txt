@@ -4,7 +4,7 @@ local Coroutine = class("Coroutine")
 
 local instance = nil
 
-function Coroutine.Ins()
+function Coroutine.Instance()
     if not instance then
         instance = Coroutine()
         instance:ctor()
