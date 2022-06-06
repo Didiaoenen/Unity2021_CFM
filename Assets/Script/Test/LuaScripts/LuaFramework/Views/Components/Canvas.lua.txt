@@ -1,0 +1,15 @@
+local Component = require("LuaFramework.Views.Components.Component")
+
+local Canvas = class("Canvas", Component)
+
+Canvas.CSharpType = CSharpType.Canvas
+
+Canvas.OverrideSorting = "overrideSorting"
+
+Canvas.SortingOrder = "sortingOrder"
+
+function Canvas:ctor(handler)
+    self.super:ctor(handler)
+end
+
+return Canvas

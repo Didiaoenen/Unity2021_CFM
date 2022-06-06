@@ -1,0 +1,13 @@
+local Component = class("Component")
+
+Component.CSharpType = CSharpType.Component
+
+function Component:ctor(handler)
+    self.handler = handler
+end
+
+function Component:Destroy()
+    self.handler = nil
+end
+
+return Component

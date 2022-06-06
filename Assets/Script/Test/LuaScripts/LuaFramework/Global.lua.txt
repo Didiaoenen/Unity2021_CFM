@@ -1,0 +1,4 @@
+
+WindowManager = require("LuaFramework.Views.WindowManager")
+
+WindowManager = WindowManager.Instance()

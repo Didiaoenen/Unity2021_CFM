@@ -1,23 +1,34 @@
-local ShowTransition = require("Luaframework.Views.ShowTransition")
-local HideTransition = require("Luaframework.Views.HideTransition")
-local BlockingCoroutineTransitionExecutor = require("Luaframework.Views.BlockingCoroutineTransitionExecutor")
+local Layer = require("Luaframework.Views.Layer")
+local TransitionShow = require("Luaframework.Views.TransitionShow")
+local TransitionHide = require("Luaframework.Views.TransitionHide")
+local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local WindowManager = class("WindowManager")
 
 -- private
+
 local instance = nil
 
 local blockingExecutor = nil
 
+local layers = {
+	{WindowType = WindowType.NONE, OrderInLayer = 0, OrderStep = 10},
+	{WindowType = WindowType.FULL, OrderInLayer = 1000, OrderStep = 10},
+	{WindowType = WindowType.POPUP, OrderInLayer = 2000, OrderStep = 10},
+	{WindowType = WindowType.DIALOG, OrderInLayer = 3000, OrderStep = 10},
+	{WindowType = WindowType.PROGRESS, OrderInLayer = 4000, OrderStep = 10},
+	{WindowType = WindowType.QUEUED_POPUP, OrderInLayer = 5000, OrderStep = 10},
+}
+
 local GetTransitionExecutor = function ()
     if not blockingExecutor then
-        blockingExecutor = BlockingCoroutineTransitionExecutor()
+        blockingExecutor = TransitionExecutor()
     end
     return blockingExecutor
 end
 
 -- public
-WindowManager.Ins = function ()
+WindowManager.Instance = function ()
     if not instance then
         instance = WindowManager()
         instance:ctor()
@@ -26,226 +37,119 @@ WindowManager.Ins = function ()
     return instance
 end
 
-WindowManager.__getter.Activated = function (this, k)
-    return this.activated
-end
-
-WindowManager.__setter.Activated = function (this, k, v)
-    this.activated = v
-end
-
-WindowManager.__getter.Count = function (this, k)
-    return #(this.windows)
-end
-
 WindowManager.__getter.Current = function (this, k)
-    if not this.windows or this.Count <= 0 then
-        return
-    end
-
-    return this.windows[1]
-end
-
-WindowManager.__getter.WindowStack = function (this, k)
-    return this.windowStack
-end
-
-WindowManager.__setter.WindowStack = function (this, k, v)
-    this.windowStack = v
+    return this.windowStack[#(this.windowStack)]
 end
 
 function WindowManager:ctor()
-    self.lastActivated = true
-    self.activated = true
-    self.windows = {}
-    self.windowStack = {}
+    self.current = nil
+
+    self.layers = {}
     self.windowViews = {}
+    self.windowStack = {}
     self.hideWindows = {}
+
+    self:CreateLayers()
 end
 
 function WindowManager:OnEnable()
-    self.Activated = self.lastActivated
+
 end
 
 function WindowManager:OnDisable()
-    self.lastActivated = self.Activated
-    self.Activated = false
+
 end
 
 function WindowManager:OnDestroy()
 
 end
 
-function WindowManager:OnApplicationQuit()
-    
-end
-
-function WindowManager:Clear()
-    for i, v in ipairs(self.windows) do
-        
-    end
-end
-
-function WindowManager:Add(window)
-    if not window then
-        error("")
-        return
-    end
-    table.insert(self.windows, window)
-    -- self:AddChild(window.Transform)
-end
-
-function WindowManager:Remove(window)
-    if not window then
-        error("")
-        return
-    end
-    -- self:RemoveChild(window.Transform)
-    return table.removeobj(self.windows, window)
-end
-
-function WindowManager:Contains(window)
-    return table.exists(self.windows, window)
-end
-
-function WindowManager:IndexOf(window)
-    for i, v in ipairs(self.windows) do
-        if v == window then
-            return i
-        end
-    end
-    return 0
-end
-
-function WindowManager:MoveToIndex(window, index)
-    if not window then
-        error("")
-        return
-    end
-
-    local oldIndex = self:IndexOf(window)
-    try
-    {
-        function ()
-            if oldIndex <= 0 or oldIndex - 1 == index then
-                return
-            end
-
-            table.remove(self.windows, oldIndex)
-            table.insert(self.windows, window)
-        end,
-        finally = function ()
-            if window.Transform then
-                if index == 0 then
-                    window.Transform:SetAsLastSibling()
-                else
-                    local preWindow = self.windows[index]
-                    local preWindowPosition = self:GetChildIndex(preWindow.Transform)
-                    local currWindowPosition = oldIndex > index  and preWindowPosition or preWindowPosition + 1
-                    self.transform:SetSiblingIndex(currWindowPosition)
-                end
-            end
-        end
-    }
-end
-
-function WindowManager:GetChildIndex(child)
-    local transform = self.transform
-    local count = transform.childCount
-    for i = count, 1, -1 do
-        if transform:GetChild(i - 1) == child then
-            return i
-        end
-    end
-    return 0
-end
-
-function WindowManager:AddChild(child, worldPositionStays)
-    if not child or child.parent == self.transform then
-        return
-    end
-
-    child.gameObject.layer = self.gameObject.layer
-    child:SetParent(self.transform, worldPositionStays)
-    child:SetAsFirstSibling()
-end
-
-function WindowManager:RemoveChild(child, worldPositionStays)
-    if not child or child.parent ~= self.transform then
-        return
-    end
-
-    child:SetParent(nil, worldPositionStays)
-end
-
 function WindowManager:Show(window)
-    local transition = ShowTransition(self, window)
+    local transition = TransitionShow(self, window)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.VISIBLE then
-            -- self:MoveToIndex(w, transition.Layer)
         end
     end)
 end
 
 function WindowManager:Hide(window)
-    local transition = HideTransition(self, window, false)
+    local transition = TransitionHide(self, window, false)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
-            -- self:MoveToLast(w)
         end
     end)
 end
 
 function WindowManager:Dismiss(window)
-    local transition = HideTransition(self, window, true)
+    local transition = TransitionHide(self, window, true)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
-            -- self:MoveToLast(w)
         end
     end)
 end
 
-function WindowManager:GetVisibleWindow(index)
-    if not self.windows or #(self.windows) <= 0 then
-        return
-    end
-
-    local currIndex = -1
-    for i, v in ipairs(self.windows) do
-        if index == i - 1 then
-            return v
-        end
-    end
-end
-
 function WindowManager:PushWindowStack(window)
-   table.insert(self.windowStack, window) 
+    if self.Current ~= self.windowStack[1] then
+        local window = table.remove(self.windowStack, #(self.windowStack))
+        window:Hide()
+    end
+    table.insert(self.windowStack, window)
 end
 
 function WindowManager:PopWindowStack()
-    return table.remove(self.windowStack, #(self.windowStack))
+    assert(#(self.windowStack) > 0, "")
+    local window = table.remove(self.windowStack, #(self.windowStack))
+    window:Hide()
+    return self.Current and self.Current:Show()
 end
 
-function WindowManager:GetWindowStackTop()
-    return self.windowStack[#(self.windowStack)]
-end
-
-function WindowManager.Create(name, bundle)
+function WindowManager.Open(name, bundle)
     local window = require(name)
     window(bundle):Create()
 
-    -- if window.windowType == WindowType.NONE then
-    --     self.Current:AddSubView(window)
-    -- elseif window.windowType == WindowType.FULL then
-    --     self:PushWindowStack(window)
-    -- else
-    --     table.insert(self.windowViews, window)
-    -- end
+    if window.windowType == WindowType.NONE then
+        self.Current:AddSubView(window)
+    elseif window.windowType == WindowType.FULL then
+        self:PushWindowStack(window)
+    elseif window.windowType == WindowType.POPUP or window.windowType == WindowType.DIALOG then
+        self.Current:PushOpenView(window)
+    end
+    table.insert(self.windowViews, window)
 
     return window
+end
+
+function WindowManager.Close(name)
+    local window = self:GetWindowView(name)
+    if window.windowType == WindowType.NONE then
+        window:Hide()
+    elseif window.windowType == WindowType.FULL then
+        self:PopWindowStack()
+    elseif window.windowType == WindowType.POPUP or window.windowType == WindowType.DIALOG then
+        self.Current:PopOpenView()
+    end
+end
+
+function WindowManager:GetWindowView(name)
+    table.find(self.windowViews, function (i, v)
+        return v.Name == name
+    end)
+end
+
+function WindowManager:CreateLayers()
+    for i, v in ipairs(layers) do
+        local layer = Layer(v)
+        table.insert(self.layers, layer)
+    end    
+end
+
+function WindowManager:GetLayer(windowType)
+    return table.find(self.layers, function (i, v)
+        return v.WindowType == windowType
+    end)
 end
 
 return WindowManager

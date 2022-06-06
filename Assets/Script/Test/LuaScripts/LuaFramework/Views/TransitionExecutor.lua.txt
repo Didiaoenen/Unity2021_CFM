@@ -1,26 +1,26 @@
-local BlockingCoroutineTransitionExecutor = class("BlockingCoroutineTransitionExecutor")
+local TransitionExecutor = class("TransitionExecutor")
 
-BlockingCoroutineTransitionExecutor.__getter.IsRunning = function (this, k)
+TransitionExecutor.__getter.IsRunning = function (this, k)
     return this.running
 end
 
-BlockingCoroutineTransitionExecutor.__getter.Count = function (this, k)
+TransitionExecutor.__getter.Count = function (this, k)
     return #(this.transitions)
 end
 
-function BlockingCoroutineTransitionExecutor:ctor()
+function TransitionExecutor:ctor()
     self.taskResult = nil
     self.running = false
     self.transitions = {}
 end
 
-function BlockingCoroutineTransitionExecutor:Execute(transition)
+function TransitionExecutor:Execute(transition)
     try
     {
         function ()
-            if transition.__classname == "ShowTransition" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
+            if transition.__classname == "TransitionShow" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
                 local index = table.findlastindex(self.transitions, function (i, v)
-                    return v.__classname == "ShowTransition" and 
+                    return v.__classname == "TransitionShow" and 
                     v.Window.WindowType == WindowType.QUEUED_POPUP and
                     v.Window.WindowManager == transition.Window.WindowManager and
                     v.Window.WindowPriority >= transition.Window.WindowPriority
@@ -31,7 +31,7 @@ function BlockingCoroutineTransitionExecutor:Execute(transition)
                 end
 
                 index = table.findindex(self.transitions, function (i, v)
-                    return v.__classname == "ShowTransition" and
+                    return v.__classname == "TransitionShow" and
                     v.Window.WindowType == WindowType.QUEUED_POPUP and
                     v.Window.WindowManager == transition.Window.WindowManager and
                     v.Window.WindowPriority >= transition.Window.WindowPriority
@@ -54,7 +54,7 @@ function BlockingCoroutineTransitionExecutor:Execute(transition)
     }
 end
 
-function BlockingCoroutineTransitionExecutor:ShutDone()
+function TransitionExecutor:ShutDone()
     if self.taskResult then
         self.taskResult:Cancel()
         self.running = false
@@ -63,7 +63,7 @@ function BlockingCoroutineTransitionExecutor:ShutDone()
     self.transitions = nil
 end
 
-function BlockingCoroutineTransitionExecutor:DoTask()
+function TransitionExecutor:DoTask()
     try
     {
         function ()
@@ -101,8 +101,8 @@ function BlockingCoroutineTransitionExecutor:DoTask()
     }
 end
 
-function BlockingCoroutineTransitionExecutor:Check(transition)
-    if transition.__classname ~= "ShowTransition" then
+function TransitionExecutor:Check(transition)
+    if transition.__classname ~= "TransitionShow" then
         return true
     end
 
@@ -124,4 +124,4 @@ function BlockingCoroutineTransitionExecutor:Check(transition)
     return true
 end
 
-return BlockingCoroutineTransitionExecutor
+return TransitionExecutor

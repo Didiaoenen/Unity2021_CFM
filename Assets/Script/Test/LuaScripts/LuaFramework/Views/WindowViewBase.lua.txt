@@ -1,0 +1,521 @@
+local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
+local BindingExtension = require("LuaFramework/Binding/BindingExtension")
+local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
+local Messenger = require("LuaFramework.Messaging.Messenger")
+
+local ViewModelBase = require("Game/ViewModels/ViewModelBase")
+
+local Canvas = require("LuaFramework.Views.Components.Canvas")
+local CanvasGroup = require("LuaFramework.Views.Components.CanvasGroup")
+local GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
+
+local WindowViewBase = class("WindowViewBase")
+
+WindowViewBase.__getter.Messenger = function (this, k)
+    return this.messenger
+end
+
+WindowViewBase.__setter.ActivatedChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.activatedChanged, v)
+    else
+        for i, value in ipairs(this.activatedChanged) do
+            if v.this == value.this then
+                table.remove(this.activatedChanged, i)
+                break
+            end
+        end
+    end
+end
+
+WindowViewBase.__setter.VisibilityChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.visibilityChanged, v)
+    else
+        for i, value in ipairs(this.visibilityChanged) do
+            if v.this == value.this then
+                table.remove(this.visibilityChanged, i)
+                break
+            end
+        end
+    end
+end
+
+WindowViewBase.__setter.OnDismissed = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.onDismissed, v)
+    else
+        for i, value in ipairs(this.onDismissed) do
+            if v.this == value.this then
+                table.remove(this.onDismissed, i)
+                break
+            end
+        end
+    end
+end
+
+WindowViewBase.__setter.StateChanged = function (this, k, v)
+    if v and v.callback ~= nil then
+        table.insert(this.stateChanged, v)
+    else
+        for i, value in ipairs(this.stateChanged) do
+            if v.this == value.this then
+                table.remove(this.stateChanged, i)
+                break
+            end
+        end
+    end
+end
+
+WindowViewBase.__getter.Created = function (this, k, v)
+    return this.created
+end
+
+WindowViewBase.__getter.Dismissed = function (this, k, v)
+    return this.dismissed
+end
+
+WindowViewBase.__getter.Activated = function (this, k)
+    return this.activated
+end
+
+WindowViewBase.__setter.Activated = function (this, k, v)
+    if v ~= this.activated then
+        this.activated = v
+        this:OnActivatedChanged()
+        this:RaiseActivatedChanged()
+    end
+end
+
+WindowViewBase.__getter.State = function (this, k)
+    return this.state
+end
+
+WindowViewBase.__setter.State = function (this, k, v)
+    if v ~= this.state then
+        local old = this.state
+        this.state = v
+        this:RaiseStateChanged(old, this.state)
+    end
+end
+
+WindowViewBase.__getter.WindowType = function (this, k)
+    return this.windowType
+end
+
+WindowViewBase.__setter.WindowType = function (this, k, v)
+    this.windowType = v
+end
+
+WindowViewBase.__getter.EnterAnimation = function (this, k)
+    return this.enterAnimation
+end
+
+WindowViewBase.__setter.EnterAnimation = function (this, k, v)
+    this.enterAnimation = v
+end
+
+WindowViewBase.__getter.ExitAnimation = function (this, k)
+    return this.exitAnimation
+end
+
+WindowViewBase.__setter.ExitAnimation = function (this, k ,v)
+    this.exitAnimation = v
+end
+
+WindowViewBase.__getter.Name = function (this, k)
+    assert(this.gameObject, "")
+    return this.gameObject.name
+end
+
+WindowViewBase.__setter.Name = function (this, k, v)
+    assert(this.gameObject, "")
+    this.gameObject.name = v
+end
+
+WindowViewBase.__getter.Parent = function (this, k)
+    return this.parent
+end
+
+WindowViewBase.__setter.Parent = function (this, k, v)
+    this.parent = v
+end
+
+WindowViewBase.__getter.Owner = function (this, k)
+    return this.gameObject
+end
+
+WindowViewBase.__setter.Owner = function (this, k, v)
+    this.gameObject = v
+end
+
+WindowViewBase.__getter.Transform = function (this, k)
+    return this.transform
+end
+
+WindowViewBase.__setter.Transform = function (this, k, v)
+    this.transform = v
+end
+
+WindowViewBase.__getter.Visibility = function (this, k)
+    assert(this.gameObject, "")
+    return this.gameObject.activeSelf
+end
+
+WindowViewBase.__setter.Visibility = function (this, k, v)
+    assert(this.gameObject, "")
+    this.gameObject:SetActive(v)
+end
+
+WindowViewBase.__getter.Interactable = function (this, k)
+
+end
+
+WindowViewBase.__setter.Interactable = function (this, k, v)
+
+end
+
+function WindowViewBase:ctor(bundle)
+    self.bundle = bundle
+
+    self.gameObject = nil
+    self.transform = nil
+    self.canvas = nil
+
+    self.messenger = Messenger()
+    self.windowManager = nil
+
+    self.dismissTransition = nil
+    self.enterAnimation = nil
+    self.exitAnimation = nil
+
+    self.mutex = true
+    self.created = false
+    self.dismissed = false
+    self.activated = false
+    self.stateBroadcast = true
+    self.windowType = WindowType.NONE
+    self.state = WindowState.NONE
+    
+    self.activatedChanged = {}
+    self.visibilityChanged = {}
+    self.onDismissed = {}
+    self.stateChanged = {}
+
+    self.binding = nil
+    self.bindingSet = nil
+    self.viewModelBase = nil
+
+    self.components = {}
+
+    --
+    self.parent = table.containskey(bundle, "parent") and bundle.parent
+end
+
+function WindowViewBase:OnEnable()
+    self:RaiseVisibilityChanged()
+end
+
+function WindowViewBase:OnDisable()
+    self:RaiseVisibilityChanged()
+end
+
+function WindowViewBase:SetParent(parent)
+    assert(parent, "")
+    self.parent = parent
+    self.transform:SetParent(parent)
+end
+
+function WindowViewBase:OnActivatedChanged()
+    self.Interactable = self.activated
+end
+
+function WindowViewBase:RaiseActivatedChanged()
+    table.foreach(self.activatedChanged, function (i, v)
+        v.callback(v.this, self)
+    end)
+end
+
+function WindowViewBase:RaiseVisibilityChanged()
+    table.foreach(self.visibilityChanged, function (i, v)
+        v.callback(v.this, self)
+    end)
+end
+
+function WindowViewBase:RaiseOnDismissed()
+    table.foreach(self.onDismissed, function (i, v)
+        v.callback(v.this, self)
+    end)
+end
+
+function WindowViewBase:RaiseStateChanged(oldState, newState)
+    local eventArgs = WindowStateEventArgs(self, oldState, newState)
+    table.foreach(self.stateChanged, function (i, v)
+        v.callback(v.this, self, eventArgs)
+    end)
+end
+
+function WindowViewBase:Activate(ignoreAnimation)
+    local result = AsyncResult()
+
+    if not self.Visibility then
+        return result
+    end
+
+    if self.Activated then
+        result:SetResult()
+        return result
+    end
+
+    if not ignoreAnimation and self.ActivationAnimation then
+        self.ActivationAnimation:OnStart(function ()
+            self.State = WindowState.ACTIVATION_ANIMATION_BEGIN
+        end):OnEnd(function ()
+            self.State = WindowState.ACTIVATION_ANIMATION_END
+            self.Activated = true
+            self.State = WindowState.ACTIVATED
+            result:SetResult()
+        end):Play()
+    else
+        self.Activated = true
+        self.State = WindowState.ACTIVATED
+        result:SetResult()
+    end
+
+    return result
+end
+
+function WindowViewBase:Passivate(ignoreAnimation)
+    local result = AsyncResult()
+
+    if not self.Visibility then
+        return result
+    end
+
+    if not self.Activated then
+        result:SetResult()
+        return result
+    end
+
+    self.Activated = false
+    self.State = WindowState.PASSIVATED
+
+    if not ignoreAnimation and self.ActivationAnimation then
+        self.ActivationAnimation:OnStart(function ()
+            self.State = WindowState.PASSIVATION_ANIMATION_BEGIN
+        end):OnEnd(function ()
+            self.State = WindowState.PASSIVATION_ANIMATION_END
+            result:SetResult()
+        end):Play()
+    else
+        result:SetResult()
+    end
+
+    return result
+end
+
+function WindowViewBase:Create(bundle)
+    if self.dismissTransition or self.dismissed then
+        return
+    end
+
+    if self.created then
+        return
+    end
+    
+    Executors.RunOnCoroutineNoReturn(Coroutine.Ins().GetEnumerator(function ()
+
+        self.State = WindowState.CREATE_BEGIN
+
+        local result = DefaultUIViewLocator.Ins():LoadAsync(self.prefabPath, typeof(CSharpType.GameObject))
+        Coroutine.Ins().Yield(result:WaitForDone())
+        print("加载完成。。。")
+
+        self.Visibility = false
+        self.Interactable = self.Activated
+        self:OnCreate(bundle)
+        self.created = true
+        self.State = WindowState.CREATE_END
+
+        self:Show()
+    end))
+end
+
+function WindowViewBase:OnCreate()
+    print("parent OnCreate")
+
+    self.Owner = result.Result
+    self.Transform = self.Owner.transform
+    self:SetParent(self.Parent or CSharpType.GameObject.Find("GameObject").transform)
+    self.Transform.localRotation = CSharpType.Quaternion.identity
+    self.Transform.localPosition = CSharpType.Vector3.zero
+    self.Transform.localScale = CSharpType.Vector3.one
+
+    local canvas = self:AddComponent(Canvas)
+    local canvasGroup = self:AddComponent(CanvasGroup)
+    self:AddComponent(GraphicRaycaster)
+
+    local layer = WindowManager:GetLayer(self.windowType)
+    assert(layer, "")
+
+    self.viewModelBase = ViewModelBase()
+    self.binding = BindingExtension(self)
+    self.binding.Binder = self.bundle.binder
+    self.bindingSet = self.binding:CreateBindingSetWithContext(self.viewModelBase)
+
+    local builder = self.bindingSet:BindByTarget(canvas.handler)
+    builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
+    
+    local builder = self.bindingSet:BindByTarget(canvas.handler)
+    builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
+
+    local builder = self.bindingSet:BindByTarget(canvasGroup.handler)
+    builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
+
+    --
+    self.viewModelBase.SortingOrder = layer:PushWindowOrder()
+end
+
+function WindowViewBase:Show(ignoreAnimation)
+    if self.dismissTransition or self.dismissed then
+        return
+    end
+
+    if self.Visibility then
+        return
+    end
+
+    return WindowManager:Show(self):DisableAnimation(ignoreAnimation)
+end
+
+function WindowViewBase:DoShow(ignoreAnimation)
+    local result = AsyncResult()
+    local action = function (promise)
+        if not self.created then
+            self:Create()
+        end
+
+        self:OnShow()
+        self.Visibility = true
+        self.State = WindowState.VISIBLE
+        if not ignoreAnimation and self.EnterAnimation then
+            self.EnterAnimation:OnStart(function ()
+                self.State = WindowState.ENTER_ANIMATION_BEGIN
+            end):OnEnd(function ()
+                self.State = WindowState.ENTER_ANIMATION_END
+                promise:SetResult()
+            end):Play()
+        else
+            promise:SetResult()
+        end
+    end
+    action(result)
+    return result
+end
+
+function WindowViewBase:OnShow()
+    print("parent OnShow")
+end
+
+function WindowViewBase:Hide(ignoreAnimation)
+    if not self.created then
+        return
+    end
+
+    if self.dismissed then
+        return
+    end
+
+    if not self.Visibility then
+        return
+    end
+
+    return WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
+end
+
+function WindowViewBase:DoHide(ignoreAnimation)
+    local result = AsyncResult()
+    local action = function (promise)
+        if not ignoreAnimation and self.ExitAnimation then
+            self.ExitAnimation:OnStart(function ()
+                self.State = WindowState.EXIT_ANIMATION_BEGIN
+            end):OnEnd(function ()
+                self.State = WindowState.EXIT_ANIMATION_END
+                self.Visibility = false
+                self.State = WindowState.INVISIBLE
+                self:OnHide()
+                promise:SetResult()
+            end):Play()
+        else
+            self.Visibility = false
+            self.State = WindowState.INVISIBLE
+            self:OnHide()
+            promise:SetResult()
+        end
+    end
+    action(result)
+    return result
+end
+
+function WindowViewBase:OnHide()
+    
+end
+
+function WindowViewBase:Dismiss(ignoreAnimation)
+    if self.dismissTransition then
+        return self.dismissTransition
+    end
+
+    if self.dismissed then
+        return
+    end
+
+    self.dismissTransition = WindowManager:Dismiss(self):DisableAnimation(ignoreAnimation)
+    return self.dismissTransition
+end
+
+function WindowViewBase:DoDismiss()
+    if not self.dismissed then
+        assert(self.gameObject, "")
+        self.State = WindowState.DISMISS_BEGIN
+        self.dismissed = true
+        self:OnDismiss()
+        self:RaiseOnDismissed()
+        CSharpType.Object.Destroy(self.gameObject)
+        self.State = WindowState.DISMISS_END
+        self.dismissTransition = nil
+    end
+end
+
+function WindowViewBase:OnDismiss()
+    
+end
+
+function WindowViewBase:OnDestroy()
+    if not self.dismissed and not self.dismissTransition then
+        self:Dismiss(true)
+    end
+    
+    local layer = WindowManager:GetLayer(self.windowType)
+    layer:PopWindowOder()
+end
+
+function WindowViewBase:GetComponent(cType, name)
+    local component = self.variables(cType, name)
+    table.insert(self.components, component)
+    return component
+end
+
+function WindowViewBase:AddComponent(component)
+    assert(self.gameObject, "")
+    return component(self.gameObject:AddComponent(typeof(component.CSharpType)))
+end
+
+function WindowViewBase:Destroy()
+    table.foreach(self.components, function (i, v)
+        v:Destroy()
+    end)
+    self.components = nil
+end
+
+return WindowViewBase

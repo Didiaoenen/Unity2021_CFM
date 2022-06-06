@@ -177,9 +177,9 @@ function split(str, sep)
 end
 
 function table.foreach(t, callback)
-    for k, v in pairs(t) do
+    for i, v in ipairs(t) do
         if callback then
-            callback(k, v)
+            callback(i, v)
         end
     end
 end

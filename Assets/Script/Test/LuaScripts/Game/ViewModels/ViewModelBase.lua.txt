@@ -2,9 +2,25 @@ local ObservableObject = require("LuaFramework/Observables/ObservableObject")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject)
 
+ViewModelBase.__setter.OverrideSorting = function (this, k, v)
+    this:Set({name = "overrideSorting"}, v, "OverrideSorting")
+end
+
+ViewModelBase.__setter.SortingOrder = function (this, k, v)
+    this:Set({name = "sortingOrder"}, v, "SortingOrder")
+end
+
+ViewModelBase.__setter.Alpha = function (this, k, v)
+    this:Set({name = "alpha"}, v, "Alpha")
+end
+
 function ViewModelBase:ctor(messenger)
     self.super:ctor()
     self.messenger = messenger
+
+    self.overrideSorting = true
+    self.sortingOrder = 0
+    self.alpha = 1
 end
 
 function ViewModelBase:SetWithBroadCast(field, newValue, propertyName, broadcast)

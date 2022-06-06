@@ -1,0 +1,13 @@
+local Component = require("LuaFramework.Views.Components.Component")
+
+local CanvasGroup = class("CanvasGroup", Component)
+
+CanvasGroup.CSharpType = CSharpType.CanvasGroup
+
+CanvasGroup.Alpha = "alpha"
+
+function CanvasGroup:ctor(handler)
+    self.super:ctor(handler)
+end
+
+return CanvasGroup

@@ -1,14 +1,14 @@
 local Layer = class("Layer")
 
-Layer.__getter.Name = function (this, k)
-    return this.name
+Layer.__getter.WindowType = function (this, k)
+    return this.windowType
 end
 
 function Layer:ctor(data)
     assert(data, "")
-    self.name = data.Name
-    self.orderStep = data.orderStep
+    self.windowType = data.WindowType
     self.orderInLayer = data.OrderInLayer
+    self.orderStep = data.OrderStep
 
     self.maxOrder = self.orderInLayer
     self.minOrder = self.orderInLayer

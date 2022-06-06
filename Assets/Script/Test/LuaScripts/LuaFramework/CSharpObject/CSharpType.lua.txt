@@ -4,6 +4,7 @@ CSharpType = {
     Canvas = CS.UnityEngine.Canvas,
     Resources = CS.UnityEngine.Resources,
     Transform = CS.UnityEngine.Transform,
+    Component = CS.UnityEngine.Component,
     GameObject = CS.UnityEngine.GameObject,
     CanvasGroup = CS.UnityEngine.CanvasGroup,
     WaitForSeconds = CS.UnityEngine.WaitForSeconds,

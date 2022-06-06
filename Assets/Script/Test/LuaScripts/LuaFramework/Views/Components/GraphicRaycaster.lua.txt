@@ -1,0 +1,11 @@
+local Component = require("LuaFramework.Views.Components.Component")
+
+local GraphicRaycaster = class("GraphicRaycaster", Component)
+
+GraphicRaycaster.CSharpType = CSharpType.GraphicRaycaster
+
+function GraphicRaycaster:ctor(handler)
+    self.super:ctor(handler)
+end
+
+return GraphicRaycaster

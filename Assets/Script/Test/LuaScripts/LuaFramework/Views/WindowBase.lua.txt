@@ -1,0 +1,69 @@
+local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
+
+local WindowBase = class("WindowBase", WindowViewBase)
+
+WindowBase.__getter.Current = function (this, k)
+    return this.viewStack[#(this.viewStack)]
+end
+
+function WindowBase:ctor(bundle)
+    self.super:ctor(bundle)
+
+    self.subView = {}
+    self.viewStack = {}
+
+    self.windowType = WindowType.FULL
+end
+
+function WindowBase:OnEnable()
+    self.super:OnEnable()
+end
+
+function WindowBase:OnDisable()
+    self.super:OnDisable()
+end
+
+function WindowBase:OnShow()
+    table.foreach(self.subView, function (i, v)
+        v:OnShow()
+    end)
+end
+
+function WindowBase:OnHide()
+    table.foreach(self.subView, function (i, v)
+        v:OnHide()
+    end)
+end
+
+function WindowBase:CreateSubView(name, bundle)
+    assert(name, "")
+    return self.WindowManager.Open(name, bundle)
+end
+
+function WindowBase:AddSubView(view)
+    table.insert(self.subView, view)
+end
+
+function WindowBase:PushOpenView(view)
+    if view.WindowType == self.Current.WindowType and view.Mutex then
+        local view = table.remove(self.viewStack, #(self.viewStack))
+        view:Hide()
+    end
+    table.insert(self.viewStack, view)
+end
+
+function WindowBase:PopOpenView()
+    assert(#(self.viewStack) > 0)
+    local view = table.remove(self.viewStack, #(self.viewStack))
+    view:Hide()
+    return self.Current and self.Current:Show()
+end
+
+function WindowBase:Destroy()
+    table.foreach(self.subView, function (i, v)
+        v:Destroy()
+    end)
+    self.subView = nil
+end
+
+return WindowBase
