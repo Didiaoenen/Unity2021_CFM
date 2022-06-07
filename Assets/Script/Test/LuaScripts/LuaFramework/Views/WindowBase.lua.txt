@@ -59,9 +59,9 @@ function WindowBase:PopOpenView()
     return self.Current and self.Current:Show()
 end
 
-function WindowBase:OnDestroy()
+function WindowBase:dtor()
     table.foreach(self.subView, function (i, v)
-        v:OnDestroy()
+        v:delete()
     end)
     self.subView = nil
 end

@@ -15,7 +15,7 @@ function BindingSet:Bind()
 end
 
 function BindingSet:BindByTarget(target)
-    local builder = BindingBuilder(self.context, target)
+    local builder = BindingBuilder.new(self.context, target)
     table.insert(self.builders, builder)
     return builder
 end

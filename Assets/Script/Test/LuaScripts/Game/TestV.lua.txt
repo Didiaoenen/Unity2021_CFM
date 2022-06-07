@@ -9,8 +9,8 @@ TestV.PrefabPath = "TestV"
 function TestV:ctor(bundle)
     WindowBase.ctor(self, bundle)
 
-    self.viewModel = TestVM()
-    self.bindingExt = BindingExtension(self)
+    self.viewModel = TestVM.new()
+    self.bindingExt = BindingExtension.new(self)
     self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.testVM)
     -- local builder = set:Bind()
     -- builder:For("TestFunc"):To("TestRequest")

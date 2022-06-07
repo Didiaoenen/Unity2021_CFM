@@ -1,4 +1,3 @@
-local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
 local Transition = require("LuaFramework.Views.Transition")
 
 local TransitionShow = class("TransitionShow", Transition)

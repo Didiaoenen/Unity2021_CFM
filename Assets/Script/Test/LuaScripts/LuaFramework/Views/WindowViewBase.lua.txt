@@ -1,6 +1,7 @@
-local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 
-local ViewModelBase = require("Game.ViewModels.ViewModelBase")
+local Messenger = require("LuaFramework.Messaging.Messenger")
+local ViewModelBase = require("LuaFramework.Views.ViewModelBase")
+local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 
 local WindowViewBase = class("WindowViewBase")
 
@@ -62,10 +63,6 @@ function WindowViewBase.get:WindowType()
     return self.windowType
 end
 
-function WindowViewBase.set:WindowType(value)
-    self.windowType = value
-end
-
 function WindowViewBase.get:EnterAnimation()
     return self.enterAnimation
 end
@@ -87,43 +84,24 @@ function WindowViewBase.get:Name()
     return self.gameObject.name
 end
 
-function WindowViewBase.set:Name(value)
-    assert(self.gameObject, "")
-    self.gameObject.name = value
-end
-
 function WindowViewBase.get:Parent()
     return self.parent
-end
-
-function WindowViewBase.set:Parent(value)
-    self.parent = value
 end
 
 function WindowViewBase.get:Owner()
     return self.gameObject
 end
 
-function WindowViewBase.set:Owner(value)
-    self.gameObject = value
-end
-
 function WindowViewBase.get:Transform()
     return self.transform
 end
 
-function WindowViewBase.set:Transform(value)
-    self.transform = value
-end
-
 function WindowViewBase.get:Visibility()
-    assert(self.gameObject, "")
-    return self.gameObject.activeSelf
+
 end
 
 function WindowViewBase.set:Visibility(value)
-    assert(self.gameObject, "")
-    self.gameObject:SetActive(value)
+
 end
 
 function WindowViewBase.get:Interactable()
@@ -137,7 +115,7 @@ end
 function WindowViewBase:ctor(bundle)
     self.bundle = bundle
 
-    self.messenger = Messenger()
+    self.messenger = Messenger.new()
 
     self.gameObject = nil
     self.transform = nil
@@ -206,14 +184,14 @@ function WindowViewBase:RaiseOnDismissed()
 end
 
 function WindowViewBase:RaiseStateChanged(oldState, newState)
-    local eventArgs = WindowStateEventArgs(self, oldState, newState)
+    local eventArgs = WindowStateEventArgs.new(self, oldState, newState)
     table.foreach(self.stateChanged, function (i, v)
         v.callback(v.self, self, eventArgs)
     end)
 end
 
 function WindowViewBase:Activate(ignoreAnimation)
-    local result = AsyncResult()
+    local result = AsyncResult.new()
 
     if not self.Visibility then
         return result
@@ -243,7 +221,7 @@ function WindowViewBase:Activate(ignoreAnimation)
 end
 
 function WindowViewBase:Passivate(ignoreAnimation)
-    local result = AsyncResult()
+    local result = AsyncResult.new()
 
     if not self.Visibility then
         return result
@@ -280,7 +258,7 @@ function WindowViewBase:Create()
         return
     end
     
-    Executors.RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
+    Executors:RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
 
         self.State = WindowState.CREATE_BEGIN
 
@@ -343,7 +321,7 @@ function WindowViewBase:Show(ignoreAnimation)
 end
 
 function WindowViewBase:DoShow(ignoreAnimation)
-    local result = AsyncResult()
+    local result = AsyncResult.new()
     local action = function (promise)
         if not self.created then
             self:Create()
@@ -388,7 +366,7 @@ function WindowViewBase:Hide(ignoreAnimation)
 end
 
 function WindowViewBase:DoHide(ignoreAnimation)
-    local result = AsyncResult()
+    local result = AsyncResult.new()
     local action = function (promise)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
@@ -445,7 +423,18 @@ function WindowViewBase:OnDismiss()
     
 end
 
-function WindowViewBase:OnDestroy()
+function WindowViewBase:GetComponent(cType, name)
+    local component = self.variables(cType, name)
+    table.insert(self.components, component)
+    return component
+end
+
+function WindowViewBase:AddComponent(component)
+    assert(self.gameObject, "")
+    return component.new(self.gameObject:AddComponent(typeof(component.CSharpType)))
+end
+
+function WindowViewBase:dtor()
     if not self.dismissed and not self.dismissTransition then
         self:Dismiss(true)
     end
@@ -457,17 +446,6 @@ function WindowViewBase:OnDestroy()
 
     local layer = WindowManager:GetLayer(self.windowType)
     layer:PopWindowOder()
-end
-
-function WindowViewBase:GetComponent(cType, name)
-    local component = self.variables(cType, name)
-    table.insert(self.components, component)
-    return component
-end
-
-function WindowViewBase:AddComponent(component)
-    assert(self.gameObject, "")
-    return component(self.gameObject:AddComponent(typeof(component.CSharpType)))
 end
 
 return WindowViewBase

@@ -6,6 +6,10 @@ function Coroutine:ctor()
     
 end
 
+function Coroutine:__singleton()
+    return Coroutine.new()
+end
+
 function Coroutine.GetEnumerator(callback)
     return util.cs_generator(function() 
         if callback then
@@ -20,10 +24,6 @@ end
 
 function Coroutine.Wait(time)
     coroutine.yield(CSharpType.WaitForSeconds(time))
-end
-
-function Coroutine:__singleton()
-    return Coroutine.new()
 end
 
 function Coroutine:dtor()

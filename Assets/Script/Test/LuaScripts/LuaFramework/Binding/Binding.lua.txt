@@ -55,9 +55,10 @@ function Binding:IsSubscribeTargetValueChanged(bindingMode)
 end
 
 function Binding:DisposeTargetProxy()
-    assert(self.targetProxy, "")
-    self.targetProxy:Dispose() 
-    self.targetProxy = nil
+    if self.targetProxy then
+        self.targetProxy:Dispose() 
+        self.targetProxy = nil
+    end 
 end
 
 function Binding:CreateSourceProxy(source, description)
@@ -85,13 +86,14 @@ function Binding:IsSubscribeSourceValueChanged(bindingMode)
 end
 
 function Binding:DisposeSourceProxy()
-    assert(self.sourceProxy, "")
-    self.sourceProxy:Dispose() 
-    self.sourceProxy = nil
+    if self.sourceProxy then
+        self.sourceProxy:Dispose() 
+        self.sourceProxy = nil
+    end 
 end
 
 function Binding:UpdateTargetFromSource()
-    Executors.RunOnMainThread(function ()
+    Executors:RunOnMainThread(function ()
         local value = self.sourceProxy:GetValue()
         self:SetTargetValue(self.targetProxy, value);
     end)

@@ -12,12 +12,12 @@ function UnityProxyRegister:Initialize()
     }
 end
 
-function UnityProxyRegister:Get(memberInfo)
-    return self.registerProxies[memberInfo]
-end
-
 function UnityProxyRegister:__singleton()
     return UnityProxyRegister.new()
+end
+
+function UnityProxyRegister:Get(memberInfo)
+    return self.registerProxies[memberInfo]
 end
 
 function UnityProxyRegister:dtor()

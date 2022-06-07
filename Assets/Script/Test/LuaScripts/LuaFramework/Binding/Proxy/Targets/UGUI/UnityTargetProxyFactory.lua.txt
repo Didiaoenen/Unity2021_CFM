@@ -10,7 +10,7 @@ end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    assert(memberInfo, "")
+    assert(memberInfo ~= nil, "")
 
     local updateTrigger = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then

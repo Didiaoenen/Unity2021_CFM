@@ -13,17 +13,17 @@ end
 
 function UniversalTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    assert(memberInfo, "")
+    assert(memberInfo ~= nil, "")
 
     if type(memberInfo) == "function" then
-        return MethodTargetProxy(target, description.TargetName)
+        return MethodTargetProxy.new(target, description.TargetName)
     elseif type(memberInfo) == "userdata" then
-        return PropertyTargetProxy(target, description.TargetName)
+        return PropertyTargetProxy.new(target, description.TargetName)
     else
         if type(memberInfo) == "table" then
 
         end
-        return PropertyTargetProxy(target, description.TargetName)
+        return PropertyTargetProxy.new(target, description.TargetName)
     end
 end
 

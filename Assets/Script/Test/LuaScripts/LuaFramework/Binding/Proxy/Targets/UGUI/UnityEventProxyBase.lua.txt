@@ -71,7 +71,7 @@ function UnityEventProxyBase:SetValue(value)
 end
 
 function UnityEventProxyBase:OnCanExecuteChanged(sender, e)
-    Executors.RunOnMainThread(function ()
+    Executors:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)
 end

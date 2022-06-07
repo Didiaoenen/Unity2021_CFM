@@ -1,0 +1,31 @@
+local Executors = class("Executors")
+
+function Executors:ctor()
+    self.csharp = CSharpType.Execution.Executors
+end
+
+function Executors:__singleton()
+    return Executors.new()
+end
+
+function Executors:WaitWhile(callback)
+    return self.csharp.WaitWhile(callback)
+end
+
+function Executors:RunOnMainThread(callback)
+    self.csharp.RunOnMainThread(callback)
+end
+
+function Executors:RunOnCoroutine(callback)
+    return self.csharp.RunOnCoroutine(callback)
+end
+
+function Executors:RunOnCoroutineNoReturn(callback)
+    self.csharp.RunOnCoroutineNoReturn(callback)
+end
+
+function Executors:dtor()
+    
+end
+
+return Executors

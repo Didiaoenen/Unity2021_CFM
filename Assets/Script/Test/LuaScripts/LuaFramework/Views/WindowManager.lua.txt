@@ -18,7 +18,7 @@ local blockingExecutor = nil
 
 local GetTransitionExecutor = function ()
     if not blockingExecutor then
-        blockingExecutor = TransitionExecutor()
+        blockingExecutor = TransitionExecutor.new()
     end
     return blockingExecutor
 end
@@ -38,6 +38,10 @@ function WindowManager:ctor()
     self:CreateLayers()
 end
 
+function WindowManager:__singleton()
+    return WindowManager.new()
+end
+
 function WindowManager:OnEnable()
 
 end
@@ -46,12 +50,8 @@ function WindowManager:OnDisable()
 
 end
 
-function WindowManager:OnDestroy()
-
-end
-
 function WindowManager:Show(window)
-    local transition = TransitionShow(self, window)
+    local transition = TransitionShow.new(self, window)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.VISIBLE then
@@ -60,7 +60,7 @@ function WindowManager:Show(window)
 end
 
 function WindowManager:Hide(window)
-    local transition = TransitionHide(self, window, false)
+    local transition = TransitionHide.new(self, window, false)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
@@ -69,7 +69,7 @@ function WindowManager:Hide(window)
 end
 
 function WindowManager:Dismiss(window)
-    local transition = TransitionHide(self, window, true)
+    local transition = TransitionHide.new(self, window, true)
     GetTransitionExecutor():Execute(transition)
     return transition:OnStateChanged(function (w, state)
         if state == WindowState.INVISIBLE then
@@ -94,7 +94,7 @@ end
 
 function WindowManager:Open(name, bundle)
     local window = require(name)
-    window(bundle):Create()
+    window.new(bundle):Create()
 
     if window.windowType == WindowType.NONE then
         self.Current:AddSubView(window)
@@ -126,20 +126,16 @@ function WindowManager:GetWindowView(name)
 end
 
 function WindowManager:CreateLayers()
-    for i, v in ipairs(layers) do
-        local layer = Layer(v)
+    table.foreach(layers, function (i, v)
+        local layer = Layer.new(v)
         table.insert(self.layers, layer)
-    end    
+    end)
 end
 
 function WindowManager:GetLayer(windowType)
     return table.find(self.layers, function (i, v)
         return v.WindowType == windowType
     end)
-end
-
-function WindowManager:__singleton()
-    return WindowManager.new()
 end
 
 function WindowManager:dtor()

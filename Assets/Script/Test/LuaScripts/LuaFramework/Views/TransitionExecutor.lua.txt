@@ -46,7 +46,7 @@ function TransitionExecutor:Execute(transition)
         end,
         finally = function ()
             if not self.running then
-                self.taskResult = Executors.RunOnCoroutine(Coroutine.GetEnumerator(function ()
+                self.taskResult = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
                     self:DoTask()
                 end))
             end
@@ -75,7 +75,7 @@ function TransitionExecutor:DoTask()
                 end)
                 if transition then
                     table.removeobj(self.transitions, transition)
-                    local result = Executors.RunOnCoroutine(Coroutine.GetEnumerator(function ()
+                    local result = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
                         transition:TransitionTask()
                     end))
                     Coroutine.Yield(result:WaitForDone())
