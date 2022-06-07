@@ -13,10 +13,7 @@ end
 
 function UniversalTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    if not memberInfo then
-        error("")
-        return
-    end
+    assert(memberInfo, "")
 
     if type(memberInfo) == "function" then
         return MethodTargetProxy(target, description.TargetName)
@@ -28,6 +25,10 @@ function UniversalTargetProxyFactory:CreateProxy(target, description)
         end
         return PropertyTargetProxy(target, description.TargetName)
     end
+end
+
+function UniversalTargetProxyFactory:dtor()
+    
 end
 
 return UniversalTargetProxyFactory

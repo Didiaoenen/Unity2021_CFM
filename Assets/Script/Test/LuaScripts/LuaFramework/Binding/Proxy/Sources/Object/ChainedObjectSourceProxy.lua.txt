@@ -8,32 +8,21 @@ function ChainedObjectSourceProxy:ctor(source, path, factory)
 end
 
 function ChainedObjectSourceProxy:Bind(source, path)
+    assert(path, "")
     local index = path.Index
     local proxy = self.factory:Create(source, path)
-    if not path then
-        error("")
-        return
-    end
 
     local entry = ProxyEntry(proxy, path)
     self.proxies[index] = entry
     if path:HasNext() then
-        if proxy:GetName() == "INotifiable" then
+        if proxy.__name == "INotifiable" then
             entry.Handler = function (sender, args)
-                try
-                {
-                    function ()
-                        local proxyEntry = self.proxies[index]
-                        if not proxyEntry or sender ~= proxyEntry.Proxy then
-                            return
-                        end
+                local proxyEntry = self.proxies[index]
+                if not proxyEntry or sender ~= proxyEntry.Proxy then
+                    return
+                end
 
-                        self:Rebind(index)
-                    end,
-                    catch = function ()
-                        
-                    end
-                }
+                self:Rebind(index)
             end
         end
 
@@ -44,7 +33,7 @@ function ChainedObjectSourceProxy:Bind(source, path)
             self:RaiseValueChanged()
         end
     else
-        if proxy:GetName() == "INotifiable" then
+        if proxy.__name == "INotifiable" then
             entry.Handler = function (sender, args)
                 self:RaiseValueChanged()
             end
@@ -60,7 +49,7 @@ function ChainedObjectSourceProxy:Unbind()
     
 end
 
-function ChainedObjectSourceProxy:Dispose()
+function ChainedObjectSourceProxy:dtor()
     
 end
 

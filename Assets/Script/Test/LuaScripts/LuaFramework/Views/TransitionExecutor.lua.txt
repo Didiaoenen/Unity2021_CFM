@@ -1,11 +1,11 @@
 local TransitionExecutor = class("TransitionExecutor")
 
-TransitionExecutor.__getter.IsRunning = function (this, k)
-    return this.running
+function TransitionExecutor.get:IsRunning()
+    return self.running
 end
 
-TransitionExecutor.__getter.Count = function (this, k)
-    return #(this.transitions)
+function TransitionExecutor.get:Count()
+    return #(self.transitions)
 end
 
 function TransitionExecutor:ctor()
@@ -18,9 +18,9 @@ function TransitionExecutor:Execute(transition)
     try
     {
         function ()
-            if transition.__classname == "TransitionShow" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
+            if transition.__name == "TransitionShow" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
                 local index = table.findlastindex(self.transitions, function (i, v)
-                    return v.__classname == "TransitionShow" and 
+                    return v.__name == "TransitionShow" and 
                     v.Window.WindowType == WindowType.QUEUED_POPUP and
                     v.Window.WindowManager == transition.Window.WindowManager and
                     v.Window.WindowPriority >= transition.Window.WindowPriority
@@ -31,7 +31,7 @@ function TransitionExecutor:Execute(transition)
                 end
 
                 index = table.findindex(self.transitions, function (i, v)
-                    return v.__classname == "TransitionShow" and
+                    return v.__name == "TransitionShow" and
                     v.Window.WindowType == WindowType.QUEUED_POPUP and
                     v.Window.WindowManager == transition.Window.WindowManager and
                     v.Window.WindowPriority >= transition.Window.WindowPriority
@@ -102,7 +102,7 @@ function TransitionExecutor:DoTask()
 end
 
 function TransitionExecutor:Check(transition)
-    if transition.__classname ~= "TransitionShow" then
+    if transition.__name ~= "TransitionShow" then
         return true
     end
 
@@ -122,6 +122,10 @@ function TransitionExecutor:Check(transition)
     end
 
     return true
+end
+
+function TransitionExecutor:dtor()
+    
 end
 
 return TransitionExecutor

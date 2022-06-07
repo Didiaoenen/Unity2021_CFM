@@ -4,12 +4,12 @@ local BindingBuilder = require("LuaFramework.Binding.Builder.BindingBuilder")
 local BindingSet = class("BindingSet", BindingSetBase)
 
 function BindingSet:ctor(context, target)
-    self.super:ctor(context)
+    BindingSetBase.ctor(self, context)
     self.target = target
 end
 
 function BindingSet:Bind()
-    local builder = BindingBuilder(self.context, self.target)
+    local builder = BindingBuilder.new(self.context, self.target)
     table.insert(self.builders, builder)
     return builder
 end
@@ -18,6 +18,10 @@ function BindingSet:BindByTarget(target)
     local builder = BindingBuilder(self.context, target)
     table.insert(self.builders, builder)
     return builder
+end
+
+function BindingSet:dtor()
+
 end
 
 return BindingSet

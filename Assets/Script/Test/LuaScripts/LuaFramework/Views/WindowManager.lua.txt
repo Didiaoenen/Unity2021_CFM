@@ -5,12 +5,6 @@ local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local WindowManager = class("WindowManager")
 
--- private
-
-local instance = nil
-
-local blockingExecutor = nil
-
 local layers = {
 	{WindowType = WindowType.NONE, OrderInLayer = 0, OrderStep = 10},
 	{WindowType = WindowType.FULL, OrderInLayer = 1000, OrderStep = 10},
@@ -20,6 +14,8 @@ local layers = {
 	{WindowType = WindowType.QUEUED_POPUP, OrderInLayer = 5000, OrderStep = 10},
 }
 
+local blockingExecutor = nil
+
 local GetTransitionExecutor = function ()
     if not blockingExecutor then
         blockingExecutor = TransitionExecutor()
@@ -27,18 +23,8 @@ local GetTransitionExecutor = function ()
     return blockingExecutor
 end
 
--- public
-WindowManager.Instance = function ()
-    if not instance then
-        instance = WindowManager()
-        instance:ctor()
-        return instance
-    end
-    return instance
-end
-
-WindowManager.__getter.Current = function (this, k)
-    return this.windowStack[#(this.windowStack)]
+function WindowManager.get:Current()
+    return self.windowStack[#(self.windowStack)]
 end
 
 function WindowManager:ctor()
@@ -106,7 +92,7 @@ function WindowManager:PopWindowStack()
     return self.Current and self.Current:Show()
 end
 
-function WindowManager.Open(name, bundle)
+function WindowManager:Open(name, bundle)
     local window = require(name)
     window(bundle):Create()
 
@@ -122,7 +108,7 @@ function WindowManager.Open(name, bundle)
     return window
 end
 
-function WindowManager.Close(name)
+function WindowManager:Close(name)
     local window = self:GetWindowView(name)
     if window.windowType == WindowType.NONE then
         window:Hide()
@@ -150,6 +136,14 @@ function WindowManager:GetLayer(windowType)
     return table.find(self.layers, function (i, v)
         return v.WindowType == windowType
     end)
+end
+
+function WindowManager:__singleton()
+    return WindowManager.new()
+end
+
+function WindowManager:dtor()
+    
 end
 
 return WindowManager

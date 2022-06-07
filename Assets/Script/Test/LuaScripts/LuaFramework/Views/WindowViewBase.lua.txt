@@ -6,167 +6,131 @@ local WindowViewBase = class("WindowViewBase")
 
 WindowViewBase.PrefabPath = ""
 
-WindowViewBase.__getter.Messenger = function (this, k)
-    return this.messenger
+function WindowViewBase.get:Messenger()
+    return self.messenger
 end
 
-WindowViewBase.__setter.ActivatedChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.activatedChanged, v)
-    else
-        for i, value in ipairs(this.activatedChanged) do
-            if v.this == value.this then
-                table.remove(this.activatedChanged, i)
-                break
-            end
-        end
+function WindowViewBase.set:ActivatedChanged(value)
+    setcallback(self.activatedChanged, value)
+end
+
+function WindowViewBase.set:VisibilityChanged(value)
+    setcallback(self.visibilityChanged, value)
+end
+
+function WindowViewBase.set:OnDismissed(value)
+    setcallback(self.onDismissed, value)
+end
+
+function WindowViewBase.set:StateChanged(value)
+    setcallback(self.stateChanged, value)
+end
+
+function WindowViewBase.get:Created(value)
+    return self.created
+end
+
+function WindowViewBase.get:Dismissed(value)
+    return self.dismissed
+end
+
+function WindowViewBase.get:Activated()
+    return self.activated
+end
+
+function WindowViewBase.set:Activated(value)
+    if value ~= self.activated then
+        self.activated = value
+        self:OnActivatedChanged()
+        self:RaiseActivatedChanged()
     end
 end
 
-WindowViewBase.__setter.VisibilityChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.visibilityChanged, v)
-    else
-        for i, value in ipairs(this.visibilityChanged) do
-            if v.this == value.this then
-                table.remove(this.visibilityChanged, i)
-                break
-            end
-        end
+function WindowViewBase.get:State()
+    return self.state
+end
+
+function WindowViewBase.set:State(value)
+    if value ~= self.state then
+        local old = self.state
+        self.state = value
+        self:RaiseStateChanged(old, self.state)
     end
 end
 
-WindowViewBase.__setter.OnDismissed = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.onDismissed, v)
-    else
-        for i, value in ipairs(this.onDismissed) do
-            if v.this == value.this then
-                table.remove(this.onDismissed, i)
-                break
-            end
-        end
-    end
+function WindowViewBase.get:WindowType()
+    return self.windowType
 end
 
-WindowViewBase.__setter.StateChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.stateChanged, v)
-    else
-        for i, value in ipairs(this.stateChanged) do
-            if v.this == value.this then
-                table.remove(this.stateChanged, i)
-                break
-            end
-        end
-    end
+function WindowViewBase.set:WindowType(value)
+    self.windowType = value
 end
 
-WindowViewBase.__getter.Created = function (this, k, v)
-    return this.created
+function WindowViewBase.get:EnterAnimation()
+    return self.enterAnimation
 end
 
-WindowViewBase.__getter.Dismissed = function (this, k, v)
-    return this.dismissed
+function WindowViewBase.set:EnterAnimation(value)
+    self.enterAnimation = value
 end
 
-WindowViewBase.__getter.Activated = function (this, k)
-    return this.activated
+function WindowViewBase.get:ExitAnimation()
+    return self.exitAnimation
 end
 
-WindowViewBase.__setter.Activated = function (this, k, v)
-    if v ~= this.activated then
-        this.activated = v
-        this:OnActivatedChanged()
-        this:RaiseActivatedChanged()
-    end
+function WindowViewBase.set:ExitAnimation(value)
+    self.exitAnimation = value
 end
 
-WindowViewBase.__getter.State = function (this, k)
-    return this.state
+function WindowViewBase.get:Name()
+    assert(self.gameObject, "")
+    return self.gameObject.name
 end
 
-WindowViewBase.__setter.State = function (this, k, v)
-    if v ~= this.state then
-        local old = this.state
-        this.state = v
-        this:RaiseStateChanged(old, this.state)
-    end
+function WindowViewBase.set:Name(value)
+    assert(self.gameObject, "")
+    self.gameObject.name = value
 end
 
-WindowViewBase.__getter.WindowType = function (this, k)
-    return this.windowType
+function WindowViewBase.get:Parent()
+    return self.parent
 end
 
-WindowViewBase.__setter.WindowType = function (this, k, v)
-    this.windowType = v
+function WindowViewBase.set:Parent(value)
+    self.parent = value
 end
 
-WindowViewBase.__getter.EnterAnimation = function (this, k)
-    return this.enterAnimation
+function WindowViewBase.get:Owner()
+    return self.gameObject
 end
 
-WindowViewBase.__setter.EnterAnimation = function (this, k, v)
-    this.enterAnimation = v
+function WindowViewBase.set:Owner(value)
+    self.gameObject = value
 end
 
-WindowViewBase.__getter.ExitAnimation = function (this, k)
-    return this.exitAnimation
+function WindowViewBase.get:Transform()
+    return self.transform
 end
 
-WindowViewBase.__setter.ExitAnimation = function (this, k ,v)
-    this.exitAnimation = v
+function WindowViewBase.set:Transform(value)
+    self.transform = value
 end
 
-WindowViewBase.__getter.Name = function (this, k)
-    assert(this.gameObject, "")
-    return this.gameObject.name
+function WindowViewBase.get:Visibility()
+    assert(self.gameObject, "")
+    return self.gameObject.activeSelf
 end
 
-WindowViewBase.__setter.Name = function (this, k, v)
-    assert(this.gameObject, "")
-    this.gameObject.name = v
+function WindowViewBase.set:Visibility(value)
+    assert(self.gameObject, "")
+    self.gameObject:SetActive(value)
 end
 
-WindowViewBase.__getter.Parent = function (this, k)
-    return this.parent
-end
-
-WindowViewBase.__setter.Parent = function (this, k, v)
-    this.parent = v
-end
-
-WindowViewBase.__getter.Owner = function (this, k)
-    return this.gameObject
-end
-
-WindowViewBase.__setter.Owner = function (this, k, v)
-    this.gameObject = v
-end
-
-WindowViewBase.__getter.Transform = function (this, k)
-    return this.transform
-end
-
-WindowViewBase.__setter.Transform = function (this, k, v)
-    this.transform = v
-end
-
-WindowViewBase.__getter.Visibility = function (this, k)
-    assert(this.gameObject, "")
-    return this.gameObject.activeSelf
-end
-
-WindowViewBase.__setter.Visibility = function (this, k, v)
-    assert(this.gameObject, "")
-    this.gameObject:SetActive(v)
-end
-
-WindowViewBase.__getter.Interactable = function (this, k)
+function WindowViewBase.get:Interactable()
 
 end
 
-WindowViewBase.__setter.Interactable = function (this, k, v)
+function WindowViewBase.set:Interactable(value)
 
 end
 
@@ -195,14 +159,14 @@ function WindowViewBase:ctor(bundle)
     self.onDismissed = {}
     self.stateChanged = {}
 
-    self.binding = nil
+    self.viewModel = nil
+    self.bindingExt = nil
     self.bindingSet = nil
-    self.viewModelBase = nil
 
     self.components = {}
 
     --
-    self.parent = table.containskey(bundle, "parent") and bundle.parent
+    -- self.parent = table.containskey(bundle, "parent") and bundle.parent
 end
 
 function WindowViewBase:OnEnable()
@@ -225,26 +189,26 @@ end
 
 function WindowViewBase:RaiseActivatedChanged()
     table.foreach(self.activatedChanged, function (i, v)
-        v.callback(v.this, self)
+        v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseVisibilityChanged()
     table.foreach(self.visibilityChanged, function (i, v)
-        v.callback(v.this, self)
+        v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseOnDismissed()
     table.foreach(self.onDismissed, function (i, v)
-        v.callback(v.this, self)
+        v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseStateChanged(oldState, newState)
     local eventArgs = WindowStateEventArgs(self, oldState, newState)
     table.foreach(self.stateChanged, function (i, v)
-        v.callback(v.this, self, eventArgs)
+        v.callback(v.self, self, eventArgs)
     end)
 end
 
@@ -307,7 +271,7 @@ function WindowViewBase:Passivate(ignoreAnimation)
     return result
 end
 
-function WindowViewBase:Create(bundle)
+function WindowViewBase:Create()
     if self.dismissTransition or self.dismissed then
         return
     end
@@ -324,9 +288,16 @@ function WindowViewBase:Create(bundle)
         Coroutine.Yield(result:WaitForDone())
         print("加载完成。。。")
 
+        self.gameObject = result.Result
+        self.transform = self.gameObject.transform
+        self:SetParent(self.Parent or CSharpType.GameObject.Find("UIRoot").transform)
+        self.transform.localRotation = CSharpType.Quaternion.identity
+        self.transform.localPosition = CSharpType.Vector3.zero
+        self.transform.localScale = CSharpType.Vector3.one
+
         self.Visibility = false
         self.Interactable = self.Activated
-        self:OnCreate(bundle)
+        self:OnCreate()
         self.created = true
         self.State = WindowState.CREATE_END
 
@@ -337,24 +308,12 @@ end
 function WindowViewBase:OnCreate()
     print("parent OnCreate")
 
-    self.Owner = result.Result
-    self.Transform = self.Owner.transform
-    self:SetParent(self.Parent or CSharpType.GameObject.Find("GameObject").transform)
-    self.Transform.localRotation = CSharpType.Quaternion.identity
-    self.Transform.localPosition = CSharpType.Vector3.zero
-    self.Transform.localScale = CSharpType.Vector3.one
-
     local canvas = self:AddComponent(Canvas)
     local canvasGroup = self:AddComponent(CanvasGroup)
     self:AddComponent(GraphicRaycaster)
 
     local layer = WindowManager:GetLayer(self.windowType)
     assert(layer, "")
-
-    self.viewModelBase = ViewModelBase()
-    self.binding = BindingExtension(self)
-    self.binding.Binder = self.bundle.binder
-    self.bindingSet = self.binding:CreateBindingSetWithContext(self.viewModelBase)
 
     local builder = self.bindingSet:BindByTarget(canvas.handler)
     builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
@@ -365,8 +324,10 @@ function WindowViewBase:OnCreate()
     local builder = self.bindingSet:BindByTarget(canvasGroup.handler)
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
 
+    self.bindingSet:Build()
+
     --
-    self.viewModelBase.SortingOrder = layer:PushWindowOrder()
+    self.viewModel.SortingOrder = layer:PushWindowOrder()
 end
 
 function WindowViewBase:Show(ignoreAnimation)
@@ -469,12 +430,12 @@ end
 
 function WindowViewBase:DoDismiss()
     if not self.dismissed then
-        assert(self.gameObject, "")
+        assert(self.Owner, "")
         self.State = WindowState.DISMISS_BEGIN
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CSharpType.Object.Destroy(self.gameObject)
+        CSharpType.Object.Destroy(self.Owner)
         self.State = WindowState.DISMISS_END
         self.dismissTransition = nil
     end

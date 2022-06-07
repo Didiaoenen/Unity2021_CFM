@@ -17,34 +17,30 @@ function ExpressionSourceProxyFactory:TryCreateProxy(source, description, proxy)
         if not path.IsStatic then
         end
 
-        local innerProxy = self.factory:CreateProxy(source, ObjectSourceDescription(path))
+        local innerProxy = self.factory:CreateProxy(source, ObjectSourceDescription.new(path))
         if innerProxy then
             table.insert(list, innerProxy)
         end
     end
 
-    try
-    {
-        function ()
-            local del = expression:Compile()
-            local returnType = del:ReturnType()
-            local parameterType = del:ParameterType()
-            if parameterType then
-                proxy = ExpressionSourceProxy(source, del, list)
-            else
-                proxy = ExpressionSourceProxy(del, list)
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    local del = expression:Compile()
+    local returnType = del:ReturnType()
+    local parameterType = del:ParameterType()
+    if parameterType then
+        proxy = ExpressionSourceProxy.new(source, del, list)
+    else
+        proxy = ExpressionSourceProxy.new(del, list)
+    end
 
     if proxy then
         return true
     end
 
     return false
+end
+
+function ExpressionSourceProxyFactory:ctor()
+
 end
 
 return ExpressionSourceProxyFactory

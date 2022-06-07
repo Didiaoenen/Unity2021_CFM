@@ -1,6 +1,8 @@
 
 CS = CS or {}
 
+require("OOP.Class")
+
 require("LuaFramework.System")
 require("LuaFramework.Common.TableExtention")
 require("LuaFramework.Common.StringExtension")
@@ -16,13 +18,13 @@ AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
 Canvas = require("LuaFramework.Views.Components.Canvas")
 CanvasGroup = require("LuaFramework.Views.Components.CanvasGroup")
 GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
+Text = require("LuaFramework.Views.Components.Text")
 
 -- lua object
 Messenger = require("LuaFramework.Messaging.Messenger")
 
 PathParse = require("LuaFramework.Binding.Paths.PathParse")
 PathFinder = require("LuaFramework.Binding.Paths.PathFinder")
-
 
 BindingMode = require("LuaFramework.Binding.BindingMode")
 BindingExtension = require("LuaFramework.Binding.BindingExtension")
@@ -32,10 +34,3 @@ WindowManager = require("LuaFramework.Views.WindowManager")
 StandardBinder = require("LuaFramework.Binding.Binders.StandardBinder")
 UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
 DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
-
---
-Coroutine = Coroutine.Instance()
-WindowManager = WindowManager.Instance()
-StandardBinder = StandardBinder.Instance()
-UnityProxyRegister = UnityProxyRegister.Instance()
-DefaultUIViewLocator = DefaultUIViewLocator.Instance()

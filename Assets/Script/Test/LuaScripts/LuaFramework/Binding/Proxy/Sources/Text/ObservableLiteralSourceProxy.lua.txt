@@ -3,13 +3,8 @@ local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.No
 local ObservableLiteralSourceProxy = class("ObservableLiteralSourceProxy", NotifiableSourceProxyBase)
 
 function ObservableLiteralSourceProxy:ctor(source)
-    self.super:ctor(source)
-
-    if not source then
-        error("")
-        return
-    end
-
+    assert(source, "")
+    NotifiableSourceProxyBase.ctor(self, source)
     self.observableProperty = source
     self.observableProperty.ValueChanged = {this = self, callback = self.OnValueChanged}
 end
@@ -22,7 +17,7 @@ function ObservableLiteralSourceProxy:GetValue()
     return self.observableProperty.Value
 end
 
-function ObservableLiteralSourceProxy:Dispose()
+function ObservableLiteralSourceProxy:dtor()
     
 end
 

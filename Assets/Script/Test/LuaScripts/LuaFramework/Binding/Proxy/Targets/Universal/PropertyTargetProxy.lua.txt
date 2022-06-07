@@ -2,12 +2,12 @@ local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTa
 
 local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase)
 
-PropertyTargetProxy.__getter.DefaultMode = function (this, k)
+function PropertyTargetProxy.get:DefaultMode()
     return BindingMode.TwoWay
 end
 
 function PropertyTargetProxy:ctor(target, propertyInfo)
-    self.super:ctor(target)
+    ValueTargetProxyBase.ctor(self, target)
     self.propertyInfo = propertyInfo
 end
 
@@ -57,6 +57,10 @@ function PropertyTargetProxy:SetValue(value)
     else
         self.target[self.propertyInfo] = value
     end
+end
+
+function PropertyTargetProxy:dtor()
+    
 end
 
 return PropertyTargetProxy

@@ -1,11 +1,11 @@
 local SourceProxyBase = class("SourceProxyBase")
 
-SourceProxyBase.__getter.Source = function (this, k)
-    return this.source
+function SourceProxyBase.get:Source()
+    return self.source
 end
 
-SourceProxyBase.__setter.Source = function (this, k, v)
-    this.source = v
+function SourceProxyBase.set.Source(value)
+    self.source = value
 end
 
 function SourceProxyBase:ctor(source)
@@ -14,6 +14,10 @@ end
 
 function SourceProxyBase:ContainsName(name)
     return false
+end
+
+function SourceProxyBase:dtor()
+    
 end
 
 return SourceProxyBase

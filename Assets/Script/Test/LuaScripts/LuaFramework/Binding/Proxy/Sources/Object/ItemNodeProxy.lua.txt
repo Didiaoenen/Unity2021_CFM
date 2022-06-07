@@ -17,8 +17,8 @@ function ItemNodeProxy:OnCollectionChanged()
     
 end
 
-function ItemNodeProxy:Dispose()
-    
+function ItemNodeProxy:dtor()
+
 end
 
 return ItemNodeProxy

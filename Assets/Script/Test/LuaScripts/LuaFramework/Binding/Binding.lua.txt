@@ -2,21 +2,21 @@ local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
 
 local Binding = class("Binding", AbstractBinding)
 
-Binding.__getter.BindingMode = function (this, k)
-    if this.bindingMode ~= BindingMode.Default then
-        return this.bindingMode
+function Binding.get:BindingMode()
+    if self.bindingMode ~= BindingMode.Default then
+        return self.bindingMode
     end
 
-    this.bindingMode = this.bindingDescription.Mode
-    if this.bindingMode == BindingMode.Default then
-        this.bindingMode = this.targetProxy.DefaultMode
+    self.bindingMode = self.bindingDescription.Mode
+    if self.bindingMode == BindingMode.Default then
+        self.bindingMode = self.targetProxy.DefaultMode
     end
 
-    return this.bindingMode
+    return self.bindingMode
 end
 
 function Binding:ctor(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory)
-    self.super:ctor(bindingContext, source, target)
+    AbstractBinding.ctor(self, bindingContext, source, target)
     
     self.bindingMode = BindingMode.Default
     self.bindingDescription = bindingDescription
@@ -55,18 +55,9 @@ function Binding:IsSubscribeTargetValueChanged(bindingMode)
 end
 
 function Binding:DisposeTargetProxy()
-    try
-    {
-        function ()
-            if self.targetProxy then
-                self.targetProxy:Dispose() 
-                self.targetProxy = nil
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    assert(self.targetProxy, "")
+    self.targetProxy:Dispose() 
+    self.targetProxy = nil
 end
 
 function Binding:CreateSourceProxy(source, description)
@@ -94,18 +85,9 @@ function Binding:IsSubscribeSourceValueChanged(bindingMode)
 end
 
 function Binding:DisposeSourceProxy()
-    try
-    {
-        function ()
-            if self.sourceProxy then
-                self.sourceProxy:Dispose() 
-                self.sourceProxy = nil
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    assert(self.sourceProxy, "")
+    self.sourceProxy:Dispose() 
+    self.sourceProxy = nil
 end
 
 function Binding:UpdateTargetFromSource()
@@ -129,21 +111,13 @@ function Binding:SetSourceValue(modifier, value)
 end
 
 function Binding:UpdateDataOnBind()
-    try
-    {
-        function ()
-            if self:UpdateTargetOnFirstBind(self.BindingMode) and self.sourceProxy then
-                self:UpdateTargetFromSource()
-            end
+    if self:UpdateTargetOnFirstBind(self.BindingMode) and self.sourceProxy then
+        self:UpdateTargetFromSource()
+    end
 
-            if self:UpdateSourceOnFirstBind(self.BindingMode) and self.targetProxy then
-                self:UpdateSourceFromTarget()
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    if self:UpdateSourceOnFirstBind(self.BindingMode) and self.targetProxy then
+        self:UpdateSourceFromTarget()
+    end
 end
 
 function Binding:UpdateTargetOnFirstBind(bindingMode)
@@ -172,6 +146,10 @@ function Binding:UpdateSourceOnFirstBind(bindingMode)
     elseif bindingMode == BindingMode.TwoWay then
         return false
     end
+end
+
+function Binding:dtor()
+    
 end
 
 return Binding

@@ -3,7 +3,7 @@ local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyB
 local InteractionNodeProxy = class("InteractionNodeProxy", SourceProxyBase)
 
 function InteractionNodeProxy:ctor(source, request)
-    self.super:ctor(source)
+    SourceProxyBase.ctor(self, source)
     self.request = request
     self.invoker = nil
     self:BindEvent()
@@ -24,24 +24,16 @@ function InteractionNodeProxy:UnbindEvent()
 end
 
 function InteractionNodeProxy:OnRaised(sender, args)
-    try
-    {
-        function ()
-            if self.invoker then
-                self.invoker:Invoke(sender, args)
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    if self.invoker then
+        self.invoker:Invoke(sender, args)
+    end
 end
 
 function InteractionNodeProxy:SetValue(value)
     self.invoker = value
 end
 
-function InteractionNodeProxy:Dispose()
+function InteractionNodeProxy:dtor()
     
 end
 

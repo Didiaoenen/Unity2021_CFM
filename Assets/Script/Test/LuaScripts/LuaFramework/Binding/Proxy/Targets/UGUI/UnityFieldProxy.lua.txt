@@ -2,11 +2,12 @@ local FieldTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.F
 
 local UnityFieldProxy = class("UnityFieldProxy", FieldTargetProxy)
 
-UnityFieldProxy.__getter.DefaultMode = function (this, k)
+function UnityFieldProxy.get:DefaultMode()
     
 end
 
 function UnityFieldProxy:ctor(target, fieldInfo, unityEvent)
+    FieldTargetProxy.ctor(self)
     self.unityEvent = unityEvent
 end
 
@@ -26,6 +27,10 @@ end
 
 function UnityFieldProxy:OnValueChanged()
     self:RaiseValueChanged()
+end
+
+function UnityFieldProxy:dtor()
+    
 end
 
 return UnityFieldProxy

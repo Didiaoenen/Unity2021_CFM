@@ -3,7 +3,7 @@ local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.No
 local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase)
 
 function PropertyNodeProxy:ctor(source, propertyInfo)
-    self.super:ctor(source)
+    NotifiableSourceProxyBase.ctor(self, source)
     self.propertyInfo = propertyInfo
 
     if not self.source then
@@ -48,7 +48,7 @@ function PropertyNodeProxy:SetValue(value)
     end
 end
 
-function PropertyNodeProxy:Dispose()
+function PropertyNodeProxy:dtor()
     
 end
 

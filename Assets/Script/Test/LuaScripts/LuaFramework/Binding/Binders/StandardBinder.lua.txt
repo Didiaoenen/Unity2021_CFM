@@ -7,41 +7,37 @@ local LiteralSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Te
 local ExpressionSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Expressions.ExpressionSourceProxyFactory")
 local UniversalTargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.Universal.UniversalTargetProxyFactory")
 local UnityTargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityTargetProxyFactory")
-
 local Binding = require("LuaFramework.Binding.Binding")
 
 local StandardBinder = class("StandardBinder")
 
-local instance = nil
-
-function StandardBinder.Instance()
-    if not instance then
-        instance = StandardBinder()
-        instance:ctor()
-    end
-end
-
 function StandardBinder:ctor()
-    local objectSourceProxyFactory = ObjectSourceProxyFactory()
-    objectSourceProxyFactory:Register(UniversalNodeProxyFactory(), 0)
+    local objectSourceProxyFactory = ObjectSourceProxyFactory.new()
+    objectSourceProxyFactory:Register(UniversalNodeProxyFactory.new(), 0)
 
-    local sourceProxyFactory = SourceProxyFactory()
-    sourceProxyFactory:Register(LiteralSourceProxyFactory(), 0)
-    sourceProxyFactory:Register(ExpressionSourceProxyFactory(sourceProxyFactory), 1)
+    local sourceProxyFactory = SourceProxyFactory.new()
+    sourceProxyFactory:Register(LiteralSourceProxyFactory.new(), 0)
+    sourceProxyFactory:Register(ExpressionSourceProxyFactory.new(sourceProxyFactory), 1)
     sourceProxyFactory:Register(objectSourceProxyFactory, 2)
 
-    local targetProxyFactory = TargetProxyFactory()
-    targetProxyFactory:Register(UniversalTargetProxyFactory(), 0)
-    targetProxyFactory:Register(UnityTargetProxyFactory(), 10)
-
-    local binder = StandardBinder(sourceProxyFactory, targetProxyFactory)
+    local targetProxyFactory = TargetProxyFactory.new()
+    targetProxyFactory:Register(UniversalTargetProxyFactory.new(), 0)
+    targetProxyFactory:Register(UnityTargetProxyFactory.new(), 10)
 
     self.sourceProxyFactory = sourceProxyFactory
     self.targetProxyFactory = targetProxyFactory
 end
 
 function StandardBinder:Bind(bindingContext, source, target, bindingDecription)
-    return Binding(bindingContext, source, target, bindingDecription, self.sourceProxyFactory, self.targetProxyFactory)
+    return Binding.new(bindingContext, source, target, bindingDecription, self.sourceProxyFactory, self.targetProxyFactory)
+end
+
+function StandardBinder:__singleton()
+    return StandardBinder.new()
+end
+
+function StandardBinder:dtor()
+
 end
 
 return StandardBinder

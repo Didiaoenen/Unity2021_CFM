@@ -9,7 +9,7 @@ Canvas.OverrideSorting = "overrideSorting"
 Canvas.SortingOrder = "sortingOrder"
 
 function Canvas:ctor(handler)
-    self.super:ctor(handler)
+    Component.ctor(self, handler)
 end
 
 return Canvas

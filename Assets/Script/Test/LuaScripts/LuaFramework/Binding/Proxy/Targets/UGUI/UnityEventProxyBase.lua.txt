@@ -2,12 +2,12 @@ local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Univers
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase)
 
-UnityEventProxyBase.__getter.DefaultMode = function (this, k)
+function UnityEventProxyBase.get:DefaultMode()
     return BindingMode.OneWay
 end
 
 function UnityEventProxyBase:ctor(target, unityEvent)
-    self.super:ctor(target)
+    EventTargetProxyBase.ctor(self, target)
 
     self.command = nil
     self.invoker = nil
@@ -55,9 +55,9 @@ function UnityEventProxyBase:SetValue(value)
     
     else
         if type(value) == "table" then
-            if value.__classname == "ProxyInvoker" then
+            if value.__name == "ProxyInvoker" then
                 self.invoker = value
-            elseif value.__classname == "SimpleCommand" then
+            elseif value.__name == "SimpleCommand" then
                 if not self.interactable then
                     self.interactable = "interactable"
                 end
@@ -104,7 +104,7 @@ function UnityEventProxyBase:UnbindCommand(command)
     command.CanExecuteChanged = nil
 end
 
-function UnityEventProxyBase:Dispose()
+function UnityEventProxyBase:dtor()
 end
 
 return UnityEventProxyBase

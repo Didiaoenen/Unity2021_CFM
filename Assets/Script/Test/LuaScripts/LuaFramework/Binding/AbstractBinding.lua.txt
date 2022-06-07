@@ -1,25 +1,26 @@
 local AbstractBinding = class("AbstractBinding")
 
-AbstractBinding.__getter.BindingContext = function (this, k)
-    return this.bindingContext
+function AbstractBinding.get:BindingContext()
+    return self.bindingContext
 end
 
-AbstractBinding.__setter.BindingContext = function (this, k, v)
-    this.bindingContext = v
+function AbstractBinding.set:BindingContext(value)
+    self.bindingContext = value
 end
 
-AbstractBinding.__getter.Target = function (this, k)
-    local target = this.target and this.target.Target
-    return this:IsAlive(target) and target
+function AbstractBinding.get:Target()
+    assert(self.target, "")
+    local target = self.target.Target
+    return self:IsAlive(target) and target
 end
 
-AbstractBinding.__getter.DataContext = function (this, k)
-    return this.dataContext
+function AbstractBinding.get:DataContext()
+    return self.dataContext
 end
 
-AbstractBinding.__setter.DataContext = function (this, k, v)
-    if v ~= self.dataContext then
-        self.dataContext = v
+function AbstractBinding.set:DataContext(value)
+    if value ~= self.dataContext then
+        self.dataContext = value
         self:OnDataContextChanged()
     end
 end
@@ -38,7 +39,7 @@ function AbstractBinding:OnDataContextChanged()
     
 end
 
-function AbstractBinding:Dispose()
+function AbstractBinding:dtor()
     
 end
 

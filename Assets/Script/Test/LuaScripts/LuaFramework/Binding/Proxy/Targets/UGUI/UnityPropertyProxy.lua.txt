@@ -2,12 +2,12 @@ local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universa
 
 local UnityPropertyProxy = class("UnityPropertyProxy", PropertyTargetProxy)
 
-UnityPropertyProxy.__getter.DefaultMode = function (this, k)
+function UnityPropertyProxy.get:DefaultMode()
     return BindingMode.TwoWay
 end
 
 function UnityPropertyProxy:ctor(target, propertyInfo, unityEvent)
-    self.super:ctor(target, propertyInfo)
+    PropertyTargetProxy.ctor(self, target, propertyInfo)
     self.unityEvent = unityEvent
 end
 
@@ -25,6 +25,10 @@ end
 
 function UnityPropertyProxy:OnValueChanged(value)
     self:RaiseValueChanged()
+end
+
+function UnityPropertyProxy:dtor()
+    
 end
 
 return UnityPropertyProxy

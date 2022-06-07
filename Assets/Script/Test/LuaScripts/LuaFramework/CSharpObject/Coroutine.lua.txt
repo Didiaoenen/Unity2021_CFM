@@ -2,17 +2,6 @@ local util = require "xlua.util"
 
 local Coroutine = class("Coroutine")
 
-local instance = nil
-
-function Coroutine.Instance()
-    if not instance then
-        instance = Coroutine()
-        instance:ctor()
-        return instance
-    end
-    return instance
-end
-
 function Coroutine:ctor()
     
 end
@@ -31,6 +20,14 @@ end
 
 function Coroutine.Wait(time)
     coroutine.yield(CSharpType.WaitForSeconds(time))
+end
+
+function Coroutine:__singleton()
+    return Coroutine.new()
+end
+
+function Coroutine:dtor()
+    
 end
 
 return Coroutine

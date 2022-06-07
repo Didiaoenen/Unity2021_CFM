@@ -1,73 +1,77 @@
 local ViewModelBase = require("Game.ViewModels.ViewModelBase")
-local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
+local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")
 
 local TestVM = class("TestVM", ViewModelBase)
 
-TestVM.__getter.Test = function (this, k)
-    return this.test
+function TestVM.get:Test()
+    return self.test
 end
 
-TestVM.__setter.Test = function (this, k, v)
-    this:Set({name = "test"}, v, "Test")
+function TestVM.set:Test(value)
+    self:Set({name = "test"}, value, "Test")
 end
 
-TestVM.__getter.TestColor = function (this, k)
-    return this.testColor
+function TestVM.get:TestColor()
+    return self.testColor
 end
 
-TestVM.__setter.TestColor = function (this, k, v)
-    this:Set({name = "testColor"}, v, "TestColor")
+function TestVM.set:TestColor(value)
+    self:Set({name = "testColor"}, value, "TestColor")
 end
 
-TestVM.__getter.TestLocalScale = function (this, k)
-    return this.testLocalScale
+function TestVM.get:TestLocalScale()
+    return self.testLocalScale
 end
 
-TestVM.__setter.TestLocalScale = function (this, k, v)
-    this:Set({name = "testLocalScale"}, v, "TestLocalScale")
+function TestVM.set:TestLocalScale(value)
+    self:Set({name = "testLocalScale"}, value, "TestLocalScale")
 end
 
-TestVM.__getter.TestActive = function (this, k)
-    return this.testActive
+function TestVM.get:TestActive()
+    return self.testActive
 end
 
-TestVM.__setter.TestActive = function (this, k, v)
-    this:Set({name = "testActive"}, v, "TestActive")
+function TestVM.set:TestActive(value)
+    self:Set({name = "testActive"}, value, "TestActive")
 end
 
-TestVM.__getter.TestRequest = function (this, k)
-    return this.testRequest
+function TestVM.get:TestRequest()
+    return self.testRequest
 end
 
-TestVM.__setter.TestRequest = function (this, k, v)
-    this.testRequest = v
+function TestVM.set:TestRequest(value)
+    self.testRequest = value
 end
 
-TestVM.__getter.TestCommand = function (this, k)
-    return this.testCommand
+function TestVM.get:TestCommand()
+    return self.testCommand
 end
 
-TestVM.__setter.TestCommand = function (this, k, v)
-    this.testCommand = v
+function TestVM.set:TestCommand(value)
+    self.testCommand = value
 end
 
 function TestVM:ctor()
-    self.super:ctor()
+    ViewModelBase.ctor(self)
 
     --
     self.test = ""
     self.testColor = CS.UnityEngine.Color.red
     self.testLocalScale = CS.UnityEngine.Vector3(0.5, 0.5, 0.5)
     self.testActive = false
-    self.testRequest = InteractionRequest(self)
-    self.testCommand = SimpleCommand(function ()
+    self.testRequest = InteractionRequest.new(self)
+    self.testCommand = SimpleCommand.new(function ()
         print("SimpleCommand")
     end)
 end
 
 function TestVM:OnClick()
     print("OnClick")
+end
+
+function TestVM:dtor()
+    
 end
 
 return TestVM

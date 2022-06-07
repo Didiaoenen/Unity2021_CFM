@@ -3,13 +3,13 @@ local Transition = require("LuaFramework.Views.Transition")
 local TransitionHide = class("TransitionHide", Transition)
 
 function TransitionHide:ctor(manager, window, dismiss)
-    self.super:ctor(window)
+    Transition.ctor(self, window)
     self.dismiss = dismiss
     self.manager = manager
 end
 
 function TransitionHide:DoTransition()
-    self.super:DoTransition()
+    Transition.DoTransition(self)
     local current = self.Window
     if self.manager:IndexOf(current) == 1 then
         if current.Activated then
@@ -31,6 +31,10 @@ function TransitionHide:DoTransition()
     if self.dismiss then
         current:DoDismiss()
     end
+end
+
+function TransitionHide:dtor()
+    
 end
 
 return TransitionHide

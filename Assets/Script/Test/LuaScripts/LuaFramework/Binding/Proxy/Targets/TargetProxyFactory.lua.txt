@@ -49,4 +49,8 @@ function TargetProxyFactory:Unregister(factory)
     end
 end
 
+function TargetProxyFactory:dtor()
+    
+end
+
 return TargetProxyFactory

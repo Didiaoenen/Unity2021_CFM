@@ -1,7 +1,7 @@
 local ProxyInvoker = class("ProxyInvoker")
 
-ProxyInvoker.__getter.ProxyMethodInfo = function (this, k)
-    return this.proxyMethodInfo
+function ProxyInvoker.get:ProxyMethodInfo()
+    return self.proxyMethodInfo
 end
 
 function ProxyInvoker:ctor(target, proxyMethodInfo)
@@ -11,11 +11,12 @@ end
 
 function ProxyInvoker:Invoke(...)
     local target = self.target
-    if not target then
-        error("")
-        return
-    end
+    assert(target, "")
     return target[self.proxyMethodInfo](target, ...)
+end
+
+function ProxyInvoker:dtor()
+    
 end
 
 return ProxyInvoker

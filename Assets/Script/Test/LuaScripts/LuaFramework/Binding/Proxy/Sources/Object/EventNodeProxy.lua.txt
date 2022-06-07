@@ -13,8 +13,8 @@ function EventNodeProxy:Unbind(target, handler)
     
 end
 
-function EventNodeProxy:Dispose()
-    
+function EventNodeProxy:dtor()
+
 end
 
 return EventNodeProxy

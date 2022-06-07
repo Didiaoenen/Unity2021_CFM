@@ -14,10 +14,7 @@ end
 
 function UniversalNodeProxyFactory:Create(source, path)
     local node = path[1]
-    if not source and not node.IsStatic then
-        error("")
-        return
-    end
+    assert( not source and not node.IsStatic, "")
 
     if node.IsStatic then
         return self:CreateStaticProxy(node)
@@ -28,28 +25,29 @@ end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
     local memberInfo = source[node]
-    if memberInfo == nil then
-        error("")
-        return
-    end
+    assert(memberInfo, "")
 
     if type(memberInfo) == "function" then
-        return MethodNodeProxy(source, node)
+        return MethodNodeProxy.new(source, node)
     elseif type(memberInfo) == "userdata" then
-        return PropertyNodeProxy(source, node)
+        return PropertyNodeProxy.new(source, node)
     else
         if type(memberInfo) == "table" then
-            if source[node].__classname == "InteractionRequest" then
-                return InteractionNodeProxy(source, node)
+            if source[node].__name == "InteractionRequest" then
+                return InteractionNodeProxy.new(source, node)
             end
         end
 
-        return PropertyNodeProxy(source, node)
+        return PropertyNodeProxy.new(source, node)
     end
 end
 
 function UniversalNodeProxyFactory:CreateStaticProxy()
     
+end
+
+function UniversalNodeProxyFactory:dtor()
+
 end
 
 return UniversalNodeProxyFactory

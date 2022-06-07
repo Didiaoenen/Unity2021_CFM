@@ -16,113 +16,6 @@ function clone(object)
     return _copy(object)
 end
 
-function class(classname, super)
-    super = super or {}
-
-    local cls = {}
-    cls.__classname = classname
-    cls.__getter = {}
-	cls.__setter = {}
-    cls.super = super
-
-    local __meta = {__index = super, __call = function (t, ...)
-        
-        local instance = clone(t)
-        instance.super = clone(instance.super)
-        local __meta = clone(getmetatable(t))
-        __meta.__index = instance.super
-        setmetatable(t, __meta)
-
-        local __cls = clone(cls)
-        __cls.super = instance.super
-        local __meta = clone(getmetatable(__cls))
-        __meta.__index = instance.super
-        setmetatable(__cls, __meta)
-
-        local meta = {
-            __index = function(t, k)
-
-                local insuper
-                insuper = function (cur)
-                    local curSuper = cur.super
-                    if curSuper then
-                        if curSuper[k] ~= nil then
-                            return curSuper[k]
-                        else
-                            return insuper(curSuper)
-                        end
-                    else
-                        return
-                    end
-                end
-
-                local getinsuper
-                getinsuper = function (cur)
-                    local curSuper = cur.super
-                    if curSuper and curSuper.__getter then
-                        if curSuper.__getter[k] ~= nil then
-                            return curSuper.__getter[k](t, k)
-                        else
-                            return getinsuper(curSuper)
-                        end
-                    else
-                        return
-                    end
-                end
-                
-                if __cls[k] ~= nil then
-                    return __cls[k]
-                else
-                    local superValue = insuper(__cls)
-                    if superValue then
-                        return superValue
-                    end
-                end
-
-                if t.__getter[k] ~= nil then
-                    return t.__getter[k](t, k)
-                else
-                    return getinsuper(t)
-                end
-            end,
-            __newindex = function(t, k, v)
-                
-                local setsuper
-                setsuper = function (cur)
-                    local curSuper = cur.super
-                    if curSuper and curSuper.__setter then
-                        if curSuper.__setter[k] ~= nil then
-                            curSuper.__setter[k](t, k, v)
-                            return true
-                        else
-                            return setsuper(curSuper)
-                        end
-                    else
-                        return false
-                    end
-                end
-
-                if t.__setter[k] ~= nil then
-                    t.__setter[k](t, k, v)
-                    return
-                else
-                    if setsuper(t) then
-                        return
-                    end
-                end
-
-                rawset(t, k, v)
-            end
-        }
-        setmetatable(instance, meta)
-        instance:ctor(...)
-        return instance
-    end}
-
-    setmetatable(cls, __meta)
-    return cls
-end
-
 function try(block)
 	local main = block[1]
 	local catch = block.catch
@@ -164,5 +57,23 @@ function bindevent(ui, callback, ...)
     local args = {...}
     return function (eventData)
         callback(ui, eventData, table.unpack(args))
+    end
+end
+
+function setcallback(t, value, addcb, removecb)
+    if value and value.callback ~= nil then
+        if addcb then
+            addcb()
+        end
+        table.insert(t, value)
+    else
+        table.find(t, function (i, v)
+            if value.this == value.this then
+                if removecb then
+                    removecb()
+                end
+                return table.remove(t, i)
+            end
+        end)
     end
 end

@@ -2,12 +2,12 @@ local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEven
 
 local InteractionRequest = class("InteractionRequest")
 
-InteractionRequest.__getter.Raised = function (this, k)
-    return this.raised
+function InteractionRequest.get:Raised()
+    return self.raised
 end
 
-InteractionRequest.__setter.Raised = function (this, k, v)
-    this.raised = v
+function InteractionRequest.set:Raised(value)
+    self.raised = value
 end
 
 function InteractionRequest:ctor(sender)
@@ -17,12 +17,16 @@ end
 
 function InteractionRequest:Raise(context, callback)
     if self.Raised then
-        self.Raised(self.sender, InteractionEventArgs(context, function ()
+        self.Raised(self.sender, InteractionEventArgs.new(context, function ()
             if callback then
                 callback()
             end
         end))
     end
+end
+
+function InteractionRequest:dtor()
+    
 end
 
 return InteractionRequest

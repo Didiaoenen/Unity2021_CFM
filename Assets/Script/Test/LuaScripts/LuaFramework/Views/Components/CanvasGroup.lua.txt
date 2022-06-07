@@ -7,7 +7,7 @@ CanvasGroup.CSharpType = CSharpType.CanvasGroup
 CanvasGroup.Alpha = "alpha"
 
 function CanvasGroup:ctor(handler)
-    self.super:ctor(handler)
+    Component.ctor(self, handler)
 end
 
 return CanvasGroup

@@ -1,33 +1,23 @@
 local BindingContext = class("BindingContext")
 
-BindingContext.__getter.DataContext = function(this, k)
-    return this.dataContext
+function BindingContext.get:DataContext()
+    return self.dataContext
 end
 
-BindingContext.__setter.DataContext = function(this, k, v)
-    if v ~= this.dataContext then
-        this.dataContext = v
-        this:OnDataContextChanged()
-        this:RaiseDataContextChanged()
+function BindingContext.set:DataContext(value)
+    if value ~= self.dataContext then
+        self.dataContext = value
+        self:OnDataContextChanged()
+        self:RaiseDataContextChanged()
     end
 end
 
-BindingContext.__setter.DataContextChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.dataContextChanged, v)
-    else
-        for i, value in ipairs(this.dataContextChanged) do
-            if v.this == value.this then
-                table.remove(this.dataContextChanged, i)
-                break
-            end
-        end
-    end
+function BindingContext.set:DataContextChanged(value)
+    setcallback(self.dataContextChanged, value)
 end
 
-function BindingContext:ctor(owner, binder, dataContext)
+function BindingContext:ctor(owner, dataContext)
     self.owner = owner
-    self.binder = binder
     self.dataContext = dataContext
 
     --
@@ -37,33 +27,17 @@ function BindingContext:ctor(owner, binder, dataContext)
 end
 
 function BindingContext:OnDataContextChanged()
-    try
-    {
-        function ()
-            for k, binding in pairs(self.bindings) do
-                for i, v in ipairs(binding) do
-                    v.DataContext = self.dataContext
-                end
-            end
-        end,
-        catch = function()
-            
+    for k, binding in pairs(self.bindings) do
+        for i, v in ipairs(binding) do
+            v.DataContext = self.dataContext
         end
-    }
+    end
 end
 
 function BindingContext:RaiseDataContextChanged()
-    try
-    {
-        function ()
-            for i, v in ipairs(self.dataContextChanged) do
-                v.callback(v.this)
-            end
-        end,
-        catch = function()
-            
-        end
-    }
+    table.foreach(self.dataContextChanged, function (i, v)
+        v.callback(v.this)
+    end)
 end
 
 function BindingContext:GetOrCreateList(key)
@@ -89,16 +63,12 @@ function BindingContext:Add(binding, key)
 end
 
 function BindingContext:AddBySingleDesc(target, description, key)
-    local binding = self.binder:Bind(self, self.dataContext, target, description)
+    local binding = StandardBinder:Bind(self, self.dataContext, target, description)
     self:Add(binding, key)
 end
 
-function BindingContext:Clear()
-    
-end
+function BindingContext:dtor()
 
-function BindingContext:Dispose()
-    self:Clear()
 end
 
 return BindingContext

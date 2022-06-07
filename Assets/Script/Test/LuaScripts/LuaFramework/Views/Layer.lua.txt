@@ -1,7 +1,7 @@
 local Layer = class("Layer")
 
-Layer.__getter.WindowType = function (this, k)
-    return this.windowType
+function Layer.get:WindowType()
+    return self.windowType
 end
 
 function Layer:ctor(data)
@@ -23,6 +23,10 @@ end
 function Layer:PopWindowOder()
     assert(self.maxOrder > self.minOrder)
 	self.maxOrder = self.maxOrder - self.orderStep
+end
+
+function Layer:dtor()
+    
 end
 
 return Layer

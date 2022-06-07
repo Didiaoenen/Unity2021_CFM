@@ -2,12 +2,12 @@ local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTa
 
 local ObservableTargetProxy = class("ObservableTargetProxy", ValueTargetProxyBase)
 
-ObservableTargetProxy.__getter.DefaultMode = function (this, k)
+function ObservableTargetProxy.get:DefaultMode()
     return BindingMode.TwoWay
 end
 
 function ObservableTargetProxy:ctor(target, observableProperty)
-    self.super:ctor(target)
+    ValueTargetProxyBase.ctor(self, target)
     self.observableProperty = observableProperty
 end
 
@@ -38,6 +38,10 @@ end
 
 function ObservableTargetProxy:OnVlaueChanged(sender, e)
     self:RaiseValueChanged()
+end
+
+function ObservableTargetProxy:dtor()
+    
 end
 
 return ObservableTargetProxy

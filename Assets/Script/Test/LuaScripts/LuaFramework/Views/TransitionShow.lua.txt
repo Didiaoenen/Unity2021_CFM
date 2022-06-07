@@ -4,7 +4,7 @@ local Transition = require("LuaFramework.Views.Transition")
 local TransitionShow = class("TransitionShow", Transition)
 
 function TransitionShow:ctor(manager, window)
-    self.super:ctor(window)
+    Transition.ctor(self, window)
     self.manager = manager
 end
 
@@ -21,7 +21,7 @@ function TransitionShow:Overlay(previous, current)
 end
 
 function TransitionShow:DoTransition()
-    self.super:DoTransition()
+    Transition.DoTransition(self)
     local current = self.Window
     local layer = (self.Layer < 0 or current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) and 0 or self.Layer
     if layer < 0 then
@@ -63,6 +63,10 @@ function TransitionShow:DoTransition()
         local activate = current:Activate(self.AnimationDisabled)
         Coroutine.Yield(activate:WaitForDone())
     end
+end
+
+function TransitionShow:dtor()
+    
 end
 
 return TransitionShow

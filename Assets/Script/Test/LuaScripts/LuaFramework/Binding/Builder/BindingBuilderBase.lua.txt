@@ -4,16 +4,15 @@ local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Obje
 local BindingBuilderBase = class("BindingBuilderBase")
 
 function BindingBuilderBase:ctor(context, target)
-    if not context or not target then
-        return
-    end
+    assert(context, "")
+    assert(target, "")
 
     self.context = context
     self.target = target
 
     self.builded = false
     self.scopeKey = nil
-    self.description = BindingDescription()
+    self.description = BindingDescription.new()
     self.description.Mode = BindingMode.Default
 end
 
@@ -27,7 +26,7 @@ function BindingBuilderBase:SetMemberPath(pathText)
 end
 
 function BindingBuilderBase:SetMemberPathWithPath(path)
-    self.description.Source = ObjectSourceDescription()
+    self.description.Source = ObjectSourceDescription.new()
     self.description.Source.Path = path
 end
 
@@ -54,21 +53,17 @@ function BindingBuilderBase:CheckBindingDescription()
 end
 
 function BindingBuilderBase:Build()
-    try
-    {
-        function ()
-            if self.builded then
-                return                
-            end 
+    if self.builded then
+        return                
+    end
 
-            self:CheckBindingDescription()
-            self.context:AddBySingleDesc(self.target, self.description, self.scopeKey)
-            self.builded = true
-        end,
-        catch = function ()
-            
-        end
-    }
+    self:CheckBindingDescription()
+    self.context:AddBySingleDesc(self.target, self.description, self.scopeKey)
+    self.builded = true
+end
+
+function BindingBuilderBase:dtor()
+
 end
 
 return BindingBuilderBase

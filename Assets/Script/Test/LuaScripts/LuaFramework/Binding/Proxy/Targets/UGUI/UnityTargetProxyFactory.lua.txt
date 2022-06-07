@@ -10,19 +10,12 @@ end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    if not memberInfo then
-        error("")        
-        return
-    end
+    assert(memberInfo, "")
 
     local updateTrigger = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then
         updateTrigger = target[description.UpdateTrigger]
-        
-        if not updateTrigger then
-            error("")
-            return          
-        end
+        assert(updateTrigger, "")
     end
 
     if type(memberInfo) == "userdata" then
@@ -52,6 +45,10 @@ end
 
 function UnityTargetProxyFactory:CreateUnityEventProxy(target, unityEvent)
     return UnityEventProxy(target, unityEvent)
+end
+
+function UnityTargetProxyFactory:dtor()
+    
 end
 
 return UnityTargetProxyFactory

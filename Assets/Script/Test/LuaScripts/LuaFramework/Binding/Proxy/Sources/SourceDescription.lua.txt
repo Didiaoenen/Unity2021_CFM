@@ -1,11 +1,11 @@
 local SourceDescription = class("SourceDescription")
 
-SourceDescription.__getter.IsStatic = function (this, k)
-    return this.isStatic
+function SourceDescription.get:IsStatic()
+    return self.isStatic
 end
 
-SourceDescription.__setter.IsStatic = function (this, k, v)
-    this.isStatic = v
+function SourceDescription.set:IsStatic(value)
+    self.isStatic = value
 end
 
 function SourceDescription:ctor()

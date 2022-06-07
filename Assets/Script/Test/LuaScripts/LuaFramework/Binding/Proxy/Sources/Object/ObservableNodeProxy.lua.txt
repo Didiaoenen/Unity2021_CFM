@@ -9,8 +9,8 @@ function ObservableNodeProxy:OnValueChanged(sender, e)
     
 end
 
-function ObservableNodeProxy:Dispose()
-    
+function ObservableNodeProxy:dtor()
+
 end
 
 return ObservableNodeProxy

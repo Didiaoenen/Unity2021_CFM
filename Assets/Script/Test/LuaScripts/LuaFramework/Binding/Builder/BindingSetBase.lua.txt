@@ -6,9 +6,13 @@ function BindingSetBase:ctor(context)
 end
 
 function BindingSetBase:Build()
-    for i, builder in ipairs(self.builders) do
-        builder:Build()
-    end
+    table.foreach(self.builders, function (i, v)
+        v:Build()
+    end)
+end
+
+function BindingSetBase:dtor()
+    
 end
 
 return BindingSetBase

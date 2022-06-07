@@ -2,20 +2,20 @@ local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject)
 
-ViewModelBase.__setter.OverrideSorting = function (this, k, v)
-    this:Set({name = "overrideSorting"}, v, "OverrideSorting")
+function ViewModelBase.set:OverrideSorting(value)
+    self:Set({name = "overrideSorting"}, value, "OverrideSorting")
 end
 
-ViewModelBase.__setter.SortingOrder = function (this, k, v)
-    this:Set({name = "sortingOrder"}, v, "SortingOrder")
+function ViewModelBase.set:SortingOrder(value)
+    self:Set({name = "sortingOrder"}, value, "SortingOrder")
 end
 
-ViewModelBase.__setter.Alpha = function (this, k, v)
-    this:Set({name = "alpha"}, v, "Alpha")
+function ViewModelBase.set:Alpha(value)
+    self:Set({name = "alpha"}, value, "Alpha")
 end
 
 function ViewModelBase:ctor(messenger)
-    self.super:ctor()
+    ObservableObject.ctor(self)
     self.messenger = messenger
 
     self.overrideSorting = true
@@ -25,7 +25,7 @@ end
 
 function ViewModelBase:SetWithBroadCast(field, newValue, propertyName, broadcast)
     if field ~= newValue then
-        self.super:Set(field, newValue, propertyName)
+        ObservableObject.Set(self, field, newValue, propertyName)
 
         if broadcast then
             self:Broadcast(self[field.name], newValue, propertyName)
@@ -34,6 +34,10 @@ function ViewModelBase:SetWithBroadCast(field, newValue, propertyName, broadcast
 end
 
 function ViewModelBase:Broadcast(oldValue, newVlaue, propertyName)
+    
+end
+
+function ViewModelBase:dtor()
     
 end
 

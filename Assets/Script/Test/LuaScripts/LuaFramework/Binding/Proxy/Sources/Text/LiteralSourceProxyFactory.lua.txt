@@ -1,7 +1,7 @@
-local ObservableLiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.ObservableLiteralSourceProxy")
-local LiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.LiteralSourceProxy")
 
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local ObservableLiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.ObservableLiteralSourceProxy")
+local LiteralSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Text.LiteralSourceProxy")
 
 local LiteralSourceProxyFactory = class("LiteralSourceProxyFactory", TypedSourceProxyFactory)
 
@@ -12,10 +12,14 @@ end
 function LiteralSourceProxyFactory:TryCreateProxy(source, description, proxy)
     local value = description.Literal
     if value and value:GetName() == "IObservableProperty" then
-        proxy = ObservableLiteralSourceProxy(value)
+        proxy = ObservableLiteralSourceProxy.new(value)
     else
-        proxy = LiteralSourceProxy(value)
+        proxy = LiteralSourceProxy.new(value)
     end
+end
+
+function LiteralSourceProxyFactory:dtor()
+    
 end
 
 return LiteralSourceProxyFactory

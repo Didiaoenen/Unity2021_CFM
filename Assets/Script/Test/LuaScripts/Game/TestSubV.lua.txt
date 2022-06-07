@@ -4,8 +4,8 @@ local TestSubV = class("TestSubV", WindowViewBase)
 
 TestSubV.PrefabPath = "Sphere"
 
-function TestSubV:ctor(...)
-    self.super:ctor(...)
+function TestSubV:ctor(bundle)
+    WindowViewBase.ctor(self, bundle)
 end
 
 return TestSubV

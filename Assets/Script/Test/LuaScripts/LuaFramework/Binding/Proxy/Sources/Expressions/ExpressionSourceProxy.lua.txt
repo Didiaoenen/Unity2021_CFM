@@ -16,7 +16,7 @@ function ExpressionSourceProxy:ctor(source, func, type, inners)
     end
 
     for i, v in ipairs(self.inners) do
-        if v.__classname == "INotifiable" then
+        if v.__name == "INotifiable" then
             v.ValueChanged = {this = self, callback = self.OnValueChanged}
         end
     end
@@ -26,7 +26,7 @@ function ExpressionSourceProxy:OnValueChanged(sender, e)
     self:RaiseValueChanged()
 end
 
-function ExpressionSourceProxy:Dispose()
+function ExpressionSourceProxy:ctor()
     
 end
 

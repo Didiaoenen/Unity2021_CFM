@@ -1,20 +1,15 @@
 local NotifyPropertyChanged = class("NotifyPropertyChanged")
 
-NotifyPropertyChanged.__setter.PropertyChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        table.insert(this.propertyChanged, v)
-    else
-        for i, value in ipairs(this.propertyChanged) do
-            if v.this == value.this then
-                table.remove(this.propertyChanged, i)
-                break
-            end
-        end
-    end
+function NotifyPropertyChanged.set:PropertyChanged(value)
+    setcallback(self.propertyChanged, value)
 end
 
 function NotifyPropertyChanged:ctor()
     self.propertyChanged = {}
+end
+
+function NotifyPropertyChanged:dtor()
+    
 end
 
 return NotifyPropertyChanged

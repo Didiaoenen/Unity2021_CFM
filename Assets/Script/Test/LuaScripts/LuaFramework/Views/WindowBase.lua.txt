@@ -2,12 +2,12 @@ local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
 
 local WindowBase = class("WindowBase", WindowViewBase)
 
-WindowBase.__getter.Current = function (this, k)
-    return this.viewStack[#(this.viewStack)]
+function WindowBase.get:Current()
+    return self.viewStack[#(self.viewStack)]
 end
 
 function WindowBase:ctor(bundle)
-    self.super:ctor(bundle)
+    WindowViewBase.ctor(self, bundle)
 
     self.subView = {}
     self.viewStack = {}
@@ -16,11 +16,11 @@ function WindowBase:ctor(bundle)
 end
 
 function WindowBase:OnEnable()
-    self.super:OnEnable()
+    WindowViewBase.OnEnable(self)
 end
 
 function WindowBase:OnDisable()
-    self.super:OnDisable()
+    WindowViewBase.OnDisable(self)
 end
 
 function WindowBase:OnShow()
@@ -37,7 +37,7 @@ end
 
 function WindowBase:CreateSubView(name, bundle)
     assert(name, "")
-    return self.WindowManager.Open(name, bundle)
+    return WindowManager.Open(name, bundle)
 end
 
 function WindowBase:AddSubView(view)
@@ -59,9 +59,9 @@ function WindowBase:PopOpenView()
     return self.Current and self.Current:Show()
 end
 
-function WindowBase:Destroy()
+function WindowBase:OnDestroy()
     table.foreach(self.subView, function (i, v)
-        v:Destroy()
+        v:OnDestroy()
     end)
     self.subView = nil
 end

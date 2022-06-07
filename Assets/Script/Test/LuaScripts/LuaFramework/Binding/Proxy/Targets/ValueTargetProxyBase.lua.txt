@@ -2,50 +2,34 @@ local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyB
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
 
-ValueTargetProxyBase.__setter.ValueChanged = function (this, k, v)
-    if v and v.callback ~= nil then
-        if this.valueChanged and not this.subScribed then
-            table.insert(this.valueChanged, v)
-            this:Subscribe()
+function ValueTargetProxyBase.set:ValueChanged(value)
+    setcallback(self.valueChanged, value, function ()
+        if self.valueChanged and not self.subScribed then
+            self:Subscribe()
         end
-    else
-        for i, value in ipairs(this.valueChanged) do
-            if v.this == value.this then
-                table.remove(this.valueChanged, i)
-                break
-            end
-        end
-    end
+    end)
 end
 
 local names = {"INotifiable"}
 
 function ValueTargetProxyBase:ctor(target)
-    self.super:ctor(target)
+    TargetProxyBase.ctor(self, target)
     self.subScribed = false
     self.valueChanged = {}
 end
 
 function ValueTargetProxyBase:Subscribe()
-    try
-    {
-        function ()
-            if self.subScribed then
-                return
-            end
+    if self.subScribed then
+        return
+    end
 
-            local target = self.target
-            if not target then
-                return
-            end
+    local target = self.target
+    if not target then
+        return
+    end
 
-            self.subScribed = true
-            self:DoSubscribeForValueChange(target)
-        end,
-        catch = function ()
-            
-        end
-    }
+    self.subScribed = true
+    self:DoSubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:DoSubscribeForValueChange(target)
@@ -53,25 +37,17 @@ function ValueTargetProxyBase:DoSubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:Unsubscribe()
-    try
-    {
-        function ()
-            if not self.subScribed then
-                return
-            end
+    if not self.subScribed then
+        return
+    end
 
-            local target = self.target
-            if not target then
-                return
-            end
+    local target = self.target
+    if not target then
+        return
+    end
 
-            self.subScribed = false
-            self:DoUnsubscribeForValueChange(target)
-        end,
-        catch = function ()
-            
-        end
-    }
+    self.subScribed = false
+    self:DoUnsubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
@@ -79,17 +55,9 @@ function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:RaiseValueChanged()
-    try
-    {
-        function ()
-            for i, v in ipairs(self.valueChanged) do
-                v.callback(v.this)
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    table.foreach(self.valueChanged, function (i, v)
+        v.callback(v.this)
+    end)
 end
 
 function ValueTargetProxyBase:GetValue()
@@ -109,7 +77,7 @@ function ValueTargetProxyBase:ContainsName(name)
     return false
 end
 
-function ValueTargetProxyBase:Dispose()
+function ValueTargetProxyBase:dtor()
     
 end
 

@@ -1,29 +1,5 @@
 local ProxyEntry = class("ProxyEntry")
 
-ProxyEntry.__getter.Proxy = function (this, k)
-    
-end
-
-ProxyEntry.__setter.Proxy = function (this, k, v)
-    
-end
-
-ProxyEntry.__getter.Path = function (this, k)
-    
-end
-
-ProxyEntry.__setter.Path = function (this, k, v)
-    
-end
-
-ProxyEntry.__getter.Hnadler = function (this, k)
-    
-end
-
-ProxyEntry.__setter.Hnadler = function (this, k, v)
-    
-end
-
 function ProxyEntry:ctor(proxy, path)
     self.Proxy = proxy
     self.Path = path

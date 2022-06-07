@@ -5,7 +5,7 @@ local GraphicRaycaster = class("GraphicRaycaster", Component)
 GraphicRaycaster.CSharpType = CSharpType.GraphicRaycaster
 
 function GraphicRaycaster:ctor(handler)
-    self.super:ctor(handler)
+    Component.ctor(self, handler)
 end
 
 return GraphicRaycaster

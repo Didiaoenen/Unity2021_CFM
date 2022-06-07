@@ -4,27 +4,17 @@ local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEv
 local ObservableObject = class("ObservableObject", NotifyPropertyChanged)
 
 function ObservableObject:ctor()
-    self.super:ctor()
+    NotifyPropertyChanged.ctor(self)
 end
 
 function ObservableObject:RaisePropertyChanged(property)
-    self:RaisePropertyChangedWithParam(PropertyChangedEventArgs(property))
+    self:RaisePropertyChangedWithParam(PropertyChangedEventArgs.new(property))
 end
 
 function ObservableObject:RaisePropertyChangedWithParam(param)
-    try
-    {
-        function ()
-            if self.propertyChanged then
-                for i, v in ipairs(self.propertyChanged) do
-                    v.callback(v.this, self, param)
-                end
-            end
-        end,
-        catch = function ()
-            
-        end
-    }
+    table.foreach(self.propertyChanged, function (i, v)
+        v.callback(v.this, self, param)
+    end)
 end
 
 function ObservableObject:ParserPropertyName(expression)
@@ -36,6 +26,10 @@ function ObservableObject:Set(field, newValue, property, broadcast)
         self[field.name] = newValue
         self:RaisePropertyChanged(property)
     end
+end
+
+function ObservableObject:dtor()
+    
 end
 
 return ObservableObject

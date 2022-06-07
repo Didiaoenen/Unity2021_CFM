@@ -4,44 +4,44 @@ local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
 
 local Transition = class("Transition")
 
-Transition.__getter.Window = function (this, k)
-    return this.window
+function Transition.get:Window()
+    return self.window
 end
 
-Transition.__setter.Window = function (this, k, v)
-    this.window = v
+function Transition.set:Window(value)
+    self.window = value
 end
 
-Transition.__getter.IsDone = function (this, k)
-    return this.done
+function Transition.get:IsDone()
+    return self.done
 end
 
-Transition.__setter.IsDone = function (this, k, v)
-    this.done = v
+function Transition.set:IsDone(value)
+    self.done = value
 end
 
-Transition.__getter.AnimationDisabled = function (this, k)
-    return this.animationDisabled
+function Transition.get:AnimationDisabled()
+    return self.animationDisabled
 end
 
-Transition.__setter.AnimationDisabled = function (this, k, v)
-    this.animationDisabled = v
+function Transition.set:AnimationDisabled(value)
+    self.animationDisabled = value
 end
 
-Transition.__getter.Layer = function (this, k)
-    return this.layer
+function Transition.get:Layer()
+    return self.layer
 end
 
-Transition.__setter.Layer = function (this, k, v)
-    this.layer = v
+function Transition.set:Layer(value)
+    self.layer = value
 end
 
-Transition.__getter.OverlayPolicy = function (this, k)
-    return this.overlayPolicy
+function Transition.get:OverlayPolicy()
+    return self.overlayPolicy
 end
 
-Transition.__setter.OverlayPolicy = function (this, k, v)
-    this.overlayPolicy = v
+function Transition.set:OverlayPolicy(value)
+    self.overlayPolicy = value
 end
 
 function Transition:ctor(window)
@@ -64,7 +64,7 @@ function Transition:Bind()
 
     self.bound = true
     if self.window then
-        self.window.StateChanged = {this = self, callback = self.StateChanged}
+        self.window.StateChanged = {self = self, callback = self.StateChanged}
     end
 end
 
@@ -75,7 +75,7 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        self.window.StateChanged = {this = self}
+        self.window.StateChanged = {self = self}
     end
 end
 
@@ -90,45 +90,21 @@ function Transition:StateChanged(sender, e)
 end
 
 function Transition:RaiseStateChanged(window, state)
-    try
-    {
-        function ()
-            if self.onStateChanged then
-                self.onStateChanged(window, state)
-            end    
-        end,
-        catch = function ()
-            
-        end
-    }
+    if self.onStateChanged then
+        self.onStateChanged(window, state)
+    end
 end
 
 function Transition:RaiseStart()
-    try
-    {
-        function ()
-            if self.onStart then
-                self.onStart()
-            end    
-        end,
-        catch = function ()
-            
-        end
-    }
+    if self.onStart then
+        self.onStart()
+    end    
 end
 
 function Transition:RaiseFinished()
-    try
-    {
-        function ()
-            if self.onFinish then
-                self.onFinish()
-            end    
-        end,
-        catch = function ()
-            
-        end
-    }
+    if self.onFinish then
+        self.onFinish()
+    end    
 end
 
 function Transition:OnStart()
@@ -197,6 +173,10 @@ end
 
 function Transition:DoTransition()
     print("DoTransition")
+end
+
+function Transition:dtor()
+    
 end
 
 return Transition

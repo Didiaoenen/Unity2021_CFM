@@ -1,7 +1,13 @@
-local Text = class("Text")
+local Component = require("LuaFramework.Views.Components.Component")
 
-function Text:ctor()
-    
+local Text = class("Text", Component)
+
+Text.CSharpType = CSharpType.Text
+
+Text.Text = "text"
+
+function Text:ctor(handler)
+    Component.ctor(self, handler)
 end
 
 return Text

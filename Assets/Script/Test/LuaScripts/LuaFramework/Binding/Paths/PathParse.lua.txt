@@ -1,7 +1,7 @@
 local PathParse = class("PathParse")
 
 function PathParse.Parse(pathText)
-    return split(pathText, ".")
+    return string.split(pathText, ".")
 end
 
 return PathParse

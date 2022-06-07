@@ -25,4 +25,8 @@ function TypedSourceProxyFactory:TryCreateProxy(source, description, proxy)
     
 end
 
+function TypedSourceProxyFactory:dtor()
+    
+end
+
 return TypedSourceProxyFactory

@@ -4,15 +4,13 @@ local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Obj
 local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory)
 
 function ObjectSourceProxyFactory:ctor()
+    TypedSourceProxyFactory.ctor(self)
     self.factories = {}        
 end
 
 function ObjectSourceProxyFactory:TryCreateProxy(source, description, proxy)
     local path = description.Path
-    if #path <= 0 then
-        error("")
-        return
-    end
+    assert(#(path) > 0)
 
     if #path == 1 then
         proxy.ref = self:Create(source, path)
@@ -22,7 +20,7 @@ function ObjectSourceProxyFactory:TryCreateProxy(source, description, proxy)
         return false
     end
 
-    proxy.ref = ChainedObjectSourceProxy(source, path, self)
+    proxy.ref = ChainedObjectSourceProxy.new(source, path, self)
     return true
 end
 
@@ -62,6 +60,10 @@ function ObjectSourceProxyFactory:Unregister(factory)
             return
         end
     end
+end
+
+function ObjectSourceProxyFactory:dtor()
+
 end
 
 return ObjectSourceProxyFactory

@@ -3,11 +3,15 @@ local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyB
 local LiteralSourceProxy = class("LiteralSourceProxy", SourceProxyBase)
 
 function LiteralSourceProxy:ctor(source)
-    self.super:ctor(source)
+    SourceProxyBase.ctor(self, source)
 end
 
 function LiteralSourceProxy:GetValue()
     return self.source
+end
+
+function LiteralSourceProxy:dtor()
+    
 end
 
 return LiteralSourceProxy

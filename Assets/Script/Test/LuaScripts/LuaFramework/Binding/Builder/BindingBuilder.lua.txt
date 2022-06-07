@@ -3,7 +3,7 @@ local BindingBuilderBase = require("LuaFramework.Binding.Builder.BindingBuilderB
 local BindingBuilder = class("BindingBuilder", BindingBuilderBase)
 
 function BindingBuilder:ctor(context, target)
-    self.super:ctor(context, target)
+    BindingBuilderBase.ctor(self, context, target)
 end
 
 function BindingBuilder:For(targetName, updateTrigger)
@@ -43,6 +43,10 @@ end
 function BindingBuilder:CommandParameter(parameter)
     self:SetCommandParameter(parameter)
     return self    
+end
+
+function BindingBuilder:dtor()
+    
 end
 
 return BindingBuilder

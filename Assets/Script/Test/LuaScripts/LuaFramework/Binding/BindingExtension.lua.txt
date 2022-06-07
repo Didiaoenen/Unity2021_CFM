@@ -3,36 +3,27 @@ local BindingContext = require("LuaFramework.Binding.Contexts.BindingContext")
 
 local BindingExtension = class("BindingExtension")
 
-BindingExtension.__getter.Binder = function (this, k)
-    return this.binder
-end
-
-BindingExtension.__setter.Binder = function (this, k, v)
-    this.binder = v
-end
-
-BindingExtension.__getter.BindingContext = function (this, k)
-    if not this.bindingContext then
-        this.bindingContext = BindingContext(this.behaviour, this.binder)
+function BindingExtension.get:BindingContext()
+    if not self.bindingContext then
+        self.bindingContext = BindingContext.new(self.behaviour)
     end
-    return this.bindingContext
+    return self.bindingContext
 end
 
 function BindingExtension:ctor(behaviour)
-    self.binder = nil
     self.bindingContext = nil
     self.behaviour = behaviour
 end
 
 function BindingExtension:CreateBindingSet()
     local context = self.BindingContext
-    return BindingSet(context, self.behaviour)
+    return BindingSet.new(context, self.behaviour)
 end
 
 function BindingExtension:CreateBindingSetWithContext(dataContext)
     local context = self.BindingContext
     context.DataContext = dataContext
-    return BindingSet(context, self.behaviour)
+    return BindingSet.new(context, self.behaviour)
 end
 
 function BindingExtension:SetDataContext(dataContext)
@@ -41,6 +32,10 @@ end
 
 function BindingExtension:GetDataContext()
     return self.BindingContext.DataContext
+end
+
+function BindingExtension:dtor()
+    
 end
 
 return BindingExtension

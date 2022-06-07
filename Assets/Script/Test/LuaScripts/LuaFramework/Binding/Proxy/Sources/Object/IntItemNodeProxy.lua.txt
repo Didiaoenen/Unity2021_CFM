@@ -8,4 +8,8 @@ function IntItemNodeProxy:OnCollectionChanged(sender, e)
     
 end
 
+function IntItemNodeProxy:dtor()
+
+end
+
 return IntItemNodeProxy

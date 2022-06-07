@@ -1,19 +1,19 @@
 local AsyncResult = class("AsyncResult")
 
-AsyncResult.__getter.IsDone = function (this, k)
-    return this.csharp.done
+function AsyncResult.get:IsDone()
+    return self.csharp.done
 end
 
-AsyncResult.__getter.Result = function (this, k)
-    return this.csharp.result
+function AsyncResult.get:Result()
+    return self.csharp.result
 end
 
-AsyncResult.__getter.IsCancellationRequested = function (this, k)
-    return this.csharp.cancellationRequested
+function AsyncResult.get:IsCancellationRequested()
+    return self.csharp.cancellationRequested
 end
 
-AsyncResult.__getter.IsCancelled = function (this, k)
-    return this.csharp.cancelled
+function AsyncResult.get:IsCancelled()
+    return self.csharp.cancelled
 end
 
 function AsyncResult:ctor(cancelable)
@@ -46,6 +46,10 @@ end
 
 function AsyncResult:WaitForDone()
     return self.csharp:WaitForDone()
+end
+
+function AsyncResult:dtor()
+    
 end
 
 return AsyncResult

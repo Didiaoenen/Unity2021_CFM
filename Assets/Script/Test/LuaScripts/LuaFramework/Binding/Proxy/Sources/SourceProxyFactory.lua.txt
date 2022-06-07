@@ -50,4 +50,8 @@ function SourceProxyFactory:Unregister(factory)
     end
 end
 
+function SourceProxyFactory:dtor()
+    
+end
+
 return SourceProxyFactory

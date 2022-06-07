@@ -4,24 +4,19 @@ local WindowBase = require("LuaFramework.Views.WindowBase")
 
 local TestV = class("TestV", WindowBase)
 
-TestV.PrefabPath = "Cube"
+TestV.PrefabPath = "TestV"
 
 function TestV:ctor(bundle)
-    self.super:ctor(bundle)
+    WindowBase.ctor(self, bundle)
 
-    local text = CS.UnityEngine.GameObject.Find("Canvas/Text"):GetComponent(typeof(CS.UnityEngine.UI.Text))
-    local button = CS.UnityEngine.GameObject.Find("Canvas/Button"):GetComponent(typeof(CS.UnityEngine.UI.Button))
-    local inputField = CS.UnityEngine.GameObject.Find("Canvas/InputField"):GetComponent(typeof(CS.UnityEngine.UI.InputField))
-
-    local testVM = TestVM()
-    local be = BindingExtension(self)
-    be.Binder = bundle.binder
-    local set = be:CreateBindingSetWithContext(testVM)
+    self.viewModel = TestVM()
+    self.bindingExt = BindingExtension(self)
+    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.testVM)
     -- local builder = set:Bind()
     -- builder:For("TestFunc"):To("TestRequest")
 
-    local builder = set:BindByTarget(text)
-    builder:For("text"):To("Test"):OneWay()
+    -- local builder = set:BindByTarget(text)
+    -- builder:For("text"):To("Test"):OneWay()
     
     -- local builder = set:BindByTarget(text)
     -- builder:For("color"):To("TestColor"):OneWay()
@@ -32,18 +27,18 @@ function TestV:ctor(bundle)
     -- local builder = set:BindByTarget(text.gameObject)
     -- builder:For("activeSelf"):To("TestActive"):TwoWay()
 
-    local builder = set:BindByTarget(button)
-    builder:For("onClick"):To("OnClick"):OneWay()
+    -- local builder = set:BindByTarget(button)
+    -- builder:For("onClick"):To("OnClick"):OneWay()
 
-    local builder = set:BindByTarget(button)
-    builder:For("onClick"):To("TestCommand"):OneWay()
+    -- local builder = set:BindByTarget(button)
+    -- builder:For("onClick"):To("TestCommand"):OneWay()
 
-    local builder = set:BindByTarget(inputField)
-    builder:For("text", "onValueChanged"):To("Test"):TwoWay()
+    -- local builder = set:BindByTarget(inputField)
+    -- builder:For("text", "onValueChanged"):To("Test"):TwoWay()
 
-    set:Build()
+    -- set:Build()
 
-    testVM.Test = "123"
+    -- testVM.Test = "123"
 
     -- testVM.TestRequest:Raise()
 end
@@ -52,21 +47,29 @@ function TestV:TestFunc(sender, args)
     print("hahaha")
 end
 
-function TestV:OnCreate(bundle)
-    self.super:OnCreate()
+function TestV:OnCreate()
+    WindowBase.OnCreate(self)
     print("child OnCreate")
 
-    local transOne = self.transform:Find("GameObjectOne")
-    local transTwo = self.transform:Find("GameObjectTwo")
-    self:CreateSubView("Game.TestSubV", {parent = transOne})
-    self:CreateSubView("Game.TestSubV", {parent = transTwo})
+    local text = self.Transform:Find("Text"):GetComponent(typeof(CSharpType.Text))
+
+    local builder = self.bindingSet:BindByTarget(text)
+    builder:For(text.Text):To("Test"):OneWay()
+    
+    --
+    self.bindingSet:Build()
 end
 
 function TestV:OnShow()
-    self.super:OnShow()
+    WindowBase.OnShow(self)
     print("child OnShow")
 
+    self.testVM.Test = "123"
 
+    -- local transOne = self.transform:Find("GameObjectOne")
+    -- local transTwo = self.transform:Find("GameObjectTwo")
+    -- self:CreateSubView("Game.TestSubV", {parent = transOne})
+    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
 end
 
 return TestV

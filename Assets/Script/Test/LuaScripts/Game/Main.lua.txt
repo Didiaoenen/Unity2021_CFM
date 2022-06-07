@@ -3,15 +3,9 @@ require("Debug.LuaPanda").start("127.0.0.1", 8818)
 require("LuaFramework.Global")
 
 function Main()
-    require("Game.TestOOP")
+    -- require("Game.TestOOP")
 
-    WindowManager.Open("Game.TestV", {binder = binder})
-
-    Executors.RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
-        Coroutine.Wait(15)
-
-        -- WindowManager.Current:Hide()
-    end))
+    WindowManager:Open("Game.TestV")
 end
 
 function __G__TRACKBACK__(msg)
