@@ -14,7 +14,9 @@ end
 
 function UniversalNodeProxyFactory:Create(source, path)
     local node = path[1]
-    assert( not source and not node.IsStatic, "")
+    if not source and not node.IsStatic then
+        return
+    end
 
     if node.IsStatic then
         return self:CreateStaticProxy(node)
@@ -25,7 +27,6 @@ end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
     local memberInfo = source[node]
-    assert(memberInfo, "")
 
     if type(memberInfo) == "function" then
         return MethodNodeProxy.new(source, node)

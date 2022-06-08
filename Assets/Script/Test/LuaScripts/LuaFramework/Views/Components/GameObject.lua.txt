@@ -1,13 +1,21 @@
-local GameObject = class("GameObject")
+local Component = require("LuaFramework.Views.Components.Component")
+
+local GameObject = class("GameObject", Component)
 
 GameObject.CSharpType = CSharpType.GameObject
 
-function GameObject:ctor()
-    
+GameObject.ActiveSelf = "activeSelf"
+
+function GameObject:ctor(handler)
+    Component.ctor(self, handler)
 end
 
-function GameObject:SetActive(active)
-    
+function GameObject:GetComponent(cType)
+    return self.handler:GetComponent(cType)
+end
+
+function GameObject:AddComponent(cType)
+    return self.handler:AddComponent(cType)
 end
 
 return GameObject

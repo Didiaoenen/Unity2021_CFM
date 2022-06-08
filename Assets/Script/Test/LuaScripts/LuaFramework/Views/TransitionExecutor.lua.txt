@@ -79,16 +79,6 @@ function TransitionExecutor:DoTask()
                         transition:TransitionTask()
                     end))
                     Coroutine.Yield(result:WaitForDone())
-
-                    local manager = transition.Window.WindowManager
-                    local current = manager.Current
-                    local exist = table.exists(self.transitions, function (i, v)
-                        return v.Window.WindowManager == manager
-                    end)
-                    -- if manager.Activated and current and not current.Activated and not exist then
-                    --     local activate = current:Activate(transition.AnimationDisabled)
-                    --     Coroutine.Yield(activate:WaitForDone())
-                    -- end
                 else
                     Coroutine.Wait(0)
                 end
@@ -107,8 +97,7 @@ function TransitionExecutor:Check(transition)
     end
 
     local window = transition.Window
-    local manager = window.WindowManager
-    local current = manager.Current
+    local current = WindowManager.Current
     if not current then
         return true
     end
@@ -117,7 +106,7 @@ function TransitionExecutor:Check(transition)
         return false
     end
 
-    if current.WindowType == WindowType.QUEUED_POPUP and not (current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) then
+    if current.WindowType == WindowType.QUEUED_POPUP and not (window.WindowType == WindowType.DIALOG or window.WindowType == WindowType.PROGRESS) then
         return false
     end
 

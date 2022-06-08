@@ -4,8 +4,7 @@ local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Obje
 local BindingBuilderBase = class("BindingBuilderBase")
 
 function BindingBuilderBase:ctor(context, target)
-    assert(context, "")
-    assert(target, "")
+    assert(context and target, "")
 
     self.context = context
     self.target = target

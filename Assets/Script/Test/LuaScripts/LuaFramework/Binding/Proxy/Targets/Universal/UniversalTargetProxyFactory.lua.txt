@@ -13,7 +13,6 @@ end
 
 function UniversalTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    assert(memberInfo ~= nil, "")
 
     if type(memberInfo) == "function" then
         return MethodTargetProxy.new(target, description.TargetName)

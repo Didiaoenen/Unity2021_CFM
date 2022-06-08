@@ -42,7 +42,6 @@ end
 function WindowViewBase.set:Activated(value)
     if value ~= self.activated then
         self.activated = value
-        self:OnActivatedChanged()
         self:RaiseActivatedChanged()
     end
 end
@@ -97,19 +96,20 @@ function WindowViewBase.get:Transform()
 end
 
 function WindowViewBase.get:Visibility()
-
+    assert(self.viewModel, "")
+    return self.viewModel.ActiveSelf
 end
 
 function WindowViewBase.set:Visibility(value)
+    if not self.viewModel then
+        return
+    end
 
-end
+    if self.viewModel.ActiveSelf == value then
+        return
+    end
 
-function WindowViewBase.get:Interactable()
-
-end
-
-function WindowViewBase.set:Interactable(value)
-
+    self.viewModel.ActiveSelf = value
 end
 
 function WindowViewBase:ctor(bundle)
@@ -141,10 +141,9 @@ function WindowViewBase:ctor(bundle)
     self.bindingExt = nil
     self.bindingSet = nil
 
+    self.parent = nil
+    self.variables = nil
     self.components = {}
-
-    --
-    -- self.parent = table.containskey(bundle, "parent") and bundle.parent
 end
 
 function WindowViewBase:OnEnable()
@@ -153,16 +152,6 @@ end
 
 function WindowViewBase:OnDisable()
     self:RaiseVisibilityChanged()
-end
-
-function WindowViewBase:SetParent(parent)
-    assert(parent, "")
-    self.parent = parent
-    self.transform:SetParent(parent)
-end
-
-function WindowViewBase:OnActivatedChanged()
-    self.Interactable = self.activated
 end
 
 function WindowViewBase:RaiseActivatedChanged()
@@ -266,15 +255,9 @@ function WindowViewBase:Create()
         Coroutine.Yield(result:WaitForDone())
         print("加载完成。。。")
 
-        self.gameObject = result.Result
-        self.transform = self.gameObject.transform
-        self:SetParent(self.Parent or CSharpType.GameObject.Find("UIRoot").transform)
-        self.transform.localRotation = CSharpType.Quaternion.identity
-        self.transform.localPosition = CSharpType.Vector3.zero
-        self.transform.localScale = CSharpType.Vector3.one
+        self.gameObject = GameObject.new(result.Result)
 
         self.Visibility = false
-        self.Interactable = self.Activated
         self:OnCreate()
         self.created = true
         self.State = WindowState.CREATE_END
@@ -285,26 +268,57 @@ end
 
 function WindowViewBase:OnCreate()
     print("parent OnCreate")
+    
+    self.parent = self.viewModel.parent
 
+    self.variables = self:GetComponent(MonoVariableArray)
+
+    -- GameObject
+    local builder = self.bindingSet:BindByTarget(self.gameObject.handler)
+    builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
+
+    -- RectTransform
+    self.transform = self:GetComponent(RectTransform)
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.Parent):To("Parent"):OneWay()
+    
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
+    
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.LocalPosition):To("LocalPosition"):OneWay()
+
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.LocalScale):To("LocalScale"):OneWay()
+
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.OffsetMax):To("OffsetMax"):OneWay()
+
+    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder:For(self.transform.OffsetMin):To("OffsetMin"):OneWay()
+
+    -- Canvas
     local canvas = self:AddComponent(Canvas)
-    local canvasGroup = self:AddComponent(CanvasGroup)
-    self:AddComponent(GraphicRaycaster)
-
-    local layer = WindowManager:GetLayer(self.windowType)
-    assert(layer, "")
-
     local builder = self.bindingSet:BindByTarget(canvas.handler)
     builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
     
     local builder = self.bindingSet:BindByTarget(canvas.handler)
     builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
 
+    -- CanvasGroup
+    local canvasGroup = self:AddComponent(CanvasGroup)
     local builder = self.bindingSet:BindByTarget(canvasGroup.handler)
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
+
+    -- GraphicRaycaster
+    self:AddComponent(GraphicRaycaster)
 
     self.bindingSet:Build()
 
     --
+    local layer = WindowManager:GetLayer(self.windowType)
+    assert(layer, "")
+
     self.viewModel.SortingOrder = layer:PushWindowOrder()
 end
 
@@ -408,12 +422,12 @@ end
 
 function WindowViewBase:DoDismiss()
     if not self.dismissed then
-        assert(self.Owner, "")
+        assert(self.gameObject, "")
         self.State = WindowState.DISMISS_BEGIN
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CSharpType.Object.Destroy(self.Owner)
+        CSharpType.Object.Destroy(self.gameObject)
         self.State = WindowState.DISMISS_END
         self.dismissTransition = nil
     end
@@ -423,10 +437,16 @@ function WindowViewBase:OnDismiss()
     
 end
 
-function WindowViewBase:GetComponent(cType, name)
-    local component = self.variables(cType, name)
+function WindowViewBase:GetComponentWithName(component, name)
+    assert(component and name, "")
+    component = component.new(self.variables:Get(name))
     table.insert(self.components, component)
     return component
+end
+
+function WindowViewBase:GetComponent(component)
+    assert(self.gameObject, "")
+    return component.new(self.gameObject:GetComponent(typeof(component.CSharpType)))
 end
 
 function WindowViewBase:AddComponent(component)
@@ -440,7 +460,7 @@ function WindowViewBase:dtor()
     end
     
     table.foreach(self.components, function (i, v)
-        v:Destroy()
+        v:delete()
     end)
     self.components = nil
 

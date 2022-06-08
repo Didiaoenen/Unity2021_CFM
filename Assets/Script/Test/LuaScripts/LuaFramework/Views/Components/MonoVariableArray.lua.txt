@@ -1,0 +1,15 @@
+local Component = require("LuaFramework.Views.Components.Component")
+
+local MonoVariableArray = class("MonoVariableArray", Component)
+
+MonoVariableArray.CSharpType = CSharpType.Simple.MonoVariableArray
+
+function MonoVariableArray:ctor(handler)
+    Component.ctor(self, handler)
+end
+
+function MonoVariableArray:Get(name)
+    return self.handler.variableArray:Get(name)
+end
+
+return MonoVariableArray

@@ -162,6 +162,9 @@ function class.New(...)
         CreateClassDelete(cls)
     );
 
+    -- get name. why not?
+    cls.__name = name;
+
     clsMeta.__index = Functions.ClassGet;
     clsMeta.__newindex = Functions.ClassSet;
     return cls;

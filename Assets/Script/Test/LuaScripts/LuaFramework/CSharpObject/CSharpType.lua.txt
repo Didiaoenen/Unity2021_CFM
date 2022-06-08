@@ -8,16 +8,19 @@ CSharpType = {
     GameObject = CS.UnityEngine.GameObject,
     CanvasGroup = CS.UnityEngine.CanvasGroup,
     WaitForSeconds = CS.UnityEngine.WaitForSeconds,
+    Vector2 = CS.UnityEngine.Vector2,
     Vector3 = CS.UnityEngine.Vector3,
     Quaternion = CS.UnityEngine.Quaternion,
-    GraphicRaycaster = CS.UnityEngine.GraphicRaycaster,
-
+    RectTransform = CS.UnityEngine.RectTransform,
+    
     -- UnityEngine.UI
+    GraphicRaycaster = CS.UnityEngine.UI.GraphicRaycaster,
     Text = CS.UnityEngine.UI.Text,
     Button = CS.UnityEngine.UI.Button,
     InputField = CS.UnityEngine.UI.InputField,
 
     -- NameSpace
+    Simple = CS.Assembly_CSharp.Assets.Script.Simple,
     Execution = CS.Assembly_CSharp.Assets.Script.Simple.Execution,
     Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous,
 }

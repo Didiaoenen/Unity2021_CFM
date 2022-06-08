@@ -123,3 +123,11 @@ print(testVertex.is(Point))
 print(testVertex.is(Point3D))
 print(testVertex.is(Color))
 print(testVertex.is(Vertex))
+
+local TestClass = class("TestClass")
+
+function TestClass:ctor()
+    print("")
+end
+
+local tc = TestClass.new()

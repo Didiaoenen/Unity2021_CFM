@@ -11,7 +11,7 @@ function TestV:ctor(bundle)
 
     self.viewModel = TestVM.new()
     self.bindingExt = BindingExtension.new(self)
-    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.testVM)
+    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel)
     -- local builder = set:Bind()
     -- builder:For("TestFunc"):To("TestRequest")
 
@@ -51,9 +51,9 @@ function TestV:OnCreate()
     WindowBase.OnCreate(self)
     print("child OnCreate")
 
-    local text = self.Transform:Find("Text"):GetComponent(typeof(CSharpType.Text))
+    local text = self:GetComponentWithName(Text, "text")
 
-    local builder = self.bindingSet:BindByTarget(text)
+    local builder = self.bindingSet:BindByTarget(text.handler)
     builder:For(text.Text):To("Test"):OneWay()
     
     --
@@ -64,12 +64,18 @@ function TestV:OnShow()
     WindowBase.OnShow(self)
     print("child OnShow")
 
-    self.testVM.Test = "123"
+    self.viewModel.Test = "hahaha"
+
+    self.viewModel.ActiveSelf = false
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")
     -- self:CreateSubView("Game.TestSubV", {parent = transOne})
     -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
+end
+
+function TestV:dtor()
+    
 end
 
 return TestV

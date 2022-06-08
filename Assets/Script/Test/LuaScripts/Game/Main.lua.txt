@@ -6,6 +6,7 @@ function Main()
     -- require("Game.TestOOP")
 
     WindowManager:Open("Game.TestV")
+    -- WindowManager:Open("Game.TestV")
 end
 
 function __G__TRACKBACK__(msg)

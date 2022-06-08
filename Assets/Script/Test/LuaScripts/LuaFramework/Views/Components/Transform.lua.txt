@@ -1,9 +1,19 @@
-local Transform = class("Transform")
+local Component = require("LuaFramework.Views.Components.Component")
+
+local Transform = class("Transform", Component)
 
 Transform.CSharpType = CSharpType.Transform
 
-function Transform:ctor()
-    
+Transform.LocalRotation = "localRotation"
+
+Transform.LocalPosition = "localPosition"
+
+Transform.LocalScale = "localScale"
+
+Transform.Parent = "parent"
+
+function Transform:ctor(handler)
+    Component.ctor(self, handler)
 end
 
 return Transform

@@ -163,12 +163,15 @@ public class Test : MonoBehaviour
 
     public InputField testInputField;
 
+    public Image testImage;
+
     private TestVM testVM;
 
     // Start is called before the first frame update
     void Start()
     {
 
+        testImage.gameObject.AddComponent(typeof(Canvas));
     }
 
     public void InitClick()

@@ -31,7 +31,7 @@ function TransitionShow:DoTransition()
     end
     self.Layer = layer
 
-    local previous = self.manager:GetVisibleWindow(layer)
+    local previous = false
     if previous then
         if previous.Activated then
             local passivate = previous:Passivate(self.AnimationDisabled)

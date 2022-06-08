@@ -78,11 +78,11 @@ function WindowManager:Dismiss(window)
 end
 
 function WindowManager:PushWindowStack(window)
+    table.insert(self.windowStack, window)
     if self.Current ~= self.windowStack[1] then
         local window = table.remove(self.windowStack, #(self.windowStack))
         window:Hide()
     end
-    table.insert(self.windowStack, window)
 end
 
 function WindowManager:PopWindowStack()
@@ -94,7 +94,8 @@ end
 
 function WindowManager:Open(name, bundle)
     local window = require(name)
-    window.new(bundle):Create()
+    window = window.new(bundle)
+    window:Create()
 
     if window.windowType == WindowType.NONE then
         self.Current:AddSubView(window)

@@ -20,7 +20,11 @@ Executors = require("LuaFramework.CSharpObject.Executors")
 Canvas = require("LuaFramework.Views.Components.Canvas")
 CanvasGroup = require("LuaFramework.Views.Components.CanvasGroup")
 GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
+RectTransform = require("LuaFramework.Views.Components.RectTransform")
+GameObject = require("LuaFramework.Views.Components.GameObject")
 Text = require("LuaFramework.Views.Components.Text")
+
+MonoVariableArray = require("LuaFramework.Views.Components.MonoVariableArray")
 
 -- lua object
 PathParse = require("LuaFramework.Binding.Paths.PathParse")

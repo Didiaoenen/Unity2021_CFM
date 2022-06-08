@@ -10,7 +10,6 @@ end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
     local memberInfo = target[description.TargetName]
-    assert(memberInfo ~= nil, "")
 
     local updateTrigger = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then
@@ -36,15 +35,15 @@ function UnityTargetProxyFactory:CreateProxy(target, description)
 end
 
 function UnityTargetProxyFactory:CreateUnityPropertyProxy(target, propertyInfo, updateTrigger)
-    return UnityPropertyProxy(target, propertyInfo, updateTrigger)
+    return UnityPropertyProxy.new(target, propertyInfo, updateTrigger)
 end
 
 function UnityTargetProxyFactory:CreateUnityFieldProxy(target, fieldInfo, updateTrigger)
-    return UnityFieldProxy(target, fieldInfo, updateTrigger)
+    return UnityFieldProxy.new(target, fieldInfo, updateTrigger)
 end
 
 function UnityTargetProxyFactory:CreateUnityEventProxy(target, unityEvent)
-    return UnityEventProxy(target, unityEvent)
+    return UnityEventProxy.new(target, unityEvent)
 end
 
 function UnityTargetProxyFactory:dtor()
