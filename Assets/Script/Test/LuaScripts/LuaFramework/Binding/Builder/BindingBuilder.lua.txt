@@ -9,7 +9,7 @@ end
 function BindingBuilder:For(targetName, updateTrigger)
     self.description.TargetName = targetName
     self.description.UpdateTrigger = updateTrigger
-    if type(self.target[targetName]) == "function" then
+    if type(self.target[self.description.TargetName]) == "function" then
         self:OneWayToSource()
     end
     return self

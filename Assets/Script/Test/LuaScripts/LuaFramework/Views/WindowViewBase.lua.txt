@@ -250,6 +250,7 @@ function WindowViewBase:Create()
     Executors:RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
 
         self.State = WindowState.CREATE_BEGIN
+        self.Visibility = false
 
         local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, typeof(CSharpType.GameObject))
         Coroutine.Yield(result:WaitForDone())
@@ -257,7 +258,6 @@ function WindowViewBase:Create()
 
         self.gameObject = GameObject.new(result.Result)
 
-        self.Visibility = false
         self:OnCreate()
         self.created = true
         self.State = WindowState.CREATE_END

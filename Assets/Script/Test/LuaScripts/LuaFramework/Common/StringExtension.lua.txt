@@ -8,3 +8,10 @@ function string.split(str, sep)
     end)  
     return items
 end
+
+function string.isnilorempty(str)
+    if str == nil or str == "" then
+        return true
+    end
+    return false
+end

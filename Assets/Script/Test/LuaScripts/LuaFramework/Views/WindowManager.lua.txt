@@ -78,18 +78,20 @@ function WindowManager:Dismiss(window)
 end
 
 function WindowManager:PushWindowStack(window)
-    table.insert(self.windowStack, window)
-    if self.Current ~= self.windowStack[1] then
-        local window = table.remove(self.windowStack, #(self.windowStack))
-        window:Hide()
+    local preCurrent = self.Current
+    if #(self.windowStack) > 0 then
+        if preCurrent ~= self.windowStack[1] then
+            preCurrent = self:PopWindowStack()
+        end
     end
+    table.insert(self.windowStack, window)
+    return preCurrent
 end
 
 function WindowManager:PopWindowStack()
     assert(#(self.windowStack) > 0, "")
-    local window = table.remove(self.windowStack, #(self.windowStack))
-    window:Hide()
-    return self.Current and self.Current:Show()
+    table.remove(self.windowStack, #(self.windowStack))
+    return self.Current
 end
 
 function WindowManager:Open(name, bundle)
@@ -97,13 +99,6 @@ function WindowManager:Open(name, bundle)
     window = window.new(bundle)
     window:Create()
 
-    if window.windowType == WindowType.NONE then
-        self.Current:AddSubView(window)
-    elseif window.windowType == WindowType.FULL then
-        self:PushWindowStack(window)
-    elseif window.windowType == WindowType.POPUP or window.windowType == WindowType.DIALOG then
-        self.Current:PushOpenView(window)
-    end
     table.insert(self.windowViews, window)
 
     return window
@@ -111,17 +106,10 @@ end
 
 function WindowManager:Close(name)
     local window = self:GetWindowView(name)
-    if window.windowType == WindowType.NONE then
-        window:Hide()
-    elseif window.windowType == WindowType.FULL then
-        self:PopWindowStack()
-    elseif window.windowType == WindowType.POPUP or window.windowType == WindowType.DIALOG then
-        self.Current:PopOpenView()
-    end
 end
 
 function WindowManager:GetWindowView(name)
-    table.find(self.windowViews, function (i, v)
+    return table.find(self.windowViews, function (i, v)
         return v.Name == name
     end)
 end

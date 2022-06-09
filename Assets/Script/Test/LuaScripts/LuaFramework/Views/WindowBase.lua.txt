@@ -45,18 +45,20 @@ function WindowBase:AddSubView(view)
 end
 
 function WindowBase:PushOpenView(view)
-    if view.WindowType == self.Current.WindowType and view.Mutex then
-        local view = table.remove(self.viewStack, #(self.viewStack))
-        view:Hide()
+    local preCurrent = self.Current
+    if self.Current and view.WindowType == self.Current.WindowType then
+        if view.Mutex then
+            preCurrent = self:PopOpenView()
+        end
     end
     table.insert(self.viewStack, view)
+    return preCurrent
 end
 
 function WindowBase:PopOpenView()
     assert(#(self.viewStack) > 0)
-    local view = table.remove(self.viewStack, #(self.viewStack))
-    view:Hide()
-    return self.Current and self.Current:Show()
+    table.remove(self.viewStack, #(self.viewStack))
+    return self.Current
 end
 
 function WindowBase:dtor()

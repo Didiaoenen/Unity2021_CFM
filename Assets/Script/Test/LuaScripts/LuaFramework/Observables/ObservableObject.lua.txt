@@ -17,10 +17,6 @@ function ObservableObject:RaisePropertyChangedWithParam(param)
     end)
 end
 
-function ObservableObject:ParserPropertyName(expression)
-    return expression.Name
-end
-
 function ObservableObject:Set(field, newValue, property, broadcast)
     if self[field.name] ~= newValue then
         self[field.name] = newValue

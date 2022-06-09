@@ -8,8 +8,8 @@ function TransitionShow:ctor(manager, window)
 end
 
 function TransitionShow:Overlay(previous, current)
-    if not previous or previous.WindowType == WindowType.FULL then
-        return ActionType.None
+    if previous.WindowType == WindowType.FULL then
+        return ActionType.Hide
     end
 
     if previous.WindowType == WindowType.POPUP then
@@ -21,23 +21,18 @@ end
 
 function TransitionShow:DoTransition()
     Transition.DoTransition(self)
-    local current = self.Window
-    local layer = (self.Layer < 0 or current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS) and 0 or self.Layer
-    if layer < 0 then
-        local visibleCount = self.manager.VisibleCount
-        if layer > visibleCount then
-            layer = visibleCount
-        end
+    local current = self.window
+
+    local previous = nil
+    if current.windowType == WindowType.NONE then
+        WindowManager.Current:AddSubView(current)
+    elseif current.windowType == WindowType.FULL then
+        previous = WindowManager:PushWindowStack(current)
+    elseif current.windowType == WindowType.POPUP or window.windowType == WindowType.DIALOG then
+        previous = WindowManager.Current:PushOpenView(current)
     end
-    self.Layer = layer
 
-    local previous = false
     if previous then
-        if previous.Activated then
-            local passivate = previous:Passivate(self.AnimationDisabled)
-            Coroutine.Yield(passivate:WaitForDone())
-        end
-
         local policy = self.OverlayPolicy
         if not policy then
             policy = self.Overlay
@@ -45,22 +40,18 @@ function TransitionShow:DoTransition()
 
         local actionType = policy(self, previous, current)
         if actionType == ActionType.Hide then
-            previous:DoHide(self.AnimationDisabled)
+            local hide = previous:DoHide(self.AnimationDisabled)
+            Coroutine.Yield(hide:WaitForDone())
         elseif actionType == ActionType.Dismiss then
-            previous:DoHide(self.AnimationDisabled):Callbackable():OnCallback(function (r)
-                previous:DoDismiss()
-            end)
+            local hide = previous:DoHide(self.AnimationDisabled)
+            Coroutine.Yield(hide:WaitForDone())
+            previous:DoDismiss()
         end
     end
 
     if not current.Visibility then
         local show = current:DoShow(self.AnimationDisabled)
         Coroutine.Yield(show:WaitForDone())
-    end
-
-    if self.manager.Activated and current == self.manager.Current then
-        local activate = current:Activate(self.AnimationDisabled)
-        Coroutine.Yield(activate:WaitForDone())
     end
 end
 

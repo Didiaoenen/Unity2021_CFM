@@ -42,13 +42,8 @@ function BindingBuilderBase:SetCommandParameter(parameter)
 end
 
 function BindingBuilderBase:CheckBindingDescription()
-    if not self.description.TargetName or self.description.TargetName == "" then
-        error("")
-    end
-
-    if not self.description.Source then
-        error("")        
-    end
+    assert(not string.isnilorempty(self.description.TargetName), "")
+    assert(self.description.Source, "")
 end
 
 function BindingBuilderBase:Build()
@@ -62,7 +57,7 @@ function BindingBuilderBase:Build()
 end
 
 function BindingBuilderBase:dtor()
-
+    
 end
 
 return BindingBuilderBase

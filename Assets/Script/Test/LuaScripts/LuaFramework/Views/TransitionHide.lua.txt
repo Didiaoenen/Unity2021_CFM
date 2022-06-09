@@ -10,26 +10,28 @@ end
 
 function TransitionHide:DoTransition()
     Transition.DoTransition(self)
-    local current = self.Window
-    if false then
-        if current.Activated then
-            local passivate = current:Passivate(self.AnimationDisabled)
-            Coroutine:Yield(passivate:WaitForDone())
-        end
-
-        if current.Visibility then
-            local hide = current:DoHide(self.AnimationDisabled)
-            Coroutine:Yield(hide:WaitForDone())
-        end
-    else
-        if current.Visibility then
-            local hide = current:DoHide(self.AnimationDisabled)
-            Coroutine:Yield(hide:WaitForDone())
-        end
+    local current = self.window
+    if current.Visibility then
+        local hide = current:DoHide(self.AnimationDisabled)
+        Coroutine:Yield(hide:WaitForDone())
     end
 
     if self.dismiss then
         current:DoDismiss()
+    end
+
+    local previous = nil
+    if current.windowType == WindowType.NONE then
+        -- nothing to do
+    elseif current.windowType == WindowType.FULL then
+        previous = WindowManager:PopWindowStack()
+    elseif current.windowType == WindowType.POPUP or current.windowType == WindowType.DIALOG then
+        previous = self.Current:PopOpenView()
+    end
+
+    if previous then
+        local show = previous:DoShow(self.AnimationDisabled)
+        Coroutine.Yield(show:WaitForDone())
     end
 end
 

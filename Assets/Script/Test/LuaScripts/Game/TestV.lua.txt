@@ -66,7 +66,7 @@ function TestV:OnShow()
 
     self.viewModel.Test = "hahaha"
 
-    self.viewModel.ActiveSelf = false
+    -- self.viewModel.ActiveSelf = false
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")

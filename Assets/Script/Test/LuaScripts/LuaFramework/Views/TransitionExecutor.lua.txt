@@ -15,43 +15,12 @@ function TransitionExecutor:ctor()
 end
 
 function TransitionExecutor:Execute(transition)
-    try
-    {
-        function ()
-            if transition.__name == "TransitionShow" and transition.Window.WindowType == WindowType.QUEUED_POPUP then
-                local index = table.findlastindex(self.transitions, function (i, v)
-                    return v.__name == "TransitionShow" and 
-                    v.Window.WindowType == WindowType.QUEUED_POPUP and
-                    v.Window.WindowManager == transition.Window.WindowManager and
-                    v.Window.WindowPriority >= transition.Window.WindowPriority
-                end)
-                if index > 0 then
-                    table.insert(self.transitions, index + 1, transition)
-                    return
-                end
-
-                index = table.findindex(self.transitions, function (i, v)
-                    return v.__name == "TransitionShow" and
-                    v.Window.WindowType == WindowType.QUEUED_POPUP and
-                    v.Window.WindowManager == transition.Window.WindowManager and
-                    v.Window.WindowPriority >= transition.Window.WindowPriority
-                end)
-                if index > 0 then
-                    table.insert(self.transitions, index, transition)
-                    return
-                end
-            end
-
-            table.insert(self.transitions, transition)
-        end,
-        finally = function ()
-            if not self.running then
-                self.taskResult = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
-                    self:DoTask()
-                end))
-            end
-        end
-    }
+    table.insert(self.transitions, transition)
+    if not self.running then
+        self.taskResult = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
+            self:DoTask()
+        end))
+    end
 end
 
 function TransitionExecutor:ShutDone()
@@ -70,18 +39,11 @@ function TransitionExecutor:DoTask()
             self.running = true
             Coroutine.Wait(0)
             while #(self.transitions) > 0 do
-                local transition = table.find(self.transitions, function (i, v)
-                    return self:Check(v)
-                end)
-                if transition then
-                    table.removeobj(self.transitions, transition)
-                    local result = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
-                        transition:TransitionTask()
-                    end))
-                    Coroutine.Yield(result:WaitForDone())
-                else
-                    Coroutine.Wait(0)
-                end
+                transition = table.remove(self.transitions, 1)
+                local result = Executors:RunOnCoroutine(Coroutine.GetEnumerator(function ()
+                    transition:TransitionTask()
+                end))
+                Coroutine.Yield(result:WaitForDone())
             end
         end,
         finally = function ()
@@ -89,28 +51,6 @@ function TransitionExecutor:DoTask()
             self.taskResult = nil
         end
     }
-end
-
-function TransitionExecutor:Check(transition)
-    if transition.__name ~= "TransitionShow" then
-        return true
-    end
-
-    local window = transition.Window
-    local current = WindowManager.Current
-    if not current then
-        return true
-    end
-
-    if current.WindowType == WindowType.DIALOG or current.WindowType == WindowType.PROGRESS then
-        return false
-    end
-
-    if current.WindowType == WindowType.QUEUED_POPUP and not (window.WindowType == WindowType.DIALOG or window.WindowType == WindowType.PROGRESS) then
-        return false
-    end
-
-    return true
 end
 
 function TransitionExecutor:dtor()

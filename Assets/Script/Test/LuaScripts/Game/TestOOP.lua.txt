@@ -126,8 +126,18 @@ print(testVertex.is(Vertex))
 
 local TestClass = class("TestClass")
 
+function TestClass.get:Test()
+    return self.text
+end
+
+function TestClass.set:Test(value)
+    self.text = value
+end
+
 function TestClass:ctor()
-    print("")
+    self.text = ""
 end
 
 local tc = TestClass.new()
+
+tc.Test = "123"
