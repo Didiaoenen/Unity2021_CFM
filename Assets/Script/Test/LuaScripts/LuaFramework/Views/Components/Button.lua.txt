@@ -1,7 +1,13 @@
-local Button = class("Button")
+local Component = require("LuaFramework.Views.Components.Component")
+
+local Button = class("Button", Component)
+
+Button.CSharpType = CSharpType.Button
+
+Button.OnClick = "onClick"
 
 function Button:ctor(handler)
-    
+    Component.ctor(self, handler)
 end
 
 return Button

@@ -1,5 +1,10 @@
 return {
     source_dir = "",
     build_dir = "OOP/../../Assets/Script/Test/LuaScripts",
-    xlua = true,
+    exclude = {
+        "CS\\*.tl",
+        "Debug\\*.tl",
+        "OOP\\*.tl",
+    },
+    build_xlua = true,
  }

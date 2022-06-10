@@ -22,7 +22,6 @@ function Point:PrintXY()
     print("y = " .. self.y);
 end
 
-
 -- Point3D继承自Point。
 local Point3D = class(Point) as Point3DType;
 Point3D.z = 0;
@@ -54,7 +53,6 @@ p3d:delete();
 
 
 -------------------------------------------------------
-require("OOP.Class");
 local Test = class() as TestType;
 
 -- 使用public修饰PrintMe方法和data成员。

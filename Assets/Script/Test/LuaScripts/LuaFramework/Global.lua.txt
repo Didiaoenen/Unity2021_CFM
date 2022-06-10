@@ -1,12 +1,7 @@
 
-CS = CS or {}
-
-require("OOP.Class")
-
 require("LuaFramework.System")
 require("LuaFramework.Common.TableExtention")
 require("LuaFramework.Common.StringExtension")
-require("LuaFramework.CSharpObject.CSharpType")
 
 require("LuaFramework.Views.WindowEnum")
 require("LuaFramework.Binding.BindingMode")

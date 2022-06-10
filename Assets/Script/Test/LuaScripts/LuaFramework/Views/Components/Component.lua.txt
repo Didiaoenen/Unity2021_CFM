@@ -6,7 +6,7 @@ function Component:ctor(handler)
     self.handler = handler
 end
 
-function Component:Destroy()
+function Component:dtor()
     self.handler = nil
 end
 
