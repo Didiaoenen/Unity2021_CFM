@@ -1,0 +1,21 @@
+
+
+require("OOP.Class")
+
+local ProxyInvoker = class("ProxyInvoker") as ProxyInvokerType
+
+function ProxyInvoker.get:ProxyMethodInfo(): string
+    return self.proxyMethodInfo
+end
+
+function ProxyInvoker:ctor(target: ObjectType, proxyMethodInfo: string)
+    self.target = target
+    self.proxyMethodInfo = proxyMethodInfo
+end
+
+function ProxyInvoker:Invoke(...: any): any...
+    local functionType = Functions.ClassGet(self.target, self.proxyMethodInfo) as function
+    return functionType(self.target, ...)
+end
+
+return ProxyInvoker

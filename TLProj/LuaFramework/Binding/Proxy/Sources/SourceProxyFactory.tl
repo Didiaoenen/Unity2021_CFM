@@ -1,0 +1,64 @@
+
+
+require("OOP.Class")
+
+local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
+
+local SourceProxyFactory = class("SourceProxyFactory", ISourceProxyFactory) as SourceProxyFactoryType
+
+function SourceProxyFactory:ctor()
+    self.factories = {}
+end
+
+function SourceProxyFactory:CreateProxy(source: ObjectType, description: SourceDescriptionType): SourceProxyBaseType
+    if nil == source then
+        return
+    end
+
+    local proxy: OutProxyType = {}
+    if self:TryCreateProxy(source, description, proxy) then
+        return proxy.ref
+    end
+end
+
+function SourceProxyFactory:TryCreateProxy(source: ObjectType, description: SourceDescriptionType, proxy: OutProxyType): boolean
+    for _, v in ipairs(self.factories) do
+        local factory = v.factory
+        if factory then
+            proxy.ref = (factory as ISourceProxyFactoryType):CreateProxy(source, description)
+            if proxy.ref then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function SourceProxyFactory:Register(factory: PriorityFactoryPairType, priority: number)
+    if nil == factory then
+        return        
+    end
+
+    table.insert(self.factories, {factory = factory, priority = priority or 100})
+    table.sort(self.factories, function(a: PriorityFactoryPairType, b: PriorityFactoryPairType): boolean
+        return a.priority > b.priority
+    end)
+end
+
+function SourceProxyFactory:Unregister(factory: ISourceProxyFactoryType)
+    if nil == factory then
+        return
+    end
+
+    for i, v in ipairs(self.factories) do
+        if v.factory == factory as ObjectType then
+            table.remove(self.factories, i)
+            return
+        end
+    end
+end
+
+function SourceProxyFactory:dtor()
+end
+
+return SourceProxyFactory

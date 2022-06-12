@@ -1,0 +1,5 @@
+local record InteractionTargetProxyType
+
+end
+
+return InteractionTargetProxyType

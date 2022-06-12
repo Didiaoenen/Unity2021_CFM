@@ -1,0 +1,4 @@
+local record TargetProxyFactory
+end
+
+return TargetProxyFactory

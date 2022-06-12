@@ -1,6 +1,6 @@
 -----------------------------------------------
 require("OOP.Class");
-require("Game.Define");
+require("OOP.Define");
 
 local Point = class() as PointType;
 Point.x = 0;
@@ -57,7 +57,7 @@ local Test = class() as TestType;
 
 -- 使用public修饰PrintMe方法和data成员。
 Test.public.data = "123";
-Test.public.state = State.None;
+Test.public.state = 123;
 
 function Test.public:PrintMe()
     print(self.data);

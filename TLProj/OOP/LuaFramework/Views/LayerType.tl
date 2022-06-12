@@ -7,28 +7,29 @@ end
 
 local record Get
     windowType: number
-    WindowType: function(Get): number
+    WindowType: function
 end
 
 local record Set
     windowType: number
-    WindowType: function(Set, number)
+    WindowType: function
 end
 
 local record Layer
     get: Get
     set: Set
+    
+    windowType: number
     WindowType: number
 
-    windowType: number
     orderInLayer: number
     orderStep: number
     maxOrder: number
     minOrder: number
 
-    new: function(Layer): Layer
-    ctor: function(Layer, LayerData)
-    dtor: function(Layer)
+    new: function
+    ctor: function
+    dtor: function
     PushWindowOrder: function(Layer): number
     PopWindowOder: function(Layer)
 end

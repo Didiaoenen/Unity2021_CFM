@@ -91,9 +91,7 @@ function UnityEventProxyBase:BindCommand(command)
         return
     end
 
-    command.CanExecuteChanged = function (sender, e)
-        self:OnCanExecuteChanged(sender, e)
-    end
+    command.CanExecuteChanged = {this = self, callback = self.OnCanExecuteChanged}
 end
 
 function UnityEventProxyBase:UnbindCommand(command)
@@ -101,7 +99,7 @@ function UnityEventProxyBase:UnbindCommand(command)
         return
     end
 
-    command.CanExecuteChanged = nil
+    command.CanExecuteChanged = {this = self}
 end
 
 function UnityEventProxyBase:dtor()

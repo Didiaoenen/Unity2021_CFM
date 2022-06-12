@@ -18,6 +18,7 @@ GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
 RectTransform = require("LuaFramework.Views.Components.RectTransform")
 GameObject = require("LuaFramework.Views.Components.GameObject")
 Text = require("LuaFramework.Views.Components.Text")
+Button = require("LuaFramework.Views.Components.Button")
 
 MonoVariableArray = require("LuaFramework.Views.Components.MonoVariableArray")
 

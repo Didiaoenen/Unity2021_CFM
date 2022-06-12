@@ -52,10 +52,14 @@ function TestV:OnCreate()
     print("child OnCreate")
 
     local text = self:GetComponentWithName(Text, "text")
+    local button = self:GetComponentWithName(Button, "button")
 
     local builder = self.bindingSet:BindByTarget(text.handler)
     builder:For(text.Text):To("Test"):OneWay()
     
+    local builder = self.bindingSet:BindByTarget(button.handler)
+    builder:For(button.OnClick):To("TestCommand"):OneWay()
+
     --
     self.bindingSet:Build()
 end
