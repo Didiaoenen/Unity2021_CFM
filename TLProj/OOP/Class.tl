@@ -84,9 +84,10 @@ global PropertyTargetProxyType = require("OOP.LuaFramework.Binding.Proxy.Targets
 global UniversalTargetProxyFactoryType = require("OOP.LuaFramework.Binding.Proxy.Targets.Universal.UniversalTargetProxyFactoryType")
 global LayerType = require("OOP.LuaFramework.Views.LayerType")
 global WindowManagerType = require("OOP.LuaFramework.Views.WindowManagerType")
-global ExecutorsType = require("OOP.LuaFramework.CSharpObject.ExecutorsType")
 global MessengerType = require("OOP.LuaFramework.Messenging.MessengerType")
 global ObservableObjectType = require("OOP.LuaFramework.Observables.ObservableObjectType")
+global ExecutorsExtType = require("OOP.LuaFramework.CSharpObject.ExecutorsExtType")
+global AsyncResultExtType = require("OOP.LuaFramework.CSharpObject.AsyncResultExtType")
 
 
 
@@ -104,10 +105,11 @@ global WindowManager: WindowManagerType
 global UnityProxyRegister: UnityProxyRegisterType
 
 
-global Executors: ExecutorsType
-
 
 ----------------------------------------------------------
+local ExecutorsType = require("OOP.ExecutorsType")
+local AsyncResultType = require("OOP.AsyncResultType")
+
 
 
 
@@ -129,4 +131,18 @@ end
 
 local record UnityEventBase
 
+end
+
+global record CSharpType
+    Execution: Execution
+    Asynchronous: Asynchronous
+end
+
+global record Execution
+    Executors: ExecutorsType
+    
+end
+ 
+global record Asynchronous
+    AsyncResult: AsyncResultType
 end

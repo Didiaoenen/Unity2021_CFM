@@ -24,6 +24,7 @@ function PropertyNodeProxy:ctor(source: ObjectType, propertyInfo: string)
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender: ObjectType, e: PropertyChangedEventArgsType)
+    print(sender)
     local name = e.PropertyName
     if name and name ~= "" and name == self.propertyInfo then
         self:RaiseValueChanged()
