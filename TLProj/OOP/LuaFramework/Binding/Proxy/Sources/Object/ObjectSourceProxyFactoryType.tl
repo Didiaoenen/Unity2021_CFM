@@ -8,12 +8,12 @@ local PriorityFactoryPair = require("OOP.LuaFramework.Binding.Proxy.PriorityFact
 local record ObjectSourceProxyFactory
     factories: {PriorityFactoryPair}
 
-    new: function
+    new: function(...: any): ObjectSourceProxyFactory
     ctor: function
     dtor: function
     Create: function(ObjectSourceProxyFactory, Object, {string}): SourceProxyBase
     TryCreateProxy: function(ObjectSourceProxyFactory, Object, SourceDescription, OutProxy): boolean
-    Register: function(ObjectSourceProxyFactory, PriorityFactoryPair, number)
+    Register: function(ObjectSourceProxyFactory, INodeProxyFactory, number)
     Unregister: function(ObjectSourceProxyFactory, INodeProxyFactory)
 end
 

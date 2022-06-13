@@ -1,7 +1,5 @@
-local Object = require("OOP.ObjectType")
-
 local record IModifiable
-    SetValue: function(IModifiable, Object)
+    SetValue: function(IModifiable, any)
 end
 
 return IModifiable

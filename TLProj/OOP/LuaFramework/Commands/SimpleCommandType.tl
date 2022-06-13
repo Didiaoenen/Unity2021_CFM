@@ -27,7 +27,7 @@ local record SimpleCommand
 
     execute: function
 
-    new: function
+    new: function(...: any): SimpleCommand
     ctor: function
     dtor: function
     RaiseExecuteChanged: function(SimpleCommand)

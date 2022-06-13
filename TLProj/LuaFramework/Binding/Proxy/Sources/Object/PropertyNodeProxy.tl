@@ -10,7 +10,7 @@ local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable) as PropertyNodeProxyType
 
 function PropertyNodeProxy:ctor(source: ObjectType, propertyInfo: string)
-    NotifiableSourceProxyBase.ctor(source)
+    NotifiableSourceProxyBase.ctor(self, source)
     self.propertyInfo = propertyInfo
 
     if nil == source then

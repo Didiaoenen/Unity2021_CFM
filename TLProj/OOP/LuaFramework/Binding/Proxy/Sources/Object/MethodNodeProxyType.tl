@@ -6,7 +6,7 @@ local record MethodNodeProxy
     methodInfo: string
     invoker: ProxyInvoker
 
-    new: function
+    new: function(...: any): MethodNodeProxy
     ctor: function
     dtor: function
     GetValue: function(MethodNodeProxy): any

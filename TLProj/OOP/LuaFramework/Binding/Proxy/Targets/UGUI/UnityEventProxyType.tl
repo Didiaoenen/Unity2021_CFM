@@ -9,13 +9,12 @@ local record UnityEventProxy
     invoker: ProxyInvoker
     command: SimpleCommand
 
-    new: function
+    new: function(...: any): UnityEventProxy
     ctor: function
     dtor: function
     BindEvent: function(UnityEventProxy)
     UnbindEvent: function(UnityEventProxy)
-    IsValidHandler: function(UnityEventProxy, any)
-    IsValidInvoker: function(UnityEventProxy, any)
+    IsValidInvoker: function(UnityEventProxy, ProxyInvoker)
     OnEvent: function(UnityEventProxy, ...: any)
 end
 

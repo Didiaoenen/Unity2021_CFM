@@ -2,8 +2,8 @@
 
 require("OOP.Class")
 
-local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
+local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 
 local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase, INotifiable) as NotifiableSourceProxyBaseType
 

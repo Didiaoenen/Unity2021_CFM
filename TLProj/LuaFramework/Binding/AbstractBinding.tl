@@ -4,33 +4,25 @@ require("OOP.Class")
 
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
-function AbstractBinding.get:BindingContext(): Object
-    return self.bindingContext
-end
-
-function AbstractBinding.set:BindingContext(value: Object)
-    self.bindingContext = value
-end
-
-function AbstractBinding.get:Target(): Object
+function AbstractBinding.get:Target(): ObjectType
     return self.target
 end
 
-function AbstractBinding.get:DataContext(): Object
+function AbstractBinding.get:DataContext(): ObjectType
     return self.dataContext
 end
 
-function AbstractBinding.set:DataContext(value: Object)
+function AbstractBinding.set:DataContext(value: ObjectType)
     self.dataContext = value
 end
 
-function AbstractBinding:ctor(bindingContext: Object, dataContext: Object, target: Object)
-    self.bindingContext = bindingContext
+function AbstractBinding:ctor(dataContext: ObjectType, target: ObjectType)
     self.dataContext = dataContext
     self.target = target
 end
 
-function AbstractBinding:IsAlive(target: Object)
+function AbstractBinding:IsAlive(target: ObjectType)
+    print(target)
 end
 
 function AbstractBinding:OnDataContextChanged()

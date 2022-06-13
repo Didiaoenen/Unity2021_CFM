@@ -11,6 +11,7 @@ function TypedSourceProxyFactory:ctor()
 end
 
 function TypedSourceProxyFactory:IsSupported(description: SourceDescriptionType): boolean
+    print(description)
     return true
 end
 
@@ -21,14 +22,15 @@ function TypedSourceProxyFactory:CreateProxy(source: ObjectType, description: So
 
     local proxy: OutProxyType = {}
     if self:TryCreateProxy(source, description, proxy) then
-        return proxy.ref
+        return proxy.ref as SourceProxyBaseType
     end
 
-    return proxy.ref
+    return proxy.ref as SourceProxyBaseType
 end
 
 function TypedSourceProxyFactory:TryCreateProxy(source: ObjectType, description: SourceDescriptionType, proxy: OutProxyType): boolean
-    
+    print(source, description, proxy)
+    return true
 end
 
 function TypedSourceProxyFactory:dtor()

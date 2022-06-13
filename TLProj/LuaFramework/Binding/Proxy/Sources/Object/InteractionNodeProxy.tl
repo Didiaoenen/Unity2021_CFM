@@ -15,18 +15,18 @@ function InteractionNodeProxy:ctor(source: ObjectType, request: string)
 end
 
 function InteractionNodeProxy:BindEvent()
-    local anyType = Functions.ClassGet(self.source, self.request) as InteractionRequestType
-    if anyType then
-        anyType.Raised = function(sender: ObjectType, ...: any)
+    local request = Functions.ClassGet(self.source, self.request) as InteractionRequestType
+    if request then
+        request.Raised = function(sender: ObjectType, ...: any)
             self:OnRaised(sender, ...)
         end
     end
 end
 
 function InteractionNodeProxy:UnbindEvent()
-    local anyType = Functions.ClassGet(self.source, self.request) as InteractionRequestType
-    if anyType then
-        anyType.Raised = nil
+    local request = Functions.ClassGet(self.source, self.request) as InteractionRequestType
+    if request then
+        request.Raised = nil
     end
 end
 

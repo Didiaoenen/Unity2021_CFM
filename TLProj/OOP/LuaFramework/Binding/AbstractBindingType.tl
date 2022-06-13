@@ -1,9 +1,6 @@
 local Object = require("OOP.ObjectType")
 
 local record Get
-    bindingContext: Object
-    BindingContext: function
-    
     dataContext: Object
     DataContext: function
 
@@ -12,9 +9,6 @@ local record Get
 end
 
 local record Set
-    bindingContext: Object
-    BindingContext: function
-
     dataContext: Object
     DataContext: function
 end
@@ -23,15 +17,16 @@ local record AbstractBinding
     get: Get
     set: Set
 
-    bindingContext: Object
     dataContext: Object
+    DataContext: Object
     target: Object
+    Target: Object
 
     ctor: function
     dtor: function
 
-    IsAlive: function
-    OnDataContextChanged: function
+    IsAlive: function(AbstractBinding, Object)
+    OnDataContextChanged: function(AbstractBinding)
 end
 
 return AbstractBinding

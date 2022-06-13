@@ -27,7 +27,7 @@ local record Layer
     maxOrder: number
     minOrder: number
 
-    new: function
+    new: function(...: any): Layer
     ctor: function
     dtor: function
     PushWindowOrder: function(Layer): number

@@ -11,6 +11,7 @@ function EventTargetProxyBase:ctor(target: ObjectType)
 end
 
 function EventTargetProxyBase:SetValue(value: any)
+    print(value)
 end
 
 function EventTargetProxyBase:dtor()

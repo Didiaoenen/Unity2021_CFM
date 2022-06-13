@@ -11,7 +11,7 @@ local record ProxyInvoker
     target: Object
     proxyMethodInfo: string
 
-    new: function(...: any): any
+    new: function(...: any): ProxyInvoker
     ctor: function
     dtor: function
     Invoke: function(ProxyInvoker, ...: any): any...

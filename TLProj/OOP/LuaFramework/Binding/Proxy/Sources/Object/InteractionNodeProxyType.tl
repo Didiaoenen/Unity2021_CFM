@@ -5,7 +5,7 @@ local record InteractionNodeProxy
     request: string
     invoker: Object
 
-    new: function
+    new: function(...: any): InteractionNodeProxy
     ctor: function
     dtor: function
     BindEvent: function(InteractionNodeProxy)

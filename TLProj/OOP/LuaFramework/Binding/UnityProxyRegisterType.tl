@@ -7,7 +7,7 @@ local record UnityProxyRegister
     
     registerProxies: {ProxyFunction}
 
-    new: function
+    new: function(...: any): UnityProxyRegister
     ctor: function
     dtor: function
 

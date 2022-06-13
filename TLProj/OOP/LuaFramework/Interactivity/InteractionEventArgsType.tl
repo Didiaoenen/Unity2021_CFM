@@ -17,7 +17,7 @@ local record InteractionEventArgs
     callback: function
     Callback: function
 
-    new: function
+    new: function(...: any): InteractionEventArgs
     ctor: function
     dtor: function
 end

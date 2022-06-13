@@ -2,7 +2,7 @@ local Object = require("OOP.ObjectType")
 local SourceProxyBase = require("OOP.LuaFramework.Binding.Proxy.Sources.SourceProxyBaseType")
 
 local record UniversalNodeProxyFactory
-    now: function
+    new: function(...: any): UniversalNodeProxyFactory
     ctor: function
     dtor: function
     Create: function(UniversalNodeProxyFactory, Object, {string}): SourceProxyBase

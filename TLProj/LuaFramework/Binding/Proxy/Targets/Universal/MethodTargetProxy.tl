@@ -4,7 +4,7 @@ require("OOP.Class")
 
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
 
-local MethodTargetProxy = class("MethodTargetProxy") as MethodTargetProxyType
+local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase) as MethodTargetProxyType
 
 function MethodTargetProxy.get:DefaultMode(): number
     return BindingMode.OneWayToSource
@@ -35,7 +35,6 @@ function MethodTargetProxy:Invoke(sender: ObjectType, ...: any)
 end
 
 function MethodTargetProxy:dtor()
-    
 end
 
 return MethodTargetProxy

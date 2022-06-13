@@ -1,7 +1,7 @@
-local SourceProxyBase = require("OOP.LuaFramework.Binding.Proxy.Sources.SourceProxyBaseType")
+local Object = require("OOP.ObjectType")
 
 local record OutProxy
-    ref: SourceProxyBase
+    ref: Object
 end
 
 return OutProxy

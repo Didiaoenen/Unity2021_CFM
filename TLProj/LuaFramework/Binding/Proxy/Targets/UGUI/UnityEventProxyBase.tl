@@ -25,10 +25,8 @@ end
 function UnityEventProxyBase:UnbindEvent()
 end
 
-function UnityEventProxyBase:IsValidHandler(handler: any)
-end
-
-function  UnityEventProxyBase:IsValidInvoker(invoker: any)
+function  UnityEventProxyBase:IsValidInvoker(invoker: ProxyInvokerType)
+    print(invoker)
 end
 
 function UnityEventProxyBase:SetValue(value: any)
@@ -70,6 +68,7 @@ function UnityEventProxyBase:SetValue(value: any)
 end
 
 function UnityEventProxyBase:OnExecuteChanged(sender: ObjectType, ...: any)
+    print(sender, ...)
     Executors:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)
@@ -86,7 +85,7 @@ function UnityEventProxyBase:UpdateTargetInteractable()
 end
 
 function UnityEventProxyBase:BindCommand(command: SimpleCommandType)
-    if not command then
+    if nil == command then
         return
     end
 
@@ -94,7 +93,7 @@ function UnityEventProxyBase:BindCommand(command: SimpleCommandType)
 end
 
 function UnityEventProxyBase:UnbindCommand(command: SimpleCommandType)
-    if not command then
+    if nil == command then
         return
     end
 

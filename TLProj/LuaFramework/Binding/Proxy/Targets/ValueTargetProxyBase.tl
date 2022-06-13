@@ -26,7 +26,7 @@ function ValueTargetProxyBase:Subscribe()
     end
 
     local target = self.target
-    if not target then
+    if nil == target then
         return
     end
 
@@ -35,7 +35,7 @@ function ValueTargetProxyBase:Subscribe()
 end
 
 function ValueTargetProxyBase:DoSubscribeForValueChange(target: ObjectType)
-    
+    print(target)
 end
 
 function ValueTargetProxyBase:Unsubscribe()
@@ -44,7 +44,7 @@ function ValueTargetProxyBase:Unsubscribe()
     end
 
     local target = self.target
-    if not target then
+    if nil == target then
         return
     end
 
@@ -53,7 +53,7 @@ function ValueTargetProxyBase:Unsubscribe()
 end
 
 function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: ObjectType)
-    
+    print(target)
 end
 
 function ValueTargetProxyBase:RaiseValueChanged()
@@ -66,6 +66,7 @@ function ValueTargetProxyBase:GetValue(): any
 end
 
 function ValueTargetProxyBase:SetValue(value: any)
+    print(value)
 end
 
 function ValueTargetProxyBase:dtor()

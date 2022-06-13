@@ -1,7 +1,5 @@
-local Object = require("OOP.ObjectType")
-
-local record IModifiable
-    GetValue: function(IModifiable): Object
+local record IObtainable
+    GetValue: function(IObtainable): any
 end
 
-return IModifiable
+return IObtainable

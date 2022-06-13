@@ -3,8 +3,9 @@
 require("OOP.Class")
 
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
 
-local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory) as ObjectSourceProxyFactoryType
+local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory, INodeProxyFactory) as ObjectSourceProxyFactoryType
 
 function ObjectSourceProxyFactory:ctor()
     TypedSourceProxyFactory.ctor(self)
@@ -16,7 +17,7 @@ function ObjectSourceProxyFactory:TryCreateProxy(source: ObjectType, description
     assert(#(path) > 0)
 
     if #path == 1 then
-        proxy.ref = self:Create(source, path)
+        proxy.ref = self:Create(source, path) as ObjectType
         if proxy.ref then
             return true
         end
@@ -31,19 +32,19 @@ function ObjectSourceProxyFactory:Create(source: ObjectType, path: {string}): So
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as INodeProxyFactoryType):Create(source, path)
+            proxy.ref = (factory as INodeProxyFactoryType):Create(source, path) as ObjectType
             if proxy.ref then
-                return proxy.ref
+                return proxy.ref as SourceProxyBaseType
             end
         end
     end
 
-    return proxy.ref
+    return proxy.ref as SourceProxyBaseType
 end
 
-function ObjectSourceProxyFactory:Register(factory: PriorityFactoryPairType, priority: number)
-    if not factory then
-        return        
+function ObjectSourceProxyFactory:Register(factory: INodeProxyFactoryType, priority: number)
+    if nil == factory then
+        return    
     end
 
     table.insert(self.factories, {factory = factory, priority = priority or 100})
@@ -53,7 +54,7 @@ function ObjectSourceProxyFactory:Register(factory: PriorityFactoryPairType, pri
 end
 
 function ObjectSourceProxyFactory:Unregister(factory: INodeProxyFactoryType)
-    if not factory then
+    if nil == factory then
         return
     end
 
@@ -66,7 +67,6 @@ function ObjectSourceProxyFactory:Unregister(factory: INodeProxyFactoryType)
 end
 
 function ObjectSourceProxyFactory:dtor()
-
 end
 
 return ObjectSourceProxyFactory

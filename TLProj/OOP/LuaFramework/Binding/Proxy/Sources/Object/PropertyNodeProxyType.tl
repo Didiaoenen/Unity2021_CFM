@@ -1,11 +1,11 @@
 local Object = require("OOP.ObjectType")
-local PropertyChangedEventArgs = require("OOP.LuaFramework.Binding.Proxy.PropertyChangedEventArgsType")
+local PropertyChangedEventArgs = require("OOP.LuaFramework.Binding.PropertyChangedEventArgsType")
 
 local record PropertyNodeProxy
     source: Object
     propertyInfo: string
     
-    new: function
+    new: function(...: any): PropertyNodeProxy
     ctor: function
     dtor: function
 

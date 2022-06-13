@@ -21,8 +21,7 @@ local record UnityEventProxyBase
     dtor: function
     BindEvent: function(UnityEventProxyBase)
     UnbindEvent: function(UnityEventProxyBase)
-    IsValidHandler: function(UnityEventProxyBase, any)
-    IsValidInvoker: function(UnityEventProxyBase, any)
+    IsValidInvoker: function(UnityEventProxyBase, ProxyInvoker)
     SetValue: function(UnityEventProxyBase, any)
     OnExecuteChanged: function(UnityEventProxyBase, Object, ...: any)
     UpdateTargetInteractable: function(UnityEventProxyBase)

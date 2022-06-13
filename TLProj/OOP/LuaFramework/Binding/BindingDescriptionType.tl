@@ -54,7 +54,7 @@ local record BindingDescription
     commandParameter: Object
     CommandParameter: function
 
-    new: function
+    new: function(...: any): BindingDescription
     ctor: function
     dtor: function
 end

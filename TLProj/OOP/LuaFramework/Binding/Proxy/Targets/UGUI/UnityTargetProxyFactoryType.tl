@@ -3,7 +3,7 @@ local TargetProxyBase = require("OOP.LuaFramework.Binding.Proxy.Targets.TargetPr
 local BindingDescription = require("OOP.LuaFramework.Binding.BindingDescriptionType")
 
 local record UnityTargetProxyFactory
-    new: function
+    new: function(...: any): UnityTargetProxyFactory
     ctor: function
     dtor: function
     CreateProxy: function(UnityTargetProxyFactory, Object, BindingDescription): TargetProxyBase

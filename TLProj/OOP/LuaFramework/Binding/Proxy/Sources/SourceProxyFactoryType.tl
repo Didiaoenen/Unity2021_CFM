@@ -10,12 +10,12 @@ local type PriorityFactoryPairList = {PriorityFactoryPair}
 local record SourceProxyFactory
     factories: PriorityFactoryPairList
 
-    new: function
+    new: function(...: any): SourceProxyFactory
     ctor: function
     dtor: function
     CreateProxy: function(SourceProxyFactory, Object, SourceDescription): SourceProxyBase
     TryCreateProxy: function(SourceProxyFactory, Object, SourceDescription, OutProxy): boolean
-    Register: function(SourceProxyFactory, PriorityFactoryPair, number)
+    Register: function(SourceProxyFactory, ISourceProxyFactory, number)
     Unregister: function(SourceProxyFactory, ISourceProxyFactory)
 end
 

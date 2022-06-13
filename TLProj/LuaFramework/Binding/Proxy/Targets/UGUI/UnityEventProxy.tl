@@ -35,21 +35,17 @@ function UnityEventProxy:UnbindEvent()
     end
 end
 
-function UnityEventProxy:IsValidHandler(handler: ProxyInvokerType)
-    
-end
-
-function UnityEventProxy:IsValidInvoker(invoker: SimpleCommandType)
-    
+function UnityEventProxy:IsValidInvoker(invoker: ProxyInvokerType)
+    print(invoker)
 end
 
 function UnityEventProxy:OnEvent(...: any)
     if self.invoker then
-        self.invoker:Invoke()
+        self.invoker:Invoke(...)
     end
 
     if self.command then
-        self.command:Execute()
+        self.command:Execute(...)
     end
 end
 

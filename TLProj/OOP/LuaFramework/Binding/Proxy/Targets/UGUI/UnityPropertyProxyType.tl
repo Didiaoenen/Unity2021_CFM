@@ -12,7 +12,7 @@ local record UnityPropertyProxy
     target: Object
     unityEvent: string
 
-    new: function
+    new: function(...: any): UnityPropertyProxy
     ctor: function
     dtor: function
     DoSubscribeForValueChange: function(UnityPropertyProxy, Object)

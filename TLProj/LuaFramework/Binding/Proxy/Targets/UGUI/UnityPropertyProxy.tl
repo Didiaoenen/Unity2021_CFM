@@ -16,6 +16,7 @@ function UnityPropertyProxy:ctor(target: ObjectType, propertyInfo: string, unity
 end
 
 function UnityPropertyProxy:DoSubscribeForValueChange(target: ObjectType)
+    print(target)
     local unityEvent = Functions.ClassGet(self.target, self.unityEvent)
     if unityEvent then
         (unityEvent as UnityEventType):AddListener(bindevent(self, self.OnValueChanged))
@@ -30,6 +31,7 @@ function UnityPropertyProxy:DoUnsubscribeForValueChange()
 end
 
 function UnityPropertyProxy:OnValueChanged(...: any)
+    print(...)
     self:RaiseValueChanged()
 end
 

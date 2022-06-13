@@ -16,7 +16,7 @@ local record ObjectSourceDescription
     Path: {string}
     isStatic: boolean
 
-    new: function
+    new: function(...: any): ObjectSourceDescription
     ctor: function
     dtor: function
 end

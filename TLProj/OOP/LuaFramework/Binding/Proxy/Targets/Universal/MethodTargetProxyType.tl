@@ -19,7 +19,7 @@ local record MethodTargetProxy
     target: Object
     invoker: ProxyInvoker
     
-    new: function
+    new: function(...: any): MethodTargetProxy
     ctor: function
     dtor: function
     GetValue: function(MethodTargetProxy): any

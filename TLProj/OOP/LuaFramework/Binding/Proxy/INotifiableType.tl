@@ -1,11 +1,15 @@
-local record Get
+local EventHandler = require("OOP.LuaFramework.EventHandlerType")
+
+local record Set
+    valueChanged: EventHandler
     ValueChanged: function
 end
 
 local record INotifiable
-    get: Get
+    set: Set
 
-    ValueChanged: function
+    valueChanged: {EventHandler}
+    ValueChanged: EventHandler
 end
 
 return INotifiable

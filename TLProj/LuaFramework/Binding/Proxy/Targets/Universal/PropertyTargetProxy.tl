@@ -24,6 +24,7 @@ function PropertyTargetProxy:DoUnsubscribeForValueChange(target: ObjectType)
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender: ObjectType, e: PropertyChangedEventArgsType)
+    print(sender)
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then
         local target = self.target
@@ -51,7 +52,7 @@ end
 
 function PropertyTargetProxy:SetValue(value)
     local target = self.target
-    if not target then
+    if nil == target then
         return
     end
 

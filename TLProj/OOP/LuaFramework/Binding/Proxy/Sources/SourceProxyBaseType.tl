@@ -17,6 +17,7 @@ local record SourceProxyBase
     source: Object
 
     ctor: function
+    delete: function
     dtor: function
 end
 

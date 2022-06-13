@@ -17,7 +17,7 @@ function SourceProxyFactory:CreateProxy(source: ObjectType, description: SourceD
 
     local proxy: OutProxyType = {}
     if self:TryCreateProxy(source, description, proxy) then
-        return proxy.ref
+        return proxy.ref as SourceProxyBaseType
     end
 end
 
@@ -25,7 +25,7 @@ function SourceProxyFactory:TryCreateProxy(source: ObjectType, description: Sour
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as ISourceProxyFactoryType):CreateProxy(source, description)
+            proxy.ref = (factory as ISourceProxyFactoryType):CreateProxy(source, description) as ObjectType
             if proxy.ref then
                 return true
             end
@@ -34,7 +34,7 @@ function SourceProxyFactory:TryCreateProxy(source: ObjectType, description: Sour
     return false
 end
 
-function SourceProxyFactory:Register(factory: PriorityFactoryPairType, priority: number)
+function SourceProxyFactory:Register(factory: ISourceProxyFactoryType, priority: number)
     if nil == factory then
         return        
     end
