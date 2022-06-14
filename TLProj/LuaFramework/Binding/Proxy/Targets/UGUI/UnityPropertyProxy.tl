@@ -10,12 +10,12 @@ function UnityPropertyProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function UnityPropertyProxy:ctor(target: ObjectType, propertyInfo: string, unityEvent: string)
+function UnityPropertyProxy:ctor(target: BaseType, propertyInfo: string, unityEvent: string)
     PropertyTargetProxy.ctor(self, target, propertyInfo)
     self.unityEvent = unityEvent
 end
 
-function UnityPropertyProxy:DoSubscribeForValueChange(target: ObjectType)
+function UnityPropertyProxy:DoSubscribeForValueChange(target: BaseType)
     print(target)
     local unityEvent = Functions.ClassGet(self.target, self.unityEvent)
     if unityEvent then

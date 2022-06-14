@@ -2,7 +2,7 @@
 
 require("OOP.Class")
 
-WindowManager = class() as WindowManagerType
+local WindowManager = class("WindowManager") as WindowManagerType
 
 function WindowManager:Open(name: string)
     

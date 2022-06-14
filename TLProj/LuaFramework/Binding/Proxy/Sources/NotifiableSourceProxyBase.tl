@@ -7,11 +7,11 @@ local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 
 local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase, INotifiable) as NotifiableSourceProxyBaseType
 
-function NotifiableSourceProxyBase.set:ValueChanged(value: ObjectType)
+function NotifiableSourceProxyBase.set:ValueChanged(value: BaseType)
     setcallback(self.valueChanged, value)
 end
 
-function NotifiableSourceProxyBase:ctor(source: ObjectType)
+function NotifiableSourceProxyBase:ctor(source: BaseType)
     SourceProxyBase.ctor(self, source)
     self.valueChanged = {}
 end

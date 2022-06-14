@@ -8,7 +8,7 @@ local ProxyInvoker = require("LuaFramework.Binding.Reflection.ProxyInvoker")
 
 local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase, IObtainable) as MethodNodeProxyType
 
-function MethodNodeProxy:ctor(source: ObjectType, methodInfo: string)
+function MethodNodeProxy:ctor(source: BaseType, methodInfo: string)
     SourceProxyBase.ctor(self, source)
     self.methodInfo = methodInfo
     self.invoker = ProxyInvoker.new(self.source, self.methodInfo) as ProxyInvokerType

@@ -6,7 +6,7 @@ local BindingBuilderBase = require("LuaFramework.Binding.Builder.BindingBuilderB
 
 local BindingBuilder = class("BindingBuilder") as BindingBuilderType
 
-function BindingBuilder:ctor(context: BindingContextType, target: ObjectType)
+function BindingBuilder:ctor(context: BindingContextType, target: BaseType)
     BindingBuilderBase.ctor(self, context, target)
 end
 

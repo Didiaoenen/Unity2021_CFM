@@ -14,7 +14,7 @@ function MethodTargetProxy.get:ProxyMethodInfo(): string
     return self.methodInfo
 end
 
-function MethodTargetProxy:ctor(target: ObjectType, methodInfo: string)
+function MethodTargetProxy:ctor(target: BaseType, methodInfo: string)
     TargetProxyBase.ctor(self, target)
     self.methodInfo = methodInfo
     self.invoker = self
@@ -24,7 +24,7 @@ function MethodTargetProxy:GetValue(): any
     return self.invoker
 end
 
-function MethodTargetProxy:Invoke(sender: ObjectType, ...: any)
+function MethodTargetProxy:Invoke(sender: BaseType, ...: any)
     local target = self.target
     if nil == target then
         return

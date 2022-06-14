@@ -14,7 +14,7 @@ function BindingExtension.get:BindingContext(): BindingContextType
     return self.bindingContext
 end
 
-function BindingExtension:ctor(behaviour: ObjectType)
+function BindingExtension:ctor(behaviour: BaseType)
     self.bindingContext = nil
     self.behaviour = behaviour
 end
@@ -24,17 +24,17 @@ function BindingExtension:CreateBindingSet(): BindingSetType
     return BindingSet.new(context, self.behaviour)
 end
 
-function BindingExtension:CreateBindingSetWithContext(dataContext: ObjectType): BindingSetType
+function BindingExtension:CreateBindingSetWithContext(dataContext: BaseType): BindingSetType
     local context = self.BindingContext
     context.DataContext = dataContext
     return BindingSet.new(context, self.behaviour)
 end
 
-function BindingExtension:SetDataContext(dataContext: ObjectType)
+function BindingExtension:SetDataContext(dataContext: BaseType)
     self.BindingContext.DataContext = dataContext
 end
 
-function BindingExtension:GetDataContext(): ObjectType
+function BindingExtension:GetDataContext(): BaseType
     return self.BindingContext.DataContext
 end
 

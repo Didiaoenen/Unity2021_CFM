@@ -12,7 +12,7 @@ function ExecutorsExt:__singleton(): ExecutorsExtType
     return ExecutorsExt.new()
 end
 
-function ExecutorsExt:WaitWhile(callback: function): ObjectType
+function ExecutorsExt:WaitWhile(callback: function): BaseType
     return self.csharp.WaitWhile(callback)
 end
 
@@ -20,7 +20,7 @@ function ExecutorsExt:RunOnMainThread(callback: function)
     self.csharp.RunOnMainThread(callback)
 end
 
-function ExecutorsExt:RunOnCoroutine(callback: function): ObjectType
+function ExecutorsExt:RunOnCoroutine(callback: function): BaseType
     return self.csharp.RunOnCoroutine(callback)
 end
 

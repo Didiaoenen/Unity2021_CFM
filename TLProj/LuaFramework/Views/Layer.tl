@@ -12,7 +12,7 @@ function Layer.set:WindowType(value: number)
     self.windowType = value
 end
 
-function Layer:ctor(data: LayerData)
+function Layer:ctor(data: LayerDataType)
     assert(data, "")
     self.windowType = data.WindowType
     self.orderInLayer = data.OrderInLayer

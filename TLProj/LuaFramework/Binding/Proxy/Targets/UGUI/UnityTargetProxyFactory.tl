@@ -11,7 +11,7 @@ function UnityTargetProxyFactory:ctor()
     
 end
 
-function UnityTargetProxyFactory:CreateProxy(target: ObjectType, description: BindingDescriptionType): TargetProxyBaseType
+function UnityTargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
     local memberInfo = Functions.ClassGet(target, description.TargetName)
 
     local updateTrigger: any = nil
@@ -21,7 +21,7 @@ function UnityTargetProxyFactory:CreateProxy(target: ObjectType, description: Bi
     end
 
     if "userdata" == type(memberInfo) then
-        if typeof(CS.UnityEngine.Events.UnityEventBase):IsAssignableFrom((memberInfo as ObjectType):GetType()) then
+        if typeof(CS.UnityEngine.Events.UnityEventBase):IsAssignableFrom((memberInfo as BaseType):GetType()) then
             return UnityEventProxy.new(target, description.TargetName) as TargetProxyBaseType
         else
             if not updateTrigger then

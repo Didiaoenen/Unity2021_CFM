@@ -10,7 +10,7 @@ function SourceProxyFactory:ctor()
     self.factories = {}
 end
 
-function SourceProxyFactory:CreateProxy(source: ObjectType, description: SourceDescriptionType): SourceProxyBaseType
+function SourceProxyFactory:CreateProxy(source: BaseType, description: SourceDescriptionType): SourceProxyBaseType
     if nil == source then
         return
     end
@@ -21,11 +21,11 @@ function SourceProxyFactory:CreateProxy(source: ObjectType, description: SourceD
     end
 end
 
-function SourceProxyFactory:TryCreateProxy(source: ObjectType, description: SourceDescriptionType, proxy: OutProxyType): boolean
+function SourceProxyFactory:TryCreateProxy(source: BaseType, description: SourceDescriptionType, proxy: OutProxyType): boolean
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as ISourceProxyFactoryType):CreateProxy(source, description) as ObjectType
+            proxy.ref = (factory as ISourceProxyFactoryType):CreateProxy(source, description) as BaseType
             if proxy.ref then
                 return true
             end
@@ -51,7 +51,7 @@ function SourceProxyFactory:Unregister(factory: ISourceProxyFactoryType)
     end
 
     for i, v in ipairs(self.factories) do
-        if v.factory == factory as ObjectType then
+        if v.factory == factory as BaseType then
             table.remove(self.factories, i)
             return
         end

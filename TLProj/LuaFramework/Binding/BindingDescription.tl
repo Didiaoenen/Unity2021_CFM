@@ -38,11 +38,11 @@ function BindingDescription.set:Source(value: SourceDescriptionType)
     self.source = value
 end
 
-function BindingDescription.get:CommandParameter(): ObjectType
+function BindingDescription.get:CommandParameter(): BaseType
     return self.commandParameter
 end
 
-function BindingDescription.set:CommandParameter(value: ObjectType)
+function BindingDescription.set:CommandParameter(value: BaseType)
     self.commandParameter = value
 end
 

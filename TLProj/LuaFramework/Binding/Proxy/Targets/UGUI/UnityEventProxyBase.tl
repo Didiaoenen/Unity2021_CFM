@@ -10,7 +10,7 @@ function UnityEventProxyBase.get:DefaultMode(): number
     return BindingMode.OneWay
 end
 
-function UnityEventProxyBase:ctor(target: ObjectType, unityEvent: string)
+function UnityEventProxyBase:ctor(target: BaseType, unityEvent: string)
     EventTargetProxyBase.ctor(self, target)
 
     self.command = nil
@@ -52,9 +52,9 @@ function UnityEventProxyBase:SetValue(value: any)
     
     else
         if type(value) == "table" then
-            if (value as ObjectType).is(ProxyInvokerType) then
+            if (value as BaseType).is(ProxyInvokerType) then
                 self.invoker = value as ProxyInvokerType
-            elseif (value as ObjectType).is(SimpleCommandType) then
+            elseif (value as BaseType).is(SimpleCommandType) then
                 if nil == self.interactable or self.interactable == "" then
                     self.interactable = "interactable"
                 end
@@ -67,9 +67,9 @@ function UnityEventProxyBase:SetValue(value: any)
     end
 end
 
-function UnityEventProxyBase:OnExecuteChanged(sender: ObjectType, ...: any)
+function UnityEventProxyBase:OnExecuteChanged(sender: BaseType, ...: any)
     print(sender, ...)
-    Executors:RunOnMainThread(function ()
+    ExecutorsExt:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)
 end

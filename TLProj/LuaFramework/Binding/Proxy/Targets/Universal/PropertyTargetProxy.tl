@@ -10,20 +10,20 @@ function PropertyTargetProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function PropertyTargetProxy:ctor(target: ObjectType, propertyInfo: string)
+function PropertyTargetProxy:ctor(target: BaseType, propertyInfo: string)
     ValueTargetProxyBase.ctor(self, target)
     self.propertyInfo = propertyInfo
 end
 
-function PropertyTargetProxy:DoSubscribeForValueChange(target: ObjectType)
+function PropertyTargetProxy:DoSubscribeForValueChange(target: BaseType)
     (target as INotifyPropertyChangedType).PropertyChanged = {this = self, callback = self.OnPropertyChanged}
 end
 
-function PropertyTargetProxy:DoUnsubscribeForValueChange(target: ObjectType)
+function PropertyTargetProxy:DoUnsubscribeForValueChange(target: BaseType)
     (target as INotifyPropertyChangedType).PropertyChanged = {this = self}
 end
 
-function PropertyTargetProxy:OnPropertyChanged(sender: ObjectType, e: PropertyChangedEventArgsType)
+function PropertyTargetProxy:OnPropertyChanged(sender: BaseType, e: PropertyChangedEventArgsType)
     print(sender)
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then

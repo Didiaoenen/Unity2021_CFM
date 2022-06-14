@@ -14,12 +14,12 @@ function InteractionRequest.set:Raised(value: function)
     self.raised = value
 end
 
-function InteractionRequest:ctor(sender: ObjectType)
-    self.sender = sender or (self as ObjectType)
+function InteractionRequest:ctor(sender: BaseType)
+    self.sender = sender or (self as BaseType)
     self.raised = nil
 end
 
-function InteractionRequest:Raise(context: ObjectType, callback: function)
+function InteractionRequest:Raise(context: BaseType, callback: function)
     if nil == self.raised then
         return
     end

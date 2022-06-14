@@ -8,7 +8,7 @@ function ProxyInvoker.get:ProxyMethodInfo(): string
     return self.proxyMethodInfo
 end
 
-function ProxyInvoker:ctor(target: ObjectType, proxyMethodInfo: string)
+function ProxyInvoker:ctor(target: BaseType, proxyMethodInfo: string)
     self.target = target
     self.proxyMethodInfo = proxyMethodInfo
 end

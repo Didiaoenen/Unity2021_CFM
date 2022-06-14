@@ -15,7 +15,7 @@ function TypedSourceProxyFactory:IsSupported(description: SourceDescriptionType)
     return true
 end
 
-function TypedSourceProxyFactory:CreateProxy(source: ObjectType, description: SourceDescriptionType): SourceProxyBaseType
+function TypedSourceProxyFactory:CreateProxy(source: BaseType, description: SourceDescriptionType): SourceProxyBaseType
     if not self:IsSupported(description) then
         return
     end
@@ -28,7 +28,7 @@ function TypedSourceProxyFactory:CreateProxy(source: ObjectType, description: So
     return proxy.ref as SourceProxyBaseType
 end
 
-function TypedSourceProxyFactory:TryCreateProxy(source: ObjectType, description: SourceDescriptionType, proxy: OutProxyType): boolean
+function TypedSourceProxyFactory:TryCreateProxy(source: BaseType, description: SourceDescriptionType, proxy: OutProxyType): boolean
     print(source, description, proxy)
     return true
 end

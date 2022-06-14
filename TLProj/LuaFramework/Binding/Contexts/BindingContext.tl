@@ -6,11 +6,11 @@ local StandardBinder = require("LuaFramework.Binding.Binders.StandardBinder")
 
 local BindingContext = class("BindingContext") as BindingContextType
 
-function BindingContext.get:DataContext(): ObjectType
+function BindingContext.get:DataContext(): BaseType
     return self.dataContext
 end
 
-function BindingContext.set:DataContext(value: ObjectType)
+function BindingContext.set:DataContext(value: BaseType)
     if value ~= self.dataContext then
         self.dataContext = value
         self:OnDataContextChanged()
@@ -22,7 +22,7 @@ function BindingContext.set:DataContextChanged(value: EventHandlerType)
     setcallback(self.dataContextChanged, value)
 end
 
-function BindingContext:ctor(owner: ObjectType, dataContext: ObjectType)
+function BindingContext:ctor(owner: BaseType, dataContext: BaseType)
     self.owner = owner
     self.dataContext = dataContext
 
@@ -67,7 +67,7 @@ function BindingContext:Add(binding: BindingType, key: string)
     table.insert(list, binding)
 end
 
-function BindingContext:AddWithSingleDesc(target: ObjectType, description: BindingDescriptionType, key: string)
+function BindingContext:AddWithSingleDesc(target: BaseType, description: BindingDescriptionType, key: string)
     local binding = StandardBinder:Bind(self.dataContext, target, description)
     self:Add(binding, key)
 end

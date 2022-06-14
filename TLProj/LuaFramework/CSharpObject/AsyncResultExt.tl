@@ -8,7 +8,7 @@ function AsyncResultExt.get:IsDone(): boolean
     return self.csharp.done
 end
 
-function AsyncResultExt.get:Result(): ObjectType
+function AsyncResultExt.get:Result(): BaseType
     return self.csharp.result
 end
 
@@ -28,7 +28,7 @@ function AsyncResultExt:SetException(errorMsg: string)
     error(errorMsg)
 end
 
-function AsyncResultExt:SetResult(result: ObjectType)
+function AsyncResultExt:SetResult(result: BaseType)
     self.csharp:SetResult(result)
 end
 
@@ -40,15 +40,15 @@ function AsyncResultExt:Cancel(): boolean
     return self.csharp:Cancel()
 end
 
-function AsyncResultExt:Callbackable(): ObjectType
+function AsyncResultExt:Callbackable(): BaseType
     return self.csharp:Callbackable()
 end
 
-function AsyncResultExt:Synchronized(): ObjectType
+function AsyncResultExt:Synchronized(): BaseType
     return self.csharp:Synchronized()
 end
 
-function AsyncResultExt:WaitForDone(): ObjectType
+function AsyncResultExt:WaitForDone(): BaseType
     return self.csharp:WaitForDone()
 end
 

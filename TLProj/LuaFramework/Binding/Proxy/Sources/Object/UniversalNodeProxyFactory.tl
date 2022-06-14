@@ -10,9 +10,10 @@ local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.
 local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory", INodeProxyFactory) as UniversalNodeProxyFactoryType
 
 function UniversalNodeProxyFactory:ctor()
+
 end
 
-function UniversalNodeProxyFactory:Create(source: ObjectType, path: {string}): SourceProxyBaseType
+function UniversalNodeProxyFactory:Create(source: BaseType, path: {string}): SourceProxyBaseType
     local node = path[1]
     if nil == source then
         return
@@ -21,7 +22,7 @@ function UniversalNodeProxyFactory:Create(source: ObjectType, path: {string}): S
     return self:CreateProxy(source, node)
 end
 
-function UniversalNodeProxyFactory:CreateProxy(source: ObjectType, node: string): SourceProxyBaseType
+function UniversalNodeProxyFactory:CreateProxy(source: BaseType, node: string): SourceProxyBaseType
     local memberInfo = Functions.ClassGet(source, node)
 
     if "function" == type(memberInfo) then
@@ -29,7 +30,7 @@ function UniversalNodeProxyFactory:CreateProxy(source: ObjectType, node: string)
     elseif "userdata" == type(memberInfo) then
         return PropertyNodeProxy.new(source, node) as SourceProxyBaseType
     else
-        if (memberInfo as ObjectType).is(InteractionNodeProxy) then
+        if (memberInfo as BaseType).is(InteractionNodeProxy) then
             return InteractionNodeProxy.new(source, node) as SourceProxyBaseType
         end
 

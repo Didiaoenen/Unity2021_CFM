@@ -14,7 +14,7 @@ function ValueTargetProxyBase.set:ValueChanged(value: EventHandlerType)
     end)
 end
 
-function ValueTargetProxyBase:ctor(target: ObjectType)
+function ValueTargetProxyBase:ctor(target: BaseType)
     TargetProxyBase.ctor(self, target)
     self.subScribed = false
     self.valueChanged = {}
@@ -34,7 +34,7 @@ function ValueTargetProxyBase:Subscribe()
     self:DoSubscribeForValueChange(target)
 end
 
-function ValueTargetProxyBase:DoSubscribeForValueChange(target: ObjectType)
+function ValueTargetProxyBase:DoSubscribeForValueChange(target: BaseType)
     print(target)
 end
 
@@ -52,7 +52,7 @@ function ValueTargetProxyBase:Unsubscribe()
     self:DoUnsubscribeForValueChange(target)
 end
 
-function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: ObjectType)
+function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: BaseType)
     print(target)
 end
 

@@ -6,7 +6,7 @@ local UnityEventProxyBase = require("LuaFramework.Binding.Proxy.Targets.UGUI.Uni
 
 local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase) as UnityEventProxyType
 
-function UnityEventProxy:ctor(target: ObjectType, unityEvent: string)
+function UnityEventProxy:ctor(target: BaseType, unityEvent: string)
     UnityEventProxyBase.ctor(self, target, unityEvent)
     self:BindEvent()
 end

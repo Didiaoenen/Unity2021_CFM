@@ -5,6 +5,7 @@ return {
         "CS\\*.tl",
         "Debug\\*.tl",
         "OOP\\*.tl",
+        "xlua\\*.tl",
     },
     build_xlua = true,
  }

@@ -11,7 +11,7 @@ function UniversalTargetProxyFactory:ctor()
     
 end
 
-function UniversalTargetProxyFactory:CreateProxy(target: ObjectType, description: BindingDescriptionType): TargetProxyBaseType
+function UniversalTargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
     local memberInfo = Functions.ClassGet(target, description.TargetName)
 
     if "function" == type(memberInfo) then
