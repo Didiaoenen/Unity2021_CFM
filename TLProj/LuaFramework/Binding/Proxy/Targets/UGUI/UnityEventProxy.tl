@@ -17,7 +17,7 @@ function UnityEventProxy:BindEvent()
         return
     end
 
-    local unityEvent = Functions.ClassGet(target, self.unityEvent) as UnityEventType
+    local unityEvent = Functions.ClassGet(target, self.unityEvent) as UnityEvent
     if unityEvent then
         unityEvent:AddListener(bindevent(self, self.OnEvent))
     end
@@ -29,7 +29,7 @@ function UnityEventProxy:UnbindEvent()
         return
     end
 
-    local unityEvent = Functions.ClassGet(target, self.unityEvent) as UnityEventType
+    local unityEvent = Functions.ClassGet(target, self.unityEvent) as UnityEvent
     if unityEvent then
         unityEvent:RemoveAllListeners()
     end

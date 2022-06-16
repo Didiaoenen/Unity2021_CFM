@@ -99,13 +99,13 @@ function WindowManager:PopWindowStack(): WindowViewBaseType
 end
 
 function WindowManager:Open(name: string, bundle: any): WindowViewBaseType
-    -- local window = require(name)
-    -- window = window.new(bundle)
-    -- window:Create()
+    local window = require(name) as WindowViewBaseType
+    window = window.new(bundle)
+    window:Create()
 
-    -- table.insert(self.windowViews, window)
+    table.insert(self.windowViews, window)
 
-    -- return window
+    return window
 end
 
 function WindowManager:Close(name: string)

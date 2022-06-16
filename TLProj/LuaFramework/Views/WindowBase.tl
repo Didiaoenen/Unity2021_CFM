@@ -28,27 +28,27 @@ function WindowBase:OnDisable()
 end
 
 function WindowBase:OnShow()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i: number, v: WindowBaseType)
         v:OnShow()
     end)
 end
 
 function WindowBase:OnHide()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i: number, v: WindowBaseType)
         v:OnHide()
     end)
 end
 
-function WindowBase:CreateSubView(name, bundle)
+function WindowBase:CreateSubView(name: string, bundle: any): WindowViewBaseType
     assert(name, "")
-    return WindowManager.Open(name, bundle)
+    return WindowManager:Open(name, bundle)
 end
 
-function WindowBase:AddSubView(view)
+function WindowBase:AddSubView(view: WindowViewBaseType)
     table.insert(self.subView, view)
 end
 
-function WindowBase:PushOpenView(view)
+function WindowBase:PushOpenView(view: WindowViewBaseType): WindowViewBaseType
     local preCurrent = self.Current
     if self.Current and view.WindowType == self.Current.WindowType then
         if view.Mutex then
@@ -59,14 +59,14 @@ function WindowBase:PushOpenView(view)
     return preCurrent
 end
 
-function WindowBase:PopOpenView()
+function WindowBase:PopOpenView(): WindowViewBaseType
     assert(#(self.viewStack) > 0)
     table.remove(self.viewStack, #(self.viewStack))
     return self.Current
 end
 
 function WindowBase:dtor()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i: number, v: WindowViewBaseType)
         v:delete()
     end)
     self.subView = nil

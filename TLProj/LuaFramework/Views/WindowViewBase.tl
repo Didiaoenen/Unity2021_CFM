@@ -2,58 +2,61 @@
 
 require("OOP.Class")
 
-
 local Messenger = require("LuaFramework.Messaging.Messenger")
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
+local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
+local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
+local MonoVariableArrayExt = require("LuaFramework.Views.Components.MonoVariableArrayExt")
 
 local WindowViewBase = class("WindowViewBase") as WindowViewBaseType
 
 WindowViewBase.PrefabPath = ""
 
-function WindowViewBase.get:Messenger()
+function WindowViewBase.get:Messenger(): MessengerType
     return self.messenger
 end
 
-function WindowViewBase.set:ActivatedChanged(value)
+function WindowViewBase.set:ActivatedChanged(value: EventHandlerType)
     setcallback(self.activatedChanged, value)
 end
 
-function WindowViewBase.set:VisibilityChanged(value)
+function WindowViewBase.set:VisibilityChanged(value: EventHandlerType)
     setcallback(self.visibilityChanged, value)
 end
 
-function WindowViewBase.set:OnDismissed(value)
+function WindowViewBase.set:OnDismissed(value: EventHandlerType)
     setcallback(self.onDismissed, value)
 end
 
-function WindowViewBase.set:StateChanged(value)
+function WindowViewBase.set:StateChanged(value: EventHandlerType)
     setcallback(self.stateChanged, value)
 end
 
-function WindowViewBase.get:Created(value)
+function WindowViewBase.get:Created(): boolean
     return self.created
 end
 
-function WindowViewBase.get:Dismissed(value)
+function WindowViewBase.get:Dismissed(): boolean
     return self.dismissed
 end
 
-function WindowViewBase.get:Activated()
+function WindowViewBase.get:Activated(): boolean
     return self.activated
 end
 
-function WindowViewBase.set:Activated(value)
+function WindowViewBase.set:Activated(value: boolean)
     if value ~= self.activated then
         self.activated = value
         self:RaiseActivatedChanged()
     end
 end
 
-function WindowViewBase.get:State()
+function WindowViewBase.get:State(): number
     return self.state
 end
 
-function WindowViewBase.set:State(value)
+function WindowViewBase.set:State(value: number)
     if value ~= self.state then
         local old = self.state
         self.state = value
@@ -61,49 +64,49 @@ function WindowViewBase.set:State(value)
     end
 end
 
-function WindowViewBase.get:WindowType()
+function WindowViewBase.get:WindowType(): number
     return self.windowType
 end
 
-function WindowViewBase.get:EnterAnimation()
+function WindowViewBase.get:EnterAnimation(): UIAnimationType
     return self.enterAnimation
 end
 
-function WindowViewBase.set:EnterAnimation(value)
+function WindowViewBase.set:EnterAnimation(value: UIAnimationType)
     self.enterAnimation = value
 end
 
-function WindowViewBase.get:ExitAnimation()
+function WindowViewBase.get:ExitAnimation(): UIAnimationType
     return self.exitAnimation
 end
 
-function WindowViewBase.set:ExitAnimation(value)
+function WindowViewBase.set:ExitAnimation(value: UIAnimationType)
     self.exitAnimation = value
 end
 
-function WindowViewBase.get:Name()
+function WindowViewBase.get:Name(): string
     assert(self.gameObject, "")
     return self.gameObject.name
 end
 
-function WindowViewBase.get:Parent()
+function WindowViewBase.get:Parent(): TransformExtType
     return self.parent
 end
 
-function WindowViewBase.get:Owner()
+function WindowViewBase.get:Owner(): GameObjectExtType
     return self.gameObject
 end
 
-function WindowViewBase.get:Transform()
+function WindowViewBase.get:Transform(): TransformExtType
     return self.transform
 end
 
-function WindowViewBase.get:Visibility()
+function WindowViewBase.get:Visibility(): boolean
     assert(self.viewModel, "")
     return self.viewModel.ActiveSelf
 end
 
-function WindowViewBase.set:Visibility(value)
+function WindowViewBase.set:Visibility(value: boolean)
     if not self.viewModel then
         return
     end
@@ -158,31 +161,31 @@ function WindowViewBase:OnDisable()
 end
 
 function WindowViewBase:RaiseActivatedChanged()
-    table.foreach(self.activatedChanged, function (i, v)
-        v.callback(v.self, self)
+    TableExtention.Foreach(self.activatedChanged, function (i: number, v: EventHandlerType)
+        v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseVisibilityChanged()
-    table.foreach(self.visibilityChanged, function (i, v)
-        v.callback(v.self, self)
+    TableExtention.Foreach(self.visibilityChanged, function (i: number, v: EventHandlerType)
+        v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseOnDismissed()
-    table.foreach(self.onDismissed, function (i, v)
-        v.callback(v.self, self)
+    TableExtention.Foreach(self.onDismissed, function (i: number, v: EventHandlerType)
+        v.callback(v.this, self)
     end)
 end
 
-function WindowViewBase:RaiseStateChanged(oldState, newState)
+function WindowViewBase:RaiseStateChanged(oldState: number, newState: number)
     local eventArgs = WindowStateEventArgs.new(self, oldState, newState)
-    table.foreach(self.stateChanged, function (i, v)
-        v.callback(v.self, self, eventArgs)
+    TableExtention.Foreach(self.stateChanged, function (i: number, v: EventHandlerType)
+        v.callback(v.this, self, eventArgs)
     end)
 end
 
-function WindowViewBase:Activate(ignoreAnimation)
+function WindowViewBase:Activate(ignoreAnimation: boolean): AsyncResult
     local result = AsyncResult.new()
 
     if not self.Visibility then
@@ -212,7 +215,7 @@ function WindowViewBase:Activate(ignoreAnimation)
     return result
 end
 
-function WindowViewBase:Passivate(ignoreAnimation)
+function WindowViewBase:Passivate(ignoreAnimation: boolean): AsyncResult
     local result = AsyncResult.new()
 
     if not self.Visibility then
@@ -250,16 +253,16 @@ function WindowViewBase:Create()
         return
     end
     
-    Executors:RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
+    Executors:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
 
         self.State = WindowState.CREATE_BEGIN
         self.Visibility = false
 
         local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, typeof(CSharpType.GameObject))
-        Coroutine.Yield(result:WaitForDone())
+        CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 
-        self.gameObject = GameObject.new(result.Result)
+        self.gameObject = GameObjectExt.new(result.Result)
 
         self:OnCreate()
         self.created = true
@@ -274,43 +277,43 @@ function WindowViewBase:OnCreate()
     
     self.parent = self.viewModel.parent
 
-    self.variables = self:GetComponent(MonoVariableArray)
+    self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
     -- GameObject
-    local builder = self.bindingSet:BindByTarget(self.gameObject.handler)
+    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject.handler as BaseType) as BindingBuilderType
     builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
 
     -- RectTransform
-    self.transform = self:GetComponent(RectTransform)
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    self.transform = self:GetComponent(RectTransformExt) as TransformExtType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
     builder:For(self.transform.Parent):To("Parent"):OneWay()
     
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
     builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
     
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
     builder:For(self.transform.LocalPosition):To("LocalPosition"):OneWay()
 
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
     builder:For(self.transform.LocalScale):To("LocalScale"):OneWay()
 
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
-    builder:For(self.transform.OffsetMax):To("OffsetMax"):OneWay()
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder:For((self.transform as RectTransformExtType).OffsetMax):To("OffsetMax"):OneWay()
 
-    local builder = self.bindingSet:BindByTarget(self.transform.handler)
-    builder:For(self.transform.OffsetMin):To("OffsetMin"):OneWay()
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder:For((self.transform as RectTransformExtType).OffsetMin):To("OffsetMin"):OneWay()
 
     -- Canvas
-    local canvas = self:AddComponent(Canvas)
-    local builder = self.bindingSet:BindByTarget(canvas.handler)
+    local canvas = self:AddComponent(CanvasExt) as CanvasExtType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as BaseType) as BindingBuilderType
     builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
     
-    local builder = self.bindingSet:BindByTarget(canvas.handler)
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as BaseType) as BindingBuilderType
     builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
 
     -- CanvasGroup
-    local canvasGroup = self:AddComponent(CanvasGroup)
-    local builder = self.bindingSet:BindByTarget(canvasGroup.handler)
+    local canvasGroup = self:AddComponent(CanvasGroup) as CanvasGroupExtType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvasGroup.handler as BaseType) as BindingBuilderType
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
 
     -- GraphicRaycaster
@@ -325,7 +328,7 @@ function WindowViewBase:OnCreate()
     self.viewModel.SortingOrder = layer:PushWindowOrder()
 end
 
-function WindowViewBase:Show(ignoreAnimation)
+function WindowViewBase:Show(ignoreAnimation: boolean): TransitionType
     if self.dismissTransition or self.dismissed then
         return
     end
@@ -337,9 +340,9 @@ function WindowViewBase:Show(ignoreAnimation)
     return WindowManager:Show(self):DisableAnimation(ignoreAnimation)
 end
 
-function WindowViewBase:DoShow(ignoreAnimation)
+function WindowViewBase:DoShow(ignoreAnimation: boolean): AsyncResult
     local result = AsyncResult.new()
-    local action = function (promise)
+    local action = function (promise: AsyncResult)
         if not self.created then
             self:Create()
         end
@@ -366,7 +369,7 @@ function WindowViewBase:OnShow()
     print("parent OnShow")
 end
 
-function WindowViewBase:Hide(ignoreAnimation)
+function WindowViewBase:Hide(ignoreAnimation: boolean): TransitionType
     if not self.created then
         return
     end
@@ -382,9 +385,9 @@ function WindowViewBase:Hide(ignoreAnimation)
     return WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
 end
 
-function WindowViewBase:DoHide(ignoreAnimation)
+function WindowViewBase:DoHide(ignoreAnimation: boolean): AsyncResult
     local result = AsyncResult.new()
-    local action = function (promise)
+    local action = function (promise: AsyncResult)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
                 self.State = WindowState.EXIT_ANIMATION_BEGIN
@@ -410,7 +413,7 @@ function WindowViewBase:OnHide()
     
 end
 
-function WindowViewBase:Dismiss(ignoreAnimation)
+function WindowViewBase:Dismiss(ignoreAnimation: boolean): TransitionType
     if self.dismissTransition then
         return self.dismissTransition
     end
@@ -430,7 +433,7 @@ function WindowViewBase:DoDismiss()
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CSharpType.Object.Destroy(self.gameObject)
+        CSharpType.Object.Destroy(self.gameObject.handler as Object)
         self.State = WindowState.DISMISS_END
         self.dismissTransition = nil
     end
@@ -440,19 +443,19 @@ function WindowViewBase:OnDismiss()
     
 end
 
-function WindowViewBase:GetComponentWithName(component, name)
+function WindowViewBase:GetComponentWithName(component: ComponentExtType, name: string): ComponentExtType
     assert(component and name, "")
     component = component.new(self.variables:Get(name))
     table.insert(self.components, component)
     return component
 end
 
-function WindowViewBase:GetComponent(component)
+function WindowViewBase:GetComponent(component: ComponentExtType): ComponentExtType
     assert(self.gameObject, "")
     return component.new(self.gameObject:GetComponent(typeof(component.CSharpType)))
 end
 
-function WindowViewBase:AddComponent(component)
+function WindowViewBase:AddComponent(component: ComponentExtType): ComponentExtType
     assert(self.gameObject, "")
     return component.new(self.gameObject:AddComponent(typeof(component.CSharpType)))
 end
@@ -462,7 +465,7 @@ function WindowViewBase:dtor()
         self:Dismiss(true)
     end
     
-    table.foreach(self.components, function (i, v)
+    TableExtention.Foreach(self.components, function (i: number, v: ComponentExtType)
         v:delete()
     end)
     self.components = nil

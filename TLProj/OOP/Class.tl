@@ -46,6 +46,8 @@ global record AsyncResult
     Synchronized: function(AsyncResult): BaseType
     WaitForDone: function(AsyncResult): BaseType
 
+    new: function(...: any): AsyncResult
+
     metamethod __call: function(AsyncResult, ...: any): AsyncResult
 end
 
@@ -59,13 +61,17 @@ end
 global record Object
     name: string
     Instantiate: function(Object): Object
+    Destroy: function(Object)
 end
 
 global record ProgressResult_1_Single
+    Result: Object
     Progress: number
+
     Callbackable: function(ProgressResult_1_Single): Object
     UpdateProgress: function(ProgressResult_1_Single, number)
     SetResult: function(ProgressResult_1_Single, any)
+    WaitForDone: function(ProgressResult_1_Single): Object
 
     metamethod __call: function(ProgressResult_1_Single, ...: any): ProgressResult_1_Single
 end
@@ -520,6 +526,7 @@ global record BindingSetType
 
     Bind: function(BindingSetType): BindingBuilderBaseType
     BindByTarget: function(BindingSetType, BaseType): BindingBuilderBaseType
+
 end
 
 global record BindingContextType
@@ -1136,7 +1143,7 @@ global record InteractionRequestType
 end
 
 global record MessengerType
-
+    new: function(...: any): MessengerType
 end
 
 global record ObservableObjectType
@@ -1289,7 +1296,7 @@ global record TransitionType
     OnStartByCallBack: function(TransitionType, function)
     OnStateChanged: function(TransitionType, function): TransitionType
     OnFinish: function(TransitionType, function)
-    DisableAnimation: function(TransitionType, boolean)
+    DisableAnimation: function(TransitionType, boolean): TransitionType
     TransitionTask: function(TransitionType, boolean)
     DoTransition: function(TransitionType)
 end
@@ -1373,8 +1380,11 @@ global record ViewModelBaseType
     offsetMin: Vector2
 
     activeSelf: boolean
+    ActiveSelf: boolean
+
     overrideSorting: boolean
     sortingOrder: number
+    SortingOrder: number
     alpha: number
 
     messenger: MessengerType
@@ -1467,6 +1477,7 @@ global record WindowStateEventArgsType
     oldState: number
     OldState: number
     
+    new: function(...: any): WindowStateEventArgsType
     ctor: function
     dtor: function
 end
@@ -1497,12 +1508,18 @@ global record WindowViewBaseType
         activated: boolean
         Activated: function
     
-        state: boolean
+        state: number
         State: function
     
-        windowType: boolean
+        windowType: number
         WindowType: function
     
+        activationAnimation: UIAnimationType
+        ActivationAnimation: function
+
+        passivationAnimation: UIAnimationType
+        PassivationAnimation: function
+
         enterAnimation: UIAnimationType
         EnterAnimation: function
     
@@ -1521,6 +1538,10 @@ global record WindowViewBaseType
         Transform: function
     
         Visibility: function
+
+        Mutex: boolean
+
+        viewModel: ViewModelBaseType
     end
     
     record set
@@ -1539,9 +1560,15 @@ global record WindowViewBaseType
         activated: boolean
         Activated: function
     
-        state: boolean
+        state: number
         State: function
     
+        activationAnimation: UIAnimationType
+        ActivationAnimation: function
+
+        passivationAnimation: UIAnimationType
+        PassivationAnimation: function
+
         enterAnimation: UIAnimationType
         EnterAnimation: function
     
@@ -1549,10 +1576,22 @@ global record WindowViewBaseType
         ExitAnimation: function
     
         Visibility: function
+
+        viewModel: ViewModelBaseType
+
+        RaiseActivatedChanged: function(set)
+        RaiseStateChanged: function(set, number, number)
     end
 
     Name: string
     Visibility: boolean
+    PrefabPath: string
+
+    activationAnimation: UIAnimationType
+    ActivationAnimation: UIAnimationType
+
+    passivationAnimation: UIAnimationType
+    PassivationAnimation: UIAnimationType
 
     bundle: any
 
@@ -1562,22 +1601,30 @@ global record WindowViewBaseType
     transform: TransformExtType
 
     dismissTransition: TransitionType
+    DismissTransition: TransitionType
     enterAnimation: UIAnimationType
+    EnterAnimation: UIAnimationType
     exitAnimation: UIAnimationType
+    ExitAnimation: UIAnimationType
 
     mutex: boolean
+    Mutex: boolean
+
     created: boolean
     dismissed: boolean
     activated: boolean
+    Activated: boolean
+    
     stateBroadcast: boolean
     windowType: number
     WindowType: number
     state: number
+    State: number
     
     activatedChanged: {EventHandlerType}
-    ActivatedChanged: {EventHandlerType}
+    ActivatedChanged: EventHandlerType
     visibilityChanged: {EventHandlerType}
-    VisibilityChanged: {EventHandlerType}
+    VisibilityChanged: EventHandlerType
     onDismissed: {EventHandlerType}
     OnDismissed: EventHandlerType
     stateChanged: {EventHandlerType}
@@ -1585,13 +1632,15 @@ global record WindowViewBaseType
 
     viewModel: ViewModelBaseType
     bindingExt: BindingExtensionType
-    bindingSet: BindingSetType
+    bindingSet: BindingSetBaseType
 
     parent: TransformExtType
     variables: MonoVariableArrayExtType
     components: {ComponentExtType}
 
+    new: function(...: any): WindowViewBaseType
     ctor: function
+    delete: function
     dtor: function
 
     OnEnable: function(WindowViewBaseType)
@@ -1599,7 +1648,7 @@ global record WindowViewBaseType
     RaiseActivatedChanged: function(WindowViewBaseType)
     RaiseVisibilityChanged: function(WindowViewBaseType)
     RaiseOnDismissed: function(WindowViewBaseType)
-    RaiseStateChanged: function(WindowViewBaseType)
+    RaiseStateChanged: function(WindowViewBaseType, number, number)
     Activate: function(WindowViewBaseType, boolean)
     Passivate: function(WindowViewBaseType, boolean)
     Create: function(WindowViewBaseType)
@@ -1618,12 +1667,14 @@ global record WindowViewBaseType
     OnDismiss: function(WindowViewBaseType)
 
     GetComponentWithName: function(WindowViewBaseType, ComponentExtType, string)
-    GetComponent: function(WindowViewBaseType, ComponentExtType)
-    AddComponent: function(WindowViewBaseType, ComponentExtType)
+    GetComponent: function(WindowViewBaseType, ComponentExtType): ComponentExtType
+    AddComponent: function(WindowViewBaseType, ComponentExtType): ComponentExtType
 end
 
 global record UIAnimationType
-
+    OnStart: function(UIAnimationType, function): UIAnimationType
+    OnEnd: function(UIAnimationType, function): UIAnimationType
+    Play: function(UIAnimationType): UIAnimationType
 end
 
 global record ButtonExtType
@@ -1662,7 +1713,9 @@ global record ComponentExtType
 
     CSharpType: Component
 
+    new: function(...: any): ComponentExtType
     ctor: function
+    delete: function
     dtor: function
 end
 
@@ -1671,7 +1724,9 @@ global record GameObjectExtType
 
     CSharpType: Component
     ActiveSelf: string
+    name: string
 
+    new: function(...: any): GameObjectExtType
     ctor: function
     dtor: function
 
@@ -1752,6 +1807,7 @@ global StringExtension: StringExtensionType
 global TableExtention: TableExtentionType
 global WindowManager: WindowManagerType
 global UnityProxyRegister: UnityProxyRegisterType
+global DefaultUIViewLocator: DefaultUIViewLocatorType
 
 global ExecutorsExt: ExecutorsExtType
 global CoroutineExt: CoroutineExtType
