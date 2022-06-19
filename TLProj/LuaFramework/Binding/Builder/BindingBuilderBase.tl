@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local PathParse: PathParseType
+
 local BindingDescription = require("LuaFramework.Binding.BindingDescription")
 local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 

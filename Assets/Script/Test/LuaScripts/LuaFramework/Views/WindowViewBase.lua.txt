@@ -1,6 +1,19 @@
 
+local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local Messenger = require("LuaFramework.Messaging.Messenger")
+local Executors = require("LuaFramework.CSharpObject.Executors")
+local Coroutine = require("LuaFramework.CSharpObject.Coroutine")
 local ViewModelBase = require("LuaFramework.Views.ViewModelBase")
+local WindowManager = require("LuaFramework.Views.WindowManager")
+local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
+local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
+
+local Canvas = require("LuaFramework.Views.Components.Canvas")
+local GameObject = require("LuaFramework.Views.Components.GameObject")
+local CanvasGroup = require("LuaFramework.Views.Components.CanvasGroup")
+local RectTransform = require("LuaFramework.Views.Components.RectTransform")
+local GraphicRaycaster = require("LuaFramework.Views.Components.GraphicRaycaster")
+local MonoVariableArray = require("LuaFramework.Views.Components.MonoVariableArray")
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 
 local WindowViewBase = class("WindowViewBase")
@@ -129,8 +142,8 @@ function WindowViewBase:ctor(bundle)
     self.dismissed = false
     self.activated = false
     self.stateBroadcast = true
-    self.windowType = WindowType.NONE
-    self.state = WindowState.NONE
+    self.windowType = WindowEnum.WindowType.NONE
+    self.state = WindowEnum.WindowState.NONE
     
     self.activatedChanged = {}
     self.visibilityChanged = {}
@@ -193,16 +206,16 @@ function WindowViewBase:Activate(ignoreAnimation)
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowState.ACTIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowState.ACTIVATION_ANIMATION_END
+            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_END
             self.Activated = true
-            self.State = WindowState.ACTIVATED
+            self.State = WindowEnum.WindowState.ACTIVATED
             result:SetResult()
         end):Play()
     else
         self.Activated = true
-        self.State = WindowState.ACTIVATED
+        self.State = WindowEnum.WindowState.ACTIVATED
         result:SetResult()
     end
 
@@ -222,13 +235,13 @@ function WindowViewBase:Passivate(ignoreAnimation)
     end
 
     self.Activated = false
-    self.State = WindowState.PASSIVATED
+    self.State = WindowEnum.WindowState.PASSIVATED
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowState.PASSIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowState.PASSIVATION_ANIMATION_END
+            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_END
             result:SetResult()
         end):Play()
     else
@@ -247,12 +260,12 @@ function WindowViewBase:Create()
         return
     end
     
-    Executors:RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
+    Executors.Instance:RunOnCoroutineNoReturn(Coroutine.GetEnumerator(function ()
 
-        self.State = WindowState.CREATE_BEGIN
+        self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, typeof(CSharpType.GameObject))
+        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
         Coroutine.Yield(result:WaitForDone())
         print("加载完成。。。")
 
@@ -260,7 +273,7 @@ function WindowViewBase:Create()
 
         self:OnCreate()
         self.created = true
-        self.State = WindowState.CREATE_END
+        self.State = WindowEnum.WindowState.CREATE_END
 
         self:Show()
     end))
@@ -316,7 +329,7 @@ function WindowViewBase:OnCreate()
     self.bindingSet:Build()
 
     --
-    local layer = WindowManager:GetLayer(self.windowType)
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
     assert(layer, "")
 
     self.viewModel.SortingOrder = layer:PushWindowOrder()
@@ -331,7 +344,7 @@ function WindowViewBase:Show(ignoreAnimation)
         return
     end
 
-    return WindowManager:Show(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Show(self):DisableAnimation(ignoreAnimation)
 end
 
 function WindowViewBase:DoShow(ignoreAnimation)
@@ -343,12 +356,12 @@ function WindowViewBase:DoShow(ignoreAnimation)
 
         self:OnShow()
         self.Visibility = true
-        self.State = WindowState.VISIBLE
+        self.State = WindowEnum.WindowState.VISIBLE
         if not ignoreAnimation and self.EnterAnimation then
             self.EnterAnimation:OnStart(function ()
-                self.State = WindowState.ENTER_ANIMATION_BEGIN
+                self.State = WindowEnum.WindowState.ENTER_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowState.ENTER_ANIMATION_END
+                self.State = WindowEnum.WindowState.ENTER_ANIMATION_END
                 promise:SetResult()
             end):Play()
         else
@@ -376,7 +389,7 @@ function WindowViewBase:Hide(ignoreAnimation)
         return
     end
 
-    return WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Hide(self):DisableAnimation(ignoreAnimation)
 end
 
 function WindowViewBase:DoHide(ignoreAnimation)
@@ -384,17 +397,17 @@ function WindowViewBase:DoHide(ignoreAnimation)
     local action = function (promise)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
-                self.State = WindowState.EXIT_ANIMATION_BEGIN
+                self.State = WindowEnum.WindowState.EXIT_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowState.EXIT_ANIMATION_END
+                self.State = WindowEnum.WindowState.EXIT_ANIMATION_END
                 self.Visibility = false
-                self.State = WindowState.INVISIBLE
+                self.State = WindowEnum.WindowState.INVISIBLE
                 self:OnHide()
                 promise:SetResult()
             end):Play()
         else
             self.Visibility = false
-            self.State = WindowState.INVISIBLE
+            self.State = WindowEnum.WindowState.INVISIBLE
             self:OnHide()
             promise:SetResult()
         end
@@ -416,19 +429,19 @@ function WindowViewBase:Dismiss(ignoreAnimation)
         return
     end
 
-    self.dismissTransition = WindowManager:Dismiss(self):DisableAnimation(ignoreAnimation)
+    self.dismissTransition = WindowManager.Instance:Dismiss(self):DisableAnimation(ignoreAnimation)
     return self.dismissTransition
 end
 
 function WindowViewBase:DoDismiss()
     if not self.dismissed then
         assert(self.gameObject, "")
-        self.State = WindowState.DISMISS_BEGIN
+        self.State = WindowEnum.WindowState.DISMISS_BEGIN
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CSharpType.Object.Destroy(self.gameObject)
-        self.State = WindowState.DISMISS_END
+        CS.CSObject.Object.Destroy(self.gameObject)
+        self.State = WindowEnum.WindowState.DISMISS_END
         self.dismissTransition = nil
     end
 end
@@ -446,12 +459,12 @@ end
 
 function WindowViewBase:GetComponent(component)
     assert(self.gameObject, "")
-    return component.new(self.gameObject:GetComponent(typeof(component.CSharpType)))
+    return component.new(self.gameObject:GetComponent(typeof(component.CSObject)))
 end
 
 function WindowViewBase:AddComponent(component)
     assert(self.gameObject, "")
-    return component.new(self.gameObject:AddComponent(typeof(component.CSharpType)))
+    return component.new(self.gameObject:AddComponent(typeof(component.CSObject)))
 end
 
 function WindowViewBase:dtor()
@@ -464,7 +477,7 @@ function WindowViewBase:dtor()
     end)
     self.components = nil
 
-    local layer = WindowManager:GetLayer(self.windowType)
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
     layer:PopWindowOder()
 end
 

@@ -2,11 +2,14 @@
 
 require("OOP.Class")
 
+local CoroutineExt: CoroutineExtType
+local WindowManager: WindowManagerType
+
 local Transition = require("LuaFramework.Views.Transition")
 
-local TransitionHide = class("TransitionHide", Transition) as TransitionHideType
+local TransitionHide = class("TransitionHide", Transition) as WindowManagerType.TransitionHideType
 
-function TransitionHide:ctor(manager: WindowManagerType, window: WindowBaseType, dismiss: boolean)
+function TransitionHide:ctor(manager: WindowManager, window: WindowBaseType, dismiss: boolean)
     Transition.ctor(self, window)
     self.dismiss = dismiss
     self.manager = manager
@@ -30,7 +33,7 @@ function TransitionHide:DoTransition()
     elseif current.windowType == WindowType.FULL then
         previous = WindowManager:PopWindowStack()
     elseif current.windowType == WindowType.POPUP or current.windowType == WindowType.DIALOG then
-        previous = (self.window as WindowBaseType):PopOpenView()
+        previous = (self.window as WindowBaseType):PopViewStack()
     end
 
     if previous then

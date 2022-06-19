@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local ExecutorsExt: ExecutorsExtType
+
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 

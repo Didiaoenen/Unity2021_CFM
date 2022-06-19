@@ -1,4 +1,6 @@
-WindowType = {
+local WindowEnum = {}
+
+WindowEnum.WindowType = {
     NONE = 1,
     FULL = 2,
     POPUP = 3,
@@ -7,7 +9,7 @@ WindowType = {
     QUEUED_POPUP = 6,
 }
 
-WindowState = {
+WindowEnum.WindowState = {
     NONE = 1,
     CREATE_BEGIN = 2,
     CREATE_END = 3,
@@ -27,8 +29,10 @@ WindowState = {
     DISMISS_END = 17
 }
 
-ActionType = {
+WindowEnum.ActionType = {
     None = 1,
     Hide = 2,
     Dismiss = 3
 }
+
+return WindowEnum

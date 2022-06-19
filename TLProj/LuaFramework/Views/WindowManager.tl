@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local TableExtention: TableExtentionType
+
 local Layer = require("Luaframework.Views.Layer")
 local TransitionShow = require("Luaframework.Views.TransitionShow")
 local TransitionHide = require("Luaframework.Views.TransitionHide")
@@ -42,7 +44,7 @@ function WindowManager:ctor()
     self:CreateLayers()
 end
 
-function WindowManager:__singleton(): WindowManagerType
+function WindowManager:__singleton(): WindowManager
     return WindowManager.new()
 end
 
@@ -98,21 +100,13 @@ function WindowManager:PopWindowStack(): WindowViewBaseType
     return self.Current
 end
 
-function WindowManager:Open(name: string, bundle: any): WindowViewBaseType
-    local window = require(name) as WindowViewBaseType
-    window = window.new(bundle)
-    window:Create()
-
-    table.insert(self.windowViews, window)
-
-    return window
+function WindowManager:ClearWindowStack()
+    for i = #(self.windowStack), 1, -1 do
+        self.windowStack[i]:OnDismiss()
+    end
 end
 
-function WindowManager:Close(name: string)
-    local window = self:GetWindowView(name)
-end
-
-function WindowManager:GetWindowView(name: string): WindowViewBaseType
+function WindowManager:GetWindow(name: string): WindowViewBaseType
     return TableExtention.Find(self.windowViews, function (i: number, v: WindowViewBaseType): boolean
         return v.Name == name
     end) as WindowViewBaseType

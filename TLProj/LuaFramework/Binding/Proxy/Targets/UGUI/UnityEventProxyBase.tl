@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local ExecutorsExt: ExecutorsExtType
+
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase) as UnityEventProxyBaseType

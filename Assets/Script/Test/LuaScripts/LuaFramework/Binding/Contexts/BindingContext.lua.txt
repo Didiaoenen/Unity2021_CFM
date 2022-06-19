@@ -1,3 +1,5 @@
+local StandardBinder = require("LuaFramework.Binding.Binders.StandardBinder")
+
 local BindingContext = class("BindingContext")
 
 function BindingContext.get:DataContext()
@@ -63,7 +65,7 @@ function BindingContext:Add(binding, key)
 end
 
 function BindingContext:AddBySingleDesc(target, description, key)
-    local binding = StandardBinder:Bind(self, self.dataContext, target, description)
+    local binding = StandardBinder.Instance:Bind(self, self.dataContext, target, description)
     self:Add(binding, key)
 end
 

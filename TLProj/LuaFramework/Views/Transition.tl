@@ -2,6 +2,9 @@
 
 require("OOP.Class")
 
+local ExecutorsExt: ExecutorsExtType
+local CoroutineExt: CoroutineExtType
+
 local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
 
 local Transition = class("Transition") as TransitionType
@@ -73,7 +76,7 @@ function Transition:Unbind()
 end
 
 function Transition:WaitForDone(): Object
-    return Executors:WaitWhile(function (): boolean
+    return ExecutorsExt:WaitWhile(function (): boolean
         return not self.done
     end)
 end
@@ -156,7 +159,7 @@ function Transition:TransitionTask()
     self.running = true
     self:OnStart()
     
-    local result = Executors:RunOnCoroutine(CoroutineExt.GetEnumerator(function ()
+    local result = ExecutorsExt:RunOnCoroutine(CoroutineExt.GetEnumerator(function ()
         self:DoTransition()
     end))
     CoroutineExt.Yield(result:WaitForDone())

@@ -1,6 +1,6 @@
 local Component = class("Component")
 
-Component.CSharpType = CSharpType.Component
+Component.CSObject = CS.CSObject.Component
 
 function Component:ctor(handler)
     self.handler = handler

@@ -2,8 +2,16 @@
 
 require("OOP.Class")
 
+local CoroutineExt: CoroutineExtType
+local ExecutorsExt: ExecutorsExtType
+local WindowManager: WindowManagerType
+local TableExtention: TableExtentionType
+local DefaultUIViewLocator: DefaultUIViewLocatorType
+
 local Messenger = require("LuaFramework.Messaging.Messenger")
+local AsyncResultExt = require("LuaFramework.CSharpObject.AsyncResultExt")
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
+
 local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
@@ -253,7 +261,7 @@ function WindowViewBase:Create()
         return
     end
     
-    Executors:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
+    ExecutorsExt:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
 
         self.State = WindowState.CREATE_BEGIN
         self.Visibility = false
@@ -340,9 +348,9 @@ function WindowViewBase:Show(ignoreAnimation: boolean): TransitionType
     return WindowManager:Show(self):DisableAnimation(ignoreAnimation)
 end
 
-function WindowViewBase:DoShow(ignoreAnimation: boolean): AsyncResult
-    local result = AsyncResult.new()
-    local action = function (promise: AsyncResult)
+function WindowViewBase:DoShow(ignoreAnimation: boolean): AsyncResultExtType
+    local result = AsyncResultExt.new()
+    local action = function (promise: AsyncResultExtType)
         if not self.created then
             self:Create()
         end
@@ -385,9 +393,9 @@ function WindowViewBase:Hide(ignoreAnimation: boolean): TransitionType
     return WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
 end
 
-function WindowViewBase:DoHide(ignoreAnimation: boolean): AsyncResult
-    local result = AsyncResult.new()
-    local action = function (promise: AsyncResult)
+function WindowViewBase:DoHide(ignoreAnimation: boolean): AsyncResultExtType
+    local result = AsyncResultExt.new()
+    local action = function (promise: AsyncResultExtType)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
                 self.State = WindowState.EXIT_ANIMATION_BEGIN

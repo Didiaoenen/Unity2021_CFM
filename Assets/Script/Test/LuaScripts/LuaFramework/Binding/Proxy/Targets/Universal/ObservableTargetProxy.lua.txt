@@ -1,4 +1,5 @@
 local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local ObservableTargetProxy = class("ObservableTargetProxy", ValueTargetProxyBase)
 

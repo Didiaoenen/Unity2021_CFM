@@ -2,7 +2,7 @@ local Transform = require("LuaFramework.Views.Components.Transform")
 
 local RectTransform = class("RectTransform", Transform)
 
-RectTransform.CSharpType = CSharpType.RectTransform
+RectTransform.CSObject = CS.CSObject.RectTransform
 
 RectTransform.OffsetMax = "offsetMax"
 

@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local UnityProxyRegister: UnityProxyRegisterType
+
 local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
 
 local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase) as PropertyTargetProxyType

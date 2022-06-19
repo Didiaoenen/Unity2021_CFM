@@ -12,12 +12,16 @@ global bindevent = function(...: any): any...
 end
 
 global try = function(...: any)
+    print(...)
 end
 
-----------------------------------------------------------
-require("LuaFramework.Views.WindowEnum")
-require("LuaFramework.Binding.BindingMode")
+global classget = function(cls: any, key: string): any
+    print(cls, key)
+end
 
+global clone = function(obj: any)
+    print(obj)
+end
 
 ---------------------------------------------------------
 global record Type
@@ -30,21 +34,24 @@ global typeof = function(...: any): Type
     print(...)
 end
 
-global classget = function(cls: any, key: string): any
-    print(cls, key)
+global record Object
+    name: string
+    GetType: function(Object): Type
+    Instantiate: function(Object): Object
+    Destroy: function(Object)
 end
 
 global record AsyncResult
     done: boolean
-    result: BaseType
+    result: Object
     cancellationRequested: boolean
     cancelled: boolean
-    SetResult: function(AsyncResult, BaseType)
+    SetResult: function(AsyncResult, Object)
     SetCancelled: function(AsyncResult)
     Cancel: function(AsyncResult): boolean
-    Callbackable: function(AsyncResult): BaseType
-    Synchronized: function(AsyncResult): BaseType
-    WaitForDone: function(AsyncResult): BaseType
+    Callbackable: function(AsyncResult): Object
+    Synchronized: function(AsyncResult): Object
+    WaitForDone: function(AsyncResult): Object
 
     new: function(...: any): AsyncResult
 
@@ -52,16 +59,10 @@ global record AsyncResult
 end
 
 global record Executors
-    WaitWhile: function(Executors, function): Object
-    RunOnMainThread: function(Executors, function)
-    RunOnCoroutine: function(Executors, function): AsyncResult
-    RunOnCoroutineNoReturn: function(Executors, function)
-end
-
-global record Object
-    name: string
-    Instantiate: function(Object): Object
-    Destroy: function(Object)
+    WaitWhile: function(function): Object
+    RunOnMainThread: function(function)
+    RunOnCoroutine: function(function): AsyncResult
+    RunOnCoroutineNoReturn: function(function)
 end
 
 global record ProgressResult_1_Single
@@ -84,11 +85,6 @@ end
 
 global record Resources
     LoadAsync: function(string, any)
-end
-
-global record UnityEvent
-    AddListener: function
-    RemoveAllListeners: function
 end
 
 global record WaitForSeconds
@@ -132,6 +128,9 @@ global record Transform
 end
 
 global record GameObject
+    transform: Transform
+
+    Find: function(string): GameObject
 end
 
 global record CanvasGroup
@@ -223,13 +222,18 @@ global record Vector2
     zero: Vector2
 end
 
-global record CSharpTypeNameType 
+global record CSharpNameType 
     ProgressResult_1_Single: string
 end
 
-global CSharpTypeName: CSharpTypeNameType = {
+global CSharpName: CSharpNameType = {
     ProgressResult_1_Single = "ProgressResult`1[System.Single]"
 }
+
+
+----------------------------------------------------------
+require("LuaFramework.Views.WindowEnum")
+require("LuaFramework.Binding.BindingMode")
 
 
 ----------------------------------------------------------
@@ -414,12 +418,14 @@ end
 
 global record INotifyPropertyChangedType
     record set
-        propertyChanged: EventHandlerType
+        propertyChanged: {EventHandlerType}
         PropertyChanged: function
     end
 
-    propertyChanged: EventHandlerType
+    propertyChanged: {EventHandlerType}
     PropertyChanged: EventHandlerType
+
+    ctor: function
 end
 
 global record PropertyChangedEventArgsType
@@ -428,29 +434,16 @@ global record PropertyChangedEventArgsType
         PropertyName: function
     end
     
-    
     propertyName: string
     PropertyName: string
 
+    new: function(...: any): PropertyChangedEventArgsType
     ctor: function
 end
 
 global record ProxyFunctionType
     getter: function
     setter: function
-end
-
-global record UnityProxyRegisterType
-    registerProxies: {ProxyFunctionType}
-
-    new: function(...: any): UnityProxyRegisterType
-    ctor: function
-    dtor: function
-
-    __singleton: function(UnityProxyRegisterType)
-
-    Initialize: function(UnityProxyRegisterType)
-    Get: function(UnityProxyRegisterType, string): ProxyFunctionType
 end
 
 global record StandardBinderType
@@ -564,10 +557,6 @@ global record BindingContextType
     GetOrCreateList: function(BindingContextType, string): {BindingType}
     Add: function(BindingContextType, BindingType, string)
     AddWithSingleDesc: function(BindingContextType, BaseType, BindingDescriptionType, string)
-end
-
-global record PathParseType
-    Parse: function(string): {string}
 end
 
 global record BindingProxyBaseType
@@ -1033,73 +1022,6 @@ global record SimpleCommandType
     Execute: function(SimpleCommandType, ...: any)
 end
 
-global record StringExtensionType
-    Split: function(string, string): {string}
-    IsNilOrEmpty: function(string): boolean
-end
-
-global record TableExtentionType
-    Foreach: function({any}, function)
-    FindLastIndex: function({any}, function): number
-    FindIndex: function({any}, function): number
-    Find: function({any}, function): any
-    RemoveObj: function({any}, function): any
-    Exists: function({any}, function): boolean
-    ContainsKey: function({any:any}, function): boolean
-    ContainsValue: function({any:any}, function): boolean
-end
-
-global record AsyncResultExtType
-    record get
-        csharp: AsyncResult
-    
-        IsDone: function
-        Result: function
-        IsCancellationRequested: function
-        IsCancelled: function
-    end
-
-    csharp: AsyncResult
-
-    ctor: function
-    dtor: function
-    SetException: function(AsyncResultExtType, string)
-    SetResult: function(AsyncResultExtType, BaseType)
-    SetCancelled: function(AsyncResultExtType)
-    Cancel: function(AsyncResultExtType): boolean
-    Callbackable: function(AsyncResultExtType): BaseType
-    Synchronized: function(AsyncResultExtType): BaseType
-    WaitForDone: function(AsyncResultExtType): BaseType
-end
-
-global record CoroutineExtType
-    
-    __singleton: function(CoroutineExtType): CoroutineExtType
-    
-    new: function(...: any): CoroutineExtType
-    ctor: function
-    dtor: function
-
-    GetEnumerator: function(function): function
-    Yield: function(any)
-    Wait: function(number)
-end
-
-global record ExecutorsExtType
-    
-    csharp: Executors
-
-    __singleton: function(ExecutorsExtType): ExecutorsExtType
-    
-    new: function(...: any): ExecutorsExtType
-    ctor: function
-    dtor: function
-    WaitWhile: function(ExecutorsExtType, function): BaseType
-    RunOnMainThread: function(ExecutorsExtType, function)
-    RunOnCoroutine: function(ExecutorsExtType, function): BaseType
-    RunOnCoroutineNoReturn: function(ExecutorsExtType, function)
-end
-
 global record InteractionEventArgsType
     record get
         context: BaseType
@@ -1147,12 +1069,20 @@ global record MessengerType
 end
 
 global record ObservableObjectType
+    record set
+        propertyChanged: {EventHandlerType}
+        PropertyChanged: function
+    end
+
+    propertyChanged: {EventHandlerType}
+    PropertyChanged: EventHandlerType
+
     ctor: function
     dtor: function
 
     RaisePropertyChanged: function(ObservableObjectType, string)
-    RaisePropertyChangedWithParam: function(ObservableObjectType, string)
-    Set: function(ObservableObjectType, BaseType, any, string, boolean)
+    RaisePropertyChangedWithParam: function(ObservableObjectType, PropertyChangedEventArgsType)
+    Set: function(ObservableObjectType, SetType, any, string, boolean)
 end
 
 global record LayerType
@@ -1205,40 +1135,6 @@ global record TransitionExecutorType
     Execute: function(TransitionExecutorType, TransitionType)
     ShutDone: function(TransitionExecutorType)
     DoTask: function(TransitionExecutorType)
-end
-
-global record TransitionHideType
-    animationDisabled: boolean
-    AnimationDisabled: boolean
-    
-    window: WindowViewBaseType
-    dismiss: boolean
-    manager: WindowManagerType
-    
-    new: function(...: any): TransitionHideType
-    ctor: function
-    dtor: function
-
-    DoTransition: function(TransitionHideType)
-end
-
-global record TransitionShowType
-    animationDisabled: boolean
-    AnimationDisabled: boolean
-
-    overlayPolicy: function
-    OverlayPolicy: function
-
-    window: WindowViewBaseType
-    dismiss: boolean
-    manager: WindowManagerType
-    
-    new: function(...: any): TransitionShowType
-    ctor: function
-    dtor: function
-
-    Overlay: function(TransitionShowType, WindowViewBaseType): number
-    DoTransition: function(TransitionShowType)
 end
 
 global record TransitionType
@@ -1414,46 +1310,19 @@ global record WindowBaseType
 
     OnEnable: function(WindowBaseType)
     OnDisable: function(WindowBaseType)
+
+    Show: function(WindowBaseType, boolean)
     OnShow: function(WindowBaseType)
+    
+    Hide: function(WindowBaseType, boolean)
     OnHide: function(WindowBaseType)
-    CreateSubView: function(WindowBaseType, string, any)
+
+    Dismiss: function(WindowBaseType, boolean)
+    OnDismiss: function(WindowBaseType)
+
     AddSubView: function(WindowBaseType, WindowViewBaseType)
-    PushOpenView: function(WindowBaseType, WindowViewBaseType)
-    PopOpenView: function(WindowBaseType): WindowViewBaseType
-end
-
-global record WindowManagerType
-    record get
-        windowStack: {WindowViewBaseType}
-        Current: function
-    end
-
-    current: WindowViewBaseType
-    Current: WindowViewBaseType
-    layers: {LayerType}
-    windowViews: {WindowViewBaseType}
-    windowStack: {WindowViewBaseType}
-    hideWindows: {WindowViewBaseType}
-
-    __singleton: function(WindowManagerType): WindowManagerType
-
-    new: function(...: any): WindowManagerType
-    ctor: function
-    dtor: function
-
-    Open: function(WindowManagerType, string, any): WindowViewBaseType
-    OnEnable: function(WindowManagerType)
-    OnDisable: function(WindowManagerType)
-    Show: function(WindowManagerType, WindowViewBaseType): TransitionType
-    Hide: function(WindowManagerType, WindowViewBaseType): TransitionType
-    Dismiss: function(WindowManagerType, WindowViewBaseType): TransitionType
-    PushWindowStack: function(WindowManagerType, WindowViewBaseType)
-    PopWindowStack: function(WindowManagerType): WindowViewBaseType
-    Open: function(WindowManagerType, string, any)
-    Close: function(WindowManagerType, string)
-    GetWindowView: function(WindowManagerType, string): WindowViewBaseType
-    CreateLayers: function(WindowManagerType)
-    GetLayer: function(WindowManagerType, number): LayerType
+    PushViewStack: function(WindowBaseType, WindowViewBaseType)
+    PopViewStack: function(WindowBaseType): WindowViewBaseType
 end
 
 global record WindowStateEventArgsType
@@ -1655,11 +1524,11 @@ global record WindowViewBaseType
     OnCreate: function(WindowViewBaseType)
     
     Show: function(WindowViewBaseType, boolean)
-    DoShow: function(WindowViewBaseType, boolean): AsyncResult
+    DoShow: function(WindowViewBaseType, boolean): AsyncResultExtType
     OnShow: function(WindowViewBaseType)
     
     Hide: function(WindowViewBaseType, boolean)
-    DoHide: function(WindowViewBaseType, boolean): AsyncResult
+    DoHide: function(WindowViewBaseType, boolean): AsyncResultExtType
     OnHide: function(WindowViewBaseType)
     
     Dismiss: function(WindowViewBaseType, boolean)
@@ -1761,6 +1630,7 @@ global record RectTransformExtType
     OffsetMax: string
     OffsetMin: string
 
+    new: function(...: any): RectTransformExtType
     ctor: function
     dtor: function
 end
@@ -1788,6 +1658,115 @@ global record TransformExtType
     dtor: function
 end
 
+global record AsyncResultExtType
+    record get
+        csharp: AsyncResult
+    
+        IsDone: function
+        Result: function
+        IsCancellationRequested: function
+        IsCancelled: function
+    end
+
+    csharp: AsyncResult
+
+    new: function(...: any): AsyncResultExtType
+    ctor: function
+    dtor: function
+
+    SetException: function(AsyncResultExtType, string)
+    SetResult: function(AsyncResultExtType, Object)
+    SetCancelled: function(AsyncResultExtType)
+    Cancel: function(AsyncResultExtType): boolean
+    Callbackable: function(AsyncResultExtType): Object
+    Synchronized: function(AsyncResultExtType): Object
+    WaitForDone: function(AsyncResultExtType): Object
+end
+
+-----------------------------------------------------------------------
+global record WindowManagerType
+    record get
+        windowStack: {WindowViewBaseType}
+        Current: function
+    end
+
+    record TransitionHideType
+        animationDisabled: boolean
+        AnimationDisabled: boolean
+        
+        window: WindowViewBaseType
+        dismiss: boolean
+        manager: WindowManagerType
+        
+        new: function(...: any): TransitionHideType
+        ctor: function
+        dtor: function
+    
+        DoTransition: function(TransitionHideType)
+    end
+
+    record TransitionShowType
+        animationDisabled: boolean
+        AnimationDisabled: boolean
+    
+        overlayPolicy: function
+        OverlayPolicy: function
+    
+        window: WindowViewBaseType
+        dismiss: boolean
+        manager: WindowManagerType
+        
+        new: function(...: any): TransitionShowType
+        ctor: function
+        dtor: function
+    
+        Overlay: function(TransitionShowType, WindowViewBaseType): number
+        DoTransition: function(TransitionShowType)
+    end
+
+    current: WindowViewBaseType
+    Current: WindowViewBaseType
+
+    layers: {LayerType}
+    windowViews: {WindowViewBaseType}
+    windowStack: {WindowViewBaseType}
+    hideWindows: {WindowViewBaseType}
+
+    __singleton: function(WindowManagerType): WindowManagerType
+
+    new: function(...: any): WindowManagerType
+    ctor: function
+    dtor: function
+
+    OnEnable: function(WindowManagerType)
+    OnDisable: function(WindowManagerType)
+
+    Show: function(WindowManagerType, WindowViewBaseType): TransitionType
+    Hide: function(WindowManagerType, WindowViewBaseType): TransitionType
+    Dismiss: function(WindowManagerType, WindowViewBaseType): TransitionType
+    
+    PushWindowStack: function(WindowManagerType, WindowViewBaseType)
+    PopWindowStack: function(WindowManagerType): WindowViewBaseType
+    ClearWindowStack: function(WindowManagerType, WindowViewBaseType)
+    GetWindow: function(WindowManagerType, string): WindowViewBaseType
+    
+    CreateLayers: function(WindowManagerType)
+    GetLayer: function(WindowManagerType, number): LayerType
+end
+
+global record CoroutineExtType
+    
+    __singleton: function(CoroutineExtType): CoroutineExtType
+    
+    new: function(...: any): CoroutineExtType
+    ctor: function
+    dtor: function
+
+    GetEnumerator: function(function): function
+    Yield: function(Object)
+    Wait: function(number)
+end
+
 global record DefaultUIViewLocatorType
 
     __singleton: function(DefaultUIViewLocatorType): DefaultUIViewLocatorType
@@ -1796,19 +1775,70 @@ global record DefaultUIViewLocatorType
     ctor: function
     dtor: function
 
-    LoadAsync: function(DefaultUIViewLocatorType, string, any): ProgressResult_1_Single
-    DoLoad: function(DefaultUIViewLocatorType, ProgressResult_1_Single, string, any)
+    LoadAsync: function(DefaultUIViewLocatorType, string, Type): ProgressResult_1_Single
+    DoLoad: function(DefaultUIViewLocatorType, ProgressResult_1_Single, string)
 end
 
------------------------------------------------------------------------
+global record ExecutorsExtType
+    
+    csharp: Executors
 
-global PathParse: PathParseType
-global StringExtension: StringExtensionType
-global TableExtention: TableExtentionType
-global WindowManager: WindowManagerType
-global UnityProxyRegister: UnityProxyRegisterType
-global DefaultUIViewLocator: DefaultUIViewLocatorType
+    __singleton: function(ExecutorsExtType): ExecutorsExtType
+    
+    new: function(...: any): ExecutorsExtType
+    ctor: function
+    dtor: function
+    WaitWhile: function(ExecutorsExtType, function): Object
+    RunOnMainThread: function(ExecutorsExtType, function)
+    RunOnCoroutine: function(ExecutorsExtType, function): AsyncResult
+    RunOnCoroutineNoReturn: function(ExecutorsExtType, function)
+end
 
-global ExecutorsExt: ExecutorsExtType
-global CoroutineExt: CoroutineExtType
-global AsyncResultExt: AsyncResultExtType
+global record UnityProxyRegisterType
+    registerProxies: {ProxyFunctionType}
+
+    new: function(...: any): UnityProxyRegisterType
+    ctor: function
+    dtor: function
+
+    __singleton: function(UnityProxyRegisterType)
+
+    Initialize: function(UnityProxyRegisterType)
+    Get: function(UnityProxyRegisterType, string): ProxyFunctionType
+end
+
+global record PathParseType
+    Parse: function(string): {string}
+end
+
+global record StringExtensionType
+    Split: function(string, string): {string}
+    IsNilOrEmpty: function(string): boolean
+end
+
+global record TableExtentionType
+    Foreach: function({any}, function)
+    FindLastIndex: function({any}, function): number
+    FindIndex: function({any}, function): number
+    Find: function({any}, function): any
+    RemoveObj: function({any}, function): any
+    Exists: function({any}, function): boolean
+    ContainsKey: function({any:any}, function): boolean
+    ContainsValue: function({any:any}, function): boolean
+end
+
+
+------------------------------------------------------------------------
+global record UICFGType
+    View: BaseType
+    ViewModel: BaseType
+end
+
+global record TestVType
+    new: function(...: any): TestVType
+    Create: function(TestVType)
+end
+
+global record TestVMType
+    new: function(...: any): TestVMType
+end

@@ -1,6 +1,9 @@
-local TestVM = require("Game.TestVM")
-
+local TestVM = require("Game.UI.Test.TestVM")
 local WindowBase = require("LuaFramework.Views.WindowBase")
+local BindingExtension = require("LuaFramework.Binding.BindingExtension")
+
+local Text = require("LuaFramework.Views.Components.Text")
+local Button = require("LuaFramework.Views.Components.Button")
 
 local TestV = class("TestV", WindowBase)
 

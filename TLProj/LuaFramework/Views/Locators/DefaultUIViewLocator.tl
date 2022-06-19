@@ -2,6 +2,9 @@
 
 require("OOP.Class")
 
+local CoroutineExt: CoroutineExtType
+local ExecutorsExt: ExecutorsExtType
+
 local DefaultUIViewLocator = class("DefaultUIViewLocator") as DefaultUIViewLocatorType
 
 function DefaultUIViewLocator:ctor()
@@ -12,15 +15,15 @@ function DefaultUIViewLocator:__singleton(): DefaultUIViewLocatorType
     return DefaultUIViewLocator.new()
 end
 
-function DefaultUIViewLocator:LoadAsync(name: string, type: any): ProgressResult_1_Single
-    local result = classget(CSharpType.Asynchronous, CSharpTypeName.ProgressResult_1_Single) as ProgressResult_1_Single
+function DefaultUIViewLocator:LoadAsync(name: string, type: Type): ProgressResult_1_Single
+    local result = classget(CSharpType.Asynchronous, CSharpName.ProgressResult_1_Single) as ProgressResult_1_Single
     ExecutorsExt:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
-        self:DoLoad(result, name, type)
+        self:DoLoad(result, name)
     end))
     return result
 end
 
-function DefaultUIViewLocator:DoLoad(promise: ProgressResult_1_Single, name: string, type: any)
+function DefaultUIViewLocator:DoLoad(promise: ProgressResult_1_Single, name: string)
     promise:UpdateProgress(0)
     local request = CSharpType.Resources.LoadAsync(name, type) as ResourceRequest
     while not request.isDone do

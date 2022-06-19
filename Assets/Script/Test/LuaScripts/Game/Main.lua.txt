@@ -2,13 +2,16 @@ require("Debug.LuaPanda").start("127.0.0.1", 8818)
 
 require("CS.CS")
 
-require("LuaFramework.Global")
+require("LuaFramework.System")
+
+local TestV = require("Game.UI.Test.TestV")
 
 function Main()
-    -- require("Game.TestOOP")
+    local tv = TestV.new()
+    tv:Create()
+    -- TestV.new():Create()
 
-    WindowManager:Open("Game.TestV")
-    WindowManager:Open("Game.TestV")
+    return 1
 end
 
 function __G__TRACKBACK__(msg)

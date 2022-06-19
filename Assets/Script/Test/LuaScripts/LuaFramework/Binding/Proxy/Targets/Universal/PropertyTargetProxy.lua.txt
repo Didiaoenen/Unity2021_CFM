@@ -1,4 +1,6 @@
 local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
+local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase)
 
@@ -37,7 +39,7 @@ function PropertyTargetProxy:GetValue()
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         return proxyInfo.getter(target)
     else
@@ -51,7 +53,7 @@ function PropertyTargetProxy:SetValue(value)
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         proxyInfo.setter(target, value)
     else

@@ -2,11 +2,14 @@
 
 require("OOP.Class")
 
+local CoroutineExt: CoroutineExtType
+local WindowManager: WindowManagerType
+
 local Transition = require("LuaFramework.Views.Transition")
 
-local TransitionShow = class("TransitionShow", Transition) as TransitionShowType
+local TransitionShow = class("TransitionShow", Transition) as WindowManager.TransitionShowType
 
-function TransitionShow:ctor(manager: WindowManagerType, window: WindowBaseType)
+function TransitionShow:ctor(manager: WindowManager, window: WindowBaseType)
     Transition.ctor(self, window)
     self.manager = manager
 end
@@ -33,7 +36,7 @@ function TransitionShow:DoTransition()
     elseif current.windowType == WindowType.FULL then
         previous = WindowManager:PushWindowStack(current) as WindowViewBaseType
     elseif current.windowType == WindowType.POPUP or self.window.windowType == WindowType.DIALOG then
-        previous = (WindowManager.Current as WindowBaseType):PushOpenView(current) as WindowViewBaseType
+        previous = (WindowManager.Current as WindowBaseType):PushViewStack(current) as WindowViewBaseType
     end
 
     if previous then

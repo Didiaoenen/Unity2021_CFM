@@ -4,15 +4,13 @@ require("Debug.LuaPanda").start("127.0.0.1", 8818)
 
 require("CS.CS")
 
-require("OOP.Class")
+require("LuaFramework.System")
 
-require("LuaFramework.Global")
+local TestV = require("Game.UI.Test.TestV")
 
 function Main(): any
-    -- require("Game.TestOOP")
-
-    WindowManager:Open("Game.TestV")
-    WindowManager:Open("Game.TestV")
+    TestV.new():Create()
+    TestV.new():Create()
 
     return 1
 end

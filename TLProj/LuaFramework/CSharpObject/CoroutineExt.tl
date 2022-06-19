@@ -22,7 +22,7 @@ function CoroutineExt.GetEnumerator(callback: function): function
     end)
 end
 
-function CoroutineExt.Yield(enumerator: function)
+function CoroutineExt.Yield(enumerator: Object)
     coroutine.yield(enumerator)
 end
 

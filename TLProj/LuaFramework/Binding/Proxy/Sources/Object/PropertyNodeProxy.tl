@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local UnityProxyRegister: UnityProxyRegisterType
+
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
 local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")

@@ -2,14 +2,6 @@ local util = require "xlua.util"
 
 local Coroutine = class("Coroutine")
 
-function Coroutine:ctor()
-    
-end
-
-function Coroutine:__singleton()
-    return Coroutine.new()
-end
-
 function Coroutine.GetEnumerator(callback)
     return util.cs_generator(function() 
         if callback then
@@ -23,11 +15,7 @@ function Coroutine.Yield(enumerator)
 end
 
 function Coroutine.Wait(time)
-    coroutine.yield(CSharpType.WaitForSeconds(time))
-end
-
-function Coroutine:dtor()
-    
+    coroutine.yield(CS.CSObject.WaitForSeconds(time))
 end
 
 return Coroutine

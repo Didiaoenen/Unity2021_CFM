@@ -1,5 +1,60 @@
 CS = CS or {}
 
+local CSObject = {
+    -- UnityEngine
+    Object = CS.UnityEngine.Object,
+    Canvas = CS.UnityEngine.Canvas,
+    Resources = CS.UnityEngine.Resources,
+    Transform = CS.UnityEngine.Transform,
+    Component = CS.UnityEngine.Component,
+    GameObject = CS.UnityEngine.GameObject,
+    CanvasGroup = CS.UnityEngine.CanvasGroup,
+    WaitForSeconds = CS.UnityEngine.WaitForSeconds,
+    Vector2 = CS.UnityEngine.Vector2,
+    Vector3 = CS.UnityEngine.Vector3,
+    Quaternion = CS.UnityEngine.Quaternion,
+    RectTransform = CS.UnityEngine.RectTransform,
+    
+    -- UnityEngine.UI
+    Text = CS.UnityEngine.UI.Text,
+    Button = CS.UnityEngine.UI.Button,
+    InputField = CS.UnityEngine.UI.InputField,
+    GraphicRaycaster = CS.UnityEngine.UI.GraphicRaycaster,
+
+    -- CS.UnityEngine.Events
+    UnityEventBase = CS.UnityEngine.Events.UnityEventBase,
+
+    -- NameSpace
+    Simple = CS.Assembly_CSharp.Assets.Script.Simple,
+    Execution = CS.Assembly_CSharp.Assets.Script.Simple.Execution,
+    Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous,
+}
+rawset(CS, "CSObject", CSObject)
+
+local CSName = {
+    TestTemp_1_Single = "TestTemp`1[System.Single]",
+    ProgressResult_1_Single = "ProgressResult`1[System.Single]",
+}
+rawset(CS, "CSName", CSName)
+
+local CSType = {
+    ObjectT = typeof(CS.CSObject.Object),
+    CanvasT = typeof(CS.CSObject.Canvas),
+    TransformT = typeof(CS.UnityEngine.Transform),
+    GameObjectT = typeof(CS.UnityEngine.GameObject),
+    CanvasGroupT = typeof(CS.UnityEngine.CanvasGroup),
+    RectTransformT = typeof(CS.UnityEngine.RectTransform),
+
+    TextT = typeof(CS.UnityEngine.UI.Text),
+    ButtonT = typeof(CS.UnityEngine.UI.Button),
+    InputFieldT = typeof(CS.UnityEngine.UI.InputField),
+    GraphicRaycasterT = typeof(CS.UnityEngine.UI.GraphicRaycaster),
+
+    UnityEventBaseT = typeof(CS.CSObject.UnityEventBase),
+}
+rawset(CS, "CSType", CSType)
+
 require("OOP.Class")
 
-require("CS.UEType.CSharpType")
+require("LuaFramework.Common.TableExtention")
+require("LuaFramework.Common.StringExtension")

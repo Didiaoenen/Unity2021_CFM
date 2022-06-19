@@ -1,7 +1,7 @@
 local Executors = class("Executors")
 
 function Executors:ctor()
-    self.csharp = CSharpType.Execution.Executors
+    self.csharp = CS.CSObject.Execution.Executors
 end
 
 function Executors:__singleton()

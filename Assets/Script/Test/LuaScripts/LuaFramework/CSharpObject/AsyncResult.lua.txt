@@ -17,7 +17,7 @@ function AsyncResult.get:IsCancelled()
 end
 
 function AsyncResult:ctor(cancelable)
-    self.csharp = CSharpType.Asynchronous.AsyncResult(cancelable or false)
+    self.csharp = CS.CSObject.Asynchronous.AsyncResult(cancelable or false)
 end
 
 function AsyncResult:SetException(errorMsg)

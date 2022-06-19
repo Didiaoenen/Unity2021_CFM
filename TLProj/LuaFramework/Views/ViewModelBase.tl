@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
+local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject) as ViewModelBaseType
 
@@ -90,7 +91,7 @@ function ViewModelBase:ctor(messenger: MessengerType)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    -- self.parent = RectTransformExt.new(CSharpType.GameObject.Find("UIRoot").transform).handler
+    self.parent = RectTransformExt.new(CSharpType.GameObject.Find("UIRoot").transform) as TransformExtType
     self.localRotation = CSharpType.Quaternion.identity
     self.localPosition = CSharpType.Vector3.zero
     self.localScale = CSharpType.Vector3.one

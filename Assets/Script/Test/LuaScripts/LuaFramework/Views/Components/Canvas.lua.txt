@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local Canvas = class("Canvas", Component)
 
-Canvas.CSharpType = CSharpType.Canvas
+Canvas.CSObject = CS.CSObject.Canvas
 
 Canvas.OverrideSorting = "overrideSorting"
 

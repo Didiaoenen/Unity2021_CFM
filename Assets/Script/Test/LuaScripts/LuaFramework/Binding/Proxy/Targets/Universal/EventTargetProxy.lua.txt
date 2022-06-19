@@ -1,4 +1,5 @@
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local EventTargetProxy = class("EventTargetProxy", EventTargetProxyBase)
 

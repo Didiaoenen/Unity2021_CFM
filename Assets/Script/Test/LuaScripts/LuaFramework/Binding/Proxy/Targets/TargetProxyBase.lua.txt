@@ -1,3 +1,5 @@
+local BindingMode = require("LuaFramework.Binding.BindingMode")
+
 local TargetProxyBase = class("TargetProxyBase")
 
 function TargetProxyBase.get:Target()

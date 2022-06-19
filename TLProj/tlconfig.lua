@@ -6,6 +6,8 @@ return {
         "Debug\\*.tl",
         "OOP\\*.tl",
         "xlua\\*.tl",
+
+        "LuaFramework\\Global.tl",
     },
     build_xlua = true,
  }

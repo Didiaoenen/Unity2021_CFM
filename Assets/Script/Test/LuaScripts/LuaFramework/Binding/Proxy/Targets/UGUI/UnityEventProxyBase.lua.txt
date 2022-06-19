@@ -1,4 +1,6 @@
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
+local Executors = require("LuaFramework.CSharpObject.Executors")
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase)
 
@@ -71,7 +73,7 @@ function UnityEventProxyBase:SetValue(value)
 end
 
 function UnityEventProxyBase:OnCanExecuteChanged(sender, e)
-    Executors:RunOnMainThread(function ()
+    Executors.Instance:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)
 end

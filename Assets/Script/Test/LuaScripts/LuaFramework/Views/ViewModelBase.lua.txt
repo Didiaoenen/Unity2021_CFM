@@ -1,4 +1,5 @@
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
+local RectTransform = require("LuaFramework.Views.Components.RectTransform")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject)
 
@@ -86,12 +87,12 @@ function ViewModelBase:ctor(messenger)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    self.parent = RectTransform.new(CSharpType.GameObject.Find("UIRoot").transform).handler
-    self.localRotation = CSharpType.Quaternion.identity
-    self.localPosition = CSharpType.Vector3.zero
-    self.localScale = CSharpType.Vector3.one
-    self.offsetMax = CSharpType.Vector2.zero
-    self.offsetMin = CSharpType.Vector2.zero
+    self.parent = RectTransform.new(CS.CSObject.GameObject.Find("UIRoot").transform).handler
+    self.localRotation = CS.CSObject.Quaternion.identity
+    self.localPosition = CS.CSObject.Vector3.zero
+    self.localScale = CS.CSObject.Vector3.one
+    self.offsetMax = CS.CSObject.Vector2.zero
+    self.offsetMin = CS.CSObject.Vector2.zero
     self.activeSelf = true
     self.overrideSorting = true
     self.sortingOrder = 0

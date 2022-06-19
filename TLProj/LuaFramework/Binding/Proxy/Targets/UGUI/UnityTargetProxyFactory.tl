@@ -21,7 +21,7 @@ function UnityTargetProxyFactory:CreateProxy(target: BaseType, description: Bind
     end
 
     if "userdata" == type(memberInfo) then
-        if typeof(CS.UnityEngine.Events.UnityEventBase):IsAssignableFrom((memberInfo as BaseType):GetType()) then
+        if typeof(CS.UnityEngine.Events.UnityEventBase):IsAssignableFrom((memberInfo as Object):GetType()) then
             return UnityEventProxy.new(target, description.TargetName) as TargetProxyBaseType
         else
             if not updateTrigger then
