@@ -1,9 +1,0 @@
-local ProxyEntry = class("ProxyEntry")
-
-function ProxyEntry:ctor(proxy, path)
-    self.Proxy = proxy
-    self.Path = path
-    self.handler = nil
-end
-
-return ProxyEntry

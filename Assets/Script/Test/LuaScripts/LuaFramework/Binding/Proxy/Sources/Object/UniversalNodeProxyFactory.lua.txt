@@ -1,10 +1,6 @@
-local IntItemNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.IntItemNodeProxy")
-local StringItemNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.StringItemNodeProxy")
-local ObservableNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ObservableNodeProxy")
 local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.InteractionNodeProxy")
 local PropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.PropertyNodeProxy")
 local MethodNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.MethodNodeProxy")
-local EventNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.EventNodeProxy")
 
 local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory")
 

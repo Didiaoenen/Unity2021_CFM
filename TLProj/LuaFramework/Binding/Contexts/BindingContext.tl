@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local StandardBinder = require("LuaFramework.Binding.Binders.StandardBinder")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local BindingContext = class("BindingContext") as BindingContextType
 
@@ -41,9 +42,9 @@ function BindingContext:OnDataContextChanged()
 end
 
 function BindingContext:RaiseDataContextChanged()
-    for _, v in ipairs(self.dataContextChanged) do
+    TableExtention.Foreach(self.dataContextChanged, function(i: number, v: EventHandlerType)
         v.callback(v.this)
-    end
+    end)
 end
 
 function BindingContext:GetOrCreateList(key: string): {BindingType}
