@@ -2,6 +2,7 @@
 
 require("OOP.Class")
 
+local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
 local TableExtention = require("LuaFramework.Common.TableExtention")
 
@@ -17,7 +18,7 @@ function WindowBase:ctor(bundle)
     self.subView = {}
     self.viewStack = {}
 
-    self.windowType = WindowType.FULL
+    self.windowType = WindowEnum.WindowType.FULL
 end
 
 function WindowBase:OnEnable()

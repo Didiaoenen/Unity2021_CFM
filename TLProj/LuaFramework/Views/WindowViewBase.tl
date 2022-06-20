@@ -7,6 +7,7 @@ local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
 
+local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local Messenger = require("LuaFramework.Messaging.Messenger")
 local AsyncResultExt = require("LuaFramework.CSharpObject.AsyncResultExt")
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
@@ -144,8 +145,8 @@ function WindowViewBase:ctor(bundle)
     self.dismissed = false
     self.activated = false
     self.stateBroadcast = true
-    self.windowType = WindowType.NONE
-    self.state = WindowState.NONE
+    self.windowType = WindowEnum.WindowType.NONE
+    self.state = WindowEnum.WindowState.NONE
     
     self.activatedChanged = {}
     self.visibilityChanged = {}
@@ -208,16 +209,16 @@ function WindowViewBase:Activate(ignoreAnimation: boolean): AsyncResult
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowState.ACTIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowState.ACTIVATION_ANIMATION_END
+            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_END
             self.Activated = true
-            self.State = WindowState.ACTIVATED
+            self.State = WindowEnum.WindowState.ACTIVATED
             result:SetResult()
         end):Play()
     else
         self.Activated = true
-        self.State = WindowState.ACTIVATED
+        self.State = WindowEnum.WindowState.ACTIVATED
         result:SetResult()
     end
 
@@ -237,13 +238,13 @@ function WindowViewBase:Passivate(ignoreAnimation: boolean): AsyncResult
     end
 
     self.Activated = false
-    self.State = WindowState.PASSIVATED
+    self.State = WindowEnum.WindowState.PASSIVATED
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowState.PASSIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowState.PASSIVATION_ANIMATION_END
+            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_END
             result:SetResult()
         end):Play()
     else
@@ -264,7 +265,7 @@ function WindowViewBase:Create()
     
     ExecutorsExt:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
 
-        self.State = WindowState.CREATE_BEGIN
+        self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
         local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
@@ -275,7 +276,7 @@ function WindowViewBase:Create()
 
         self:OnCreate()
         self.created = true
-        self.State = WindowState.CREATE_END
+        self.State = WindowEnum.WindowState.CREATE_END
 
         self:Show()
     end))
@@ -358,12 +359,12 @@ function WindowViewBase:DoShow(ignoreAnimation: boolean): AsyncResultExtType
 
         self:OnShow()
         self.Visibility = true
-        self.State = WindowState.VISIBLE
+        self.State = WindowEnum.WindowState.VISIBLE
         if not ignoreAnimation and self.EnterAnimation then
             self.EnterAnimation:OnStart(function ()
-                self.State = WindowState.ENTER_ANIMATION_BEGIN
+                self.State = WindowEnum.WindowState.ENTER_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowState.ENTER_ANIMATION_END
+                self.State = WindowEnum.WindowState.ENTER_ANIMATION_END
                 promise:SetResult()
             end):Play()
         else
@@ -399,17 +400,17 @@ function WindowViewBase:DoHide(ignoreAnimation: boolean): AsyncResultExtType
     local action = function (promise: AsyncResultExtType)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
-                self.State = WindowState.EXIT_ANIMATION_BEGIN
+                self.State = WindowEnum.WindowState.EXIT_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowState.EXIT_ANIMATION_END
+                self.State = WindowEnum.WindowState.EXIT_ANIMATION_END
                 self.Visibility = false
-                self.State = WindowState.INVISIBLE
+                self.State = WindowEnum.WindowState.INVISIBLE
                 self:OnHide()
                 promise:SetResult()
             end):Play()
         else
             self.Visibility = false
-            self.State = WindowState.INVISIBLE
+            self.State = WindowEnum.WindowState.INVISIBLE
             self:OnHide()
             promise:SetResult()
         end
@@ -438,12 +439,12 @@ end
 function WindowViewBase:DoDismiss()
     if not self.dismissed then
         assert(self.gameObject, "")
-        self.State = WindowState.DISMISS_BEGIN
+        self.State = WindowEnum.WindowState.DISMISS_BEGIN
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
         CS.CSObject.Object.Destroy(self.gameObject.handler as Object)
-        self.State = WindowState.DISMISS_END
+        self.State = WindowEnum.WindowState.DISMISS_END
         self.dismissTransition = nil
     end
 end

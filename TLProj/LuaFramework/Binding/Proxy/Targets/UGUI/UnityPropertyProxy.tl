@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local UnityPropertyProxy = class("UnityPropertyProxy", PropertyTargetProxy) as UnityPropertyProxyType
 

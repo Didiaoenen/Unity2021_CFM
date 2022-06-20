@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local TargetProxyBase = class("TargetProxyBase", BindingProxyBase) as TargetProxyBaseType
 

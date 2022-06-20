@@ -1,6 +1,8 @@
+require("OOP.Class")
 
+local WindowEnum: WindowEnumType = {}
 
-global WindowType = {
+WindowEnum.WindowType = {
     NONE = 1,
     FULL = 2,
     POPUP = 3,
@@ -9,7 +11,7 @@ global WindowType = {
     QUEUED_POPUP = 6,
 }
 
-global WindowState = {
+WindowEnum.WindowState = {
     NONE = 1,
     CREATE_BEGIN = 2,
     CREATE_END = 3,
@@ -26,11 +28,13 @@ global WindowState = {
     INVISIBLE = 14,
     EXIT_ANIMATION_END = 15,
     DISMISS_BEGIN = 16,
-    DISMISS_END = 17
+    DISMISS_END = 17,
 }
 
-global ActionType = {
+WindowEnum.ActionType = {
     None = 1,
     Hide = 2,
-    Dismiss = 3
+    Dismiss = 3,
 }
+
+return WindowEnum

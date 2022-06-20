@@ -1,6 +1,4 @@
 ----------------------------------------------------------
-global type ClassType = function<T>(...: any): T
-
 global class = function(...: any): any
     print(...)
 end
@@ -289,9 +287,57 @@ local CSType: CSTypeType = {
 }
 
 ----------------------------------------------------------
-require("LuaFramework.Views.WindowEnum")
-require("LuaFramework.Binding.BindingMode")
+global record WindowEnumType
 
+    record WindowTypeType
+        NONE: number
+        FULL: number
+        POPUP: number
+        DIALOG: number
+        PROGRESS: number
+        QUEUED_POPUP: number
+    end
+
+    WindowType: WindowTypeType
+
+    record WindowStateType
+        NONE: number
+        CREATE_BEGIN: number
+        CREATE_END: number
+        ENTER_ANIMATION_BEGIN: number
+        VISIBLE: number
+        ENTER_ANIMATION_END: number
+        ACTIVATION_ANIMATION_BEGIN: number
+        ACTIVATED: number
+        ACTIVATION_ANIMATION_END: number
+        PASSIVATION_ANIMATION_BEGIN: number
+        PASSIVATED: number
+        PASSIVATION_ANIMATION_END: number
+        EXIT_ANIMATION_BEGIN: number
+        INVISIBLE: number
+        EXIT_ANIMATION_END: number
+        DISMISS_BEGIN: number
+        DISMISS_END: number
+    end
+
+    WindowState: WindowStateType
+
+    record ActionTypeType
+        None: number
+        Hide: number
+        Dismiss: number
+    end
+
+    ActionType: ActionTypeType
+end
+
+global record BindingModeType
+    Default: number         
+    TwoWay: number          
+    OneWay: number          
+    OneTime: number         
+    OneWayToSource: number  
+end
 
 ----------------------------------------------------------
 global record LayerDataType

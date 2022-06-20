@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local BindingBuilderBase = require("LuaFramework.Binding.Builder.BindingBuilderBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local BindingBuilder = class("BindingBuilder") as BindingBuilderType
 

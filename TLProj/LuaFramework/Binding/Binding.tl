@@ -5,6 +5,7 @@ require("OOP.Class")
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local Binding = class("Binding", AbstractBinding) as BindingType
 
