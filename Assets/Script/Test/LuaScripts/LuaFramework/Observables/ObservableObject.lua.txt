@@ -1,3 +1,4 @@
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local NotifyPropertyChanged = require("LuaFramework.Binding.NotifyPropertyChanged")
 local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEventArgs")
 
@@ -12,7 +13,7 @@ function ObservableObject:RaisePropertyChanged(property)
 end
 
 function ObservableObject:RaisePropertyChangedWithParam(param)
-    table.foreach(self.propertyChanged, function (i, v)
+    TableExtention.Foreach(self.propertyChanged, function (i, v)
         v.callback(v.this, self, param)
     end)
 end

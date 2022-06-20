@@ -5,7 +5,7 @@ require("OOP.Class")
 local ExecutorsExt = class("ExecutorsExtExt") as ExecutorsExtType
 
 function ExecutorsExt:ctor()
-    self.csharp = CSharpType.Execution.Executors
+    self.csharp = CS.CSObject.Execution.Executors
 end
 
 function ExecutorsExt:__singleton(): ExecutorsExtType

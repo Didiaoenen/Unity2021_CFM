@@ -1,3 +1,5 @@
+local TableExtention = require("LuaFramework.Common.TableExtention")
+
 function clone(object)
     local lookup_table = {}
     local function _copy(object)
@@ -67,7 +69,7 @@ function setcallback(t, value, addcb, removecb)
         end
         table.insert(t, value)
     else
-        table.find(t, function (i, v)
+        TableExtention.Find(t, function (i, v)
             if value.this == value.this then
                 if removecb then
                     removecb()

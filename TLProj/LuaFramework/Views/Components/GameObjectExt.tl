@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local GameObjectExt = class("GameObjectExt", ComponentExt) as GameObjectExtType
 
-GameObjectExt.CSharpType = CSharpType.GameObject as Component
+GameObjectExt.CSObject = CS.CSObject.GameObject as Component
 
 GameObjectExt.ActiveSelf = "activeSelf"
 

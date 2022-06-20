@@ -91,12 +91,12 @@ function ViewModelBase:ctor(messenger: MessengerType)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    self.parent = RectTransformExt.new(CSharpType.GameObject.Find("UIRoot").transform) as TransformExtType
-    self.localRotation = CSharpType.Quaternion.identity
-    self.localPosition = CSharpType.Vector3.zero
-    self.localScale = CSharpType.Vector3.one
-    self.offsetMax = CSharpType.Vector2.zero
-    self.offsetMin = CSharpType.Vector2.zero
+    self.parent = RectTransformExt.new(CS.CSObject.GameObject.Find("UIRoot").transform) as TransformExtType
+    self.localRotation = CS.CSObject.Quaternion.identity
+    self.localPosition = CS.CSObject.Vector3.zero
+    self.localScale = CS.CSObject.Vector3.one
+    self.offsetMax = CS.CSObject.Vector2.zero
+    self.offsetMin = CS.CSObject.Vector2.zero
     self.activeSelf = true
     self.overrideSorting = true
     self.sortingOrder = 0

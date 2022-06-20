@@ -55,6 +55,3 @@ local CSType = {
 rawset(CS, "CSType", CSType)
 
 require("OOP.Class")
-
-require("LuaFramework.Common.TableExtention")
-require("LuaFramework.Common.StringExtension")

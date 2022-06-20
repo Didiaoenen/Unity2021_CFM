@@ -1,4 +1,5 @@
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase)
 
@@ -55,7 +56,7 @@ function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:RaiseValueChanged()
-    table.foreach(self.valueChanged, function (i, v)
+    TableExtention.Foreach(self.valueChanged, function (i, v)
         v.callback(v.this)
     end)
 end

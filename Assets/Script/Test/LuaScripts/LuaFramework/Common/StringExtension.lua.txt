@@ -1,17 +1,20 @@
+local StringExtension = {}
 
-function string.split(str, sep)
+function StringExtension.Split(s, sep)
 	sep = sep or ""
 	local items = {}
     local pattern = string.format("([^%s]+)", sep)
-    string.gsub(str, pattern, function (c)
+    string.gsub(s, pattern, function (c)
         table.insert(items, c)
     end)  
     return items
 end
 
-function string.isnilorempty(str)
-    if str == nil or str == "" then
+function StringExtension.IsNilOrEmpty(s)
+    if nil == s or s == "" then
         return true
     end
     return false
 end
+
+return StringExtension

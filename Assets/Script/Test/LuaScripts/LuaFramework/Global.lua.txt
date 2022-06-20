@@ -1,2 +1,0 @@
-require("LuaFramework.Common.TableExtention")
-require("LuaFramework.Common.StringExtension")

@@ -2,6 +2,7 @@ local Layer = require("Luaframework.Views.Layer")
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local Transition = require("LuaFramework.Views.Transition")
 local Coroutine = require("LuaFramework.CSharpObject.Coroutine")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local TransitionShow = class("TransitionShow", Transition)
@@ -113,20 +114,20 @@ function WindowManager:Close(name)
 end
 
 function WindowManager:GetWindowView(name)
-    return table.find(self.windowViews, function (i, v)
+    return TableExtention.Find(self.windowViews, function (i, v)
         return v.Name == name
     end)
 end
 
 function WindowManager:CreateLayers()
-    table.foreach(layers, function (i, v)
+    TableExtention.Foreach(layers, function (i, v)
         local layer = Layer.new(v)
         table.insert(self.layers, layer)
     end)
 end
 
 function WindowManager:GetLayer(windowType)
-    return table.find(self.layers, function (i, v)
+    return TableExtention.Find(self.layers, function (i, v)
         return v.WindowType == windowType
     end)
 end

@@ -2,8 +2,7 @@
 
 require("OOP.Class")
 
-local TableExtention: TableExtentionType
-
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEventArgs")
 

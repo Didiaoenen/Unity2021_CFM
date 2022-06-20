@@ -8,7 +8,7 @@ require("LuaFramework.System")
 
 local TestV = require("Game.UI.Test.TestV")
 
-function Main(): any
+function Main(): number
     TestV.new():Create()
     TestV.new():Create()
 

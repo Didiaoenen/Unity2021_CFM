@@ -7,7 +7,7 @@ return {
         "OOP\\*.tl",
         "xlua\\*.tl",
 
-        "LuaFramework\\Global.tl",
+        "LuaFramework\\System.tl",
     },
     build_xlua = true,
  }

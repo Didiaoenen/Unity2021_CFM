@@ -1,3 +1,4 @@
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
 
@@ -25,13 +26,13 @@ function WindowBase:OnDisable()
 end
 
 function WindowBase:OnShow()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i, v)
         v:OnShow()
     end)
 end
 
 function WindowBase:OnHide()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i, v)
         v:OnHide()
     end)
 end
@@ -58,7 +59,7 @@ function WindowBase:PopOpenView()
 end
 
 function WindowBase:dtor()
-    table.foreach(self.subView, function (i, v)
+    TableExtention.Foreach(self.subView, function (i, v)
         v:delete()
     end)
     self.subView = nil

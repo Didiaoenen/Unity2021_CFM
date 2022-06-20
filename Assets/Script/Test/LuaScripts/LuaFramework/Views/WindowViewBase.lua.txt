@@ -6,6 +6,7 @@ local Coroutine = require("LuaFramework.CSharpObject.Coroutine")
 local ViewModelBase = require("LuaFramework.Views.ViewModelBase")
 local WindowManager = require("LuaFramework.Views.WindowManager")
 local AsyncResult = require("LuaFramework.CSharpObject.AsyncResult")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
 
 local Canvas = require("LuaFramework.Views.Components.Canvas")
@@ -168,26 +169,26 @@ function WindowViewBase:OnDisable()
 end
 
 function WindowViewBase:RaiseActivatedChanged()
-    table.foreach(self.activatedChanged, function (i, v)
+    TableExtention.Foreach(self.activatedChanged, function (i, v)
         v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseVisibilityChanged()
-    table.foreach(self.visibilityChanged, function (i, v)
+    TableExtention.Foreach(self.visibilityChanged, function (i, v)
         v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseOnDismissed()
-    table.foreach(self.onDismissed, function (i, v)
+    TableExtention.Foreach(self.onDismissed, function (i, v)
         v.callback(v.self, self)
     end)
 end
 
 function WindowViewBase:RaiseStateChanged(oldState, newState)
     local eventArgs = WindowStateEventArgs.new(self, oldState, newState)
-    table.foreach(self.stateChanged, function (i, v)
+    TableExtention.Foreach(self.stateChanged, function (i, v)
         v.callback(v.self, self, eventArgs)
     end)
 end
@@ -472,7 +473,7 @@ function WindowViewBase:dtor()
         self:Dismiss(true)
     end
     
-    table.foreach(self.components, function (i, v)
+    TableExtention.Foreach(self.components, function (i, v)
         v:delete()
     end)
     self.components = nil

@@ -2,8 +2,8 @@
 
 require("OOP.Class")
 
-local CoroutineExt: CoroutineExtType
-local ExecutorsExt: ExecutorsExtType
+local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
+local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 
 local DefaultUIViewLocator = class("DefaultUIViewLocator") as DefaultUIViewLocatorType
 
@@ -16,22 +16,22 @@ function DefaultUIViewLocator:__singleton(): DefaultUIViewLocatorType
 end
 
 function DefaultUIViewLocator:LoadAsync(name: string, type: Type): ProgressResult_1_Single
-    local result = classget(CSharpType.Asynchronous, CSharpName.ProgressResult_1_Single) as ProgressResult_1_Single
+    local result = classget(CS.CSObject.Asynchronous, CS.CSName.ProgressResult_1_Single) as ProgressResult_1_Single
     ExecutorsExt:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
-        self:DoLoad(result, name)
+        self:DoLoad(result, name, type)
     end))
     return result
 end
 
-function DefaultUIViewLocator:DoLoad(promise: ProgressResult_1_Single, name: string)
+function DefaultUIViewLocator:DoLoad(promise: ProgressResult_1_Single, name: string, type: Type)
     promise:UpdateProgress(0)
-    local request = CSharpType.Resources.LoadAsync(name, type) as ResourceRequest
+    local request = CS.CSObject.Resources.LoadAsync(name, type) as ResourceRequest
     while not request.isDone do
         promise:UpdateProgress(request.progress)
         CoroutineExt.Wait(3)
     end
 
-    local ins = CSharpType.Object.Instantiate(request.asset as Object)
+    local ins = CS.CSObject.Object.Instantiate(request.asset as Object)
     ins.name = name
 
     promise:UpdateProgress(1)

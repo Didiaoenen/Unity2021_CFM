@@ -1,5 +1,7 @@
 ----------------------------------------------------------
-global class = function(...: any): any...
+global type ClassType = function<T>(...: any): T
+
+global class = function(...: any): any
     print(...)
 end
 
@@ -27,7 +29,6 @@ end
 global record Type
     IsAssignableFrom: function(Type, any): boolean
 end
-
 
 ---------------------------------------------------------
 global typeof = function(...: any): Type
@@ -92,6 +93,10 @@ global record WaitForSeconds
 end
 
 global record CS
+    CSObject: CSObject
+    CSName: CSName
+    CSType: CSType
+
     UnityEngine: UnityEngine
 end
 
@@ -110,6 +115,7 @@ global record UnityEngine
     Quaternion: Quaternion
     Vector3: Vector3
     Vector2: Vector2
+    Color: Color
 end
 
 global record Quaternion
@@ -125,12 +131,17 @@ global record Component
 end
 
 global record Transform
+    parent: Transform
+
+    SetParent: function(Transform, Transform)
 end
 
 global record GameObject
     transform: Transform
+    activeSelf: boolean
 
     Find: function(string): GameObject
+    SetActive: function(GameObject, boolean)
 end
 
 global record CanvasGroup
@@ -142,6 +153,7 @@ end
 global record UI
     Text: Text
     Button: Button
+    InputField: InputField
     GraphicRaycaster: GraphicRaycaster
 end
 
@@ -150,6 +162,10 @@ global record Text
 end
 
 global record Button
+
+end
+
+global record InputField
 
 end
 
@@ -168,28 +184,6 @@ end
 global record UnityEvent
     AddListener: function
     RemoveAllListeners: function
-end
-
-global record CSharpType
-    Object: CS.UnityEngine.Object
-    Canvas: CS.UnityEngine.Canvas
-    Resources: CS.UnityEngine.Resources
-    CanvasGroup: CS.UnityEngine.CanvasGroup
-    RectTransform: CS.UnityEngine.RectTransform
-    Transform: CS.UnityEngine.Transform
-    GameObject: CS.UnityEngine.GameObject
-    WaitForSeconds: CS.UnityEngine.WaitForSeconds
-    Quaternion: CS.UnityEngine.Quaternion
-    Vector3: Vector3
-    Vector2: Vector2
-
-    Text: CS.UnityEngine.UI.Text
-    Button: CS.UnityEngine.UI.Button
-    GraphicRaycaster: CS.UnityEngine.UI.GraphicRaycaster
-
-    Simple: Simple
-    Execution: Execution
-    Asynchronous: Asynchronous
 end
 
 global record Simple
@@ -216,20 +210,83 @@ end
 global record Vector3
     zero: Vector3
     one: Vector3
+
+    metamethod __call: function(Vector3, ...: any): Vector3
 end
 
 global record Vector2
     zero: Vector2
 end
 
-global record CSharpNameType 
+global record Color
+    red: Color
+end
+
+
+--------------------------------------------------------------
+local record CSObject
+    Object: CS.UnityEngine.Object
+    Canvas: CS.UnityEngine.Canvas
+    Resources: CS.UnityEngine.Resources
+    CanvasGroup: CS.UnityEngine.CanvasGroup
+    RectTransform: CS.UnityEngine.RectTransform
+    Transform: CS.UnityEngine.Transform
+    GameObject: CS.UnityEngine.GameObject
+    WaitForSeconds: CS.UnityEngine.WaitForSeconds
+    Quaternion: CS.UnityEngine.Quaternion
+    Vector3: Vector3
+    Vector2: Vector2
+
+    Text: CS.UnityEngine.UI.Text
+    Button: CS.UnityEngine.UI.Button
+    GraphicRaycaster: CS.UnityEngine.UI.GraphicRaycaster
+
+    UnityEventBase: CS.UnityEngine.Events.UnityEventBase
+
+    Simple: Simple
+    Execution: Execution
+    Asynchronous: Asynchronous
+end
+
+local record CSNameType
     ProgressResult_1_Single: string
 end
 
-global CSharpName: CSharpNameType = {
+local CSName: CSNameType = {
     ProgressResult_1_Single = "ProgressResult`1[System.Single]"
 }
 
+local record CSTypeType
+    ObjectT: Type
+    CanvasT: Type
+    TransformT: Type
+    GameObjectT: Type
+    CanvasGroupT: Type
+    RectTransformT: Type
+
+    TextT: Type
+    ButtonT: Type
+    InputFieldT: Type
+    GraphicRaycasterT: Type
+
+    UnityEventBaseT: Type
+end
+
+local CSType: CSTypeType = {
+    ObjectT = typeof(CS.CSObject.Object),
+    CanvasT = typeof(CS.CSObject.Canvas),
+    TransformT = typeof(CS.UnityEngine.Transform),
+    GameObjectT = typeof(CS.UnityEngine.GameObject),
+    CanvasGroupT = typeof(CS.UnityEngine.CanvasGroup),
+    RectTransformT = typeof(CS.UnityEngine.RectTransform),
+
+    TextT = typeof(CS.UnityEngine.UI.Text),
+    ButtonT = typeof(CS.UnityEngine.UI.Button),
+    InputFieldT = typeof(CS.UnityEngine.UI.InputField),
+    GraphicRaycasterT = typeof(CS.UnityEngine.UI.GraphicRaycaster),
+
+    UnityEventBaseT = typeof(CS.CSObject.UnityEventBase),
+}
 
 ----------------------------------------------------------
 require("LuaFramework.Views.WindowEnum")
@@ -439,11 +496,6 @@ global record PropertyChangedEventArgsType
 
     new: function(...: any): PropertyChangedEventArgsType
     ctor: function
-end
-
-global record ProxyFunctionType
-    getter: function
-    setter: function
 end
 
 global record StandardBinderType
@@ -1058,6 +1110,7 @@ global record InteractionRequestType
 
     sender: BaseType
 
+    new: function(...: any): InteractionRequestType
     ctor: function
     dtor: function
 
@@ -1308,6 +1361,8 @@ global record WindowBaseType
     ctor: function
     dtor: function
 
+    OnCreate: function(WindowBaseType)
+
     OnEnable: function(WindowBaseType)
     OnDisable: function(WindowBaseType)
 
@@ -1535,7 +1590,7 @@ global record WindowViewBaseType
     DoDismiss: function(WindowViewBaseType)
     OnDismiss: function(WindowViewBaseType)
 
-    GetComponentWithName: function(WindowViewBaseType, ComponentExtType, string)
+    GetComponentWithName: function(WindowViewBaseType, ComponentExtType, string): ComponentExtType
     GetComponent: function(WindowViewBaseType, ComponentExtType): ComponentExtType
     AddComponent: function(WindowViewBaseType, ComponentExtType): ComponentExtType
 end
@@ -1549,7 +1604,7 @@ end
 global record ButtonExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     OnClick: string
 
     ctor: function
@@ -1559,7 +1614,7 @@ end
 global record CanvasGroupExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     Alpha: string
 
     ctor: function
@@ -1569,7 +1624,7 @@ end
 global record CanvasExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     OverrideSorting: string
     SortingOrder: string
 
@@ -1580,7 +1635,7 @@ end
 global record ComponentExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
 
     new: function(...: any): ComponentExtType
     ctor: function
@@ -1591,7 +1646,7 @@ end
 global record GameObjectExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     ActiveSelf: string
     name: string
 
@@ -1606,7 +1661,7 @@ end
 global record GraphicRaycasterExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
 
     ctor: function
     dtor: function
@@ -1615,7 +1670,7 @@ end
 global record MonoVariableArrayExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
 
     ctor: function
     dtor: function
@@ -1626,7 +1681,7 @@ end
 global record RectTransformExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     OffsetMax: string
     OffsetMin: string
 
@@ -1638,7 +1693,7 @@ end
 global record TextExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     Text: string
 
     ctor: function
@@ -1648,7 +1703,7 @@ end
 global record TransformExtType
     handler: Component
 
-    CSharpType: Component
+    CSObject: Component
     LocalRotation: string
     LocalPosition: string
     LocalScale: string
@@ -1776,7 +1831,7 @@ global record DefaultUIViewLocatorType
     dtor: function
 
     LoadAsync: function(DefaultUIViewLocatorType, string, Type): ProgressResult_1_Single
-    DoLoad: function(DefaultUIViewLocatorType, ProgressResult_1_Single, string)
+    DoLoad: function(DefaultUIViewLocatorType, ProgressResult_1_Single, string, Type)
 end
 
 global record ExecutorsExtType
@@ -1795,16 +1850,21 @@ global record ExecutorsExtType
 end
 
 global record UnityProxyRegisterType
-    registerProxies: {ProxyFunctionType}
+    record Convert
+        getter: function
+        setter: function
+    end
+
+    registerProxies: {string:Convert}
 
     new: function(...: any): UnityProxyRegisterType
     ctor: function
     dtor: function
 
-    __singleton: function(UnityProxyRegisterType)
+    __singleton: function(UnityProxyRegisterType): UnityProxyRegisterType
 
     Initialize: function(UnityProxyRegisterType)
-    Get: function(UnityProxyRegisterType, string): ProxyFunctionType
+    Get: function(UnityProxyRegisterType, string): Convert
 end
 
 global record PathParseType
@@ -1829,16 +1889,99 @@ end
 
 
 ------------------------------------------------------------------------
-global record UICFGType
-    View: BaseType
-    ViewModel: BaseType
-end
-
 global record TestVType
+    PrefabPath: string
+
+    viewModel: TestVMType
+    bindingExt: BindingExtensionType
+    bindingSet: BindingSetBaseType
+
     new: function(...: any): TestVType
+    ctor: function
+    dtor: function
+
     Create: function(TestVType)
+    OnCreate: function(TestVType)
+    OnShow: function(TestVType)
+
+    GetComponentWithName: function(TestVType, ComponentExtType, string): ComponentExtType
+
+    TestFunc: function(TestVType, any, any)
 end
 
 global record TestVMType
+    record get
+        test: string
+        Test: function
+
+        testColor: CS.UnityEngine.Color
+        TestColor: function
+
+        testLocalScale: CS.UnityEngine.Vector3
+        TestLocalScale: function
+
+        testActive: boolean
+        TestActive: function
+
+        testRequest: InteractionRequestType
+        TestRequest: function
+
+        testCommand: SimpleCommandType
+        TestCommand: function
+
+        Set: function(get, SetType, any, string, boolean)
+    end
+
+    record set
+        test: string
+        Test: function
+
+        testColor: CS.UnityEngine.Color
+        TestColor: function
+
+        testLocalScale: CS.UnityEngine.Vector3
+        TestLocalScale: function
+
+        testActive: boolean
+        TestActive: function
+
+        testRequest: InteractionRequestType
+        TestRequest: function
+
+        testCommand: SimpleCommandType
+        TestCommand: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end
+
+    test: string
+    Test: string
+
+    testColor: CS.UnityEngine.Color
+    TestColor: CS.UnityEngine.Color
+
+    testLocalScale: CS.UnityEngine.Vector3
+    TestLocalScale: CS.UnityEngine.Vector3
+
+    testActive: boolean
+    TestActive: boolean
+
+    testRequest: InteractionRequestType
+    TestRequest: InteractionRequestType
+
+    testCommand: SimpleCommandType
+    TestCommand: SimpleCommandType
+
     new: function(...: any): TestVMType
+    ctor: function
+    dtor: function
+    
+    OnClick: function(TestVMType)
+end
+
+global record TestSubVType
+    ctor: function
+    new: function(...: any): TestSubVType
+
+    Create: function(TestVType)
 end

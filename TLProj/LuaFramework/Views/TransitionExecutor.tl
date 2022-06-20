@@ -2,8 +2,8 @@
 
 require("OOP.Class")
 
-local ExecutorsExt: ExecutorsExtType
-local CoroutineExt: CoroutineExtType
+local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
+local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 
 local TransitionExecutor = class("TransitionExecutor") as TransitionExecutorType
 

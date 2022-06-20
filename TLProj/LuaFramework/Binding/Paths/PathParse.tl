@@ -2,7 +2,7 @@
 
 require("OOP.Class")
 
-local StringExtension: StringExtensionType
+local StringExtension = require("LuaFramework.Common.StringExtension")
 
 local PathParse = class("PathParse") as PathParseType
 

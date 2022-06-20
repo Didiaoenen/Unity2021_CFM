@@ -2,14 +2,18 @@
 
 require("OOP.Class")
 
-local TableExtention: TableExtentionType
-
 local Layer = require("Luaframework.Views.Layer")
-local TransitionShow = require("Luaframework.Views.TransitionShow")
-local TransitionHide = require("Luaframework.Views.TransitionHide")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
+local Transition = require("LuaFramework.Views.Transition")
+local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
+
 local WindowManager = class("WindowManager") as WindowManagerType
+
+local TransitionShow = class("TransitionShow", Transition) as WindowManager.TransitionShowType
+
+local TransitionHide = class("TransitionHide", Transition) as WindowManagerType.TransitionHideType
 
 local layers = {
 	{WindowType = WindowType.NONE, OrderInLayer = 0, OrderStep = 10},
@@ -127,5 +131,101 @@ end
 
 function WindowManager:dtor()
 end
+
+----------------------------------------------
+function TransitionShow:ctor(manager: WindowManager, window: WindowBaseType)
+    Transition.ctor(self, window)
+    self.manager = manager
+end
+
+function TransitionShow:Overlay(previous: WindowViewBaseType): number
+    if previous.WindowType == WindowType.FULL then
+        return ActionType.Hide
+    end
+
+    if previous.WindowType == WindowType.POPUP then
+        return ActionType.Dismiss
+    end
+
+    return ActionType.None
+end
+
+function TransitionShow:DoTransition()
+    Transition.DoTransition(self)
+    local current = self.window
+
+    local previous: WindowViewBaseType = nil
+    if current.windowType == WindowType.NONE then
+        (WindowManager.Current as WindowBaseType):AddSubView(current)
+    elseif current.windowType == WindowType.FULL then
+        previous = WindowManager:PushWindowStack(current) as WindowViewBaseType
+    elseif current.windowType == WindowType.POPUP or self.window.windowType == WindowType.DIALOG then
+        previous = (WindowManager.Current as WindowBaseType):PushViewStack(current) as WindowViewBaseType
+    end
+
+    if previous then
+        local policy = self.OverlayPolicy
+        if not policy then
+            policy = self.Overlay
+        end
+
+        local actionType = policy(self, previous, current)
+        if actionType == ActionType.Hide then
+            local hide = previous:DoHide(self.AnimationDisabled)
+            CoroutineExt.Yield(hide:WaitForDone())
+        elseif actionType == ActionType.Dismiss then
+            local hide = previous:DoHide(self.AnimationDisabled)
+            CoroutineExt.Yield(hide:WaitForDone())
+            previous:DoDismiss()
+        end
+    end
+
+    if not current.Visibility then
+        local show = current:DoShow(self.AnimationDisabled)
+        CoroutineExt.Yield(show:WaitForDone())
+    end
+end
+
+function TransitionShow:dtor()
+end
+----------------------------------------------
+
+----------------------------------------------
+function TransitionHide:ctor(manager: WindowManager, window: WindowBaseType, dismiss: boolean)
+    Transition.ctor(self, window)
+    self.dismiss = dismiss
+    self.manager = manager
+end
+
+function TransitionHide:DoTransition()
+    Transition.DoTransition(self)
+    local current = self.window as WindowViewBaseType
+    if current.Visibility then
+        local hide = current:DoHide(self.AnimationDisabled)
+        CoroutineExt.Yield(hide:WaitForDone())
+    end
+
+    if self.dismiss then
+        current:DoDismiss()
+    end
+
+    local previous: WindowViewBaseType = nil
+    if current.windowType == WindowType.NONE then
+        -- nothing to do
+    elseif current.windowType == WindowType.FULL then
+        previous = WindowManager:PopWindowStack()
+    elseif current.windowType == WindowType.POPUP or current.windowType == WindowType.DIALOG then
+        previous = (self.window as WindowBaseType):PopViewStack()
+    end
+
+    if previous then
+        local show = previous:DoShow(self.AnimationDisabled)
+        CoroutineExt.Yield(show:WaitForDone())
+    end
+end
+
+function TransitionHide:dtor()
+end
+----------------------------------------------
 
 return WindowManager

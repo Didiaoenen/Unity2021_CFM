@@ -1,5 +1,6 @@
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local PathParse = require("LuaFramework.Binding.Paths.PathParse")
+local StringExtension = require("LuaFramework.Common.StringExtension")
 local BindingDescription = require("LuaFramework.Binding.BindingDescription")
 local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 
@@ -44,7 +45,7 @@ function BindingBuilderBase:SetCommandParameter(parameter)
 end
 
 function BindingBuilderBase:CheckBindingDescription()
-    assert(not string.isnilorempty(self.description.TargetName), "")
+    assert(not StringExtension.IsNilOrEmpty(self.description.TargetName), "")
     assert(self.description.Source, "")
 end
 

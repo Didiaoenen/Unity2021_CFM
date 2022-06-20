@@ -1,3 +1,5 @@
+local TableExtention = require("LuaFramework.Common.TableExtention")
+
 local CommandBase = class("CommandBase")
 
 function CommandBase.set:CanExecuteChanged(value)
@@ -9,7 +11,7 @@ function CommandBase:ctor()
 end
 
 function CommandBase:RaiseCanExecuteChanged()
-    table.foreach(self.canExecuteChanged, function (i, v)
+    TableExtention.Foreach(self.canExecuteChanged, function (i, v)
         v.callback(v.this)
     end)
 end

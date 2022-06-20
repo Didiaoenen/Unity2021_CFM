@@ -2,11 +2,10 @@
 
 require("OOP.Class")
 
-local CoroutineExt: CoroutineExtType
-local ExecutorsExt: ExecutorsExtType
-local WindowManager: WindowManagerType
-local TableExtention: TableExtentionType
-local DefaultUIViewLocator: DefaultUIViewLocatorType
+local TableExtention = require("LuaFramework.Common.TableExtention")
+local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
+local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
 
 local Messenger = require("LuaFramework.Messaging.Messenger")
 local AsyncResultExt = require("LuaFramework.CSharpObject.AsyncResultExt")
@@ -16,6 +15,8 @@ local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
 local MonoVariableArrayExt = require("LuaFramework.Views.Components.MonoVariableArrayExt")
+
+local WindowManager = require("LuaFramework.Views.WindowManager")
 
 local WindowViewBase = class("WindowViewBase") as WindowViewBaseType
 
@@ -266,7 +267,7 @@ function WindowViewBase:Create()
         self.State = WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, typeof(CSharpType.GameObject))
+        local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
         CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 
@@ -441,7 +442,7 @@ function WindowViewBase:DoDismiss()
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CSharpType.Object.Destroy(self.gameObject.handler as Object)
+        CS.CSObject.Object.Destroy(self.gameObject.handler as Object)
         self.State = WindowState.DISMISS_END
         self.dismissTransition = nil
     end
@@ -460,12 +461,12 @@ end
 
 function WindowViewBase:GetComponent(component: ComponentExtType): ComponentExtType
     assert(self.gameObject, "")
-    return component.new(self.gameObject:GetComponent(typeof(component.CSharpType)))
+    return component.new(self.gameObject:GetComponent(typeof(component.CSObject)))
 end
 
 function WindowViewBase:AddComponent(component: ComponentExtType): ComponentExtType
     assert(self.gameObject, "")
-    return component.new(self.gameObject:AddComponent(typeof(component.CSharpType)))
+    return component.new(self.gameObject:AddComponent(typeof(component.CSObject)))
 end
 
 function WindowViewBase:dtor()

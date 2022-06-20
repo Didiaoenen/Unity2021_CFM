@@ -2,9 +2,8 @@
 
 require("OOP.Class")
 
-local TableExtention: TableExtentionType
-
 local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local WindowBase = class("WindowBase", WindowViewBase) as WindowBaseType
 

@@ -27,7 +27,7 @@ function CoroutineExt.Yield(enumerator: Object)
 end
 
 function CoroutineExt.Wait(time: number)
-    coroutine.yield(CSharpType.WaitForSeconds(time))
+    coroutine.yield(CS.CSObject.WaitForSeconds(time))
 end
 
 function CoroutineExt:dtor()

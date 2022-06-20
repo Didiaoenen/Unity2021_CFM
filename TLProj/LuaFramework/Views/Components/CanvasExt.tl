@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local CanvasExt = class("CanvasExt", Component) as CanvasExtType
 
-CanvasExt.CSharpType = CSharpType.Canvas as Component
+CanvasExt.CSObject = CS.CSObject.Canvas as Component
 
 CanvasExt.OverrideSorting = "overrideSorting"
 

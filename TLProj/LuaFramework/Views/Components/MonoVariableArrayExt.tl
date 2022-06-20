@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local MonoVariableArrayExt = class("MonoVariableArrayExt", ComponentExt) as MonoVariableArrayExtType
 
-MonoVariableArrayExt.CSharpType = CSharpType.Simple.MonoVariableArray as Component
+MonoVariableArrayExt.CSObject = CS.CSObject.Simple.MonoVariableArray as Component
 
 function MonoVariableArrayExt:ctor(handler)
     ComponentExt.ctor(self, handler)

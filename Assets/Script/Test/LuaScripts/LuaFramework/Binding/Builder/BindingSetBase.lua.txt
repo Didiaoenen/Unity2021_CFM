@@ -1,3 +1,5 @@
+local TableExtention = require("LuaFramework.Common.TableExtention")
+
 local BindingSetBase = class("BindingSetBase")
 
 function BindingSetBase:ctor(context)
@@ -6,7 +8,7 @@ function BindingSetBase:ctor(context)
 end
 
 function BindingSetBase:Build()
-    table.foreach(self.builders, function (i, v)
+    TableExtention.Foreach(self.builders, function (i, v)
         v:Build()
     end)
 end

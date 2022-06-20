@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local CanvasGroupExt = class("CanvasGroupExt", Component) as CanvasGroupExtType
 
-CanvasGroupExt.CSharpType = CSharpType.CanvasGroup as Component
+CanvasGroupExt.CSObject = CS.CSObject.CanvasGroup as Component
 
 CanvasGroupExt.Alpha = "alpha"
 

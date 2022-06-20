@@ -7,9 +7,8 @@ require("LuaFramework.System")
 local TestV = require("Game.UI.Test.TestV")
 
 function Main()
-    local tv = TestV.new()
-    tv:Create()
-    -- TestV.new():Create()
+    TestV.new():Create()
+    TestV.new():Create()
 
     return 1
 end
