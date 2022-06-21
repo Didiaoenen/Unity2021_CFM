@@ -44,11 +44,11 @@ function PropertyTargetProxy:GetValue(): any
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         return proxyInfo.getter(target)
     else
-        return Functions.ClassGet(self.target, self.propertyInfo)
+        return classget(self.target, self.propertyInfo)
     end
 end
 
@@ -58,11 +58,11 @@ function PropertyTargetProxy:SetValue(value)
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         proxyInfo.setter(target, value)
     else
-        Functions.ClassSet(self.target, self.propertyInfo, value)
+        classset(self.target, self.propertyInfo, value)
     end
 end
 

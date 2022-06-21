@@ -69,7 +69,7 @@ function BindingContext:Add(binding: BindingType, key: string)
 end
 
 function BindingContext:AddWithSingleDesc(target: BaseType, description: BindingDescriptionType, key: string)
-    local binding = StandardBinder:Bind(self.dataContext, target, description)
+    local binding = StandardBinder.Instance:Bind(self.dataContext, target, description)
     self:Add(binding, key)
 end
 

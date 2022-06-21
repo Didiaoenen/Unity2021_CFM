@@ -19,6 +19,10 @@ global classget = function(cls: any, key: string): any
     print(cls, key)
 end
 
+global classset = function(cls: any, key: string, value: any)
+    print(cls, key, value)
+end
+
 global clone = function(obj: any)
     print(obj)
 end
@@ -367,11 +371,6 @@ global record EventHandlerType
     args: PropertyChangedEventArgsType
 end
 
-global record Functions
-    ClassGet: function(cls: BaseType, key: string): any
-    ClassSet: function(cls: BaseType, key: string, value: any)
-end
-
 global record AbstractBindingType
     record get
         dataContext: BaseType
@@ -379,11 +378,15 @@ global record AbstractBindingType
     
         target: BaseType
         Target: function
+
+        IsAlive: function(set, BaseType): boolean
     end
     
     record set
         dataContext: BaseType
         DataContext: function
+
+        OnDataContextChanged: function(set)
     end
 
     dataContext: BaseType
@@ -394,7 +397,7 @@ global record AbstractBindingType
     ctor: function
     dtor: function
 
-    IsAlive: function(AbstractBindingType, BaseType)
+    IsAlive: function(AbstractBindingType, BaseType): boolean
     OnDataContextChanged: function(AbstractBindingType)
 end
 
@@ -547,6 +550,8 @@ end
 global record StandardBinderType
     sourceProxyFactory: SourceProxyBaseType
     targetProxyFactory: TargetProxyBaseType
+
+    Instance: StandardBinderType
 
     __singleton: function(StandardBinderType): StandardBinderType
 
@@ -1002,7 +1007,7 @@ global record EventTargetProxyBaseType
 end
 
 global record InteractionTargetProxyType
-    ctor: function
+
 end
 
 global record MethodTargetProxyType
@@ -1298,7 +1303,7 @@ end
 
 global record ViewModelBaseType
     record get
-        parent: TransformExtType
+        parent: Transform
         Parent: function
     
         localRotation: Quaternion
@@ -1332,7 +1337,7 @@ global record ViewModelBaseType
     end
     
     record set
-        parent: TransformExtType
+        parent: Transform
         Parent: function
     
         localRotation: Quaternion
@@ -1365,8 +1370,8 @@ global record ViewModelBaseType
         Set: function
     end
 
-    parent: TransformExtType
-    Parent: TransformExtType
+    parent: Transform
+    Parent: Transform
 
     localRotation: Quaternion
     localPosition: Vector3
@@ -1498,7 +1503,7 @@ global record WindowViewBaseType
     
         Name: function
     
-        parent: TransformExtType
+        parent: Transform
         Parent: function
     
         gameObject: GameObjectExtType
@@ -1604,7 +1609,7 @@ global record WindowViewBaseType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType
 
-    parent: TransformExtType
+    parent: Transform
     variables: MonoVariableArrayExtType
     components: {ComponentExtType}
 
@@ -1619,8 +1624,8 @@ global record WindowViewBaseType
     RaiseVisibilityChanged: function(WindowViewBaseType)
     RaiseOnDismissed: function(WindowViewBaseType)
     RaiseStateChanged: function(WindowViewBaseType, number, number)
-    Activate: function(WindowViewBaseType, boolean)
-    Passivate: function(WindowViewBaseType, boolean)
+    Activate: function(WindowViewBaseType, boolean): AsyncResultExtType
+    Passivate: function(WindowViewBaseType, boolean): AsyncResultExtType
     Create: function(WindowViewBaseType)
     OnCreate: function(WindowViewBaseType)
     
@@ -1833,6 +1838,8 @@ global record WindowManagerType
     windowStack: {WindowViewBaseType}
     hideWindows: {WindowViewBaseType}
 
+    Instance: WindowManagerType
+
     __singleton: function(WindowManagerType): WindowManagerType
 
     new: function(...: any): WindowManagerType
@@ -1857,6 +1864,8 @@ end
 
 global record CoroutineExtType
     
+    Instance: CoroutineExtType
+
     __singleton: function(CoroutineExtType): CoroutineExtType
     
     new: function(...: any): CoroutineExtType
@@ -1869,20 +1878,15 @@ global record CoroutineExtType
 end
 
 global record DefaultUIViewLocatorType
-
-    __singleton: function(DefaultUIViewLocatorType): DefaultUIViewLocatorType
-
-    new: function(...: any): DefaultUIViewLocatorType
-    ctor: function
-    dtor: function
-
-    LoadAsync: function(DefaultUIViewLocatorType, string, Type): ProgressResult_1_Single
-    DoLoad: function(DefaultUIViewLocatorType, ProgressResult_1_Single, string, Type)
+    LoadAsync: function(string, Type): ProgressResult_1_Single
+    DoLoad: function(ProgressResult_1_Single, string, Type)
 end
 
 global record ExecutorsExtType
     
     csharp: Executors
+
+    Instance: ExecutorsExtType
 
     __singleton: function(ExecutorsExtType): ExecutorsExtType
     
@@ -1903,11 +1907,13 @@ global record UnityProxyRegisterType
 
     registerProxies: {string:Convert}
 
+    Instance: UnityProxyRegisterType
+
+    __singleton: function(UnityProxyRegisterType): UnityProxyRegisterType
+
     new: function(...: any): UnityProxyRegisterType
     ctor: function
     dtor: function
-
-    __singleton: function(UnityProxyRegisterType): UnityProxyRegisterType
 
     Initialize: function(UnityProxyRegisterType)
     Get: function(UnityProxyRegisterType, string): Convert

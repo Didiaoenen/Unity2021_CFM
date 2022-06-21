@@ -2,9 +2,8 @@
 
 require("OOP.Class")
 
-local InteractionTargetProxy = class("InteractionTargetProxy") as InteractionTargetProxyType
+local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
 
-function InteractionTargetProxy:ctor()
-end
+local InteractionTargetProxy = class("InteractionTargetProxy", TargetProxyBase) as InteractionTargetProxyType
 
 return InteractionTargetProxy

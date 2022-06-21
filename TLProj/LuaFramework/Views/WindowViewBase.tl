@@ -14,7 +14,9 @@ local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 
 local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
+local CanvasGroupExt = require("LuaFramework.Views.Components.CanvasGroupExt")
 local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
+local GraphicRaycasterExt = require("LuaFramework.Views.Components.GraphicRaycasterExt")
 local MonoVariableArrayExt = require("LuaFramework.Views.Components.MonoVariableArrayExt")
 
 local WindowManager = require("LuaFramework.Views.WindowManager")
@@ -99,7 +101,7 @@ function WindowViewBase.get:Name(): string
     return self.gameObject.name
 end
 
-function WindowViewBase.get:Parent(): TransformExtType
+function WindowViewBase.get:Parent(): Transform
     return self.parent
 end
 
@@ -195,8 +197,8 @@ function WindowViewBase:RaiseStateChanged(oldState: number, newState: number)
     end)
 end
 
-function WindowViewBase:Activate(ignoreAnimation: boolean): AsyncResult
-    local result = AsyncResult.new()
+function WindowViewBase:Activate(ignoreAnimation: boolean): AsyncResultExtType
+    local result = AsyncResultExt.new()
 
     if not self.Visibility then
         return result
@@ -225,8 +227,8 @@ function WindowViewBase:Activate(ignoreAnimation: boolean): AsyncResult
     return result
 end
 
-function WindowViewBase:Passivate(ignoreAnimation: boolean): AsyncResult
-    local result = AsyncResult.new()
+function WindowViewBase:Passivate(ignoreAnimation: boolean): AsyncResultExtType
+    local result = AsyncResultExt.new()
 
     if not self.Visibility then
         return result
@@ -263,13 +265,13 @@ function WindowViewBase:Create()
         return
     end
     
-    ExecutorsExt:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
+    ExecutorsExt.Instance:RunOnCoroutineNoReturn(CoroutineExt.Instance.GetEnumerator(function ()
 
         self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator:LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
-        CoroutineExt.Yield(result:WaitForDone())
+        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
+        CoroutineExt.Instance.Yield(result:WaitForDone())
         print("加载完成。。。")
 
         self.gameObject = GameObjectExt.new(result.Result)
@@ -322,17 +324,17 @@ function WindowViewBase:OnCreate()
     builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
 
     -- CanvasGroup
-    local canvasGroup = self:AddComponent(CanvasGroup) as CanvasGroupExtType
+    local canvasGroup = self:AddComponent(CanvasGroupExt) as CanvasGroupExtType
     builder = (self.bindingSet as BindingSetType):BindByTarget(canvasGroup.handler as BaseType) as BindingBuilderType
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
 
     -- GraphicRaycaster
-    self:AddComponent(GraphicRaycaster)
+    self:AddComponent(GraphicRaycasterExt)
 
     self.bindingSet:Build()
 
     --
-    local layer = WindowManager:GetLayer(self.windowType)
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
     assert(layer, "")
 
     self.viewModel.SortingOrder = layer:PushWindowOrder()
@@ -347,7 +349,7 @@ function WindowViewBase:Show(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    return WindowManager:Show(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Show(self):DisableAnimation(ignoreAnimation)
 end
 
 function WindowViewBase:DoShow(ignoreAnimation: boolean): AsyncResultExtType
@@ -392,7 +394,7 @@ function WindowViewBase:Hide(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    return WindowManager:Hide(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Hide(self):DisableAnimation(ignoreAnimation)
 end
 
 function WindowViewBase:DoHide(ignoreAnimation: boolean): AsyncResultExtType
@@ -432,7 +434,7 @@ function WindowViewBase:Dismiss(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    self.dismissTransition = WindowManager:Dismiss(self):DisableAnimation(ignoreAnimation)
+    self.dismissTransition = WindowManager.Instance:Dismiss(self):DisableAnimation(ignoreAnimation)
     return self.dismissTransition
 end
 
@@ -480,7 +482,7 @@ function WindowViewBase:dtor()
     end)
     self.components = nil
 
-    local layer = WindowManager:GetLayer(self.windowType)
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
     layer:PopWindowOder()
 end
 

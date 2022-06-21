@@ -75,7 +75,7 @@ function Transition:Unbind()
 end
 
 function Transition:WaitForDone(): Object
-    return ExecutorsExt:WaitWhile(function (): boolean
+    return ExecutorsExt.Instance:WaitWhile(function (): boolean
         return not self.done
     end)
 end
@@ -158,10 +158,10 @@ function Transition:TransitionTask()
     self.running = true
     self:OnStart()
     
-    local result = ExecutorsExt:RunOnCoroutine(CoroutineExt.GetEnumerator(function ()
+    local result = ExecutorsExt.Instance:RunOnCoroutine(CoroutineExt.Instance.GetEnumerator(function ()
         self:DoTransition()
     end))
-    CoroutineExt.Yield(result:WaitForDone())
+    CoroutineExt.Instance.Yield(result:WaitForDone())
 
     self:OnEnd()
 end

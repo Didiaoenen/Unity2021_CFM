@@ -79,3 +79,11 @@ function setcallback(t, value, addcb, removecb)
         end)
     end
 end
+
+function classget(cls, key)
+    return cls[key]
+end
+
+function classset(cls, key, value)
+    cls[key] = value
+end

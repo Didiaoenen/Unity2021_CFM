@@ -5,7 +5,9 @@ require("OOP.Class")
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
 function AbstractBinding.get:Target(): BaseType
-    return self.target
+    assert(self.target, "")
+    local target = (self.target as TargetProxyBaseType).Target
+    return self:IsAlive(target) and target
 end
 
 function AbstractBinding.get:DataContext(): BaseType
@@ -13,7 +15,10 @@ function AbstractBinding.get:DataContext(): BaseType
 end
 
 function AbstractBinding.set:DataContext(value: BaseType)
-    self.dataContext = value
+    if value ~= self.dataContext then
+        self.dataContext = value
+        self:OnDataContextChanged()
+    end
 end
 
 function AbstractBinding:ctor(dataContext: BaseType, target: BaseType)
@@ -21,8 +26,9 @@ function AbstractBinding:ctor(dataContext: BaseType, target: BaseType)
     self.target = target
 end
 
-function AbstractBinding:IsAlive(target: BaseType)
+function AbstractBinding:IsAlive(target: BaseType): boolean
     print(target)
+    return true
 end
 
 function AbstractBinding:OnDataContextChanged()

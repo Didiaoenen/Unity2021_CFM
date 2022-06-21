@@ -5,7 +5,7 @@ require("OOP.Class")
 local BindingBuilderBase = require("LuaFramework.Binding.Builder.BindingBuilderBase")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local BindingBuilder = class("BindingBuilder") as BindingBuilderType
+local BindingBuilder = class("BindingBuilder", BindingBuilderBase) as BindingBuilderType
 
 function BindingBuilder:ctor(context: BindingContextType, target: BaseType)
     BindingBuilderBase.ctor(self, context, target)
@@ -14,7 +14,7 @@ end
 function BindingBuilder:For(targetName: string, updateTrigger: string): BindingBuilderType
     self.description.TargetName = targetName
     self.description.UpdateTrigger = updateTrigger
-    local target = Functions.ClassGet(self.target, self.description.TargetName)
+    local target = classget(self.target, self.description.TargetName)
     if "function" == type(target) then
         self:OneWayToSource()
     end
@@ -54,4 +54,4 @@ end
 function BindingBuilder:dtor()
 end
 
-return BindingBuilderType
+return BindingBuilder

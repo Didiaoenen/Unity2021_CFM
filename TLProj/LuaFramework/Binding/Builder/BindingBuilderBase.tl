@@ -4,6 +4,7 @@ require("OOP.Class")
 
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local PathParse = require("LuaFramework.Binding.Paths.PathParse")
+local StringExtension = require("LuaFramework.Common.StringExtension")
 local BindingDescription = require("LuaFramework.Binding.BindingDescription")
 local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 
@@ -26,12 +27,12 @@ function BindingBuilderBase:SetMode(mode: number)
 end
 
 function BindingBuilderBase:SetMemberPath(pathText: string)
-    local path = PathParse.Parse(pathText)
-    self:SetMemberPathWithPath(path)
+    local paths = PathParse.Parse(pathText)
+    self:SetMemberPathWithPath(paths)
 end
 
-function BindingBuilderBase:SetMemberPathWithPath(path: {string})
-    self.description.Source = ObjectSourceDescription.new(path) as SourceDescriptionType
+function BindingBuilderBase:SetMemberPathWithPath(paths: {string})
+    self.description.Source = ObjectSourceDescription.new(paths) as SourceDescriptionType
 end
 
 function BindingBuilderBase:SetCommandParameter(...: any)
@@ -39,7 +40,7 @@ function BindingBuilderBase:SetCommandParameter(...: any)
 end
 
 function BindingBuilderBase:CheckBindingDescription()
-    assert(self.description.TargetName and self.description.TargetName ~= "", "")
+    assert(not StringExtension.IsNilOrEmpty(self.description.TargetName), "")
     assert(self.description.Source, "")
 end
 

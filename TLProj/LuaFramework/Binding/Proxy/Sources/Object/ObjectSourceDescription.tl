@@ -4,7 +4,7 @@ require("OOP.Class")
 
 local SourceDescription = require("LuaFramework.Binding.Proxy.Sources.SourceDescription")
 
-local ObjectSourceDescription = class("ObjectSourceDescriptionType", SourceDescription) as ObjectSourceDescriptionType
+local ObjectSourceDescription = class("ObjectSourceDescription", SourceDescription) as ObjectSourceDescriptionType
 
 function ObjectSourceDescription.get:Path(): {string}
     return self.path

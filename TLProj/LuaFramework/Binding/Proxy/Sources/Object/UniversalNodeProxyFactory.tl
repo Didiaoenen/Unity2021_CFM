@@ -23,15 +23,17 @@ function UniversalNodeProxyFactory:Create(source: BaseType, path: {string}): Sou
 end
 
 function UniversalNodeProxyFactory:CreateProxy(source: BaseType, node: string): SourceProxyBaseType
-    local memberInfo = Functions.ClassGet(source, node)
+    local memberInfo = classget(source, node)
 
     if "function" == type(memberInfo) then
         return MethodNodeProxy.new(source, node) as SourceProxyBaseType
     elseif "userdata" == type(memberInfo) then
         return PropertyNodeProxy.new(source, node) as SourceProxyBaseType
     else
-        if (memberInfo as BaseType).is(InteractionNodeProxy) then
-            return InteractionNodeProxy.new(source, node) as SourceProxyBaseType
+        if "table" == type(memberInfo) then
+            if (memberInfo as BaseType).is(InteractionNodeProxy) then
+                return InteractionNodeProxy.new(source, node) as SourceProxyBaseType
+            end
         end
 
         return PropertyNodeProxy.new(source, node) as SourceProxyBaseType

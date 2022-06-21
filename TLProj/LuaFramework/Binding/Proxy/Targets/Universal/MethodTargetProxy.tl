@@ -31,7 +31,7 @@ function MethodTargetProxy:Invoke(sender: BaseType, ...: any)
         return
     end
 
-    local functionType = Functions.ClassGet(target, self.methodInfo) as function
+    local functionType = classget(target, self.methodInfo) as function
     functionType(target, sender, ...)
 end
 

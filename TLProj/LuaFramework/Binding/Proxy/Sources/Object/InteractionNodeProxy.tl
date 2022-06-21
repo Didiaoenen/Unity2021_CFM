@@ -15,7 +15,7 @@ function InteractionNodeProxy:ctor(source: BaseType, request: string)
 end
 
 function InteractionNodeProxy:BindEvent()
-    local request = Functions.ClassGet(self.source, self.request) as InteractionRequestType
+    local request = classget(self.source, self.request) as InteractionRequestType
     if request then
         request.Raised = function(sender: BaseType, ...: any)
             self:OnRaised(sender, ...)
@@ -24,7 +24,7 @@ function InteractionNodeProxy:BindEvent()
 end
 
 function InteractionNodeProxy:UnbindEvent()
-    local request = Functions.ClassGet(self.source, self.request) as InteractionRequestType
+    local request = classget(self.source, self.request) as InteractionRequestType
     if request then
         request.Raised = nil
     end
@@ -32,8 +32,8 @@ end
 
 function InteractionNodeProxy:OnRaised(sender: BaseType, ...: any)
     if self.invoker then
-        local invokerType = self.invoker as ProxyInvokerType
-        invokerType:Invoke(sender, ...)
+        local invoker = self.invoker as ProxyInvokerType
+        invoker:Invoke(sender, ...)
     end
 end
 

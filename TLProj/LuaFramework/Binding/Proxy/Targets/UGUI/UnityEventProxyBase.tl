@@ -3,7 +3,9 @@
 require("OOP.Class")
 
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
+local ProxyInvoker = require("LuaFramework.Binding.Reflection.ProxyInvoker")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase) as UnityEventProxyBaseType
@@ -54,9 +56,9 @@ function UnityEventProxyBase:SetValue(value: any)
     
     else
         if type(value) == "table" then
-            if (value as BaseType).is(ProxyInvokerType) then
+            if (value as BaseType).is(ProxyInvoker) then
                 self.invoker = value as ProxyInvokerType
-            elseif (value as BaseType).is(SimpleCommandType) then
+            elseif (value as BaseType).is(SimpleCommand) then
                 if nil == self.interactable or self.interactable == "" then
                     self.interactable = "interactable"
                 end
@@ -71,7 +73,7 @@ end
 
 function UnityEventProxyBase:OnExecuteChanged(sender: BaseType, ...: any)
     print(sender, ...)
-    ExecutorsExt:RunOnMainThread(function ()
+    ExecutorsExt.Instance:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)
 end
@@ -83,7 +85,7 @@ function UnityEventProxyBase:UpdateTargetInteractable()
     end
 
     local value = nil == self.command and false or self.command:CanExecute()
-    Functions.ClassSet(target, self.interactable, value)
+    classset(target, self.interactable, value)
 end
 
 function UnityEventProxyBase:BindCommand(command: SimpleCommandType)

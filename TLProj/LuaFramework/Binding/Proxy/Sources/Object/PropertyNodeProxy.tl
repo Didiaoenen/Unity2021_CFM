@@ -3,6 +3,7 @@
 require("OOP.Class")
 
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
+local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
 local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
@@ -18,7 +19,7 @@ function PropertyNodeProxy:ctor(source: BaseType, propertyInfo: string)
         return
     end
 
-    if self.source.is(INotifyPropertyChangedType) then
+    if self.source.is and self.source.is(INotifyPropertyChanged) then
         local sourceNotify = self.source as INotifyPropertyChangedType
         sourceNotify.PropertyChanged = {this = self, callback = self.OnPropertyChanged}
     end    
@@ -38,11 +39,11 @@ function PropertyNodeProxy:GetValue(): any
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         return proxyInfo.getter(source)
     else
-        return Functions.ClassGet(self.source, self.propertyInfo)
+        return classget(self.source, self.propertyInfo)
     end
 end
 
@@ -52,11 +53,11 @@ function PropertyNodeProxy:SetValue(value: any)
         return
     end
 
-    local proxyInfo = UnityProxyRegister:Get(self.propertyInfo)
+    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
     if proxyInfo then
         proxyInfo.setter(source, value)
     else
-        Functions.ClassSet(self.source, self.propertyInfo, value)
+        classset(self.source, self.propertyInfo, value)
     end
 end
 

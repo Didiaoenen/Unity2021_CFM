@@ -2,6 +2,8 @@
 
 require("OOP.Class")
 
+local TableExtention = require("LuaFramework.Common.TableExtention")
+
 local BindingSetBase = class("BindingSetBase") as BindingSetBaseType
 
 function BindingSetBase:ctor(context: BindingContextType)
@@ -10,9 +12,9 @@ function BindingSetBase:ctor(context: BindingContextType)
 end
 
 function BindingSetBase:Build()
-    for _, v in ipairs(self.builders) do
+    TableExtention.Foreach(self.builders, function(i: number, v:BindingBuilderBaseType)
         v:Build()
-    end
+    end)
 end
 
 function BindingSetBase:dtor()

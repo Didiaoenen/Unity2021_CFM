@@ -157,11 +157,11 @@ function TransitionShow:DoTransition()
 
     local previous: WindowViewBaseType = nil
     if current.windowType == WindowEnum.WindowType.NONE then
-        (WindowManager.Current as WindowBaseType):AddSubView(current)
+        (WindowManager.Instance.Current as WindowBaseType):AddSubView(current)
     elseif current.windowType == WindowEnum.WindowType.FULL then
-        previous = WindowManager:PushWindowStack(current) as WindowViewBaseType
+        previous = WindowManager.Instance:PushWindowStack(current) as WindowViewBaseType
     elseif current.windowType == WindowEnum.WindowType.POPUP or self.window.windowType == WindowEnum.WindowType.DIALOG then
-        previous = (WindowManager.Current as WindowBaseType):PushViewStack(current) as WindowViewBaseType
+        previous = (WindowManager.Instance.Current as WindowBaseType):PushViewStack(current) as WindowViewBaseType
     end
 
     if previous then
@@ -173,17 +173,17 @@ function TransitionShow:DoTransition()
         local actionType = policy(self, previous, current)
         if actionType == WindowEnum.ActionType.Hide then
             local hide = previous:DoHide(self.AnimationDisabled)
-            CoroutineExt.Yield(hide:WaitForDone())
+            CoroutineExt.Instance.Yield(hide:WaitForDone())
         elseif actionType == WindowEnum.ActionType.Dismiss then
             local hide = previous:DoHide(self.AnimationDisabled)
-            CoroutineExt.Yield(hide:WaitForDone())
+            CoroutineExt.Instance.Yield(hide:WaitForDone())
             previous:DoDismiss()
         end
     end
 
     if not current.Visibility then
         local show = current:DoShow(self.AnimationDisabled)
-        CoroutineExt.Yield(show:WaitForDone())
+        CoroutineExt.Instance.Yield(show:WaitForDone())
     end
 end
 
@@ -203,7 +203,7 @@ function TransitionHide:DoTransition()
     local current = self.window as WindowViewBaseType
     if current.Visibility then
         local hide = current:DoHide(self.AnimationDisabled)
-        CoroutineExt.Yield(hide:WaitForDone())
+        CoroutineExt.Instance.Yield(hide:WaitForDone())
     end
 
     if self.dismiss then
@@ -214,14 +214,14 @@ function TransitionHide:DoTransition()
     if current.windowType == WindowEnum.WindowType.NONE then
         -- nothing to do
     elseif current.windowType == WindowEnum.WindowType.FULL then
-        previous = WindowManager:PopWindowStack()
+        previous = WindowManager.Instance:PopWindowStack()
     elseif current.windowType == WindowEnum.WindowType.POPUP or current.windowType == WindowEnum.WindowType.DIALOG then
         previous = (self.window as WindowBaseType):PopViewStack()
     end
 
     if previous then
         local show = previous:DoShow(self.AnimationDisabled)
-        CoroutineExt.Yield(show:WaitForDone())
+        CoroutineExt.Instance.Yield(show:WaitForDone())
     end
 end
 

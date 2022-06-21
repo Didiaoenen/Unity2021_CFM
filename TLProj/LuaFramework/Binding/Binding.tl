@@ -99,7 +99,7 @@ function Binding:DisposeSourceProxy()
 end
 
 function Binding:UpdateTargetFromSource()
-    ExecutorsExt:RunOnMainThread(function ()
+    ExecutorsExt.Instance:RunOnMainThread(function ()
         local value = (self.sourceProxy as IObtainableType):GetValue()
         self:SetTargetValue(self.targetProxy as BaseType, value);
     end)

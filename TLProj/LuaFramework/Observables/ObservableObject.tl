@@ -6,7 +6,7 @@ local TableExtention = require("LuaFramework.Common.TableExtention")
 local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEventArgs")
 
-local ObservableObject = class("ObservableObject") as ObservableObjectType
+local ObservableObject = class("ObservableObject", INotifyPropertyChanged) as ObservableObjectType
 
 function ObservableObject:ctor()
     INotifyPropertyChanged.ctor(self)
@@ -23,9 +23,9 @@ function ObservableObject:RaisePropertyChangedWithParam(param: PropertyChangedEv
 end
 
 function ObservableObject:Set(field: SetType, newValue: any, property: string, broadcast: boolean)
-    local oldValue = Functions.ClassGet(field as BaseType, field.name)
+    local oldValue = classget(self as BaseType, field.name)
     if oldValue ~= newValue then
-        Functions.ClassSet(self, field.name, newValue)
+        classset(self, field.name, newValue)
         self:RaisePropertyChanged(property)
     end
 

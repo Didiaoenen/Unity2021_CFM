@@ -18,14 +18,14 @@ end
 
 function UnityPropertyProxy:DoSubscribeForValueChange(target: BaseType)
     print(target)
-    local unityEvent = Functions.ClassGet(self.target, self.unityEvent)
+    local unityEvent = classget(self.target, self.unityEvent)
     if unityEvent then
         (unityEvent as UnityEvent):AddListener(bindevent(self, self.OnValueChanged))
     end
 end
 
 function UnityPropertyProxy:DoUnsubscribeForValueChange()
-    local unityEvent = Functions.ClassGet(self.target, self.unityEvent)
+    local unityEvent = classget(self.target, self.unityEvent)
     if unityEvent then
         (unityEvent as UnityEvent):RemoveAllListeners()
     end

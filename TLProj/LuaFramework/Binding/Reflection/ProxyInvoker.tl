@@ -14,7 +14,7 @@ function ProxyInvoker:ctor(target: BaseType, proxyMethodInfo: string)
 end
 
 function ProxyInvoker:Invoke(...: any): any...
-    local functionType = Functions.ClassGet(self.target, self.proxyMethodInfo) as function
+    local functionType = classget(self.target, self.proxyMethodInfo) as function
     return functionType(self.target, ...)
 end
 

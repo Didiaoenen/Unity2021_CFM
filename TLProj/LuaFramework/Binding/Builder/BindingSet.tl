@@ -5,7 +5,7 @@ require("OOP.Class")
 local BindingSetBase = require("LuaFramework.Binding.Builder.BindingSetBase")
 local BindingBuilder = require("LuaFramework.Binding.Builder.BindingBuilder")
 
-local BindingSet = class("BindingSet") as BindingSetType
+local BindingSet = class("BindingSet", BindingSetBase) as BindingSetType
 
 function BindingSet:ctor(context: BindingContextType, target: BaseType)
     BindingSetBase.ctor(self, context)

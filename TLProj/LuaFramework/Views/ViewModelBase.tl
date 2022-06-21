@@ -7,11 +7,11 @@ local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt
 
 local ViewModelBase = class("ViewModelBase", ObservableObject) as ViewModelBaseType
 
-function ViewModelBase.get:Parent(): TransformExtType
+function ViewModelBase.get:Parent(): Transform
     return self.parent
 end
 
-function ViewModelBase.set:Parent(value: TransformExtType)
+function ViewModelBase.set:Parent(value: Transform)
     self:Set({name = "parent"}, value, "Parent")
 end
 
@@ -91,7 +91,7 @@ function ViewModelBase:ctor(messenger: MessengerType)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    self.parent = RectTransformExt.new(CS.CSObject.GameObject.Find("UIRoot").transform) as TransformExtType
+    self.parent = RectTransformExt.new(CS.CSObject.GameObject.Find("UIRoot").transform).handler as Transform
     self.localRotation = CS.CSObject.Quaternion.identity
     self.localPosition = CS.CSObject.Vector3.zero
     self.localScale = CS.CSObject.Vector3.one
@@ -108,7 +108,7 @@ function ViewModelBase:SetWithBroadCast(field: SetType, newValue: any, propertyN
         ObservableObject.Set(self, field, newValue, propertyName)
 
         if broadcast then
-            local oldValue = Functions.ClassGet(field as BaseType, field.name)
+            local oldValue = classget(self as BaseType, field.name)
             self:Broadcast(oldValue, newValue, propertyName)
         end
     end

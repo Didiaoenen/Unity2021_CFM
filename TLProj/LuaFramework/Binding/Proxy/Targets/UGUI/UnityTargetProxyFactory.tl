@@ -12,11 +12,11 @@ function UnityTargetProxyFactory:ctor()
 end
 
 function UnityTargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
-    local memberInfo = Functions.ClassGet(target, description.TargetName)
+    local memberInfo = classget(target, description.TargetName)
 
     local updateTrigger: any = nil
     if description.UpdateTrigger and description.UpdateTrigger ~= "" then
-        updateTrigger = Functions.ClassGet(target, description.UpdateTrigger)
+        updateTrigger = classget(target, description.UpdateTrigger)
         assert(updateTrigger, "")
     end
 
