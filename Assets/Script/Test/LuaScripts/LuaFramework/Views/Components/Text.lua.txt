@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local Text = class("Text", Component)
 
-Text.CSObject = CS.CSObject.Text
+Text.CSObject = CS.UnityEngine.UI.Text
 
 Text.Text = "text"
 

@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local Button = class("Button", Component)
 
-Button.CSObject = CS.CSObject.Button
+Button.CSObject = CS.UnityEngine.UI.Button
 
 Button.OnClick = "onClick"
 

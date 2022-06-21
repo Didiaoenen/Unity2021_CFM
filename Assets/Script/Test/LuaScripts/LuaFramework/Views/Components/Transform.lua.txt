@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local Transform = class("Transform", Component)
 
-Transform.CSObject = CS.CSObject.Transform
+Transform.CSObject = CS.UnityEngine.Transform
 
 Transform.LocalRotation = "localRotation"
 

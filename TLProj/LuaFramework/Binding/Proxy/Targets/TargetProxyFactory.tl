@@ -10,18 +10,18 @@ function TargetProxyFactory:ctor()
     self.factories = {}
 end
 
-function TargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
+function TargetProxyFactory:CreateProxy(target: LuaObject, description: BindingDescriptionType): TargetProxyBaseType
     local proxy: OutProxyType = {}
     if self:TryCreateProxy(target, description, proxy) then
         return proxy.ref as TargetProxyBaseType
     end
 end
 
-function TargetProxyFactory:TryCreateProxy(target: BaseType, description: BindingDescriptionType, proxy: OutProxyType): boolean
+function TargetProxyFactory:TryCreateProxy(target: LuaObject, description: BindingDescriptionType, proxy: OutProxyType): boolean
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as ITargetProxyFactoryType):CreateProxy(target, description) as BaseType
+            proxy.ref = (factory as ITargetProxyFactoryType):CreateProxy(target, description) as LuaObject
             if proxy.ref then
                 return true
             end
@@ -47,7 +47,7 @@ function TargetProxyFactory:Unregister(factory: ITargetProxyFactoryType)
     end
 
     for i, v in ipairs(self.factories) do
-        if v.factory == factory as BaseType then
+        if v.factory == factory as LuaObject then
             table.remove(self.factories, i)
             return
         end

@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local GameObject = class("GameObject", Component)
 
-GameObject.CSObject = CS.CSObject.GameObject
+GameObject.CSObject = CS.UnityEngine.GameObject
 
 GameObject.ActiveSelf = "activeSelf"
 

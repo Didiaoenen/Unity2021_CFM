@@ -15,7 +15,7 @@ function TypedSourceProxyFactory:IsSupported(description: SourceDescriptionType)
     return true
 end
 
-function TypedSourceProxyFactory:CreateProxy(source: BaseType, description: SourceDescriptionType): SourceProxyBaseType
+function TypedSourceProxyFactory:CreateProxy(source: LuaObject, description: SourceDescriptionType): SourceProxyBaseType
     if not self:IsSupported(description) then
         return
     end
@@ -28,7 +28,7 @@ function TypedSourceProxyFactory:CreateProxy(source: BaseType, description: Sour
     return proxy.ref as SourceProxyBaseType
 end
 
-function TypedSourceProxyFactory:TryCreateProxy(source: BaseType, description: SourceDescriptionType, proxy: OutProxyType): boolean
+function TypedSourceProxyFactory:TryCreateProxy(source: LuaObject, description: SourceDescriptionType, proxy: OutProxyType): boolean
     print(source, description, proxy)
     return true
 end

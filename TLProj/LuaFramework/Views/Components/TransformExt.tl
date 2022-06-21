@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local TransformExt = class("TransformExt", ComponentExt) as TransformExtType
 
-TransformExt.CSObject = CS.CSObject.Transform as Component
+TransformExt.CSObject = CS.UnityEngine.Transform as CS.UnityEngine.Component
 
 TransformExt.LocalRotation = "localRotation"
 

@@ -14,12 +14,12 @@ function InteractionRequest.set:Raised(value: function)
     self.raised = value
 end
 
-function InteractionRequest:ctor(sender: BaseType)
-    self.sender = sender or (self as BaseType)
+function InteractionRequest:ctor(sender: LuaObject)
+    self.sender = sender or (self as LuaObject)
     self.raised = nil
 end
 
-function InteractionRequest:Raise(context: BaseType, callback: function)
+function InteractionRequest:Raise(context: LuaObject, callback: function)
     if nil == self.raised then
         return
     end

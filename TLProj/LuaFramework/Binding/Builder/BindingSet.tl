@@ -7,7 +7,7 @@ local BindingBuilder = require("LuaFramework.Binding.Builder.BindingBuilder")
 
 local BindingSet = class("BindingSet", BindingSetBase) as BindingSetType
 
-function BindingSet:ctor(context: BindingContextType, target: BaseType)
+function BindingSet:ctor(context: BindingContextType, target: LuaObject)
     BindingSetBase.ctor(self, context)
     self.target = target
 end
@@ -18,7 +18,7 @@ function BindingSet:Bind(): BindingBuilderBaseType
     return builder
 end
 
-function BindingSet:BindByTarget(target: BaseType): BindingBuilderBaseType
+function BindingSet:BindByTarget(target: LuaObject): BindingBuilderBaseType
     local builder = BindingBuilder.new(self.context, target) as BindingBuilderBaseType
     table.insert(self.builders, builder)
     return builder

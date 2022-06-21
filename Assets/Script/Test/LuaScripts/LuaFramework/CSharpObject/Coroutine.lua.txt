@@ -15,7 +15,7 @@ function Coroutine.Yield(enumerator)
 end
 
 function Coroutine.Wait(time)
-    coroutine.yield(CS.CSObject.WaitForSeconds(time))
+    coroutine.yield(CS.UnityEngine.WaitForSeconds(time))
 end
 
 return Coroutine

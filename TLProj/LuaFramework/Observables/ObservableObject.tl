@@ -23,7 +23,7 @@ function ObservableObject:RaisePropertyChangedWithParam(param: PropertyChangedEv
 end
 
 function ObservableObject:Set(field: SetType, newValue: any, property: string, broadcast: boolean)
-    local oldValue = classget(self as BaseType, field.name)
+    local oldValue = classget(self as LuaObject, field.name)
     if oldValue ~= newValue then
         classset(self, field.name, newValue)
         self:RaisePropertyChanged(property)

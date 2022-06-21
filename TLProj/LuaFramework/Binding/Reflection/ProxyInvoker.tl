@@ -8,7 +8,7 @@ function ProxyInvoker.get:ProxyMethodInfo(): string
     return self.proxyMethodInfo
 end
 
-function ProxyInvoker:ctor(target: BaseType, proxyMethodInfo: string)
+function ProxyInvoker:ctor(target: LuaObject, proxyMethodInfo: string)
     self.target = target
     self.proxyMethodInfo = proxyMethodInfo
 end

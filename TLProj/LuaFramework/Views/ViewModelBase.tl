@@ -7,51 +7,51 @@ local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt
 
 local ViewModelBase = class("ViewModelBase", ObservableObject) as ViewModelBaseType
 
-function ViewModelBase.get:Parent(): Transform
+function ViewModelBase.get:Parent(): CS.UnityEngine.Transform
     return self.parent
 end
 
-function ViewModelBase.set:Parent(value: Transform)
+function ViewModelBase.set:Parent(value: CS.UnityEngine.Transform)
     self:Set({name = "parent"}, value, "Parent")
 end
 
-function ViewModelBase.get:LocalRotation(): Quaternion
+function ViewModelBase.get:LocalRotation(): CS.UnityEngine.Quaternion
     return self.localRotation
 end
 
-function ViewModelBase.set:LocalRotation(value: Quaternion)
+function ViewModelBase.set:LocalRotation(value: CS.UnityEngine.Quaternion)
     self:Set({name = "localRotation"}, value, "LocalRotation")
 end
 
-function ViewModelBase.get:LocalPosition(): Vector3
+function ViewModelBase.get:LocalPosition(): CS.UnityEngine.Vector3
     return self.localPosition
 end
 
-function ViewModelBase.set:LocalPosition(value: Vector3)
+function ViewModelBase.set:LocalPosition(value: CS.UnityEngine.Vector3)
     self:Set({name = "localPosition"}, value, "LocalPosition")
 end
 
-function ViewModelBase.get:LocalScale(): Vector3
+function ViewModelBase.get:LocalScale(): CS.UnityEngine.Vector3
     return self.localScale
 end
 
-function ViewModelBase.set:LocalScale(value: Vector3)
+function ViewModelBase.set:LocalScale(value: CS.UnityEngine.Vector3)
     self:Set({name = "localScale"}, value, "LocalScale")
 end
 
-function ViewModelBase.get:OffsetMax(): Vector2
+function ViewModelBase.get:OffsetMax(): CS.UnityEngine.Vector2
     return self.offsetMax
 end
 
-function ViewModelBase.set:OffsetMax(value: Vector2)
+function ViewModelBase.set:OffsetMax(value: CS.UnityEngine.Vector2)
     self:Set({name = "offsetMax"}, value, "OffsetMax")
 end
 
-function ViewModelBase.get:OffsetMin(): Vector2
+function ViewModelBase.get:OffsetMin(): CS.UnityEngine.Vector2
     return self.offsetMin
 end
 
-function ViewModelBase.set:OffsetMin(value: Vector2)
+function ViewModelBase.set:OffsetMin(value: CS.UnityEngine.Vector2)
     self:Set({name = "offsetMin"}, value, "OffsetMin")
 end
 
@@ -91,12 +91,12 @@ function ViewModelBase:ctor(messenger: MessengerType)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    self.parent = RectTransformExt.new(CS.CSObject.GameObject.Find("UIRoot").transform).handler as Transform
-    self.localRotation = CS.CSObject.Quaternion.identity
-    self.localPosition = CS.CSObject.Vector3.zero
-    self.localScale = CS.CSObject.Vector3.one
-    self.offsetMax = CS.CSObject.Vector2.zero
-    self.offsetMin = CS.CSObject.Vector2.zero
+    self.parent = RectTransformExt.new(CS.UnityEngine.GameObject.Find("UIRoot").transform).handler as CS.UnityEngine.Transform
+    self.localRotation = CS.UnityEngine.Quaternion.identity
+    self.localPosition = CS.UnityEngine.Vector3.zero
+    self.localScale = CS.UnityEngine.Vector3.one
+    self.offsetMax = CS.UnityEngine.Vector2.zero
+    self.offsetMin = CS.UnityEngine.Vector2.zero
     self.activeSelf = true
     self.overrideSorting = true
     self.sortingOrder = 0
@@ -108,7 +108,7 @@ function ViewModelBase:SetWithBroadCast(field: SetType, newValue: any, propertyN
         ObservableObject.Set(self, field, newValue, propertyName)
 
         if broadcast then
-            local oldValue = classget(self as BaseType, field.name)
+            local oldValue = classget(self as LuaObject, field.name)
             self:Broadcast(oldValue, newValue, propertyName)
         end
     end

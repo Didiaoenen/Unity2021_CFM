@@ -14,7 +14,7 @@ function ValueTargetProxyBase.set:ValueChanged(value: EventHandlerType)
     end)
 end
 
-function ValueTargetProxyBase:ctor(target: BaseType)
+function ValueTargetProxyBase:ctor(target: LuaObject)
     TargetProxyBase.ctor(self, target)
     self.subScribed = false
     self.valueChanged = {}
@@ -34,7 +34,7 @@ function ValueTargetProxyBase:Subscribe()
     self:DoSubscribeForValueChange(target)
 end
 
-function ValueTargetProxyBase:DoSubscribeForValueChange(target: BaseType)
+function ValueTargetProxyBase:DoSubscribeForValueChange(target: LuaObject)
     print(target)
 end
 
@@ -52,7 +52,7 @@ function ValueTargetProxyBase:Unsubscribe()
     self:DoUnsubscribeForValueChange(target)
 end
 
-function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: BaseType)
+function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: LuaObject)
     print(target)
 end
 

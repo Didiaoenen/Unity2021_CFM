@@ -4,7 +4,7 @@ require("OOP.Class")
 
 local ComponentExt = class("ComponentExt") as ComponentExtType
 
-function ComponentExt:ctor(handler: Component)
+function ComponentExt:ctor(handler: CS.UnityEngine.Component)
     self.handler = handler
 end
 

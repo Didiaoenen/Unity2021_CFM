@@ -8,11 +8,11 @@ local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase, INotifiable) as NotifiableSourceProxyBaseType
 
-function NotifiableSourceProxyBase.set:ValueChanged(value: BaseType)
+function NotifiableSourceProxyBase.set:ValueChanged(value: LuaObject)
     setcallback(self.valueChanged, value)
 end
 
-function NotifiableSourceProxyBase:ctor(source: BaseType)
+function NotifiableSourceProxyBase:ctor(source: LuaObject)
     SourceProxyBase.ctor(self, source)
     self.valueChanged = {}
 end

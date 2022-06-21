@@ -22,7 +22,7 @@ function Binding.get:BindingMode(): number
     return self.bindingMode
 end
 
-function Binding:ctor(source: BaseType, target: BaseType, bindingDescription: BindingDescriptionType, sourceProxyFactory: ISourceProxyFactoryType, targetProxyFactory: ITargetProxyFactoryType)
+function Binding:ctor(source: LuaObject, target: LuaObject, bindingDescription: BindingDescriptionType, sourceProxyFactory: ISourceProxyFactoryType, targetProxyFactory: ITargetProxyFactoryType)
     AbstractBinding.ctor(self, source, target)
     
     self.bindingMode = BindingMode.Default
@@ -36,12 +36,12 @@ function Binding:ctor(source: BaseType, target: BaseType, bindingDescription: Bi
     self:UpdateDataOnBind()
 end
 
-function Binding:CreateTargetProxy(target: BaseType, description: BindingDescriptionType)
+function Binding:CreateTargetProxy(target: LuaObject, description: BindingDescriptionType)
     self:DisposeTargetProxy()
 
     self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-    if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy as BaseType).is(INotifiable) then
+    if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy as LuaObject).is(INotifiable) then
         (self.targetProxy as INotifiableType).ValueChanged = {this = self, callback = self.UpdateSourceFromTarget}
     end
 end
@@ -67,12 +67,12 @@ function Binding:DisposeTargetProxy()
     end 
 end
 
-function Binding:CreateSourceProxy(source: BaseType, description: SourceDescriptionType)
+function Binding:CreateSourceProxy(source: LuaObject, description: SourceDescriptionType)
     self:DisposeSourceProxy()
 
     self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
-    if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy as BaseType).is(INotifiable) then
+    if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy as LuaObject).is(INotifiable) then
         (self.sourceProxy as INotifiableType).ValueChanged = {this = self, callback = self.UpdateTargetFromSource}
     end
 end
@@ -101,20 +101,20 @@ end
 function Binding:UpdateTargetFromSource()
     ExecutorsExt.Instance:RunOnMainThread(function ()
         local value = (self.sourceProxy as IObtainableType):GetValue()
-        self:SetTargetValue(self.targetProxy as BaseType, value);
+        self:SetTargetValue(self.targetProxy as LuaObject, value);
     end)
 end
 
-function Binding:SetTargetValue(modifier: BaseType, value: any)
+function Binding:SetTargetValue(modifier: LuaObject, value: any)
     (modifier as IModifiableType):SetValue(value)
 end
 
 function Binding:UpdateSourceFromTarget()
     local value = (self.targetProxy as IObtainableType):GetValue()
-    self:SetSourceValue(self.sourceProxy as BaseType, value)
+    self:SetSourceValue(self.sourceProxy as LuaObject, value)
 end
 
-function Binding:SetSourceValue(modifier: BaseType, value: any)
+function Binding:SetSourceValue(modifier: LuaObject, value: any)
     (modifier as IModifiableType):SetValue(value)
 end
 

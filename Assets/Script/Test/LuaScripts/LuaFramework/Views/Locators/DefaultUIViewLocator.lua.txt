@@ -13,13 +13,13 @@ end
 
 function DefaultUIViewLocator.DoLoad(promise, name, type)
     promise:UpdateProgress(0)
-    local request = CS.CSObject.Resources.LoadAsync(name, type)
+    local request = CS.UnityEngine.Resources.LoadAsync(name, type)
     while not request.isDone do
         promise:UpdateProgress(request.progress)
         Coroutine.Wait(3)
     end
 
-    local ins = CS.CSObject.Object.Instantiate(request.asset)
+    local ins = CS.UnityEngine.Object.Instantiate(request.asset)
     ins.name = name
 
     promise:UpdateProgress(1)

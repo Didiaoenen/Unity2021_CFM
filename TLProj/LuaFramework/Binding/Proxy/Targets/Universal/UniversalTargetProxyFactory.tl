@@ -11,7 +11,7 @@ function UniversalTargetProxyFactory:ctor()
     
 end
 
-function UniversalTargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
+function UniversalTargetProxyFactory:CreateProxy(target: LuaObject, description: BindingDescriptionType): TargetProxyBaseType
     local memberInfo = classget(target, description.TargetName)
 
     if "function" == type(memberInfo) then

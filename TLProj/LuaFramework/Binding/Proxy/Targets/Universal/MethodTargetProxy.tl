@@ -15,7 +15,7 @@ function MethodTargetProxy.get:ProxyMethodInfo(): string
     return self.methodInfo
 end
 
-function MethodTargetProxy:ctor(target: BaseType, methodInfo: string)
+function MethodTargetProxy:ctor(target: LuaObject, methodInfo: string)
     TargetProxyBase.ctor(self, target)
     self.methodInfo = methodInfo
     self.invoker = self
@@ -25,7 +25,7 @@ function MethodTargetProxy:GetValue(): any
     return self.invoker
 end
 
-function MethodTargetProxy:Invoke(sender: BaseType, ...: any)
+function MethodTargetProxy:Invoke(sender: LuaObject, ...: any)
     local target = self.target
     if nil == target then
         return

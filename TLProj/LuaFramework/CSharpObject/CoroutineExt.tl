@@ -22,12 +22,12 @@ function CoroutineExt.GetEnumerator(callback: function): function
     end)
 end
 
-function CoroutineExt.Yield(enumerator: Object)
+function CoroutineExt.Yield(enumerator: CS.System.Object)
     coroutine.yield(enumerator)
 end
 
 function CoroutineExt.Wait(time: number)
-    coroutine.yield(CS.CSObject.WaitForSeconds(time))
+    coroutine.yield(CS.UnityEngine.WaitForSeconds(time))
 end
 
 function CoroutineExt:dtor()

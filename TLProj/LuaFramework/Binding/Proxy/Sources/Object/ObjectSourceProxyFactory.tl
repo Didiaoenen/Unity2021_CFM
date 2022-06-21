@@ -12,12 +12,12 @@ function ObjectSourceProxyFactory:ctor()
     self.factories = {}        
 end
 
-function ObjectSourceProxyFactory:TryCreateProxy(source: BaseType, description: SourceDescriptionType, proxy: OutProxyType): boolean
+function ObjectSourceProxyFactory:TryCreateProxy(source: LuaObject, description: SourceDescriptionType, proxy: OutProxyType): boolean
     local path = (description as ObjectSourceDescriptionType).Path
     assert(#(path) > 0)
 
     if #path == 1 then
-        proxy.ref = self:Create(source, path) as BaseType
+        proxy.ref = self:Create(source, path) as LuaObject
         if proxy.ref then
             return true
         end
@@ -27,12 +27,12 @@ function ObjectSourceProxyFactory:TryCreateProxy(source: BaseType, description: 
     return true
 end
 
-function ObjectSourceProxyFactory:Create(source: BaseType, path: {string}): SourceProxyBaseType
+function ObjectSourceProxyFactory:Create(source: LuaObject, path: {string}): SourceProxyBaseType
     local proxy: OutProxyType = {}
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as INodeProxyFactoryType):Create(source, path) as BaseType
+            proxy.ref = (factory as INodeProxyFactoryType):Create(source, path) as LuaObject
             if proxy.ref then
                 return proxy.ref as SourceProxyBaseType
             end
@@ -59,7 +59,7 @@ function ObjectSourceProxyFactory:Unregister(factory: INodeProxyFactoryType)
     end
 
     for i, v in ipairs(self.factories) do
-        if v.factory == factory as BaseType then
+        if v.factory == factory as LuaObject then
             table.remove(self.factories, i)
             return
         end

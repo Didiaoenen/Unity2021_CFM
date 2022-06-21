@@ -74,7 +74,7 @@ function Transition:Unbind()
     end
 end
 
-function Transition:WaitForDone(): Object
+function Transition:WaitForDone(): CS.System.Object
     return ExecutorsExt.Instance:WaitWhile(function (): boolean
         return not self.done
     end)

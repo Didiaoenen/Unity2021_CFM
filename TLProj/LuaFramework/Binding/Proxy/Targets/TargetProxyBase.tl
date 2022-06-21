@@ -7,7 +7,7 @@ local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local TargetProxyBase = class("TargetProxyBase", BindingProxyBase) as TargetProxyBaseType
 
-function TargetProxyBase.get:Target(): BaseType
+function TargetProxyBase.get:Target(): LuaObject
     return self.target
 end
 
@@ -15,13 +15,13 @@ function TargetProxyBase.get:DefaultMode(): number
     return BindingMode.OneWay
 end
 
-function TargetProxyBase:ctor(target: BaseType)
+function TargetProxyBase:ctor(target: LuaObject)
     assert(target, "")
     self.target = target
     self.targetName = ""
 end
 
-function TargetProxyBase:IsAlive(target: BaseType): boolean
+function TargetProxyBase:IsAlive(target: LuaObject): boolean
     print(target)
     return true
 end

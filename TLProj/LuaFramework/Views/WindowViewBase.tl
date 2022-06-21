@@ -101,7 +101,7 @@ function WindowViewBase.get:Name(): string
     return self.gameObject.name
 end
 
-function WindowViewBase.get:Parent(): Transform
+function WindowViewBase.get:Parent(): CS.UnityEngine.Transform
     return self.parent
 end
 
@@ -292,40 +292,40 @@ function WindowViewBase:OnCreate()
     self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
     -- GameObject
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject.handler as BaseType) as BindingBuilderType
+    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject.handler as LuaObject) as BindingBuilderType
     builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
 
     -- RectTransform
     self.transform = self:GetComponent(RectTransformExt) as TransformExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For(self.transform.Parent):To("Parent"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalPosition):To("LocalPosition"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalScale):To("LocalScale"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For((self.transform as RectTransformExtType).OffsetMax):To("OffsetMax"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
     builder:For((self.transform as RectTransformExtType).OffsetMin):To("OffsetMin"):OneWay()
 
     -- Canvas
     local canvas = self:AddComponent(CanvasExt) as CanvasExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as LuaObject) as BindingBuilderType
     builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as LuaObject) as BindingBuilderType
     builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
 
     -- CanvasGroup
     local canvasGroup = self:AddComponent(CanvasGroupExt) as CanvasGroupExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvasGroup.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(canvasGroup.handler as LuaObject) as BindingBuilderType
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
 
     -- GraphicRaycaster
@@ -445,7 +445,7 @@ function WindowViewBase:DoDismiss()
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CS.CSObject.Object.Destroy(self.gameObject.handler as Object)
+        CS.UnityEngine.Object.Destroy(self.gameObject.handler as CS.UnityEngine.Object)
         self.State = WindowEnum.WindowState.DISMISS_END
         self.dismissTransition = nil
     end

@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local TextExt = class("TextExt", ComponentExt) as TextExtType
 
-TextExt.CSObject = CS.CSObject.Text as Component
+TextExt.CSObject = CS.UnityEngine.UI.Text as CS.UnityEngine.Component
 
 TextExt.Text = "text"
 

@@ -6,7 +6,7 @@ local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyB
 
 local EventTargetProxyBase = class("EventTargetProxyBase", TargetProxyBase) as EventTargetProxyBaseType
 
-function EventTargetProxyBase:ctor(target: BaseType)
+function EventTargetProxyBase:ctor(target: LuaObject)
     TargetProxyBase.ctor(self, target)
 end
 

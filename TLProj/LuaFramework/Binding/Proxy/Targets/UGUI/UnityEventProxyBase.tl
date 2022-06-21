@@ -14,7 +14,7 @@ function UnityEventProxyBase.get:DefaultMode(): number
     return BindingMode.OneWay
 end
 
-function UnityEventProxyBase:ctor(target: BaseType, unityEvent: string)
+function UnityEventProxyBase:ctor(target: LuaObject, unityEvent: string)
     EventTargetProxyBase.ctor(self, target)
 
     self.command = nil
@@ -56,9 +56,9 @@ function UnityEventProxyBase:SetValue(value: any)
     
     else
         if type(value) == "table" then
-            if (value as BaseType).is(ProxyInvoker) then
+            if (value as LuaObject).is(ProxyInvoker) then
                 self.invoker = value as ProxyInvokerType
-            elseif (value as BaseType).is(SimpleCommand) then
+            elseif (value as LuaObject).is(SimpleCommand) then
                 if nil == self.interactable or self.interactable == "" then
                     self.interactable = "interactable"
                 end
@@ -71,7 +71,7 @@ function UnityEventProxyBase:SetValue(value: any)
     end
 end
 
-function UnityEventProxyBase:OnExecuteChanged(sender: BaseType, ...: any)
+function UnityEventProxyBase:OnExecuteChanged(sender: LuaObject, ...: any)
     print(sender, ...)
     ExecutorsExt.Instance:RunOnMainThread(function ()
         self:UpdateTargetInteractable()

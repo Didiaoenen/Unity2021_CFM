@@ -14,7 +14,7 @@ function BindingExtension.get:BindingContext(): BindingContextType
     return self.bindingContext
 end
 
-function BindingExtension:ctor(behaviour: BaseType)
+function BindingExtension:ctor(behaviour: LuaObject)
     self.bindingContext = nil
     self.behaviour = behaviour
 end
@@ -24,17 +24,17 @@ function BindingExtension:CreateBindingSet(): BindingSetType
     return BindingSet.new(context, self.behaviour)
 end
 
-function BindingExtension:CreateBindingSetWithContext(dataContext: BaseType): BindingSetType
+function BindingExtension:CreateBindingSetWithContext(dataContext: LuaObject): BindingSetType
     local context = self.BindingContext
     context.DataContext = dataContext
     return BindingSet.new(context, self.behaviour)
 end
 
-function BindingExtension:SetDataContext(dataContext: BaseType)
+function BindingExtension:SetDataContext(dataContext: LuaObject)
     self.BindingContext.DataContext = dataContext
 end
 
-function BindingExtension:GetDataContext(): BaseType
+function BindingExtension:GetDataContext(): LuaObject
     return self.BindingContext.DataContext
 end
 

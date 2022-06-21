@@ -7,7 +7,7 @@ local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
 
 local InteractionNodeProxy = class("InteractionNodeProxy", SourceProxyBase, IModifiable) as InteractionNodeProxyType
 
-function InteractionNodeProxy:ctor(source: BaseType, request: string)
+function InteractionNodeProxy:ctor(source: LuaObject, request: string)
     SourceProxyBase.ctor(self, source)
     self.request = request
     self.invoker = nil
@@ -17,7 +17,7 @@ end
 function InteractionNodeProxy:BindEvent()
     local request = classget(self.source, self.request) as InteractionRequestType
     if request then
-        request.Raised = function(sender: BaseType, ...: any)
+        request.Raised = function(sender: LuaObject, ...: any)
             self:OnRaised(sender, ...)
         end
     end
@@ -30,14 +30,14 @@ function InteractionNodeProxy:UnbindEvent()
     end
 end
 
-function InteractionNodeProxy:OnRaised(sender: BaseType, ...: any)
+function InteractionNodeProxy:OnRaised(sender: LuaObject, ...: any)
     if self.invoker then
         local invoker = self.invoker as ProxyInvokerType
         invoker:Invoke(sender, ...)
     end
 end
 
-function InteractionNodeProxy:SetValue(value: BaseType)
+function InteractionNodeProxy:SetValue(value: LuaObject)
     self.invoker = value
 end
 

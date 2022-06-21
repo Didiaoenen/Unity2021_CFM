@@ -11,23 +11,23 @@ function UnityPropertyProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function UnityPropertyProxy:ctor(target: BaseType, propertyInfo: string, unityEvent: string)
+function UnityPropertyProxy:ctor(target: LuaObject, propertyInfo: string, unityEvent: string)
     PropertyTargetProxy.ctor(self, target, propertyInfo)
     self.unityEvent = unityEvent
 end
 
-function UnityPropertyProxy:DoSubscribeForValueChange(target: BaseType)
+function UnityPropertyProxy:DoSubscribeForValueChange(target: LuaObject)
     print(target)
-    local unityEvent = classget(self.target, self.unityEvent)
+    local unityEvent = classget(self.target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
-        (unityEvent as UnityEvent):AddListener(bindevent(self, self.OnValueChanged))
+        unityEvent:AddListener(bindevent(self, self.OnValueChanged))
     end
 end
 
 function UnityPropertyProxy:DoUnsubscribeForValueChange()
-    local unityEvent = classget(self.target, self.unityEvent)
+    local unityEvent = classget(self.target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
-        (unityEvent as UnityEvent):RemoveAllListeners()
+        unityEvent:RemoveAllListeners()
     end
 end
 

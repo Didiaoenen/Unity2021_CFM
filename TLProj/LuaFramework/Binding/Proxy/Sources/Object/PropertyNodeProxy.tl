@@ -11,7 +11,7 @@ local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 
 local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable) as PropertyNodeProxyType
 
-function PropertyNodeProxy:ctor(source: BaseType, propertyInfo: string)
+function PropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
     NotifiableSourceProxyBase.ctor(self, source)
     self.propertyInfo = propertyInfo
 
@@ -25,7 +25,7 @@ function PropertyNodeProxy:ctor(source: BaseType, propertyInfo: string)
     end    
 end
 
-function PropertyNodeProxy:OnPropertyChanged(sender: BaseType, e: PropertyChangedEventArgsType)
+function PropertyNodeProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
     print(sender)
     local name = e.PropertyName
     if name and name ~= "" and name == self.propertyInfo then

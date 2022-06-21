@@ -4,29 +4,29 @@ require("OOP.Class")
 
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
-function AbstractBinding.get:Target(): BaseType
+function AbstractBinding.get:Target(): LuaObject
     assert(self.target, "")
     local target = (self.target as TargetProxyBaseType).Target
     return self:IsAlive(target) and target
 end
 
-function AbstractBinding.get:DataContext(): BaseType
+function AbstractBinding.get:DataContext(): LuaObject
     return self.dataContext
 end
 
-function AbstractBinding.set:DataContext(value: BaseType)
+function AbstractBinding.set:DataContext(value: LuaObject)
     if value ~= self.dataContext then
         self.dataContext = value
         self:OnDataContextChanged()
     end
 end
 
-function AbstractBinding:ctor(dataContext: BaseType, target: BaseType)
+function AbstractBinding:ctor(dataContext: LuaObject, target: LuaObject)
     self.dataContext = dataContext
     self.target = target
 end
 
-function AbstractBinding:IsAlive(target: BaseType): boolean
+function AbstractBinding:IsAlive(target: LuaObject): boolean
     print(target)
     return true
 end

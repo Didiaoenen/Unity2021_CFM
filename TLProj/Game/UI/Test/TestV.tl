@@ -18,7 +18,7 @@ function TestV:ctor(bundle)
 
     self.viewModel = TestVM.new()
     self.bindingExt = BindingExtension.new(self)
-    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel as BaseType) as BindingSetBaseType
+    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel as LuaObject) as BindingSetBaseType
     -- local builder = set:Bind()
     -- builder:For("TestFunc"):To("TestRequest")
 
@@ -61,10 +61,10 @@ function TestV:OnCreate()
     local text = self:GetComponentWithName(TextExt, "text") as TextExtType
     local button = self:GetComponentWithName(ButtonExt, "button") as ButtonExtType
 
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(text.handler as BaseType) as BindingBuilderType
+    local builder = (self.bindingSet as BindingSetType):BindByTarget(text.handler as LuaObject) as BindingBuilderType
     builder:For(text.Text):To("Test"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(button.handler as BaseType) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(button.handler as LuaObject) as BindingBuilderType
     builder:For(button.OnClick):To("TestCommand"):OneWay()
 
     --

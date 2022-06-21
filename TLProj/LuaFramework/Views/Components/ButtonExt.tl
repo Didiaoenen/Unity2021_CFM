@@ -6,7 +6,7 @@ local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local ButtonExt = class("ButtonExt", ComponentExt) as ButtonExtType
 
-ButtonExt.CSObject = CS.CSObject.Button as Component
+ButtonExt.CSObject = CS.UnityEngine.UI.Button as CS.UnityEngine.Component
 
 ButtonExt.OnClick = "onClick"
 

@@ -6,7 +6,7 @@ local UnityEventProxyBase = require("LuaFramework.Binding.Proxy.Targets.UGUI.Uni
 
 local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase) as UnityEventProxyType
 
-function UnityEventProxy:ctor(target: BaseType, unityEvent: string)
+function UnityEventProxy:ctor(target: LuaObject, unityEvent: string)
     UnityEventProxyBase.ctor(self, target, unityEvent)
     self:BindEvent()
 end
@@ -17,7 +17,7 @@ function UnityEventProxy:BindEvent()
         return
     end
 
-    local unityEvent = classget(target, self.unityEvent) as UnityEvent
+    local unityEvent = classget(target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
         unityEvent:AddListener(bindevent(self, self.OnEvent))
     end
@@ -29,7 +29,7 @@ function UnityEventProxy:UnbindEvent()
         return
     end
 
-    local unityEvent = classget(target, self.unityEvent) as UnityEvent
+    local unityEvent = classget(target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
         unityEvent:RemoveAllListeners()
     end

@@ -38,11 +38,11 @@ function BindingDescription.set:Source(value: SourceDescriptionType)
     self.source = value
 end
 
-function BindingDescription.get:CommandParameter(): BaseType
+function BindingDescription.get:CommandParameter(): LuaObject
     return self.commandParameter
 end
 
-function BindingDescription.set:CommandParameter(value: BaseType)
+function BindingDescription.set:CommandParameter(value: LuaObject)
     self.commandParameter = value
 end
 

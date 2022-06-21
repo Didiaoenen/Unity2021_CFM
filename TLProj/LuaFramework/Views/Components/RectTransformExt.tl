@@ -6,7 +6,7 @@ local TransformExt = require("LuaFramework.Views.Components.TransformExt")
 
 local RectTransformExt = class("RectTransformExt", TransformExt) as RectTransformExtType
 
-RectTransformExt.CSObject = CS.CSObject.RectTransform as Component
+RectTransformExt.CSObject = CS.UnityEngine.RectTransform as CS.UnityEngine.Component
 
 RectTransformExt.OffsetMax = "offsetMax"
 

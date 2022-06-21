@@ -13,7 +13,7 @@ function UniversalNodeProxyFactory:ctor()
 
 end
 
-function UniversalNodeProxyFactory:Create(source: BaseType, path: {string}): SourceProxyBaseType
+function UniversalNodeProxyFactory:Create(source: LuaObject, path: {string}): SourceProxyBaseType
     local node = path[1]
     if nil == source then
         return
@@ -22,7 +22,7 @@ function UniversalNodeProxyFactory:Create(source: BaseType, path: {string}): Sou
     return self:CreateProxy(source, node)
 end
 
-function UniversalNodeProxyFactory:CreateProxy(source: BaseType, node: string): SourceProxyBaseType
+function UniversalNodeProxyFactory:CreateProxy(source: LuaObject, node: string): SourceProxyBaseType
     local memberInfo = classget(source, node)
 
     if "function" == type(memberInfo) then
@@ -31,7 +31,7 @@ function UniversalNodeProxyFactory:CreateProxy(source: BaseType, node: string): 
         return PropertyNodeProxy.new(source, node) as SourceProxyBaseType
     else
         if "table" == type(memberInfo) then
-            if (memberInfo as BaseType).is(InteractionNodeProxy) then
+            if (memberInfo as LuaObject).is(InteractionNodeProxy) then
                 return InteractionNodeProxy.new(source, node) as SourceProxyBaseType
             end
         end

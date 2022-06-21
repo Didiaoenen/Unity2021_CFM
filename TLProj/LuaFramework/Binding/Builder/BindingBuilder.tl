@@ -7,7 +7,7 @@ local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local BindingBuilder = class("BindingBuilder", BindingBuilderBase) as BindingBuilderType
 
-function BindingBuilder:ctor(context: BindingContextType, target: BaseType)
+function BindingBuilder:ctor(context: BindingContextType, target: LuaObject)
     BindingBuilderBase.ctor(self, context, target)
 end
 

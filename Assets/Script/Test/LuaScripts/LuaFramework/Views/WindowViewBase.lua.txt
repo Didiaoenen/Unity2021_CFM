@@ -441,7 +441,7 @@ function WindowViewBase:DoDismiss()
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
-        CS.CSObject.Object.Destroy(self.gameObject)
+        CS.UnityEngine.Object.Destroy(self.gameObject)
         self.State = WindowEnum.WindowState.DISMISS_END
         self.dismissTransition = nil
     end

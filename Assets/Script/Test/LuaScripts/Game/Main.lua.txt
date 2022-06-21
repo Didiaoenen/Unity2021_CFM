@@ -2,6 +2,8 @@ require("Debug.LuaPanda").start("127.0.0.1", 8818)
 
 require("CS.CS")
 
+require("OOP.Class")
+
 require("LuaFramework.System")
 
 local TestV = require("Game.UI.Test.TestV")

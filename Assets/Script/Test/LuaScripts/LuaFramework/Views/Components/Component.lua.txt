@@ -1,6 +1,6 @@
 local Component = class("Component")
 
-Component.CSObject = CS.CSObject.Component
+Component.CSObject = CS.UnityEngine.Component
 
 function Component:ctor(handler)
     self.handler = handler

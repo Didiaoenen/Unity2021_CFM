@@ -2,7 +2,7 @@ local Component = require("LuaFramework.Views.Components.Component")
 
 local CanvasGroup = class("CanvasGroup", Component)
 
-CanvasGroup.CSObject = CS.CSObject.CanvasGroup
+CanvasGroup.CSObject = CS.UnityEngine.CanvasGroup
 
 CanvasGroup.Alpha = "alpha"
 

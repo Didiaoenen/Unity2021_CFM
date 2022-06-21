@@ -1,30 +1,6 @@
 CS = CS or {}
 
 local CSObject = {
-    -- UnityEngine
-    Object = CS.UnityEngine.Object,
-    Canvas = CS.UnityEngine.Canvas,
-    Resources = CS.UnityEngine.Resources,
-    Transform = CS.UnityEngine.Transform,
-    Component = CS.UnityEngine.Component,
-    GameObject = CS.UnityEngine.GameObject,
-    CanvasGroup = CS.UnityEngine.CanvasGroup,
-    WaitForSeconds = CS.UnityEngine.WaitForSeconds,
-    Vector2 = CS.UnityEngine.Vector2,
-    Vector3 = CS.UnityEngine.Vector3,
-    Quaternion = CS.UnityEngine.Quaternion,
-    RectTransform = CS.UnityEngine.RectTransform,
-    
-    -- UnityEngine.UI
-    Text = CS.UnityEngine.UI.Text,
-    Button = CS.UnityEngine.UI.Button,
-    InputField = CS.UnityEngine.UI.InputField,
-    GraphicRaycaster = CS.UnityEngine.UI.GraphicRaycaster,
-
-    -- CS.UnityEngine.Events
-    UnityEventBase = CS.UnityEngine.Events.UnityEventBase,
-
-    -- NameSpace
     Simple = CS.Assembly_CSharp.Assets.Script.Simple,
     Execution = CS.Assembly_CSharp.Assets.Script.Simple.Execution,
     Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous,
@@ -38,8 +14,8 @@ local CSName = {
 rawset(CS, "CSName", CSName)
 
 local CSType = {
-    ObjectT = typeof(CS.CSObject.Object),
-    CanvasT = typeof(CS.CSObject.Canvas),
+    ObjectT = typeof(CS.UnityEngine.Object),
+    CanvasT = typeof(CS.UnityEngine.Canvas),
     TransformT = typeof(CS.UnityEngine.Transform),
     GameObjectT = typeof(CS.UnityEngine.GameObject),
     CanvasGroupT = typeof(CS.UnityEngine.CanvasGroup),
@@ -50,8 +26,6 @@ local CSType = {
     InputFieldT = typeof(CS.UnityEngine.UI.InputField),
     GraphicRaycasterT = typeof(CS.UnityEngine.UI.GraphicRaycaster),
 
-    UnityEventBaseT = typeof(CS.CSObject.UnityEventBase),
+    UnityEventBaseT = typeof(CS.UnityEngine.Events.UnityEventBase),
 }
 rawset(CS, "CSType", CSType)
-
-require("OOP.Class")

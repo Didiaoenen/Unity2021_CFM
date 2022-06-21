@@ -11,7 +11,7 @@ function UnityTargetProxyFactory:ctor()
     
 end
 
-function UnityTargetProxyFactory:CreateProxy(target: BaseType, description: BindingDescriptionType): TargetProxyBaseType
+function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: BindingDescriptionType): TargetProxyBaseType
     local memberInfo = classget(target, description.TargetName)
 
     local updateTrigger: any = nil
@@ -21,7 +21,7 @@ function UnityTargetProxyFactory:CreateProxy(target: BaseType, description: Bind
     end
 
     if "userdata" == type(memberInfo) then
-        if CS.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo as Object):GetType()) then
+        if CS.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo as CS.System.Object):GetType()) then
             return UnityEventProxy.new(target, description.TargetName) as TargetProxyBaseType
         else
             if not updateTrigger then

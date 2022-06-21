@@ -10,7 +10,7 @@ local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Obje
 
 local BindingBuilderBase = class("BindingBuilderBase") as BindingBuilderBaseType
 
-function BindingBuilderBase:ctor(context: BindingContextType, target: BaseType)
+function BindingBuilderBase:ctor(context: BindingContextType, target: LuaObject)
     assert(context and target, "")
 
     self.context = context

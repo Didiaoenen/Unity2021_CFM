@@ -12,20 +12,20 @@ function PropertyTargetProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function PropertyTargetProxy:ctor(target: BaseType, propertyInfo: string)
+function PropertyTargetProxy:ctor(target: LuaObject, propertyInfo: string)
     ValueTargetProxyBase.ctor(self, target)
     self.propertyInfo = propertyInfo
 end
 
-function PropertyTargetProxy:DoSubscribeForValueChange(target: BaseType)
+function PropertyTargetProxy:DoSubscribeForValueChange(target: LuaObject)
     (target as INotifyPropertyChangedType).PropertyChanged = {this = self, callback = self.OnPropertyChanged}
 end
 
-function PropertyTargetProxy:DoUnsubscribeForValueChange(target: BaseType)
+function PropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
     (target as INotifyPropertyChangedType).PropertyChanged = {this = self}
 end
 
-function PropertyTargetProxy:OnPropertyChanged(sender: BaseType, e: PropertyChangedEventArgsType)
+function PropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
     print(sender)
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then
