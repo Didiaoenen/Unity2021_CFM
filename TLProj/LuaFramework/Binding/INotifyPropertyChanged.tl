@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local INotifyPropertyChanged = class("INotifyPropertyChanged") as INotifyPropertyChangedType

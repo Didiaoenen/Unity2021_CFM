@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local CommandBase = require("LuaFramework.Commands.CommandBase")

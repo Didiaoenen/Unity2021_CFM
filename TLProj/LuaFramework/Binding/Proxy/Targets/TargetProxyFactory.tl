@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")

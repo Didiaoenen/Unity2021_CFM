@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
@@ -17,7 +15,6 @@ function UnityPropertyProxy:ctor(target: LuaObject, propertyInfo: string, unityE
 end
 
 function UnityPropertyProxy:DoSubscribeForValueChange(target: LuaObject)
-    print(target)
     local unityEvent = classget(self.target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
         unityEvent:AddListener(bindevent(self, self.OnValueChanged))
@@ -32,7 +29,6 @@ function UnityPropertyProxy:DoUnsubscribeForValueChange()
 end
 
 function UnityPropertyProxy:OnValueChanged(...: any)
-    print(...)
     self:RaiseValueChanged()
 end
 

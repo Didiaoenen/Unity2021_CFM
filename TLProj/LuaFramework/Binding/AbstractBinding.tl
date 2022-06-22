@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
@@ -27,7 +25,6 @@ function AbstractBinding:ctor(dataContext: LuaObject, target: LuaObject)
 end
 
 function AbstractBinding:IsAlive(target: LuaObject): boolean
-    print(target)
     return true
 end
 

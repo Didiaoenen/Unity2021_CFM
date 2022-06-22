@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")

@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local Layer = require("Luaframework.Views.Layer")
@@ -64,7 +62,7 @@ end
 function WindowManager:Show(window: WindowViewBaseType): TransitionType
     local transition = TransitionShow.new(self, window)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (w: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
         if state == WindowEnum.WindowState.VISIBLE then
         end
     end)
@@ -73,7 +71,7 @@ end
 function WindowManager:Hide(window: WindowViewBaseType): TransitionType
     local transition = TransitionHide.new(self, window, false)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (w: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
         if state == WindowEnum.WindowState.INVISIBLE then
         end
     end)
@@ -82,7 +80,7 @@ end
 function WindowManager:Dismiss(window: WindowViewBaseType): TransitionType
     local transition = TransitionHide.new(self, window, true)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (w: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
         if state == WindowEnum.WindowState.INVISIBLE then
         end
     end)
@@ -112,20 +110,20 @@ function WindowManager:ClearWindowStack()
 end
 
 function WindowManager:GetWindow(name: string): WindowViewBaseType
-    return TableExtention.Find(self.windowViews, function (i: number, v: WindowViewBaseType): boolean
+    return TableExtention.Find(self.windowViews, function (_: number, v: WindowViewBaseType): boolean
         return v.Name == name
     end) as WindowViewBaseType
 end
 
 function WindowManager:CreateLayers()
-    TableExtention.Foreach(layers, function (i: number, v: LayerType)
+    TableExtention.Foreach(layers, function (_: number, v: LayerType)
         local layer = Layer.new(v)
         table.insert(self.layers, layer)
     end)
 end
 
 function WindowManager:GetLayer(windowType: number): LayerType
-    return TableExtention.Find(self.layers, function (i: number, v: LayerType): boolean
+    return TableExtention.Find(self.layers, function (_: number, v: LayerType): boolean
         return v.WindowType == windowType
     end) as LayerType
 end
@@ -173,17 +171,17 @@ function TransitionShow:DoTransition()
         local actionType = policy(self, previous, current)
         if actionType == WindowEnum.ActionType.Hide then
             local hide = previous:DoHide(self.AnimationDisabled)
-            CoroutineExt.Instance.Yield(hide:WaitForDone())
+            CoroutineExt.Yield(hide:WaitForDone())
         elseif actionType == WindowEnum.ActionType.Dismiss then
             local hide = previous:DoHide(self.AnimationDisabled)
-            CoroutineExt.Instance.Yield(hide:WaitForDone())
+            CoroutineExt.Yield(hide:WaitForDone())
             previous:DoDismiss()
         end
     end
 
     if not current.Visibility then
         local show = current:DoShow(self.AnimationDisabled)
-        CoroutineExt.Instance.Yield(show:WaitForDone())
+        CoroutineExt.Yield(show:WaitForDone())
     end
 end
 
@@ -203,7 +201,7 @@ function TransitionHide:DoTransition()
     local current = self.window as WindowViewBaseType
     if current.Visibility then
         local hide = current:DoHide(self.AnimationDisabled)
-        CoroutineExt.Instance.Yield(hide:WaitForDone())
+        CoroutineExt.Yield(hide:WaitForDone())
     end
 
     if self.dismiss then
@@ -221,7 +219,7 @@ function TransitionHide:DoTransition()
 
     if previous then
         local show = previous:DoShow(self.AnimationDisabled)
-        CoroutineExt.Instance.Yield(show:WaitForDone())
+        CoroutineExt.Yield(show:WaitForDone())
     end
 end
 

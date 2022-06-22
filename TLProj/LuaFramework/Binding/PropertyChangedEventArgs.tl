@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local PropertyChangedEventArgs = class("PropertyChangedEventArgs") as PropertyChangedEventArgsType

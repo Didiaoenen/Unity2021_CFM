@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
@@ -24,7 +22,7 @@ end
 function TransitionExecutor:Execute(transition: TransitionType)
     table.insert(self.transitions, transition)
     if not self.running then
-        self.taskResult = ExecutorsExt.Instance:RunOnCoroutine(CoroutineExt.Instance.GetEnumerator(function ()
+        self.taskResult = ExecutorsExt.Instance:RunOnCoroutine(CoroutineExt.GetEnumerator(function ()
             self:DoTask()
         end))
     end
@@ -44,13 +42,13 @@ function TransitionExecutor:DoTask()
     {
         function ()
             self.running = true
-            CoroutineExt.Instance.Wait(0)
+            CoroutineExt.Wait(0)
             while #(self.transitions) > 0 do
                 local transition = table.remove(self.transitions, 1)
-                local result = ExecutorsExt.Instance:RunOnCoroutine(CoroutineExt.Instance.GetEnumerator(function ()
+                local result = ExecutorsExt.Instance:RunOnCoroutine(CoroutineExt.GetEnumerator(function ()
                     transition:TransitionTask()
                 end))
-                CoroutineExt.Instance.Yield(result:WaitForDone())
+                CoroutineExt.Yield(result:WaitForDone())
             end
         end,
         finally = function ()

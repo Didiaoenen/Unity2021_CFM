@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local TestVM = require("Game.UI.Test.TestVM")

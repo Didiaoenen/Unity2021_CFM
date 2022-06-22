@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ComponentExt = class("ComponentExt") as ComponentExtType

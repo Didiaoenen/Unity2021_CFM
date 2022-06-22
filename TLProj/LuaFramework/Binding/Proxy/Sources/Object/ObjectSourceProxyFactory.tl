@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
@@ -13,11 +11,11 @@ function ObjectSourceProxyFactory:ctor()
 end
 
 function ObjectSourceProxyFactory:TryCreateProxy(source: LuaObject, description: SourceDescriptionType, proxy: OutProxyType): boolean
-    local path = (description as ObjectSourceDescriptionType).Path
-    assert(#(path) > 0)
+    local paths = (description as ObjectSourceDescriptionType).Paths
+    assert(#(paths) > 0)
 
-    if #path == 1 then
-        proxy.ref = self:Create(source, path) as LuaObject
+    if #paths == 1 then
+        proxy.ref = self:Create(source, paths) as LuaObject
         if proxy.ref then
             return true
         end

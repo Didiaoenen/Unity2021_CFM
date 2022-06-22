@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local TableExtention = require("LuaFramework.Common.TableExtention")
@@ -173,26 +171,26 @@ function WindowViewBase:OnDisable()
 end
 
 function WindowViewBase:RaiseActivatedChanged()
-    TableExtention.Foreach(self.activatedChanged, function (i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.activatedChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseVisibilityChanged()
-    TableExtention.Foreach(self.visibilityChanged, function (i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.visibilityChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseOnDismissed()
-    TableExtention.Foreach(self.onDismissed, function (i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.onDismissed, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseStateChanged(oldState: number, newState: number)
     local eventArgs = WindowStateEventArgs.new(self, oldState, newState)
-    TableExtention.Foreach(self.stateChanged, function (i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.stateChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self, eventArgs)
     end)
 end
@@ -265,13 +263,13 @@ function WindowViewBase:Create()
         return
     end
     
-    ExecutorsExt.Instance:RunOnCoroutineNoReturn(CoroutineExt.Instance.GetEnumerator(function ()
+    ExecutorsExt.Instance:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
 
         self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
         local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
-        CoroutineExt.Instance.Yield(result:WaitForDone())
+        CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 
         self.gameObject = GameObjectExt.new(result.Result)
@@ -477,7 +475,7 @@ function WindowViewBase:dtor()
         self:Dismiss(true)
     end
     
-    TableExtention.Foreach(self.components, function (i: number, v: ComponentExtType)
+    TableExtention.Foreach(self.components, function (_: number, v: ComponentExtType)
         v:delete()
     end)
     self.components = nil

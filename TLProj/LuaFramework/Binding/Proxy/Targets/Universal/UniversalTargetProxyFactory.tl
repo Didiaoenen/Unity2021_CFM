@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")

@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ViewModelBase = require("LuaFramework.Views.ViewModelBase")

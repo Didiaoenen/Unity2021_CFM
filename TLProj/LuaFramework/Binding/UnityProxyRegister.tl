@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local UnityProxyRegister = class("UnityProxyRegister") as UnityProxyRegisterType

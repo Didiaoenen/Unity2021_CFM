@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
@@ -26,7 +24,6 @@ function PropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
-    print(sender)
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then
         local target = self.target

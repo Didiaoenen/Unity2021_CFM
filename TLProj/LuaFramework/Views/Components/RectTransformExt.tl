@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local TransformExt = require("LuaFramework.Views.Components.TransformExt")

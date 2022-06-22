@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")

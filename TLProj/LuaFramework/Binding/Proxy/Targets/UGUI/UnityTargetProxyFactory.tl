@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local UnityPropertyProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy")

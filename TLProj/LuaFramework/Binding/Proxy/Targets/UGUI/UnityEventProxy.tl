@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local UnityEventProxyBase = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxyBase")
@@ -36,7 +34,6 @@ function UnityEventProxy:UnbindEvent()
 end
 
 function UnityEventProxy:IsValidInvoker(invoker: ProxyInvokerType)
-    print(invoker)
 end
 
 function UnityEventProxy:OnEvent(...: any)

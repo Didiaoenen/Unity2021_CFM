@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local BindingMode = require("LuaFramework.Binding.BindingMode")
@@ -36,7 +34,6 @@ function BindingBuilderBase:SetMemberPathWithPath(paths: {string})
 end
 
 function BindingBuilderBase:SetCommandParameter(...: any)
-    print(...)
 end
 
 function BindingBuilderBase:CheckBindingDescription()

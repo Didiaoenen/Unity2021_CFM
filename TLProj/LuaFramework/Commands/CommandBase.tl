@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local CommandBase = class("CommandBase") as CommandBaseType
@@ -19,11 +17,9 @@ function CommandBase:RaiseExecuteChanged()
 end
 
 function CommandBase:CanExecute(...: any)
-    print(...)
 end
 
 function CommandBase:Execute(...: any)
-    print(...)
 end
 
 function CommandBase:dtor()

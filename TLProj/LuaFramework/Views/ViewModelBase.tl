@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
@@ -115,7 +113,6 @@ function ViewModelBase:SetWithBroadCast(field: SetType, newValue: any, propertyN
 end
 
 function ViewModelBase:Broadcast(oldValue: any, newVlaue: any, propertyName: string)
-    print(oldValue, newVlaue, propertyName)
 end
 
 function ViewModelBase:dtor()

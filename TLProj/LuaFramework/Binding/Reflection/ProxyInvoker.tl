@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ProxyInvoker = class("ProxyInvoker") as ProxyInvokerType

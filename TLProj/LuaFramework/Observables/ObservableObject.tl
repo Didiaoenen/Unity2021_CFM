@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local TableExtention = require("LuaFramework.Common.TableExtention")
@@ -17,7 +15,7 @@ function ObservableObject:RaisePropertyChanged(property: string)
 end
 
 function ObservableObject:RaisePropertyChangedWithParam(param: PropertyChangedEventArgsType)
-    TableExtention.Foreach(self.propertyChanged, function (i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.propertyChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self, param)
     end)
 end

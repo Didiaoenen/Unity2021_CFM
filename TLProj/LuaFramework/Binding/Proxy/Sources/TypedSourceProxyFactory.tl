@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
@@ -11,7 +9,6 @@ function TypedSourceProxyFactory:ctor()
 end
 
 function TypedSourceProxyFactory:IsSupported(description: SourceDescriptionType): boolean
-    print(description)
     return true
 end
 
@@ -29,7 +26,6 @@ function TypedSourceProxyFactory:CreateProxy(source: LuaObject, description: Sou
 end
 
 function TypedSourceProxyFactory:TryCreateProxy(source: LuaObject, description: SourceDescriptionType, proxy: OutProxyType): boolean
-    print(source, description, proxy)
     return true
 end
 

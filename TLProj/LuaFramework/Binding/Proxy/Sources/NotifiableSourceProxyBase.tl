@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
@@ -18,7 +16,7 @@ function NotifiableSourceProxyBase:ctor(source: LuaObject)
 end
 
 function NotifiableSourceProxyBase:RaiseValueChanged()
-    TableExtention.Foreach(self.valueChanged, function(i: number, v: EventHandlerType)
+    TableExtention.Foreach(self.valueChanged, function(_: number, v: EventHandlerType)
         v.callback(v.this)
     end)
 end

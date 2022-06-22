@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
@@ -30,16 +28,16 @@ function WindowBase:OnDisable()
 end
 
 function WindowBase:OnShow()
-    TableExtention.Foreach(self.subView, function (i: number, v: WindowViewBaseType)
+    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:DoShow()
     end)
 end
 
 function WindowBase:OnHide()
-    TableExtention.Foreach(self.subView, function (i: number, v: WindowViewBaseType)
+    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:DoHide()
     end)
-    TableExtention.Foreach(self.viewStack, function (i: number, v: WindowViewBaseType)
+    TableExtention.Foreach(self.viewStack, function (_: number, v: WindowViewBaseType)
         v:DoDismiss()
     end)
 end
@@ -66,7 +64,7 @@ function WindowBase:PopViewStack(): WindowViewBaseType
 end
 
 function WindowBase:dtor()
-    TableExtention.Foreach(self.subView, function (i: number, v: WindowViewBaseType)
+    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:delete()
     end)
     self.subView = nil

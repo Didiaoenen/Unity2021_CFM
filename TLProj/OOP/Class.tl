@@ -781,17 +781,17 @@ end
 
 global record ObjectSourceDescriptionType
     record get
-        path: {string}
-        Path: function
+        paths: {string}
+        Paths: function
     end
     
     record set
-        path: {string}
-        Path: function
+        paths: {string}
+        Paths: function
     end
 
-    path: {string}
-    Path: {string}
+    paths: {string}
+    Paths: {string}
     isStatic: boolean
 
     new: function(...: any): ObjectSourceDescriptionType
@@ -1843,15 +1843,6 @@ global record WindowManagerType
 end
 
 global record CoroutineExtType
-    
-    Instance: CoroutineExtType
-
-    __singleton: function(CoroutineExtType): CoroutineExtType
-    
-    new: function(...: any): CoroutineExtType
-    ctor: function
-    dtor: function
-
     GetEnumerator: function(function): function
     Yield: function(CS.System.Object)
     Wait: function(number)
@@ -2017,3 +2008,14 @@ global record TestSubVType
 
     Create: function(TestVType)
 end
+
+global record BindTextType
+    Text: string
+    ActiveSelf: boolean
+end
+
+global record BindButtonType
+    OnClick: function
+    ActiveSelf: boolean
+end
+

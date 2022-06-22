@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
@@ -29,8 +27,7 @@ end
 function UnityEventProxyBase:UnbindEvent()
 end
 
-function  UnityEventProxyBase:IsValidInvoker(invoker: ProxyInvokerType)
-    print(invoker)
+function UnityEventProxyBase:IsValidInvoker(invoker: ProxyInvokerType)
 end
 
 function UnityEventProxyBase:SetValue(value: any)
@@ -72,7 +69,6 @@ function UnityEventProxyBase:SetValue(value: any)
 end
 
 function UnityEventProxyBase:OnExecuteChanged(sender: LuaObject, ...: any)
-    print(sender, ...)
     ExecutorsExt.Instance:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)

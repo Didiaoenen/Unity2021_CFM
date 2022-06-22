@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local AsyncResultExt = class("AsyncResultExt") as AsyncResultExtType

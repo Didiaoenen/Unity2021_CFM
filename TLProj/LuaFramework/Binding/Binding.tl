@@ -1,5 +1,3 @@
-
-
 require("OOP.Class")
 
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
