@@ -5,11 +5,11 @@ local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt
 
 local ViewModelBase = class("ViewModelBase", ObservableObject) as ViewModelBaseType
 
-function ViewModelBase.get:Parent(): CS.UnityEngine.Transform
+function ViewModelBase.get:Parent(): TransformExtType
     return self.parent
 end
 
-function ViewModelBase.set:Parent(value: CS.UnityEngine.Transform)
+function ViewModelBase.set:Parent(value: TransformExtType)
     self:Set({name = "parent"}, value, "Parent")
 end
 
@@ -89,7 +89,7 @@ function ViewModelBase:ctor(messenger: MessengerType)
     ObservableObject.ctor(self)
     self.messenger = messenger
 
-    self.parent = RectTransformExt.new(CS.UnityEngine.GameObject.Find("UIRoot").transform).handler as CS.UnityEngine.Transform
+    self.parent = RectTransformExt.new(CS.UnityEngine.GameObject.Find("UIRoot").transform) as TransformExtType
     self.localRotation = CS.UnityEngine.Quaternion.identity
     self.localPosition = CS.UnityEngine.Vector3.zero
     self.localScale = CS.UnityEngine.Vector3.one

@@ -99,7 +99,7 @@ function WindowViewBase.get:Name(): string
     return self.gameObject.name
 end
 
-function WindowViewBase.get:Parent(): CS.UnityEngine.Transform
+function WindowViewBase.get:Parent(): TransformExtType
     return self.parent
 end
 
@@ -290,27 +290,27 @@ function WindowViewBase:OnCreate()
     self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
     -- GameObject
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject.handler as LuaObject) as BindingBuilderType
+    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject as LuaObject) as BindingBuilderType
     builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
 
     -- RectTransform
     self.transform = self:GetComponent(RectTransformExt) as TransformExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For(self.transform.Parent):To("Parent"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalPosition):To("LocalPosition"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For(self.transform.LocalScale):To("LocalScale"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For((self.transform as RectTransformExtType).OffsetMax):To("OffsetMax"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
     builder:For((self.transform as RectTransformExtType).OffsetMin):To("OffsetMin"):OneWay()
 
     -- Canvas

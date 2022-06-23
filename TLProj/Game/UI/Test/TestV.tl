@@ -59,10 +59,10 @@ function TestV:OnCreate()
     local text = self:GetComponentWithName(TextExt, "text") as TextExtType
     local button = self:GetComponentWithName(ButtonExt, "button") as ButtonExtType
 
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(text.handler as LuaObject) as BindingBuilderType
+    local builder = (self.bindingSet as BindingSetType):BindByTarget(text as LuaObject) as BindingBuilderType
     builder:For(text.Text):To("Test"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(button.handler as LuaObject) as BindingBuilderType
+    builder = (self.bindingSet as BindingSetType):BindByTarget(button as LuaObject) as BindingBuilderType
     builder:For(button.OnClick):To("TestCommand"):OneWay()
 
     --

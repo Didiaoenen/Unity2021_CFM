@@ -1,32 +1,3 @@
-----------------------------------------------------------
-global class = function(...: any): any
-    print(...)
-end
-
-global setcallback = function(...: any): any...
-    print(...)
-end
-
-global bindevent = function(...: any): any...
-    print(...)
-end
-
-global try = function(...: any)
-    print(...)
-end
-
-global classget = function(cls: any, key: string): any
-    print(cls, key)
-end
-
-global classset = function(cls: any, key: string, value: any)
-    print(cls, key, value)
-end
-
-global clone = function(obj: any)
-    print(obj)
-end
-
 ---------------------------------------------------------
 global record CS
     CSName: CSName
@@ -90,8 +61,11 @@ global record CS
     
         -- Transform
         record Transform
+            localRotation: Quaternion
+            localPosition: Vector3
+            localScale: Vector3
             parent: Transform
-        
+
             SetParent: function(Transform, Transform)
         end
 
@@ -110,6 +84,8 @@ global record CS
 
         -- RectTransform
         record RectTransform
+            offsetMax: Vector2
+            offsetMin: Vector2
         end
 
         -- Vector3
@@ -148,12 +124,12 @@ global record CS
         record UI
             -- Text
             record Text
-
+                text: string
             end
 
             -- Button
             record Button
-
+                onClick: function
             end
 
             -- InputField
@@ -171,10 +147,41 @@ global record CS
     -- 自定义类
 end
 
----------------------------------------------------------
 global typeof = function(...: any): CS.System.Type
     print(...)
 end
+
+
+----------------------------------------------------------
+global class = function(...: any): any
+    print(...)
+end
+
+global setcallback = function(...: any): any...
+    print(...)
+end
+
+global bindevent = function(...: any): any...
+    print(...)
+end
+
+global try = function(...: any)
+    print(...)
+end
+
+global classget = function(cls: any, key: string): any
+    print(cls, key)
+end
+
+global classset = function(cls: any, key: string, value: any)
+    print(cls, key, value)
+end
+
+global clone = function(obj: any)
+    print(obj)
+end
+
+global type newFunction = function<T>(...: any): T
 
 --------------------------------------------------------------
 local record CSObject
@@ -210,7 +217,7 @@ local record CSObject
             Synchronized: function(AsyncResult): CS.System.Object
             WaitForDone: function(AsyncResult): CS.System.Object
         
-            new: function(...: any): AsyncResult
+            new: newFunction<AsyncResult>
         
             metamethod __call: function(AsyncResult, ...: any): AsyncResult
         end
@@ -431,7 +438,7 @@ global record BindingDescriptionType
     commandParameter: LuaObject
     CommandParameter: function
 
-    new: function(...: any): BindingDescriptionType
+    new: newFunction<BindingDescriptionType>
     ctor: function
     dtor: function
 end
@@ -449,7 +456,7 @@ global record BindingExtensionType
 
     behaviour: LuaObject
 
-    new: function(...: any): BindingExtensionType
+    new: newFunction<BindingExtensionType>
     ctor: function
     dtor: function
 
@@ -483,7 +490,7 @@ global record BindingType
     sourceProxyFactory: ISourceProxyFactoryType
     targetProxyFactory: ITargetProxyFactoryType
 
-    new: function(...: any): BindingType
+    new: newFunction<BindingType>
     ctor: function
     dtor: function
 
@@ -523,7 +530,7 @@ global record PropertyChangedEventArgsType
     propertyName: string
     PropertyName: string
 
-    new: function(...: any): PropertyChangedEventArgsType
+    new: newFunction<PropertyChangedEventArgsType>
     ctor: function
 end
 
@@ -535,7 +542,7 @@ global record StandardBinderType
 
     __singleton: function(StandardBinderType): StandardBinderType
 
-    new: function(...: any): StandardBinderType
+    new: newFunction<StandardBinderType>
     ctor: function
     delete: function
     dtor: function
@@ -565,7 +572,7 @@ global record BindingBuilderType
     target: LuaObject
     description: BindingDescriptionType
 
-    new: function(...: any): BindingBuilderType
+    new: newFunction<BindingBuilderType>
     ctor: function
     dtor: function
 
@@ -596,7 +603,7 @@ global record BindingSetType
     context: BindingContextType
     target: LuaObject
 
-    new: function(...: any): BindingSetType
+    new: newFunction<BindingSetType>
     ctor: function
     dtor: function
 
@@ -632,7 +639,7 @@ global record BindingContextType
     bindings: {string:{BindingType}}
     DEFAULT_KEY: string
 
-    new: function(...: any): BindingContextType
+    new: newFunction<BindingContextType>
     ctor: function
     dtor: function
     OnDataContextChanged: function(BindingContextType)
@@ -729,7 +736,7 @@ global type PriorityFactoryPairList = {PriorityFactoryPairType}
 global record SourceProxyFactoryType
     factories: PriorityFactoryPairList
 
-    new: function(...: any): SourceProxyFactoryType
+    new: newFunction<SourceProxyFactoryType>
     ctor: function
     dtor: function
 
@@ -757,7 +764,7 @@ global record InteractionNodeProxyType
     request: string
     invoker: LuaObject
 
-    new: function(...: any): InteractionNodeProxyType
+    new: newFunction<InteractionNodeProxyType>
     ctor: function
     dtor: function
 
@@ -772,7 +779,7 @@ global record MethodNodeProxyType
     methodInfo: string
     invoker: ProxyInvokerType
 
-    new: function(...: any): MethodNodeProxyType
+    new: newFunction<MethodNodeProxyType>
     ctor: function
     dtor: function
 
@@ -794,7 +801,7 @@ global record ObjectSourceDescriptionType
     Paths: {string}
     isStatic: boolean
 
-    new: function(...: any): ObjectSourceDescriptionType
+    new: newFunction<ObjectSourceDescriptionType>
     ctor: function
     dtor: function
 end
@@ -802,7 +809,7 @@ end
 global record ObjectSourceProxyFactoryType
     factories: {PriorityFactoryPairType}
 
-    new: function(...: any): ObjectSourceProxyFactoryType
+    new: newFunction<ObjectSourceProxyFactoryType>
     ctor: function
     dtor: function
 
@@ -816,7 +823,7 @@ global record PropertyNodeProxyType
     source: LuaObject
     propertyInfo: string
     
-    new: function(...: any): PropertyNodeProxyType
+    new: newFunction<PropertyNodeProxyType>
     ctor: function
     dtor: function
 
@@ -827,7 +834,7 @@ global record PropertyNodeProxyType
 end
 
 global record UniversalNodeProxyFactoryType
-    new: function(...: any): UniversalNodeProxyFactoryType
+    new: newFunction<UniversalNodeProxyFactoryType>
     ctor: function
     dtor: function
     
@@ -869,7 +876,7 @@ end
 global record TargetProxyFactoryType
     factories: PriorityFactoryPairList
 
-    new: function(...: any): TargetProxyFactoryType
+    new: newFunction<TargetProxyFactoryType>
     ctor: function
     dtor: function
 
@@ -941,7 +948,7 @@ global record UnityEventProxyType
     invoker: ProxyInvokerType
     command: SimpleCommandType
 
-    new: function(...: any): UnityEventProxyType
+    new: newFunction<UnityEventProxyType>
     ctor: function
     dtor: function
 
@@ -961,7 +968,7 @@ global record UnityPropertyProxyType
     target: LuaObject
     unityEvent: string
 
-    new: function(...: any): UnityPropertyProxyType
+    new: newFunction<UnityPropertyProxyType>
     ctor: function
     dtor: function
 
@@ -972,7 +979,7 @@ global record UnityPropertyProxyType
 end
 
 global record UnityTargetProxyFactoryType
-    new: function(...: any): UnityTargetProxyFactoryType
+    new: newFunction<UnityTargetProxyFactoryType>
     ctor: function
     dtor: function
 
@@ -1006,7 +1013,7 @@ global record MethodTargetProxyType
     target: LuaObject
     invoker: ProxyInvokerType
     
-    new: function(...: any): MethodTargetProxyType
+    new: newFunction<MethodTargetProxyType>
     ctor: function
     dtor: function
     GetValue: function(MethodTargetProxyType): any
@@ -1021,7 +1028,7 @@ global record PropertyTargetProxyType
     target: LuaObject
     propertyInfo: string
     
-    new: function(...: any): PropertyTargetProxyType
+    new: newFunction<PropertyTargetProxyType>
     ctor: function
     dtor: function
 
@@ -1034,7 +1041,7 @@ global record PropertyTargetProxyType
 end
 
 global record UniversalTargetProxyFactoryType
-    new: function(...: any): UniversalTargetProxyFactoryType
+    new: newFunction<UniversalTargetProxyFactoryType>
     ctor: function
     dtor: function
 
@@ -1050,7 +1057,7 @@ global record ProxyInvokerType
     target: LuaObject
     proxyMethodInfo: string
 
-    new: function(...: any): ProxyInvokerType
+    new: newFunction<ProxyInvokerType>
     ctor: function
     dtor: function
     Invoke: function(ProxyInvokerType, ...: any): any...
@@ -1097,7 +1104,7 @@ global record SimpleCommandType
 
     execute: function
 
-    new: function(...: any): SimpleCommandType
+    new: newFunction<SimpleCommandType>
     ctor: function
     dtor: function
     RaiseExecuteChanged: function(SimpleCommandType)
@@ -1120,7 +1127,7 @@ global record InteractionEventArgsType
     callback: function
     Callback: function
 
-    new: function(...: any): InteractionEventArgsType
+    new: newFunction<InteractionEventArgsType>
     ctor: function
     dtor: function
 end
@@ -1141,7 +1148,7 @@ global record InteractionRequestType
 
     sender: LuaObject
 
-    new: function(...: any): InteractionRequestType
+    new: newFunction<InteractionRequestType>
     ctor: function
     dtor: function
 
@@ -1149,7 +1156,7 @@ global record InteractionRequestType
 end
 
 global record MessengerType
-    new: function(...: any): MessengerType
+    new: newFunction<MessengerType>
 end
 
 global record ObservableObjectType
@@ -1188,7 +1195,7 @@ global record LayerType
     maxOrder: number
     minOrder: number
 
-    new: function(...: any): LayerType
+    new: newFunction<LayerType>
     ctor: function
     dtor: function
 
@@ -1212,7 +1219,7 @@ global record TransitionExecutorType
     running: boolean
     transitions: {TransitionType}
 
-    new: function(...: any): TransitionExecutorType
+    new: newFunction<TransitionExecutorType>
     ctor: function
     dtor: function
 
@@ -1283,7 +1290,7 @@ end
 
 global record ViewModelBaseType
     record get
-        parent: CS.UnityEngine.Transform
+        parent: TransformExtType
         Parent: function
     
         localRotation: CS.UnityEngine.Quaternion
@@ -1317,7 +1324,7 @@ global record ViewModelBaseType
     end
     
     record set
-        parent: CS.UnityEngine.Transform
+        parent: TransformExtType
         Parent: function
     
         localRotation: CS.UnityEngine.Quaternion
@@ -1350,8 +1357,8 @@ global record ViewModelBaseType
         Set: function
     end
 
-    parent: CS.UnityEngine.Transform
-    Parent: CS.UnityEngine.Transform
+    parent: TransformExtType
+    Parent: TransformExtType
 
     localRotation: CS.UnityEngine.Quaternion
     localPosition: CS.UnityEngine.Vector3
@@ -1432,7 +1439,7 @@ global record WindowStateEventArgsType
     oldState: number
     OldState: number
     
-    new: function(...: any): WindowStateEventArgsType
+    new: newFunction<WindowStateEventArgsType>
     ctor: function
     dtor: function
 end
@@ -1483,7 +1490,7 @@ global record WindowViewBaseType
     
         Name: function
     
-        parent: CS.UnityEngine.Transform
+        parent: TransformExtType
         Parent: function
     
         gameObject: GameObjectExtType
@@ -1589,11 +1596,11 @@ global record WindowViewBaseType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType
 
-    parent: CS.UnityEngine.Transform
+    parent: TransformExtType
     variables: MonoVariableArrayExtType
     components: {ComponentExtType}
 
-    new: function(...: any): WindowViewBaseType
+    new: newFunction<WindowViewBaseType>
     ctor: function
     delete: function
     dtor: function
@@ -1633,6 +1640,18 @@ global record UIAnimationType
 end
 
 global record ButtonExtType
+    record get
+        onClick: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        onClick: function
+
+        handler: CS.UnityEngine.Component
+    end
+
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
@@ -1668,23 +1687,33 @@ global record ComponentExtType
 
     CSObject: CS.UnityEngine.Component
 
-    new: function(...: any): ComponentExtType
+    new: newFunction<ComponentExtType>
     ctor: function
     delete: function
     dtor: function
 end
 
 global record GameObjectExtType
+    record get
+        activeSelf: function
+
+        handler: CS.UnityEngine.Component
+    end
+
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
+    
     ActiveSelf: string
+    
+    activeSelf: boolean
     name: string
 
-    new: function(...: any): GameObjectExtType
+    new: newFunction<GameObjectExtType>
     ctor: function
     dtor: function
 
+    SetActive: function(GameObjectExtType, boolean)
     GetComponent: function(GameObjectExtType, any): CS.UnityEngine.Component
     AddComponent: function(GameObjectExtType, any): CS.UnityEngine.Component
 end
@@ -1710,21 +1739,51 @@ global record MonoVariableArrayExtType
 end
 
 global record RectTransformExtType
+    record get
+        offsetMax: function
+        offsetMin: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        offsetMax: function
+        offsetMin: function
+
+        handler: CS.UnityEngine.Component
+    end
+
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
     OffsetMax: string
     OffsetMin: string
 
-    new: function(...: any): RectTransformExtType
+    offsetMax: CS.UnityEngine.Vector2
+    offsetMin: CS.UnityEngine.Vector2
+
+    new: newFunction<RectTransformExtType>
     ctor: function
     dtor: function
 end
 
 global record TextExtType
+    record get
+        text: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        text: function
+
+        handler: CS.UnityEngine.Component
+    end
+    
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
+
     Text: string
 
     ctor: function
@@ -1732,6 +1791,25 @@ global record TextExtType
 end
 
 global record TransformExtType
+    record get
+        localRotation: function
+        localPosition: function
+        localScale: function
+        parent: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        localRotation: function
+        localPosition: function
+        localScale: function
+        parent: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
@@ -1740,8 +1818,12 @@ global record TransformExtType
     LocalScale: string
     Parent: string
 
+    parent: TransformExtType
+
     ctor: function
     dtor: function
+
+    SetParent: function(TransformExtType, TransformExtType)
 end
 
 global record AsyncResultExtType
@@ -1756,7 +1838,7 @@ global record AsyncResultExtType
 
     csharp: CS.CSObject.Asynchronous.AsyncResult
 
-    new: function(...: any): AsyncResultExtType
+    new: newFunction<AsyncResultExtType>
     ctor: function
     dtor: function
 
@@ -1784,7 +1866,7 @@ global record WindowManagerType
         dismiss: boolean
         manager: WindowManagerType
         
-        new: function(...: any): TransitionHideType
+        new: newFunction<TransitionHideType>
         ctor: function
         dtor: function
     
@@ -1802,7 +1884,7 @@ global record WindowManagerType
         dismiss: boolean
         manager: WindowManagerType
         
-        new: function(...: any): TransitionShowType
+        new: newFunction<TransitionShowType>
         ctor: function
         dtor: function
     
@@ -1822,7 +1904,7 @@ global record WindowManagerType
 
     __singleton: function(WindowManagerType): WindowManagerType
 
-    new: function(...: any): WindowManagerType
+    new: newFunction<WindowManagerType>
     ctor: function
     dtor: function
 
@@ -1861,7 +1943,7 @@ global record ExecutorsExtType
 
     __singleton: function(ExecutorsExtType): ExecutorsExtType
     
-    new: function(...: any): ExecutorsExtType
+    new: newFunction<ExecutorsExtType>
     ctor: function
     dtor: function
     WaitWhile: function(ExecutorsExtType, function): CS.System.Object
@@ -1882,7 +1964,7 @@ global record UnityProxyRegisterType
 
     __singleton: function(UnityProxyRegisterType): UnityProxyRegisterType
 
-    new: function(...: any): UnityProxyRegisterType
+    new: newFunction<UnityProxyRegisterType>
     ctor: function
     dtor: function
 
@@ -1919,7 +2001,7 @@ global record TestVType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType
 
-    new: function(...: any): TestVType
+    new: newFunction<TestVType>
     ctor: function
     dtor: function
 
@@ -1995,7 +2077,7 @@ global record TestVMType
     testCommand: SimpleCommandType
     TestCommand: SimpleCommandType
 
-    new: function(...: any): TestVMType
+    new: newFunction<TestVMType>
     ctor: function
     dtor: function
     
@@ -2004,18 +2086,83 @@ end
 
 global record TestSubVType
     ctor: function
-    new: function(...: any): TestSubVType
+    new: newFunction<TestSubVType>
 
     Create: function(TestVType)
 end
 
-global record BindTextType
-    Text: string
+global record BindGameObjectType
+    record get
+        activeSelf: boolean
+        ActiveSelf: function    
+    end 
+    
+    record set
+        activeSelf: boolean
+        ActiveSelf: function    
+    end 
+
+    activeSelf: boolean
     ActiveSelf: boolean
+
+    new: newFunction<BindGameObjectType>
+    ctor: function
+    dtor: function
+end
+
+global record BindTextType
+    record get
+        text: string    
+        Text: function    
+    
+        gameObject: BindGameObjectType
+        GameObject: function
+    end 
+    
+    record set
+        text: string    
+        Text: function    
+    
+        gameObject: BindGameObjectType
+        GameObject: function
+    end 
+
+    text: string
+    Text: string
+
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
+    new: newFunction<BindTextType>
+    ctor: function
+    dtor: function
 end
 
 global record BindButtonType
+    record get
+        onClick: function    
+        OnClick: function    
+    
+        gameObject: BindGameObjectType
+        GameObject: function
+    end 
+    
+    record set
+        onClick: function    
+        OnClick: function       
+    
+        gameObject: BindGameObjectType
+        GameObject: function
+    end 
+
+    onClick: function    
     OnClick: function
-    ActiveSelf: boolean
+
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
+    new: newFunction<BindButtonType>
+    ctor: function
+    dtor: function
 end
 

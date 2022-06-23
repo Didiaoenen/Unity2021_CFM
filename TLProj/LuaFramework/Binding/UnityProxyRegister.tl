@@ -9,12 +9,12 @@ end
 
 function UnityProxyRegister:Initialize()
     self.registerProxies["activeSelf"] = {
-        getter = function (target: CS.UnityEngine.GameObject): boolean return target.activeSelf end,
-        setter = function (target: CS.UnityEngine.GameObject, value: boolean) target:SetActive(value) end,
+        getter = function (target: GameObjectExtType): boolean return target.activeSelf end,
+        setter = function (target: GameObjectExtType, value: boolean) target:SetActive(value) end,
     }
     self.registerProxies["parent"] = {
-        getter = function (target: CS.UnityEngine.Transform): CS.UnityEngine.Transform return target.parent end,
-        setter = function (target: CS.UnityEngine.Transform, value: CS.UnityEngine.Transform) target:SetParent(value) end,
+        getter = function (target: TransformExtType): TransformExtType return target.parent end,
+        setter = function (target: TransformExtType, value: TransformExtType) target:SetParent(value) end,
     }
 end
 
