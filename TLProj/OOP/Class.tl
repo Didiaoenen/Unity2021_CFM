@@ -55,6 +55,8 @@ global record CS
 
         -- Component
         record Component
+            gameObject: UnityEngine.GameObject
+
             GetComponent: function(Component, CS.System.Type): Component
             AddComponent: function(Component, CS.System.Type): Component
         end
@@ -125,6 +127,7 @@ global record CS
             -- Text
             record Text
                 text: string
+                gameObject: UnityEngine.GameObject
             end
 
             -- Button
@@ -755,8 +758,64 @@ global record TypedSourceProxyFactoryType
     TryCreateProxy: function(TypedSourceProxyFactoryType, LuaObject, SourceDescriptionType, OutProxyType): boolean
 end
 
+global record ChainedObjectSourceProxyType
+
+    record ProxyEntryType
+        record get
+            proxy: BindingProxyBaseType
+            Proxy: function
+
+            handler: EventHandlerType 
+            Handler: function
+        
+            token: PathTokenType
+            Token: function
+        end
+
+        record set
+            proxy: BindingProxyBaseType
+            Proxy: function
+
+            handler: EventHandlerType 
+            Handler: function
+        
+            token: PathTokenType
+            Token: function
+        end
+
+        proxy: BindingProxyBaseType
+        Proxy: BindingProxyBaseType
+        
+        handler: EventHandlerType
+        Handler: EventHandlerType
+
+        token: PathTokenType
+        Token: PathTokenType
+
+        new: newFunction<ProxyEntryType>
+        ctor: function
+        dtor: function
+    end
+
+    factory: INodeProxyFactoryType
+    proxies: {ProxyEntryType}
+
+    new: newFunction<ChainedObjectSourceProxyType>
+    ctor: function
+    dtor: function
+
+    Bind: function(ChainedObjectSourceProxyType, LuaObject, PathTokenType)
+    Rebind: function(ChainedObjectSourceProxyType, number)
+    Unbind: function(ChainedObjectSourceProxyType)
+    GetObtainable: function(ChainedObjectSourceProxyType): IObtainableType
+    GetModifiable: function(ChainedObjectSourceProxyType): IModifiableType
+    GetValue: function(ChainedObjectSourceProxyType): any
+    SetValue: function(ChainedObjectSourceProxyType, any)
+    RaiseValueChanged: function(ChainedObjectSourceProxyType)
+end
+
 global record INodeProxyFactoryType
-    Create: function(INodeProxyFactoryType, LuaObject, {string}): SourceProxyBaseType
+    Create: function(INodeProxyFactoryType, LuaObject, PathTokenType): SourceProxyBaseType
 end
 
 global record InteractionNodeProxyType
@@ -813,7 +872,7 @@ global record ObjectSourceProxyFactoryType
     ctor: function
     dtor: function
 
-    Create: function(ObjectSourceProxyFactoryType, LuaObject, {string}): SourceProxyBaseType
+    Create: function(ObjectSourceProxyFactoryType, LuaObject, PathTokenType): SourceProxyBaseType
     TryCreateProxy: function(ObjectSourceProxyFactoryType, LuaObject, SourceDescriptionType, OutProxyType): boolean
     Register: function(ObjectSourceProxyFactoryType, INodeProxyFactoryType, number)
     Unregister: function(ObjectSourceProxyFactoryType, INodeProxyFactoryType)
@@ -838,7 +897,7 @@ global record UniversalNodeProxyFactoryType
     ctor: function
     dtor: function
     
-    Create: function(UniversalNodeProxyFactoryType, LuaObject, {string}): SourceProxyBaseType
+    Create: function(UniversalNodeProxyFactoryType, LuaObject, PathTokenType): SourceProxyBaseType
     CreateProxy: function(UniversalNodeProxyFactoryType, LuaObject, string): SourceProxyBaseType
 end
 
@@ -1771,6 +1830,9 @@ global record TextExtType
     record get
         text: function
 
+        gameObject: GameObjectExtType
+        GameObject: function
+
         handler: CS.UnityEngine.Component
     end
 
@@ -1780,11 +1842,14 @@ global record TextExtType
         handler: CS.UnityEngine.Component
     end
     
+    Text: string
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
+
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
-
-    Text: string
 
     ctor: function
     dtor: function
@@ -1976,6 +2041,32 @@ global record PathParseType
     Parse: function(string): {string}
 end
 
+global record PathTokenType
+    record get
+        paths: {string}
+        Paths: function
+
+        index: integer
+        Index: function
+
+        Current: function
+    end
+    
+    paths: {string}
+    index: integer
+    Index: integer
+
+    nextToken: PathTokenType
+    Current: string
+
+    new: newFunction<PathTokenType>
+    ctor: function
+    dtor: function
+
+    HasNext: function(PathTokenType): boolean
+    NextToken: function(PathTokenType): PathTokenType
+end
+
 global record StringExtensionType
     Split: function(string, string): {string}
     IsNilOrEmpty: function(string): boolean
@@ -2080,6 +2171,8 @@ global record TestVMType
     new: newFunction<TestVMType>
     ctor: function
     dtor: function
+
+    bindText: BindTextType
     
     OnClick: function(TestVMType)
 end
@@ -2100,6 +2193,8 @@ global record BindGameObjectType
     record set
         activeSelf: boolean
         ActiveSelf: function    
+
+        Set: function(set, SetType, any, string, boolean)
     end 
 
     activeSelf: boolean
@@ -2123,8 +2218,7 @@ global record BindTextType
         text: string    
         Text: function    
     
-        gameObject: BindGameObjectType
-        GameObject: function
+        Set: function(set, SetType, any, string, boolean)
     end 
 
     text: string

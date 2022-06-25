@@ -8,7 +8,7 @@ CanvasGroupExt.CSObject = CS.UnityEngine.CanvasGroup as CS.UnityEngine.Component
 
 CanvasGroupExt.Alpha = "alpha"
 
-function CanvasGroupExt:ctor(handler)
+function CanvasGroupExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

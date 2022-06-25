@@ -26,7 +26,7 @@ function RectTransformExt.set:offsetMin(value: CS.UnityEngine.Vector2)
     (self.handler as CS.UnityEngine.RectTransform).offsetMin = value
 end
 
-function RectTransformExt:ctor(handler)
+function RectTransformExt:ctor(handler: CS.UnityEngine.Component)
     TransformExt.ctor(self, handler)
 end
 

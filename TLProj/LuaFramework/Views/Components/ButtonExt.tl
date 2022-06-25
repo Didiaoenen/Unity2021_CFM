@@ -16,7 +16,7 @@ function ButtonExt.set:onClick(value: function)
     (self.handler as CS.UnityEngine.UI.Button).onClick = value
 end
 
-function ButtonExt:ctor(handler)
+function ButtonExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

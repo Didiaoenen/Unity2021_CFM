@@ -1,7 +1,9 @@
 require("OOP.Class")
 
+local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
 local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
+local PathToken = require("LuaFramework.Binding.Paths.PathToken")
 
 local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory, INodeProxyFactory) as ObjectSourceProxyFactoryType
 
@@ -14,23 +16,26 @@ function ObjectSourceProxyFactory:TryCreateProxy(source: LuaObject, description:
     local paths = (description as ObjectSourceDescriptionType).Paths
     assert(#(paths) > 0)
 
+    local token = PathToken.new(paths, 1)
+
     if #paths == 1 then
-        proxy.ref = self:Create(source, paths) as LuaObject
+        proxy.ref = self:Create(source, token) as LuaObject
         if proxy.ref then
             return true
         end
         return false
     end
 
+    proxy.ref = ChainedObjectSourceProxy.new(source, token, self) as LuaObject
     return true
 end
 
-function ObjectSourceProxyFactory:Create(source: LuaObject, path: {string}): SourceProxyBaseType
+function ObjectSourceProxyFactory:Create(source: LuaObject, token: PathTokenType): SourceProxyBaseType
     local proxy: OutProxyType = {}
     for _, v in ipairs(self.factories) do
         local factory = v.factory
         if factory then
-            proxy.ref = (factory as INodeProxyFactoryType):Create(source, path) as LuaObject
+            proxy.ref = (factory as INodeProxyFactoryType):Create(source, token) as LuaObject
             if proxy.ref then
                 return proxy.ref as SourceProxyBaseType
             end

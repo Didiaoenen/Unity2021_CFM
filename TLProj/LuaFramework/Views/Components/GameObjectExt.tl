@@ -12,7 +12,7 @@ function GameObjectExt.get:activeSelf(): boolean
     return (self.handler as CS.UnityEngine.GameObject).activeSelf
 end
 
-function GameObjectExt:ctor(handler)
+function GameObjectExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

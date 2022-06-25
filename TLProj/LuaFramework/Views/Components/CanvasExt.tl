@@ -10,7 +10,7 @@ CanvasExt.OverrideSorting = "overrideSorting"
 
 CanvasExt.SortingOrder = "sortingOrder"
 
-function CanvasExt:ctor(handler)
+function CanvasExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

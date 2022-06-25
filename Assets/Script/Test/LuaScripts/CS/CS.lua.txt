@@ -202,6 +202,9 @@ local function getset__newindex(table, key, value)
 		return
     elseif type(old__newindex) == "table" then
 		old__newindex[key] = value
+		old__newindex[key .. "ToString"] = function()
+			return key
+		end
 		return
     end
 	

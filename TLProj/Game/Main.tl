@@ -8,7 +8,7 @@ local TestV = require("Game.UI.Test.TestV")
 
 function Main(): number
     TestV.new():Create()
-    TestV.new():Create()
+    -- TestV.new():Create()
 
     return 1
 end

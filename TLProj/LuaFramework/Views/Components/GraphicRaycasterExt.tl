@@ -6,7 +6,7 @@ local GraphicRaycasterExt = class("GraphicRaycasterExt", ComponentExt) as Graphi
 
 GraphicRaycasterExt.CSObject = CS.UnityEngine.UI.GraphicRaycaster as CS.UnityEngine.Component
 
-function GraphicRaycasterExt:ctor(handler)
+function GraphicRaycasterExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

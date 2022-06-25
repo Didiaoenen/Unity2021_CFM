@@ -12,9 +12,9 @@ function ObjectSourceDescription.set:Paths(value: {string})
     self.paths = value
 end
 
-function ObjectSourceDescription:ctor(path: {string})
+function ObjectSourceDescription:ctor(paths: {string})
     SourceDescription.ctor(self)
-    self.paths = path
+    self.paths = paths
     self.isStatic = false
 end
 

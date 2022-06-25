@@ -1,26 +1,25 @@
 require("OOP.Class")
 
-local BindGameObject = require("Game.UI.Test.BindGameObject")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 
-local BindText = class("BindText") as BindTextType
+local ObservableObject = require("LuaFramework.Observables.ObservableObject")
+
+local BindText = class("BindText", ObservableObject) as BindTextType
 
 function BindText.get:Text(): string
     return self.text
 end
 
 function BindText.set:Text(value: string)
-    self.text = value
+    self:Set({name = "text"}, value, "Text")
 end
 
 function BindText.get:GameObject(): BindGameObjectType
     return self.gameObject
 end
 
-function BindText.set:GameObject(value: BindGameObjectType)
-    self.gameObject = value
-end
-
 function BindText:ctor()
+    ObservableObject.ctor(self)
     self.text = ""
     self.gameObject = BindGameObject.new()
 end

@@ -46,7 +46,7 @@ function TransformExt.get:parent(): CS.UnityEngine.Transform
     return (self.handler as CS.UnityEngine.Transform).parent
 end
 
-function TransformExt:ctor(handler)
+function TransformExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

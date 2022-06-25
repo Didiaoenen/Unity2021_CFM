@@ -6,7 +6,7 @@ local MonoVariableArrayExt = class("MonoVariableArrayExt", ComponentExt) as Mono
 
 MonoVariableArrayExt.CSObject = CS.CSObject.Simple.MonoVariableArray as CS.UnityEngine.Component
 
-function MonoVariableArrayExt:ctor(handler)
+function MonoVariableArrayExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 

@@ -4,15 +4,17 @@ local ViewModelBase = require("LuaFramework.Views.ViewModelBase")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")
 
+local BindText = require("LuaFramework.Views.BindComponents.BindText")
+
 local TestVM = class("TestVM", ViewModelBase) as TestVMType
 
-function TestVM.get:Test(): string
-    return self.test
-end
+-- function TestVM.get:Test(): string
+--     return self.test
+-- end
 
-function TestVM.set:Test(value)
-    self:Set({name = "test"}, value, "Test")
-end
+-- function TestVM.set:Test(value)
+--     self:Set({name = "test"}, value, "Test")
+-- end
 
 function TestVM.get:TestColor(): CS.UnityEngine.Color
     return self.testColor
@@ -56,6 +58,8 @@ end
 
 function TestVM:ctor()
     ViewModelBase.ctor(self)
+
+    self.bindText = BindText.new()
 
     --
     self.test = ""

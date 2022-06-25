@@ -1,6 +1,6 @@
 require("OOP.Class")
 
-local BindGameObject = require("Game.UI.Test.BindGameObject")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 
 local BindButton = class("BindButton") as BindButtonType
 

@@ -11,8 +11,8 @@ function UniversalNodeProxyFactory:ctor()
 
 end
 
-function UniversalNodeProxyFactory:Create(source: LuaObject, path: {string}): SourceProxyBaseType
-    local node = path[1]
+function UniversalNodeProxyFactory:Create(source: LuaObject, token: PathTokenType): SourceProxyBaseType
+    local node = token.Current
     if nil == source then
         return
     end

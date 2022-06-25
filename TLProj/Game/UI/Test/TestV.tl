@@ -60,7 +60,10 @@ function TestV:OnCreate()
     local button = self:GetComponentWithName(ButtonExt, "button") as ButtonExtType
 
     local builder = (self.bindingSet as BindingSetType):BindByTarget(text as LuaObject) as BindingBuilderType
-    builder:For(text.Text):To("Test"):OneWay()
+    builder:For(text.Text):To("bindText.Text"):OneWay()
+
+    builder = (self.bindingSet as BindingSetType):BindByTarget(text.gameObject as LuaObject) as BindingBuilderType
+    builder:For(text.GameObject.ActiveSelf):To("bindText.GameObject.ActiveSelf"):OneWay()
     
     builder = (self.bindingSet as BindingSetType):BindByTarget(button as LuaObject) as BindingBuilderType
     builder:For(button.OnClick):To("TestCommand"):OneWay()
@@ -72,8 +75,8 @@ end
 function TestV:OnShow()
     WindowBase.OnShow(self)
 
-    self.viewModel.Test = "hahaha"
-    -- self.viewModel.ActiveSelf = false
+    self.viewModel.bindText.Text = "hahaha"
+    self.viewModel.bindText.GameObject.ActiveSelf = true
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")
