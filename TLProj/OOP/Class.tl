@@ -139,7 +139,7 @@ global record CS
 
             -- InputField
             record InputField
-
+                text: string
             end
 
             -- GraphicRaycaster
@@ -1800,6 +1800,36 @@ global record GraphicRaycasterExtType
     dtor: function
 end
 
+global record InputFieldExtType
+    record get
+        text: function
+
+        gameObject: GameObjectExtType
+        GameObject: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        text: function
+
+        handler: CS.UnityEngine.Component
+    end
+    
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
+
+    Text: string
+    OnValueChanged: string
+
+    handler: CS.UnityEngine.Component
+
+    CSObject: CS.UnityEngine.Component
+
+    ctor: function
+    dtor: function
+end
+
 global record MonoVariableArrayExtType
     handler: CS.UnityEngine.Component
 
@@ -2184,6 +2214,7 @@ global record TestVMType
 
     text: BindTextType
     button: BindButtonType
+    inputField: BindInputFieldType
 
     new: newFunction<TestVMType>
     ctor: function
@@ -2430,4 +2461,27 @@ global record BindComponentType
     dtor: function
 
     BindWithName: function(BindComponentType, WindowViewBaseType, ComponentExtType, string, number)
+end
+
+global record BindInputFieldType
+    record get
+        text: string
+        Text: function
+    end 
+
+    record set
+        text: string
+        Text: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end 
+
+    text: string
+    Text: string
+
+    new: newFunction<BindInputFieldType>
+    ctor: function
+    dtor: function
+
+    BindWithName: function(BindInputFieldType, WindowViewBaseType, ComponentExtType, string, number)
 end

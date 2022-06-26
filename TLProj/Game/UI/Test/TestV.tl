@@ -7,6 +7,7 @@ local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
 local TextExt = require("LuaFramework.Views.Components.TextExt")
 local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
+local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
 
 local TestV = class("TestV", WindowBase) as TestVType
 
@@ -73,6 +74,7 @@ function TestV:OnCreate()
 
     self.viewModel.text:BindWithName(self, TextExt, "text", BindingMode.OneWay)
     self.viewModel.button:BindWithName(self, ButtonExt, "button", BindingMode.OneWay)
+    -- self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", BindingMode.OneWay)
 
     --
     self.bindingSet:Build()
