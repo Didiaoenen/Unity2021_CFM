@@ -49,19 +49,23 @@ function TestVM.set:TestRequest(value: InteractionRequestType)
     self.testRequest = value
 end
 
-function TestVM.get:TestCommand(): SimpleCommandType
-    return self.testCommand
-end
+-- function TestVM.get:TestCommand(): SimpleCommandType
+--     return self.testCommand
+-- end
 
-function TestVM.set:TestCommand(value: SimpleCommandType)
-    self.testCommand = value
-end
+-- function TestVM.set:TestCommand(value: SimpleCommandType)
+--     self.testCommand = value
+-- end
 
 function TestVM:ctor()
     ViewModelBase.ctor(self)
 
     self.text = BindText.new()
     self.button = BindButton.new()
+    self.button.OnClick = self.OnClick
+    self.button.SimpleCommand = SimpleCommand.new(function ()
+        print("SimpleCommand")
+    end)
 
     --
     self.test = ""

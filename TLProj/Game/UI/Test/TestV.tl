@@ -71,8 +71,8 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:Bind(self, TextExt, "text", BindingMode.OneWay)
-    self.viewModel.button:Bind(self, ButtonExt, "button", BindingMode.OneWay)
+    self.viewModel.text:BindWithName(self, TextExt, "text", BindingMode.OneWay)
+    self.viewModel.button:BindWithName(self, ButtonExt, "button", BindingMode.OneWay)
 
     --
     self.bindingSet:Build()

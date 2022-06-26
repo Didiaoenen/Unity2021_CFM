@@ -1436,6 +1436,11 @@ global record ViewModelBaseType
 
     messenger: MessengerType
 
+    bindCanvas: BindCanvasType
+    bindGameObject: BindGameObjectType
+    bindCanvasGroup: BindCanvasGroupType
+    bindRectTransform: BindRectTransformType
+
     ctor: function
     dtor: function
 
@@ -2241,13 +2246,16 @@ global record BindTextType
     ctor: function
     dtor: function
 
-    Bind: function(BindTextType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(BindTextType, WindowViewBaseType, ComponentExtType, string, number)
 end
 
 global record BindButtonType
     record get
         onClick: function    
         OnClick: function    
+
+        simpleCommand: SimpleCommandType    
+        SimpleCommand: function    
     
         gameObject: BindGameObjectType
         GameObject: function
@@ -2255,7 +2263,10 @@ global record BindButtonType
     
     record set
         onClick: function    
-        OnClick: function       
+        OnClick: function   
+
+        simpleCommand: SimpleCommandType    
+        SimpleCommand: function       
     end 
 
     onClick: function    
@@ -2264,11 +2275,159 @@ global record BindButtonType
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
 
+    simpleCommand: SimpleCommandType    
+    SimpleCommand: SimpleCommandType
+
     new: newFunction<BindButtonType>
     ctor: function
     dtor: function
 
-    OnClickEvent: function
-    Bind: function(BindButtonType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(BindButtonType, WindowViewBaseType, ComponentExtType, string, number)
 end
 
+global record BindCanvasType
+    record get
+        overrideSorting: boolean
+        OverrideSorting: function
+
+        sortingOrder: number
+        SortingOrder: function
+    end 
+    
+    record set
+        overrideSorting: boolean
+        OverrideSorting: function
+
+        sortingOrder: number
+        SortingOrder: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end 
+    
+    overrideSorting: boolean
+    OverrideSorting: boolean
+
+    sortingOrder: number
+    SortingOrder: number
+
+    new: newFunction<BindCanvasType>
+    ctor: function
+    dtor: function
+    
+    BindWithName: function(BindCanvasType, WindowViewBaseType, ComponentExtType, string, number)
+end
+
+global record BindCanvasGroupType
+    record get
+        alpha: number
+        Alpha: function
+    end 
+    
+    record set
+        alpha: number
+        Alpha: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end 
+    
+    alpha: number
+    Alpha: number
+
+    new: newFunction<BindCanvasGroupType>
+    ctor: function
+    dtor: function
+    
+    BindWithName: function(BindCanvasGroupType, WindowViewBaseType, ComponentExtType, string, number)
+end
+
+global record BindRectTransformType
+    record get
+        offsetMax: CS.UnityEngine.Vector2
+        OffsetMax: function
+    
+        offsetMin: CS.UnityEngine.Vector2
+        OffsetMin: function
+    end
+
+    record set
+        offsetMax: CS.UnityEngine.Vector2
+        OffsetMax: function
+    
+        offsetMin: CS.UnityEngine.Vector2
+        OffsetMin: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end
+
+    offsetMax: CS.UnityEngine.Vector2
+    OffsetMax: CS.UnityEngine.Vector2
+    
+    offsetMin: CS.UnityEngine.Vector2
+    OffsetMin: CS.UnityEngine.Vector2
+
+    new: newFunction<BindRectTransformType>
+    ctor: function
+    dtor: function
+    
+    BindWithName: function(BindRectTransformType, WindowViewBaseType, ComponentExtType, string, number)
+end
+
+global record BindTransformType
+    record get
+        parent: TransformExtType
+        Parent: function
+    
+        localRotation: CS.UnityEngine.Quaternion
+        LocalRotation: function
+    
+        localPosition: CS.UnityEngine.Vector3
+        LocalPosition: function
+    
+        localScale: CS.UnityEngine.Vector3
+        LocalScale: function
+    end 
+    
+    record set
+        parent: TransformExtType
+        Parent: function
+    
+        localRotation: CS.UnityEngine.Quaternion
+        LocalRotation: function
+    
+        localPosition: CS.UnityEngine.Vector3
+        LocalPosition: function
+    
+        localScale: CS.UnityEngine.Vector3
+        LocalScale: function
+
+        Set: function(set, SetType, any, string, boolean)
+    end 
+    
+    parent: TransformExtType
+    Parent: TransformExtType
+
+    localRotation: CS.UnityEngine.Quaternion
+    localPosition: CS.UnityEngine.Vector3
+    localScale: CS.UnityEngine.Vector3
+
+    new: newFunction<BindTransformType>
+    ctor: function
+    dtor: function
+
+    BindWithName: function(BindTransformType, WindowViewBaseType, ComponentExtType, string, number)
+end
+
+global record BindComponentType
+    record get
+        gameObject: BindGameObjectType
+        GameObject: function
+    end 
+
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
+    ctor: function
+    dtor: function
+
+    BindWithName: function(BindComponentType, WindowViewBaseType, ComponentExtType, string, number)
+end
