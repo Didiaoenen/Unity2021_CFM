@@ -5,6 +5,7 @@ local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")
 
 local BindText = require("LuaFramework.Views.BindComponents.BindText")
+local BindButton = require("LuaFramework.Views.BindComponents.BindButton")
 
 local TestVM = class("TestVM", ViewModelBase) as TestVMType
 
@@ -59,7 +60,8 @@ end
 function TestVM:ctor()
     ViewModelBase.ctor(self)
 
-    self.bindText = BindText.new()
+    self.text = BindText.new()
+    self.button = BindButton.new()
 
     --
     self.test = ""

@@ -289,41 +289,43 @@ function WindowViewBase:OnCreate()
 
     self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
+    local bindingSet = self.bindingSet as BindingSetType
+
     -- GameObject
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(self.gameObject as LuaObject) as BindingBuilderType
+    local builder = bindingSet:BindByTarget(self.gameObject as LuaObject)
     builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
 
     -- RectTransform
     self.transform = self:GetComponent(RectTransformExt) as TransformExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.Parent):To("Parent"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.LocalPosition):To("LocalPosition"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.LocalScale):To("LocalScale"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For((self.transform as RectTransformExtType).OffsetMax):To("OffsetMax"):OneWay()
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(self.transform as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For((self.transform as RectTransformExtType).OffsetMin):To("OffsetMin"):OneWay()
 
     -- Canvas
     local canvas = self:AddComponent(CanvasExt) as CanvasExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(canvas.handler as LuaObject)
     builder:For(canvas.OverrideSorting):To("OverrideSorting"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvas.handler as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(canvas.handler as LuaObject)
     builder:For(canvas.SortingOrder):To("SortingOrder"):OneWay()
 
     -- CanvasGroup
     local canvasGroup = self:AddComponent(CanvasGroupExt) as CanvasGroupExtType
-    builder = (self.bindingSet as BindingSetType):BindByTarget(canvasGroup.handler as LuaObject) as BindingBuilderType
+    builder = bindingSet:BindByTarget(canvasGroup.handler as LuaObject)
     builder:For(canvasGroup.Alpha):To("Alpha"):OneWay()
 
     -- GraphicRaycaster

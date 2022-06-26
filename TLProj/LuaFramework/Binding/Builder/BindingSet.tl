@@ -10,15 +10,15 @@ function BindingSet:ctor(context: BindingContextType, target: LuaObject)
     self.target = target
 end
 
-function BindingSet:Bind(): BindingBuilderBaseType
-    local builder = BindingBuilder.new(self.context, self.target) as BindingBuilderBaseType
-    table.insert(self.builders, builder)
+function BindingSet:Bind(): BindingBuilderType
+    local builder = BindingBuilder.new(self.context, self.target)
+    table.insert(self.builders, builder as BindingBuilderBaseType)
     return builder
 end
 
-function BindingSet:BindByTarget(target: LuaObject): BindingBuilderBaseType
-    local builder = BindingBuilder.new(self.context, target) as BindingBuilderBaseType
-    table.insert(self.builders, builder)
+function BindingSet:BindByTarget(target: LuaObject): BindingBuilderType
+    local builder = BindingBuilder.new(self.context, target)
+    table.insert(self.builders, builder as BindingBuilderBaseType)
     return builder
 end
 

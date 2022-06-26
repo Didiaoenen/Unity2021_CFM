@@ -13,6 +13,7 @@ function BindGameObject.set:ActiveSelf(value: boolean)
 end
 
 function BindGameObject:ctor()
+    ObservableObject.ctor(self)
     self.activeSelf = true
 end
 

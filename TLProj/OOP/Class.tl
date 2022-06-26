@@ -78,6 +78,8 @@ global record CS
         
             Find: function(string): GameObject
             SetActive: function(GameObject, boolean)
+            GetComponent: function(GameObject, CS.System.Type): Component
+            AddComponent: function(GameObject, CS.System.Type): Component
         end
 
         -- CanvasGroup
@@ -596,8 +598,8 @@ global record BindingSetBaseType
     builders: {BindingBuilderBaseType}
 
     ctor: function
-    dtor: function
 
+    dtor: function
     Build: function(BindingSetBaseType)
 end
 
@@ -610,9 +612,8 @@ global record BindingSetType
     ctor: function
     dtor: function
 
-    Bind: function(BindingSetType): BindingBuilderBaseType
-    BindByTarget: function(BindingSetType, LuaObject): BindingBuilderBaseType
-
+    Bind: function(BindingSetType): BindingBuilderType
+    BindByTarget: function(BindingSetType, LuaObject): BindingBuilderType
 end
 
 global record BindingContextType
@@ -1702,6 +1703,9 @@ global record ButtonExtType
     record get
         onClick: function
 
+        gameObject: GameObjectExtType
+        GameObject: function
+
         handler: CS.UnityEngine.Component
     end
 
@@ -1712,6 +1716,9 @@ global record ButtonExtType
     end
 
     handler: CS.UnityEngine.Component
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
 
     CSObject: CS.UnityEngine.Component
     OnClick: string
@@ -1746,6 +1753,8 @@ global record ComponentExtType
 
     CSObject: CS.UnityEngine.Component
 
+    gameObject: GameObjectExtType
+
     new: newFunction<ComponentExtType>
     ctor: function
     delete: function
@@ -1756,12 +1765,12 @@ global record GameObjectExtType
     record get
         activeSelf: function
 
-        handler: CS.UnityEngine.Component
+        handler: CS.UnityEngine.GameObject
     end
 
-    handler: CS.UnityEngine.Component
+    handler: CS.UnityEngine.GameObject
 
-    CSObject: CS.UnityEngine.Component
+    CSObject: CS.UnityEngine.GameObject
     
     ActiveSelf: string
     
@@ -2168,11 +2177,12 @@ global record TestVMType
     testCommand: SimpleCommandType
     TestCommand: SimpleCommandType
 
+    text: BindTextType
+    button: BindButtonType
+
     new: newFunction<TestVMType>
     ctor: function
     dtor: function
-
-    bindText: BindTextType
     
     OnClick: function(TestVMType)
 end
@@ -2230,6 +2240,8 @@ global record BindTextType
     new: newFunction<BindTextType>
     ctor: function
     dtor: function
+
+    Bind: function(BindTextType, WindowViewBaseType, ComponentExtType, string, number)
 end
 
 global record BindButtonType
@@ -2244,9 +2256,6 @@ global record BindButtonType
     record set
         onClick: function    
         OnClick: function       
-    
-        gameObject: BindGameObjectType
-        GameObject: function
     end 
 
     onClick: function    
@@ -2258,5 +2267,8 @@ global record BindButtonType
     new: newFunction<BindButtonType>
     ctor: function
     dtor: function
+
+    OnClickEvent: function
+    Bind: function(BindButtonType, WindowViewBaseType, ComponentExtType, string, number)
 end
 

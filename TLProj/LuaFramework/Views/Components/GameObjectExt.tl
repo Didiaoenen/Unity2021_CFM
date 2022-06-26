@@ -1,19 +1,17 @@
 require("OOP.Class")
 
-local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+local GameObjectExt = class("GameObjectExt") as GameObjectExtType
 
-local GameObjectExt = class("GameObjectExt", ComponentExt) as GameObjectExtType
-
-GameObjectExt.CSObject = CS.UnityEngine.GameObject as CS.UnityEngine.Component
+GameObjectExt.CSObject = CS.UnityEngine.GameObject
 
 GameObjectExt.ActiveSelf = "activeSelf"
 
 function GameObjectExt.get:activeSelf(): boolean
-    return (self.handler as CS.UnityEngine.GameObject).activeSelf
+    return self.handler.activeSelf
 end
 
-function GameObjectExt:ctor(handler: CS.UnityEngine.Component)
-    ComponentExt.ctor(self, handler)
+function GameObjectExt:ctor(handler: CS.UnityEngine.GameObject)
+    self.handler = handler
 end
 
 function GameObjectExt:GetComponent(cType: CS.System.Type): CS.UnityEngine.Component
@@ -25,7 +23,7 @@ function GameObjectExt:AddComponent(cType: CS.System.Type): CS.UnityEngine.Compo
 end
 
 function GameObjectExt:SetActive(value: boolean)
-    (self.handler as CS.UnityEngine.GameObject):SetActive(value)
+    self.handler:SetActive(value)
 end
 
 return GameObjectExt

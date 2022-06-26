@@ -2,6 +2,7 @@ require("OOP.Class")
 
 local TestVM = require("Game.UI.Test.TestVM")
 local WindowBase = require("LuaFramework.Views.WindowBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
 local TextExt = require("LuaFramework.Views.Components.TextExt")
@@ -56,17 +57,22 @@ function TestV:OnCreate()
     WindowBase.OnCreate(self)
     print("child OnCreate")
 
-    local text = self:GetComponentWithName(TextExt, "text") as TextExtType
-    local button = self:GetComponentWithName(ButtonExt, "button") as ButtonExtType
+    -- local text = self:GetComponentWithName(TextExt, "text") as TextExtType
+    -- local button = self:GetComponentWithName(ButtonExt, "button") as ButtonExtType
 
-    local builder = (self.bindingSet as BindingSetType):BindByTarget(text as LuaObject) as BindingBuilderType
-    builder:For(text.Text):To("bindText.Text"):OneWay()
+    -- local bindingSet = self.bindingSet as BindingSetType
 
-    builder = (self.bindingSet as BindingSetType):BindByTarget(text.gameObject as LuaObject) as BindingBuilderType
-    builder:For(text.GameObject.ActiveSelf):To("bindText.GameObject.ActiveSelf"):OneWay()
+    -- local builder = bindingSet:BindByTarget(text as LuaObject)
+    -- builder:For(text.Text):To("text.Text"):OneWay()
+
+    -- builder = bindingSet:BindByTarget(text.gameObject as LuaObject)
+    -- builder:For(text.GameObject.ActiveSelf):To("text.GameObject.ActiveSelf"):OneWay()
     
-    builder = (self.bindingSet as BindingSetType):BindByTarget(button as LuaObject) as BindingBuilderType
-    builder:For(button.OnClick):To("TestCommand"):OneWay()
+    -- builder = bindingSet:BindByTarget(button as LuaObject)
+    -- builder:For(button.OnClick):To("TestCommand"):OneWay()
+
+    self.viewModel.text:Bind(self, TextExt, "text", BindingMode.OneWay)
+    self.viewModel.button:Bind(self, ButtonExt, "button", BindingMode.OneWay)
 
     --
     self.bindingSet:Build()
@@ -75,8 +81,7 @@ end
 function TestV:OnShow()
     WindowBase.OnShow(self)
 
-    self.viewModel.bindText.Text = "hahaha"
-    self.viewModel.bindText.GameObject.ActiveSelf = true
+    self.viewModel.text.Text = "hahaha"
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")
