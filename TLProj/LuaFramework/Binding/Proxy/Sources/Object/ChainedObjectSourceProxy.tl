@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
 local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
@@ -29,6 +27,7 @@ function ChainedObjectSourceProxy:Bind(source: LuaObject, token: PathTokenType)
     if token:HasNext() then
         if (proxy as LuaObject).is(INotifiable) then
             entry.Handler = {this = self, callback = function(sender: LuaObject, ...: any)
+                assert({...}, "")
                 local proxyEntry = self.proxies[index]
                 if nil == proxyEntry or sender ~= proxyEntry.Proxy as LuaObject then
                     return
@@ -47,6 +46,7 @@ function ChainedObjectSourceProxy:Bind(source: LuaObject, token: PathTokenType)
     else
         if (proxy as LuaObject).is(IObtainable) then
             entry.Handler = {this = self, callback = function(sender: LuaObject, ...: any)
+                assert({sender, ...}, "")
                 self:RaiseValueChanged()
             end}
         end

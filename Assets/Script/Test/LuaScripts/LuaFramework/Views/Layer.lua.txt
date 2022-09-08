@@ -1,32 +1,36 @@
 local Layer = class("Layer")
 
 function Layer.get:WindowType()
-    return self.windowType
+   return self.windowType
+end
+
+function Layer.set:WindowType(value)
+   self.windowType = value
 end
 
 function Layer:ctor(data)
-    assert(data, "")
-    self.windowType = data.WindowType
-    self.orderInLayer = data.OrderInLayer
-    self.orderStep = data.OrderStep
+   assert(data, "")
+   self.windowType = data.WindowType
+   self.orderInLayer = data.OrderInLayer
+   self.orderStep = data.OrderStep
 
-    self.maxOrder = self.orderInLayer
-    self.minOrder = self.orderInLayer
+   self.maxOrder = self.orderInLayer
+   self.minOrder = self.orderInLayer
 end
 
 function Layer:PushWindowOrder()
-    local oldOrder = self.maxOrder
-	self.maxOrder = self.maxOrder + self.orderStep
-	return oldOrder
+   local oldOrder = self.maxOrder
+   self.maxOrder = self.maxOrder + self.orderStep
+   return oldOrder
 end
 
 function Layer:PopWindowOder()
-    assert(self.maxOrder > self.minOrder)
-	self.maxOrder = self.maxOrder - self.orderStep
+   assert(self.maxOrder > self.minOrder, "")
+   self.maxOrder = self.maxOrder - self.orderStep
 end
 
 function Layer:dtor()
-    
+
 end
 
 return Layer

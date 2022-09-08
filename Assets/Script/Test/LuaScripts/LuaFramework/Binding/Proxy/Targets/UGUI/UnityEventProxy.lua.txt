@@ -3,42 +3,49 @@ local UnityEventProxyBase = require("LuaFramework.Binding.Proxy.Targets.UGUI.Uni
 local UnityEventProxy = class("UnityEventProxy", UnityEventProxyBase)
 
 function UnityEventProxy:ctor(target, unityEvent)
-    UnityEventProxyBase.ctor(self, target, unityEvent)
-    self:BindEvent()
+   UnityEventProxyBase.ctor(self, target, unityEvent)
+   self:BindEvent()
 end
 
 function UnityEventProxy:BindEvent()
-    if self.target[self.unityEvent] then
-        self.target[self.unityEvent]:AddListener(bindevent(self, self.OnEvent))
-    end
+   local target = self.target
+   if nil == target then
+      return
+   end
+
+   local unityEvent = classget(target, self.unityEvent)
+   if unityEvent then
+      unityEvent:AddListener(bindevent(self, self.OnEvent))
+   end
 end
 
 function UnityEventProxy:UnbindEvent()
-    if self.target[self.unityEvent] then
-        self.target[self.unityEvent]:RemoveAllListeners()
-    end
-end
+   local target = self.target
+   if nil == target then
+      return
+   end
 
-function UnityEventProxy:IsValidHandler(handler)
-    
+   local unityEvent = classget(target, self.unityEvent)
+   if unityEvent then
+      unityEvent:RemoveAllListeners()
+   end
 end
 
 function UnityEventProxy:IsValidInvoker(invoker)
-    
+   assert({ invoker }, "")
 end
 
-function UnityEventProxy:OnEvent(parameter)
-    if self.invoker then
-        self.invoker:Invoke()
-    end
+function UnityEventProxy:OnEvent(...)
+   if self.invoker then
+      self.invoker:Invoke(...)
+   end
 
-    if self.command then
-        self.command:Execute()
-    end
+   if self.command then
+      self.command:Execute(...)
+   end
 end
 
 function UnityEventProxy:dtor()
-    
 end
 
 return UnityEventProxy

@@ -1,0 +1,11 @@
+local INotifyPropertyChanged = class("INotifyPropertyChanged")
+
+function INotifyPropertyChanged.set:PropertyChanged(value)
+   setcallback(self.propertyChanged, value)
+end
+
+function INotifyPropertyChanged:ctor()
+   self.propertyChanged = {}
+end
+
+return INotifyPropertyChanged

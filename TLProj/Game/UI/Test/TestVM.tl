@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ViewModelBase = require("LuaFramework.Views.ViewModelBase")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local InteractionRequest = require("LuaFramework.Interactivity.InteractionRequest")

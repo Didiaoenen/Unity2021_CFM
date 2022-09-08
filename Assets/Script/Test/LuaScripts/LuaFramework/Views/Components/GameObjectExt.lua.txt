@@ -1,0 +1,27 @@
+local GameObjectExt = class("GameObjectExt")
+
+GameObjectExt.CSObject = CS.UnityEngine.GameObject
+
+GameObjectExt.ActiveSelf = "activeSelf"
+
+function GameObjectExt.get:activeSelf()
+   return self.handler.activeSelf
+end
+
+function GameObjectExt:ctor(handler)
+   self.handler = handler
+end
+
+function GameObjectExt:GetComponent(cType)
+   return self.handler:GetComponent(cType)
+end
+
+function GameObjectExt:AddComponent(cType)
+   return self.handler:AddComponent(cType)
+end
+
+function GameObjectExt:SetActive(value)
+   self.handler:SetActive(value)
+end
+
+return GameObjectExt

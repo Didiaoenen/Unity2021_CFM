@@ -1,6 +1,4 @@
-require("OOP.Class")
-
-local util = require "xlua.util"
+local util = require("xlua.util")
 
 local CoroutineExt = class("CoroutineExt") as CoroutineExtType
 

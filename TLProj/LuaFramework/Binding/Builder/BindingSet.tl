@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingSetBase = require("LuaFramework.Binding.Builder.BindingSetBase")
 local BindingBuilder = require("LuaFramework.Binding.Builder.BindingBuilder")
 

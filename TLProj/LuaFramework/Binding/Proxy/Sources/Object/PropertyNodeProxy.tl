@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
 local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
@@ -24,6 +22,7 @@ function PropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
+    assert({sender}, "")
     local name = e.PropertyName
     if name and name ~= "" and name == self.propertyInfo then
         self:RaiseValueChanged()

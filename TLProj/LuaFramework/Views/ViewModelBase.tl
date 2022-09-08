@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
 
@@ -113,6 +111,7 @@ function ViewModelBase:SetWithBroadCast(field: SetType, newValue: any, propertyN
 end
 
 function ViewModelBase:Broadcast(oldValue: any, newVlaue: any, propertyName: string)
+    assert({oldValue, newVlaue, propertyName}, "")
 end
 
 function ViewModelBase:dtor()

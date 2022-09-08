@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local PathParse = require("LuaFramework.Binding.Paths.PathParse")
 local StringExtension = require("LuaFramework.Common.StringExtension")
@@ -34,6 +32,7 @@ function BindingBuilderBase:SetMemberPathWithPath(paths: {string})
 end
 
 function BindingBuilderBase:SetCommandParameter(...: any)
+    assert({...}, "")
 end
 
 function BindingBuilderBase:CheckBindingDescription()

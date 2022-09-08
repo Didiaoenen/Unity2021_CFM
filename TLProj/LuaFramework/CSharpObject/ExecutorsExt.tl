@@ -1,9 +1,7 @@
-require("OOP.Class")
-
 local ExecutorsExt = class("ExecutorsExtExt") as ExecutorsExtType
 
 function ExecutorsExt:ctor()
-    self.csharp = CS.CSObject.Execution.Executors
+    self.csharp = CS.Execution.Executors
 end
 
 function ExecutorsExt:__singleton(): ExecutorsExtType
@@ -18,7 +16,7 @@ function ExecutorsExt:RunOnMainThread(callback: function)
     self.csharp.RunOnMainThread(callback)
 end
 
-function ExecutorsExt:RunOnCoroutine(callback: function): CS.CSObject.Asynchronous.AsyncResult
+function ExecutorsExt:RunOnCoroutine(callback: function): CS.Asynchronous.AsyncResult
     return self.csharp.RunOnCoroutine(callback)
 end
 

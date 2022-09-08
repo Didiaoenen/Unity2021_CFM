@@ -1,4 +1,4 @@
-local StringExtension = {}
+local StringExtension: StringExtensionType = {}
 
 function StringExtension.Split(s: string, sep: string): {string}
 	sep = sep or ""

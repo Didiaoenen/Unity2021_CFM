@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Object.ObjectSourceDescription")
 
 local BindingDescription = class("BindingDescription") as BindingDescriptionType

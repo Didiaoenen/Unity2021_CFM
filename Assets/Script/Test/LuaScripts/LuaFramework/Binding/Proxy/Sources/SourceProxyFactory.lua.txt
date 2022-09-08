@@ -1,57 +1,60 @@
-local SourceProxyFactory = class("SourceProxyFactory")
+local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
+
+local SourceProxyFactory = class("SourceProxyFactory", ISourceProxyFactory)
 
 function SourceProxyFactory:ctor()
-    self.factories = {}
+   self.factories = {}
 end
 
 function SourceProxyFactory:CreateProxy(source, description)
-    if source then
-        local proxy = {}
-        if self:TryCreateProxy(source, description, proxy) then
-            return proxy.ref
-        end                
-    end
+   if nil == source then
+      return
+   end
+
+   local proxy = {}
+   if self:TryCreateProxy(source, description, proxy) then
+      return proxy.ref
+   end
 end
 
 function SourceProxyFactory:TryCreateProxy(source, description, proxy)
-    for i, v in ipairs(self.factories) do
-        local factory = v.factory
-        if factory then
-            proxy.ref = factory:CreateProxy(source, description)
-            if proxy.ref then
-                return true
-            end
-        end
-    end
-    return false
+   for _, v in ipairs(self.factories) do
+      local factory = v.factory
+      if factory then
+         proxy.ref = (factory):CreateProxy(source, description)
+         if proxy.ref then
+            return true
+         end
+      end
+   end
+   return false
 end
 
 function SourceProxyFactory:Register(factory, priority)
-    if not factory then
-        return        
-    end
+   if nil == factory then
+      return
+   end
 
-    table.insert(self.factories, {factory = factory, priority = priority or 100})
-    table.sort(self.factories, function (a, b)
-        return a.priority > b.priority
-    end)
+   table.insert(self.factories, { factory = factory, priority = priority or 100 })
+   table.sort(self.factories, function(a, b)
+      return a.priority > b.priority
+   end)
 end
 
 function SourceProxyFactory:Unregister(factory)
-    if not factory then
-        return
-    end
+   if nil == factory then
+      return
+   end
 
-    for i, v in ipairs(self.factories) do
-        if v.factory == factory then
-            table.remove(self.factories, i)
-            return
-        end
-    end
+   for i, v in ipairs(self.factories) do
+      if v.factory == factory then
+         table.remove(self.factories, i)
+         return
+      end
+   end
 end
 
 function SourceProxyFactory:dtor()
-    
 end
 
 return SourceProxyFactory

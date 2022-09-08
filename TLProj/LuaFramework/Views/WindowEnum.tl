@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local WindowEnum: WindowEnumType = {}
 
 WindowEnum.WindowType = {

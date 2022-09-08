@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
 local TableExtention = require("LuaFramework.Common.TableExtention")

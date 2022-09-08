@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local TextExt = class("TextExt", ComponentExt) as TextExtType

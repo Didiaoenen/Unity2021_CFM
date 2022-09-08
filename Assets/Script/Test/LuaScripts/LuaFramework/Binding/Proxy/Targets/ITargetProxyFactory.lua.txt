@@ -1,0 +1,7 @@
+local ITargetProxyFactory = class("ITargetProxyFactory")
+
+function ITargetProxyFactory:CreateProxy(target, discription)
+   assert({ target, discription }, "")
+end
+
+return ITargetProxyFactory

@@ -3,34 +3,34 @@ local CommandBase = require("LuaFramework.Commands.CommandBase")
 local SimpleCommand = class("SimpleCommand", CommandBase)
 
 function SimpleCommand.get:Enabled()
-    return self.enabled
+   return self.enabled
 end
 
 function SimpleCommand.set:Enabled(value)
-    if value ~= self.enabled then
-        self.enabled = value
-        self:RaiseCanExecuteChanged()
-    end
+   if value ~= self.enabled then
+      self.enabled = value
+      self:RaiseCanExecuteChanged()
+   end
 end
 
 function SimpleCommand:ctor(execute)
-    CommandBase.ctor(self)
-    self.execute = execute
-    self.enabled = true
+   CommandBase.ctor(self)
+   self.execute = execute
+   self.enabled = true
 end
 
-function SimpleCommand:CanExecute(parameter)
-    return self.Enabled
+function SimpleCommand:CanExecute(...)
+   assert({ ... }, "")
+   return self.Enabled
 end
 
-function SimpleCommand:Execute(parameter)
-    if self:CanExecute(parameter) and self.execute then
-        self.execute()
-    end
+function SimpleCommand:Execute(...)
+   if self:CanExecute(...) and self.execute then
+      self.execute()
+   end
 end
 
 function SimpleCommand:dtor()
-    
 end
 
 return SimpleCommand

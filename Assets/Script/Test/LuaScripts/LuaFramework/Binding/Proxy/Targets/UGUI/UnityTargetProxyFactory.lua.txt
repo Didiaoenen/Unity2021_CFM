@@ -1,48 +1,40 @@
+local Misc = require("LuaFramework.Common.Misc")
 local UnityPropertyProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy")
 local UnityEventProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxy")
 
 local UnityTargetProxyFactory = class("UnityTargetProxyFactory")
 
 function UnityTargetProxyFactory:ctor()
-    
+
 end
 
 function UnityTargetProxyFactory:CreateProxy(target, description)
-    local memberInfo = target[description.TargetName]
+   local memberInfo = classget(target, description.TargetName)
 
-    local updateTrigger = nil
-    if description.UpdateTrigger and description.UpdateTrigger ~= "" then
-        updateTrigger = target[description.UpdateTrigger]
-        assert(updateTrigger, "")
-    end
+   local updateTrigger = nil
+   if description.UpdateTrigger and description.UpdateTrigger ~= "" then
+      updateTrigger = classget(target, description.UpdateTrigger)
+      assert(updateTrigger, "")
+   end
 
-    if type(memberInfo) == "userdata" then
-        if CS.CSType.UnityEventBaseT:IsAssignableFrom(memberInfo:GetType()) then
-            return self:CreateUnityEventProxy(target, description.TargetName)
-        else
-            if not updateTrigger then
-                return
-            end
-        end
-    else
-        if not updateTrigger then
+   if "userdata" == type(memberInfo) then
+      if Misc.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo):GetType()) then
+         return UnityEventProxy.new(target, description.TargetName)
+      else
+         if not updateTrigger then
             return
-        end
+         end
+      end
+   else
+      if not updateTrigger then
+         return
+      end
 
-        return self:CreateUnityPropertyProxy(target, description.TargetName, description.UpdateTrigger)
-    end
-end
-
-function UnityTargetProxyFactory:CreateUnityPropertyProxy(target, propertyInfo, updateTrigger)
-    return UnityPropertyProxy.new(target, propertyInfo, updateTrigger)
-end
-
-function UnityTargetProxyFactory:CreateUnityEventProxy(target, unityEvent)
-    return UnityEventProxy.new(target, unityEvent)
+      return UnityPropertyProxy.new(target, description.TargetName, description.UpdateTrigger)
+   end
 end
 
 function UnityTargetProxyFactory:dtor()
-    
 end
 
 return UnityTargetProxyFactory

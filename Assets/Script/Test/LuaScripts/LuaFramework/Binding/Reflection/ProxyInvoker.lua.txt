@@ -1,21 +1,17 @@
 local ProxyInvoker = class("ProxyInvoker")
 
 function ProxyInvoker.get:ProxyMethodInfo()
-    return self.proxyMethodInfo
+   return self.proxyMethodInfo
 end
 
 function ProxyInvoker:ctor(target, proxyMethodInfo)
-    self.target = target
-    self.proxyMethodInfo = proxyMethodInfo
+   self.target = target
+   self.proxyMethodInfo = proxyMethodInfo
 end
 
 function ProxyInvoker:Invoke(...)
-    local target = self.target
-    return target[self.proxyMethodInfo](target, ...)
-end
-
-function ProxyInvoker:dtor()
-    
+   local functionType = classget(self.target, self.proxyMethodInfo)
+   return functionType(self.target, ...)
 end
 
 return ProxyInvoker

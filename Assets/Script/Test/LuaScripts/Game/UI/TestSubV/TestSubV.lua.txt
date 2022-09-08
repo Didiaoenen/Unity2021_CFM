@@ -1,11 +1,6 @@
-local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
+local TestSubV = class("TestSubV")
 
-local TestSubV = class("TestSubV", WindowViewBase)
-
-TestSubV.PrefabPath = "Sphere"
-
-function TestSubV:ctor(bundle)
-    WindowViewBase.ctor(self, bundle)
+function TestSubV:ctor()
 end
 
 return TestSubV

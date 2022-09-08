@@ -1,56 +1,56 @@
-local TargetProxyFactory = class("TargetProxyFactory")
+local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")
+
+local TargetProxyFactory = class("TargetProxyFactory", ITargetProxyFactory)
 
 function TargetProxyFactory:ctor()
-    self.factories = {}
+   self.factories = {}
 end
 
 function TargetProxyFactory:CreateProxy(target, description)
-    local proxy = {}
-    if self:TryCreateProxy(target, description, proxy) then
-        return proxy.ref
-    end
+   local proxy = {}
+   if self:TryCreateProxy(target, description, proxy) then
+      return proxy.ref
+   end
 end
 
 function TargetProxyFactory:TryCreateProxy(target, description, proxy)
-    for k, v in pairs(self.factories) do
-        local factory = v.factory
-        if factory then
-            proxy.ref = factory:CreateProxy(target, description)
-            if proxy.ref then
-                return true
-            end
-        end
-    end
-
-    return false
+   for _, v in ipairs(self.factories) do
+      local factory = v.factory
+      if factory then
+         proxy.ref = (factory):CreateProxy(target, description)
+         if proxy.ref then
+            return true
+         end
+      end
+   end
+   return false
 end
 
 function TargetProxyFactory:Register(factory, priority)
-    if not factory then
-        return        
-    end
+   if nil == factory then
+      return
+   end
 
-    table.insert(self.factories, {factory = factory, priority = priority or 100})
-    table.sort(self.factories, function (a, b)
-        return a.priority > b.priority
-    end)
+   table.insert(self.factories, { factory = factory, priority = priority or 100 })
+   table.sort(self.factories, function(a, b)
+      return a.priority > b.priority
+   end)
 end
 
 function TargetProxyFactory:Unregister(factory)
-    if not factory then
-        return
-    end
+   if not factory then
+      return
+   end
 
-    for i, v in ipairs(self.factories) do
-        if v.factory == factory then
-            table.remove(self.factories, i)
-            return
-        end
-    end
+   for i, v in ipairs(self.factories) do
+      if v.factory == factory then
+         table.remove(self.factories, i)
+         return
+      end
+   end
 end
 
 function TargetProxyFactory:dtor()
-    
 end
 
 return TargetProxyFactory

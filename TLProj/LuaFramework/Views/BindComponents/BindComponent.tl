@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 
@@ -16,6 +14,7 @@ function BindComponent:ctor()
 end
 
 function BindComponent:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, mode: number)
+    assert({view, cType, name, mode}, "")
 end
 
 return BindComponent

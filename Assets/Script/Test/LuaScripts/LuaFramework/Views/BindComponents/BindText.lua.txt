@@ -1,0 +1,30 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindText = class("BindText", BindComponent)
+
+function BindText.get:Text()
+   return self.text
+end
+
+function BindText.set:Text(value)
+   self:Set({ name = "text" }, value, "Text")
+end
+
+function BindText:ctor()
+   BindComponent.ctor(self)
+   self.text = ""
+end
+
+function BindText:BindWithName(view, cType, name, mode)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local textExt = component
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(textExt.Text):To(name .. ".Text"):SetMode(mode)
+
+   builder = bindingSet:BindByTarget(component.gameObject)
+   builder:For(textExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(mode)
+end
+
+return BindText

@@ -3,65 +3,55 @@ local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Obje
 local BindingDescription = class("BindingDescription")
 
 function BindingDescription.get:TargetName()
-    return self.targetName
+   return self.targetName
 end
 
 function BindingDescription.set:TargetName(value)
-    self.targetName = value
+   self.targetName = value
 end
 
 function BindingDescription.get:UpdateTrigger()
-    return self.updateTrigger
+   return self.updateTrigger
 end
 
 function BindingDescription.set:UpdateTrigger(value)
-    self.updateTrigger = value
-end
-
-function BindingDescription.get:Converter()
-    return self.converter
-end
-
-function BindingDescription.set:Converter(value)
-    self.converter = value
+   self.updateTrigger = value
 end
 
 function BindingDescription.get:Mode()
-    return self.mode
+   return self.mode
 end
 
 function BindingDescription.set:Mode(value)
-    self.mode = value
+   self.mode = value
 end
 
 function BindingDescription.get:Source()
-    return self.source
+   return self.source
 end
 
 function BindingDescription.set:Source(value)
-    self.source = value
+   self.source = value
 end
 
 function BindingDescription.get:CommandParameter()
-    return self.commandParameter
+   return self.commandParameter
 end
 
 function BindingDescription.set:CommandParameter(value)
-    self.commandParameter = value
+   self.commandParameter = value
 end
 
-function BindingDescription:ctor(targetName, path, converter, mode)
-    self.targetName = targetName
-    self.mode = mode
-    self.converter = converter
-    self.source = ObjectSourceDescription.new()
-    self.source.Path = path
-    self.updateTrigger = nil
-    self.commandParameter = nil
+function BindingDescription:ctor(targetName, path, mode)
+   self.targetName = targetName
+   self.mode = mode
+   self.source = ObjectSourceDescription.new(path)
+   self.updateTrigger = nil
+   self.commandParameter = nil
 end
 
 function BindingDescription:dtor()
-    
+
 end
 
 return BindingDescription

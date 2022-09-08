@@ -1,21 +1,21 @@
 local WindowStateEventArgs = class("WindowStateEventArgs")
 
 function WindowStateEventArgs.get:Window()
-    return self.window
+   return self.window
 end
 
 function WindowStateEventArgs.get:State()
-    return self.state
+   return self.state
 end
 
 function WindowStateEventArgs.get:OldState()
-    return self.oldState
+   return self.oldState
 end
 
 function WindowStateEventArgs:ctor(window, oldState, newState)
-    self.window = window
-    self.oldState = oldState
-    self.state = newState
+   self.window = window
+   self.oldState = oldState
+   self.state = newState
 end
 
 return WindowStateEventArgs

@@ -1,36 +1,25 @@
 local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
+local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local TableExtention = require("LuaFramework.Common.TableExtention")
 
-local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase)
+local NotifiableSourceProxyBase = class("NotifiableSourceProxyBase", SourceProxyBase, INotifiable)
 
 function NotifiableSourceProxyBase.set:ValueChanged(value)
-    setcallback(self.valueChanged, value)
+   setcallback(self.valueChanged, value)
 end
 
-local names = {"INotifiable"}
-
 function NotifiableSourceProxyBase:ctor(source)
-    SourceProxyBase.ctor(self, source)
-    self.valueChanged = {}
+   SourceProxyBase.ctor(self, source)
+   self.valueChanged = {}
 end
 
 function NotifiableSourceProxyBase:RaiseValueChanged()
-    TableExtention.Foreach(self.valueChanged, function (i, v)
-        v.callback(v.this)
-    end)
-end
-
-function NotifiableSourceProxyBase:ContainsName(name)
-    for i, v in ipairs(names) do
-        if v == name then
-            return true
-        end
-    end
-    return false
+   TableExtention.Foreach(self.valueChanged, function(_, v)
+      v.callback(v.this)
+   end)
 end
 
 function NotifiableSourceProxyBase:dtor()
-    
 end
 
 return NotifiableSourceProxyBase

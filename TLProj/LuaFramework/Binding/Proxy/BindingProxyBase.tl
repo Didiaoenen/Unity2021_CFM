@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingProxyBase = class("BindingProxyBase") as BindingProxyBaseType
 
 function BindingProxyBase:ctor()

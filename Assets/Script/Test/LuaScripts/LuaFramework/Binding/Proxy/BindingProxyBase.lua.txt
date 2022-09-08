@@ -1,0 +1,9 @@
+local BindingProxyBase = class("BindingProxyBase")
+
+function BindingProxyBase:ctor()
+end
+
+function BindingProxyBase:dtor()
+end
+
+return BindingProxyBase

@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindTransform = require("LuaFramework.Views.BindComponents.BindTransform")
 
 local BindRectTransform = class("BindRectTransform", BindTransform) as BindRectTransformType

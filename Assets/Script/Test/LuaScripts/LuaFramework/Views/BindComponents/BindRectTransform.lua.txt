@@ -1,0 +1,39 @@
+local BindTransform = require("LuaFramework.Views.BindComponents.BindTransform")
+
+local BindRectTransform = class("BindRectTransform", BindTransform)
+
+function BindRectTransform.get:OffsetMax()
+   return self.offsetMax
+end
+
+function BindRectTransform.set:OffsetMax(value)
+   self:Set({ name = "offsetMax" }, value, "OffsetMax")
+end
+
+function BindRectTransform.get:OffsetMin()
+   return self.offsetMin
+end
+
+function BindRectTransform.set:OffsetMin(value)
+   self:Set({ name = "offsetMin" }, value, "OffsetMin")
+end
+
+function BindRectTransform:ctor()
+   BindTransform.ctor(self)
+   self.offsetMax = CS.UnityEngine.Vector2.zero
+   self.offsetMin = CS.UnityEngine.Vector2.zero
+end
+
+function BindRectTransform:BindWithName(view, cType, name, mode)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local rectTransformExt = component
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(rectTransformExt.OffsetMax):To(name .. ".OffsetMax"):SetMode(mode)
+
+   builder = bindingSet:BindByTarget(component)
+   builder:For(rectTransformExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(mode)
+end
+
+return BindRectTransform

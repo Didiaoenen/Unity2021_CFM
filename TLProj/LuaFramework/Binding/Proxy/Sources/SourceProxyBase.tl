@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
 
 local SourceProxyBase = class("SourceProxyBase", BindingProxyBase) as SourceProxyBaseType

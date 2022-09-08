@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local WindowStateEventArgs = class("WindowStateEventArgs") as WindowStateEventArgsType
 
 function WindowStateEventArgs.get:Window(): WindowViewBaseType

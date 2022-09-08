@@ -4,50 +4,50 @@ local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingBuilder = class("BindingBuilder", BindingBuilderBase)
 
 function BindingBuilder:ctor(context, target)
-    BindingBuilderBase.ctor(self, context, target)
+   BindingBuilderBase.ctor(self, context, target)
 end
 
 function BindingBuilder:For(targetName, updateTrigger)
-    self.description.TargetName = targetName
-    self.description.UpdateTrigger = updateTrigger
-    if type(self.target[self.description.TargetName]) == "function" then
-        self:OneWayToSource()
-    end
-    return self
+   self.description.TargetName = targetName
+   self.description.UpdateTrigger = updateTrigger
+   local target = classget(self.target, self.description.TargetName)
+   if "function" == type(target) then
+      self:OneWayToSource()
+   end
+   return self
 end
 
 function BindingBuilder:To(path)
-    self:SetMemberPath(path)
-    return self    
+   self:SetMemberPath(path)
+   return self
 end
 
 function BindingBuilder:OneWay()
-    self:SetMode(BindingMode.OneWay)
-    return self    
+   self:SetMode(BindingMode.OneWay)
+   return self
 end
 
 function BindingBuilder:OneWayToSource()
-    self:SetMode(BindingMode.OneWayToSource)
-    return self    
+   self:SetMode(BindingMode.OneWayToSource)
+   return self
 end
 
 function BindingBuilder:TwoWay()
-    self:SetMode(BindingMode.TwoWay)
-    return self    
+   self:SetMode(BindingMode.TwoWay)
+   return self
 end
 
 function BindingBuilder:OneTime()
-    self:SetMode(BindingMode.OneTime)
-    return self    
+   self:SetMode(BindingMode.OneTime)
+   return self
 end
 
-function BindingBuilder:CommandParameter(parameter)
-    self:SetCommandParameter(parameter)
-    return self    
+function BindingBuilder:CommandParameter(...)
+   self:SetCommandParameter(...)
+   return self
 end
 
 function BindingBuilder:dtor()
-    
 end
 
 return BindingBuilder

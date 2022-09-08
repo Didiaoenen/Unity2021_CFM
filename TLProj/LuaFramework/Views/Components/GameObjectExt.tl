@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local GameObjectExt = class("GameObjectExt") as GameObjectExtType
 
 GameObjectExt.CSObject = CS.UnityEngine.GameObject

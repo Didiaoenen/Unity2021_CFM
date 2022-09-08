@@ -1,21 +1,20 @@
+local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local ProxyInvoker = require("LuaFramework.Binding.Reflection.ProxyInvoker")
 
-local SourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.SourceProxyBase")
-
-local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase)
+local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase, IObtainable)
 
 function MethodNodeProxy:ctor(source, methodInfo)
-    SourceProxyBase.ctor(self, source)
-    self.methodInfo = methodInfo
-    self.invoker = ProxyInvoker.new(self.source, self.methodInfo)
+   SourceProxyBase.ctor(self, source)
+   self.methodInfo = methodInfo
+   self.invoker = ProxyInvoker.new(self.source, self.methodInfo)
 end
 
 function MethodNodeProxy:GetValue()
-    return self.invoker
+   return self.invoker
 end
 
 function MethodNodeProxy:dtor()
-
 end
 
 return MethodNodeProxy

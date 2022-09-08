@@ -1,4 +1,4 @@
-local TableExtention = {}
+local TableExtention: TableExtentionType = {}
 
 function TableExtention.Foreach(t: {any}, callback: function)
     for i, v in ipairs(t) do
@@ -37,7 +37,7 @@ function TableExtention.Find(t: {any}, callback: function): any
     end
 end
 
-function TableExtention.RemoveObj(t: {any}, obj): any
+function TableExtention.RemoveObj(t: {any}, obj: any): any
     for i, v in ipairs(t) do
         if v == obj then
             return table.remove(t, i)

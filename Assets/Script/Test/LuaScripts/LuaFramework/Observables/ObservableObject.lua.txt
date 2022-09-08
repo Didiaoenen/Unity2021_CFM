@@ -1,32 +1,36 @@
 local TableExtention = require("LuaFramework.Common.TableExtention")
-local NotifyPropertyChanged = require("LuaFramework.Binding.NotifyPropertyChanged")
+local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local PropertyChangedEventArgs = require("LuaFramework.Binding.PropertyChangedEventArgs")
 
-local ObservableObject = class("ObservableObject", NotifyPropertyChanged)
+local ObservableObject = class("ObservableObject", INotifyPropertyChanged)
 
 function ObservableObject:ctor()
-    NotifyPropertyChanged.ctor(self)
+   INotifyPropertyChanged.ctor(self)
 end
 
 function ObservableObject:RaisePropertyChanged(property)
-    self:RaisePropertyChangedWithParam(PropertyChangedEventArgs.new(property))
+   self:RaisePropertyChangedWithParam(PropertyChangedEventArgs.new(property))
 end
 
 function ObservableObject:RaisePropertyChangedWithParam(param)
-    TableExtention.Foreach(self.propertyChanged, function (i, v)
-        v.callback(v.this, self, param)
-    end)
+   TableExtention.Foreach(self.propertyChanged, function(_, v)
+      v.callback(v.this, self, param)
+   end)
 end
 
 function ObservableObject:Set(field, newValue, property, broadcast)
-    if self[field.name] ~= newValue then
-        self[field.name] = newValue
-        self:RaisePropertyChanged(property)
-    end
+   local oldValue = classget(self, field.name)
+   if oldValue ~= newValue then
+      classset(self, field.name, newValue)
+      self:RaisePropertyChanged(property)
+   end
+
+   if broadcast then
+   end
 end
 
 function ObservableObject:dtor()
-    
+
 end
 
 return ObservableObject

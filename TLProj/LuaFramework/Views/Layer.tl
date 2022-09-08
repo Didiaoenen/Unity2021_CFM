@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local Layer = class("Layer") as LayerType
 
 function Layer.get:WindowType(): number

@@ -1,159 +1,158 @@
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
+local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
-local Executors = require("LuaFramework.CSharpObject.Executors")
 
 local Binding = class("Binding", AbstractBinding)
 
 function Binding.get:BindingMode()
-    if self.bindingMode ~= BindingMode.Default then
-        return self.bindingMode
-    end
+   if self.bindingMode ~= BindingMode.Default then
+      return self.bindingMode
+   end
 
-    self.bindingMode = self.bindingDescription.Mode
-    if self.bindingMode == BindingMode.Default then
-        self.bindingMode = self.targetProxy.DefaultMode
-    end
+   self.bindingMode = self.bindingDescription.Mode
+   if self.bindingMode == BindingMode.Default then
+      self.bindingMode = self.targetProxy.DefaultMode
+   end
 
-    return self.bindingMode
+   return self.bindingMode
 end
 
-function Binding:ctor(bindingContext, source, target, bindingDescription, sourceProxyFactory, targetProxyFactory)
-    AbstractBinding.ctor(self, bindingContext, source, target)
-    
-    self.bindingMode = BindingMode.Default
-    self.bindingDescription = bindingDescription
+function Binding:ctor(source, target, bindingDescription, sourceProxyFactory, targetProxyFactory)
+   AbstractBinding.ctor(self, source, target)
 
-    self.converter = self.bindingDescription.Converter
-    self.sourceProxyFactory = sourceProxyFactory
-    self.targetProxyFactory = targetProxyFactory
+   self.bindingMode = BindingMode.Default
+   self.bindingDescription = bindingDescription
 
-    self:CreateTargetProxy(target, self.bindingDescription)
-    self:CreateSourceProxy(self.dataContext, self.bindingDescription.Source)
-    self:UpdateDataOnBind()
+   self.sourceProxyFactory = sourceProxyFactory
+   self.targetProxyFactory = targetProxyFactory
+
+   self:CreateTargetProxy(target, self.bindingDescription)
+   self:CreateSourceProxy(self.dataContext, self.bindingDescription.Source)
+   self:UpdateDataOnBind()
 end
 
 function Binding:CreateTargetProxy(target, description)
-    self:DisposeTargetProxy()
+   self:DisposeTargetProxy()
 
-    self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
+   self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-    if self:IsSubscribeTargetValueChanged(self.BindingMode) and self.targetProxy:ContainsName("INotifiable") then
-        self.targetProxy.ValueChanged = {this = self, callback = self.UpdateSourceFromTarget}
-    end
+   if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy).is(INotifiable) then
+      (self.targetProxy).ValueChanged = { this = self, callback = self.UpdateSourceFromTarget }
+   end
 end
 
 function Binding:IsSubscribeTargetValueChanged(bindingMode)
-    if bindingMode == BindingMode.Default then
-        return true
-    elseif bindingMode == BindingMode.OneWay then
-        return false
-    elseif bindingMode == BindingMode.OneTime then
-        return false
-    elseif bindingMode == BindingMode.TwoWay then
-        return true
-    elseif bindingMode == BindingMode.OneWayToSource then
-        return true
-    end
+   if bindingMode == BindingMode.Default then
+      return true
+   elseif bindingMode == BindingMode.OneWay then
+      return false
+   elseif bindingMode == BindingMode.OneTime then
+      return false
+   elseif bindingMode == BindingMode.TwoWay then
+      return true
+   elseif bindingMode == BindingMode.OneWayToSource then
+      return true
+   end
 end
 
 function Binding:DisposeTargetProxy()
-    if self.targetProxy then
-        self.targetProxy:Dispose() 
-        self.targetProxy = nil
-    end 
+   if self.targetProxy then
+      self.targetProxy:delete()
+      self.targetProxy = nil
+   end
 end
 
 function Binding:CreateSourceProxy(source, description)
-    self:DisposeSourceProxy()
+   self:DisposeSourceProxy()
 
-    self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
+   self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
-    if self:IsSubscribeSourceValueChanged(self.BindingMode) and self.sourceProxy:ContainsName("INotifiable") then
-        self.sourceProxy.ValueChanged = {this = self, callback = self.UpdateTargetFromSource}
-    end
+   if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy).is(INotifiable) then
+      (self.sourceProxy).ValueChanged = { this = self, callback = self.UpdateTargetFromSource }
+   end
 end
 
 function Binding:IsSubscribeSourceValueChanged(bindingMode)
-    if bindingMode == BindingMode.Default then
-        return true
-    elseif bindingMode == BindingMode.OneWay then
-        return true
-    elseif bindingMode == BindingMode.TwoWay then
-        return true
-    elseif bindingMode == BindingMode.OneTime then
-        return false
-    elseif bindingMode == BindingMode.OneWayToSource then
-        return false
-    end
+   if bindingMode == BindingMode.Default then
+      return true
+   elseif bindingMode == BindingMode.OneWay then
+      return true
+   elseif bindingMode == BindingMode.TwoWay then
+      return true
+   elseif bindingMode == BindingMode.OneTime then
+      return false
+   elseif bindingMode == BindingMode.OneWayToSource then
+      return false
+   end
 end
 
 function Binding:DisposeSourceProxy()
-    if self.sourceProxy then
-        self.sourceProxy:Dispose() 
-        self.sourceProxy = nil
-    end 
+   if self.sourceProxy then
+      self.sourceProxy:delete()
+      self.sourceProxy = nil
+   end
 end
 
 function Binding:UpdateTargetFromSource()
-    Executors.Instance:RunOnMainThread(function ()
-        local value = self.sourceProxy:GetValue()
-        self:SetTargetValue(self.targetProxy, value);
-    end)
+   ExecutorsExt.Instance:RunOnMainThread(function()
+      local value = (self.sourceProxy):GetValue()
+      self:SetTargetValue(self.targetProxy, value);
+   end)
 end
 
 function Binding:SetTargetValue(modifier, value)
-    modifier:SetValue(value)
+   (modifier):SetValue(value)
 end
 
 function Binding:UpdateSourceFromTarget()
-    local value = self.targetProxy:GetValue()
-    self:SetSourceValue(self.sourceProxy, value)
+   local value = (self.targetProxy):GetValue()
+   self:SetSourceValue(self.sourceProxy, value)
 end
 
 function Binding:SetSourceValue(modifier, value)
-    modifier:SetValue(value)
+   (modifier):SetValue(value)
 end
 
 function Binding:UpdateDataOnBind()
-    if self:UpdateTargetOnFirstBind(self.BindingMode) and self.sourceProxy then
-        self:UpdateTargetFromSource()
-    end
+   if self:UpdateTargetOnFirstBind(self.BindingMode) and self.sourceProxy then
+      self:UpdateTargetFromSource()
+   end
 
-    if self:UpdateSourceOnFirstBind(self.BindingMode) and self.targetProxy then
-        self:UpdateSourceFromTarget()
-    end
+   if self:UpdateSourceOnFirstBind(self.BindingMode) and self.targetProxy then
+      self:UpdateSourceFromTarget()
+   end
 end
 
 function Binding:UpdateTargetOnFirstBind(bindingMode)
-    if bindingMode == BindingMode.Default then
-        return true
-    elseif bindingMode == BindingMode.OneWay then
-        return true
-    elseif bindingMode == BindingMode.OneTime then
-        return true
-    elseif bindingMode == BindingMode.TwoWay then
-        return true
-    elseif bindingMode == BindingMode.OneWayToSource then
-        return false
-    end
+   if bindingMode == BindingMode.Default then
+      return true
+   elseif bindingMode == BindingMode.OneWay then
+      return true
+   elseif bindingMode == BindingMode.OneTime then
+      return true
+   elseif bindingMode == BindingMode.TwoWay then
+      return true
+   elseif bindingMode == BindingMode.OneWayToSource then
+      return false
+   end
 end
 
 function Binding:UpdateSourceOnFirstBind(bindingMode)
-    if bindingMode == BindingMode.OneWayToSource then
-        return true
-    elseif bindingMode == BindingMode.Default then
-        return false
-    elseif bindingMode == BindingMode.OneWay then
-        return false
-    elseif bindingMode == BindingMode.OneTime then
-        return false
-    elseif bindingMode == BindingMode.TwoWay then
-        return false
-    end
+   if bindingMode == BindingMode.OneWayToSource then
+      return true
+   elseif bindingMode == BindingMode.Default then
+      return false
+   elseif bindingMode == BindingMode.OneWay then
+      return false
+   elseif bindingMode == BindingMode.OneTime then
+      return false
+   elseif bindingMode == BindingMode.TwoWay then
+      return false
+   end
 end
 
 function Binding:dtor()
-    
 end
 
 return Binding

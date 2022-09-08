@@ -1,68 +1,71 @@
-local TableExtention = require("LuaFramework.Common.TableExtention")
-local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
+local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
+local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local WindowBase = class("WindowBase", WindowViewBase)
 
 function WindowBase.get:Current()
-    return self.viewStack[#(self.viewStack)]
+   return self.viewStack[#(self.viewStack)]
 end
 
 function WindowBase:ctor(bundle)
-    WindowViewBase.ctor(self, bundle)
+   WindowViewBase.ctor(self, bundle)
 
-    self.subView = {}
-    self.viewStack = {}
+   self.subView = {}
+   self.viewStack = {}
 
-    self.windowType = WindowEnum.WindowType.FULL
+   self.windowType = WindowEnum.WindowType.FULL
 end
 
 function WindowBase:OnEnable()
-    WindowViewBase.OnEnable(self)
+   WindowViewBase.OnEnable(self)
 end
 
 function WindowBase:OnDisable()
-    WindowViewBase.OnDisable(self)
+   WindowViewBase.OnDisable(self)
 end
 
 function WindowBase:OnShow()
-    TableExtention.Foreach(self.subView, function (i, v)
-        v:OnShow()
-    end)
+   TableExtention.Foreach(self.subView, function(_, v)
+      v:DoShow()
+   end)
 end
 
 function WindowBase:OnHide()
-    TableExtention.Foreach(self.subView, function (i, v)
-        v:OnHide()
-    end)
+   TableExtention.Foreach(self.subView, function(_, v)
+      v:DoHide()
+   end)
+   TableExtention.Foreach(self.viewStack, function(_, v)
+      v:DoDismiss()
+   end)
 end
 
 function WindowBase:AddSubView(view)
-    table.insert(self.subView, view)
+   table.insert(self.subView, view)
 end
 
-function WindowBase:PushOpenView(view)
-    local preCurrent = self.Current
-    if self.Current and view.WindowType == self.Current.WindowType then
-        if view.Mutex then
-            preCurrent = self:PopOpenView()
-        end
-    end
-    table.insert(self.viewStack, view)
-    return preCurrent
+function WindowBase:PushViewStack(view)
+   local preCurrent = self.Current
+   if self.Current and view.WindowType == self.Current.WindowType then
+      if view.Mutex then
+         preCurrent = self:PopViewStack()
+      end
+   end
+   table.insert(self.viewStack, view)
+   return preCurrent
 end
 
-function WindowBase:PopOpenView()
-    assert(#(self.viewStack) > 0)
-    table.remove(self.viewStack, #(self.viewStack))
-    return self.Current
+function WindowBase:PopViewStack()
+   assert(#(self.viewStack) > 0)
+   table.remove(self.viewStack, #(self.viewStack))
+   return self.Current
 end
 
 function WindowBase:dtor()
-    TableExtention.Foreach(self.subView, function (i, v)
-        v:delete()
-    end)
-    self.subView = nil
+   TableExtention.Foreach(self.subView, function(_, v)
+      v:delete()
+   end)
+   self.subView = nil
 end
 
 return WindowBase

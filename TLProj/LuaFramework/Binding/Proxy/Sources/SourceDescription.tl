@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local SourceDescription = class("SourceDescription") as SourceDescriptionType
 
 function SourceDescription.get:IsStatic(): boolean

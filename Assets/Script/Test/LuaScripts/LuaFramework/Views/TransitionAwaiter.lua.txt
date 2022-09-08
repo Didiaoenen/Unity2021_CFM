@@ -1,7 +1,3 @@
 local TransitionAwaiter = class("TransitionAwaiter")
 
-function TransitionAwaiter:ctor()
-    
-end
-
 return TransitionAwaiter

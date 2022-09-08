@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEventArgs")
 
 local InteractionRequest = class("InteractionRequest") as InteractionRequestType

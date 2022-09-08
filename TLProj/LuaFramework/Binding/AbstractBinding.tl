@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
 function AbstractBinding.get:Target(): LuaObject
@@ -25,6 +23,7 @@ function AbstractBinding:ctor(dataContext: LuaObject, target: LuaObject)
 end
 
 function AbstractBinding:IsAlive(target: LuaObject): boolean
+    assert({target}, "")
     return true
 end
 

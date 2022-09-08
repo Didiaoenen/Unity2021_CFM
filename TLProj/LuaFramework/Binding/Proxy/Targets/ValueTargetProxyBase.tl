@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase) as ValueTargetProxyBaseType
@@ -33,6 +31,7 @@ function ValueTargetProxyBase:Subscribe()
 end
 
 function ValueTargetProxyBase:DoSubscribeForValueChange(target: LuaObject)
+    assert({target}, "")
 end
 
 function ValueTargetProxyBase:Unsubscribe()
@@ -50,6 +49,7 @@ function ValueTargetProxyBase:Unsubscribe()
 end
 
 function ValueTargetProxyBase:DoUnsubscribeForValueChange(target: LuaObject)
+    assert({target}, "")
 end
 
 function ValueTargetProxyBase:RaiseValueChanged()
@@ -62,6 +62,7 @@ function ValueTargetProxyBase:GetValue(): any
 end
 
 function ValueTargetProxyBase:SetValue(value: any)
+    assert({value}, "")
 end
 
 function ValueTargetProxyBase:dtor()

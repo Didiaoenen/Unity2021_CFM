@@ -1,0 +1,25 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local ButtonExt = class("ButtonExt", ComponentExt)
+
+ButtonExt.CSObject = CS.UnityEngine.UI.Button
+
+ButtonExt.OnClick = "onClick"
+
+function ButtonExt.get:onClick()
+   return (self.handler).onClick
+end
+
+function ButtonExt.set:onClick(value)
+   (self.handler).onClick = value
+end
+
+function ButtonExt.get:GameObject()
+   return self.gameObject
+end
+
+function ButtonExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return ButtonExt

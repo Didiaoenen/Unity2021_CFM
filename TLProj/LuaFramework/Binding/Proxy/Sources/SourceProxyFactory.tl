@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
 
 local SourceProxyFactory = class("SourceProxyFactory", ISourceProxyFactory) as SourceProxyFactoryType

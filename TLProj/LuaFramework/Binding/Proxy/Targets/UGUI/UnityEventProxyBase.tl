@@ -28,6 +28,7 @@ function UnityEventProxyBase:UnbindEvent()
 end
 
 function UnityEventProxyBase:IsValidInvoker(invoker: ProxyInvokerType)
+    assert({invoker}, "")
 end
 
 function UnityEventProxyBase:SetValue(value: any)
@@ -69,6 +70,7 @@ function UnityEventProxyBase:SetValue(value: any)
 end
 
 function UnityEventProxyBase:OnExecuteChanged(sender: LuaObject, ...: any)
+    assert({sender, ...}, "")
     ExecutorsExt.Instance:RunOnMainThread(function ()
         self:UpdateTargetInteractable()
     end)

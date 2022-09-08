@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local ComponentExt = class("ComponentExt") as ComponentExtType

@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingMode: BindingModeType = {
     Default         = 0,
     TwoWay          = 1,

@@ -1,0 +1,27 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindCanvasGroup = class("BindCanvasGroup", BindComponent)
+
+function BindCanvasGroup.get:Alpha()
+   return self.alpha
+end
+
+function BindCanvasGroup.set:Alpha(value)
+   self:Set({ name = "alpha" }, value, "Alpha")
+end
+
+function BindCanvasGroup:ctor()
+   BindComponent.ctor(self)
+   self.alpha = 1
+end
+
+function BindCanvasGroup:BindWithName(view, cType, name, mode)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local canvasGroupExt = component
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(canvasGroupExt.Alpha):To(name .. ".Alpha"):SetMode(mode)
+end
+
+return BindCanvasGroup

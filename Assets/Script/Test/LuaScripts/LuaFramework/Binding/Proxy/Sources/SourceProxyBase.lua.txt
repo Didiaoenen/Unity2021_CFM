@@ -1,23 +1,17 @@
-local SourceProxyBase = class("SourceProxyBase")
+local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
+
+local SourceProxyBase = class("SourceProxyBase", BindingProxyBase)
 
 function SourceProxyBase.get:Source()
-    return self.source
+   return self.source
 end
 
-function SourceProxyBase.set.Source(value)
-    self.source = value
+function SourceProxyBase.set:Source(value)
+   self.source = value
 end
 
 function SourceProxyBase:ctor(source)
-    self.source = source
-end
-
-function SourceProxyBase:ContainsName(name)
-    return false
-end
-
-function SourceProxyBase:dtor()
-    
+   self.source = source
 end
 
 return SourceProxyBase

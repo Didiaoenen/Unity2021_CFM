@@ -1,5 +1,4 @@
-require("OOP.Class")
-
+local Misc = require("LuaFramework.Common.Misc")
 local TableExtention = require("LuaFramework.Common.TableExtention")
 local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
@@ -268,7 +267,7 @@ function WindowViewBase:Create()
         self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, CS.CSType.GameObjectT)
+        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, Misc.CSType.GameObjectT)
         CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 

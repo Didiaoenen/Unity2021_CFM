@@ -1,0 +1,9 @@
+require("OOP.Class")
+
+local INodeProxyFactory = class("INodeProxyFactory")
+
+function INodeProxyFactory:Create(source, token)
+   assert({ source, token }, "")
+end
+
+return INodeProxyFactory

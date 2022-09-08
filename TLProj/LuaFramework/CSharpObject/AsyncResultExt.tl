@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local AsyncResultExt = class("AsyncResultExt") as AsyncResultExtType
 
 function AsyncResultExt.get:IsDone(): boolean
@@ -19,7 +17,7 @@ function AsyncResultExt.get:IsCancelled(): boolean
 end
 
 function AsyncResultExt:ctor(cancelable: boolean)
-    self.csharp = CS.CSObject.Asynchronous.AsyncResult(cancelable or false)
+    self.csharp = CS.Asynchronous.AsyncResult(cancelable or false)
 end
 
 function AsyncResultExt:SetException(errorMsg: string)

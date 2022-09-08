@@ -1,88 +1,96 @@
 local TestVM = require("Game.UI.Test.TestVM")
 local WindowBase = require("LuaFramework.Views.WindowBase")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
-local Text = require("LuaFramework.Views.Components.Text")
-local Button = require("LuaFramework.Views.Components.Button")
+local TextExt = require("LuaFramework.Views.Components.TextExt")
+local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
+local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
 
 local TestV = class("TestV", WindowBase)
 
 TestV.PrefabPath = "TestV"
 
 function TestV:ctor(bundle)
-    WindowBase.ctor(self, bundle)
+   WindowBase.ctor(self, bundle)
 
-    self.viewModel = TestVM.new()
-    self.bindingExt = BindingExtension.new(self)
-    self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel)
-    -- local builder = set:Bind()
-    -- builder:For("TestFunc"):To("TestRequest")
+   self.viewModel = TestVM.new()
+   self.bindingExt = BindingExtension.new(self)
+   self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel)
 
-    -- local builder = set:BindByTarget(text)
-    -- builder:For("text"):To("Test"):OneWay()
-    
-    -- local builder = set:BindByTarget(text)
-    -- builder:For("color"):To("TestColor"):OneWay()
 
-    -- local builder = set:BindByTarget(text.transform)
-    -- builder:For("localScale"):To("TestLocalScale"):OneWay()
 
-    -- local builder = set:BindByTarget(text.gameObject)
-    -- builder:For("activeSelf"):To("TestActive"):TwoWay()
 
-    -- local builder = set:BindByTarget(button)
-    -- builder:For("onClick"):To("OnClick"):OneWay()
 
-    -- local builder = set:BindByTarget(button)
-    -- builder:For("onClick"):To("TestCommand"):OneWay()
 
-    -- local builder = set:BindByTarget(inputField)
-    -- builder:For("text", "onValueChanged"):To("Test"):TwoWay()
 
-    -- set:Build()
 
-    -- testVM.Test = "123"
 
-    -- testVM.TestRequest:Raise()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function TestV:TestFunc(sender, args)
-    print("hahaha")
+   assert({ sender, args }, "")
+   print("hahaha")
 end
 
 function TestV:OnCreate()
-    WindowBase.OnCreate(self)
-    print("child OnCreate")
+   WindowBase.OnCreate(self)
+   print("child OnCreate")
 
-    local text = self:GetComponentWithName(Text, "text")
-    local button = self:GetComponentWithName(Button, "button")
 
-    local builder = self.bindingSet:BindByTarget(text.handler)
-    builder:For(text.Text):To("Test"):OneWay()
-    
-    local builder = self.bindingSet:BindByTarget(button.handler)
-    builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    --
-    self.bindingSet:Build()
+
+
+
+
+
+
+
+
+
+
+
+
+   self.viewModel.text:BindWithName(self, TextExt, "text", BindingMode.OneWay)
+   self.viewModel.button:BindWithName(self, ButtonExt, "button", BindingMode.OneWay)
+   self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", BindingMode.OneWay)
+
+
+   self.bindingSet:Build()
 end
 
 function TestV:OnShow()
-    WindowBase.OnShow(self)
-    print("child OnShow")
+   WindowBase.OnShow(self)
 
-    self.viewModel.Test = "hahaha"
+   self.viewModel.text.Text = "hahaha"
 
-    -- self.viewModel.ActiveSelf = false
 
-    -- local transOne = self.transform:Find("GameObjectOne")
-    -- local transTwo = self.transform:Find("GameObjectTwo")
-    -- self:CreateSubView("Game.TestSubV", {parent = transOne})
-    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
+
+
+
 end
 
 function TestV:dtor()
-    
 end
 
 return TestV

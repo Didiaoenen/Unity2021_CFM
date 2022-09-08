@@ -1,0 +1,35 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local InputFieldExt = class("InputFieldExt", ComponentExt)
+
+InputFieldExt.CSObject = CS.UnityEngine.UI.InputField
+
+InputFieldExt.Text = "text"
+
+InputFieldExt.OnValueChanged = "onValueChanged"
+
+function InputFieldExt.get:text()
+   return (self.handler).text
+end
+
+function InputFieldExt.set:text(value)
+   (self.handler).text = value
+end
+
+function InputFieldExt.get:onValueChanged()
+   return (self.handler).onValueChanged
+end
+
+function InputFieldExt.set:onValueChanged(value)
+   (self.handler).onValueChanged = value
+end
+
+function InputFieldExt.get:GameObject()
+   return self.gameObject
+end
+
+function InputFieldExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return InputFieldExt

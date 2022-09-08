@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
 
 local InputFieldExt = class("InputFieldExt", ComponentExt) as InputFieldExtType
@@ -16,6 +14,14 @@ end
 
 function InputFieldExt.set:text(value: string)
     (self.handler as CS.UnityEngine.UI.InputField).text = value
+end
+
+function InputFieldExt.get:onValueChanged(): CS.UnityEngine.UI.InputField.OnChangeEvent
+    return (self.handler as CS.UnityEngine.UI.InputField).onValueChanged
+end
+
+function InputFieldExt.set:onValueChanged(value: CS.UnityEngine.UI.InputField.OnChangeEvent)
+    (self.handler as CS.UnityEngine.UI.InputField).onValueChanged = value
 end
 
 function InputFieldExt.get:GameObject(): GameObjectExtType

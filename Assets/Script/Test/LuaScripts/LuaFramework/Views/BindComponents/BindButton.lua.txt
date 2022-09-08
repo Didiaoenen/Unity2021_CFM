@@ -1,0 +1,40 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindButton = class("BindButton", BindComponent)
+
+function BindButton.get:OnClick()
+   return self.onClick
+end
+
+function BindButton.set:OnClick(value)
+   self.onClick = value
+end
+
+function BindButton.get:SimpleCommand()
+   return self.simpleCommand
+end
+
+function BindButton.set:SimpleCommand(value)
+   self.simpleCommand = value
+end
+
+function BindButton:ctor()
+   BindComponent.ctor(self)
+end
+
+function BindButton:BindWithName(view, cType, name, mode)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local buttonExt = component
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(buttonExt.OnClick):To(name .. ".OnClick"):SetMode(mode)
+
+   builder = bindingSet:BindByTarget(component)
+   builder:For(buttonExt.OnClick):To(name .. ".SimpleCommand"):SetMode(mode)
+
+   builder = bindingSet:BindByTarget(component.gameObject)
+   builder:For(buttonExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(mode)
+end
+
+return BindButton

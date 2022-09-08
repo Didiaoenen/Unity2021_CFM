@@ -1,31 +1,28 @@
-local TableExtention = require("LuaFramework.Common.TableExtention")
-
 local CommandBase = class("CommandBase")
 
-function CommandBase.set:CanExecuteChanged(value)
-    setcallback(self.canExecuteChanged, value)
+function CommandBase.set:ExecuteChanged(value)
+   setcallback(self.executeChanged, value)
 end
 
 function CommandBase:ctor()
-    self.canExecuteChanged = {}
+   self.executeChanged = {}
 end
 
-function CommandBase:RaiseCanExecuteChanged()
-    TableExtention.Foreach(self.canExecuteChanged, function (i, v)
-        v.callback(v.this)
-    end)
+function CommandBase:RaiseExecuteChanged()
+   for _, v in ipairs(self.executeChanged) do
+      v.callback(v.this)
+   end
 end
 
-function CommandBase:CanExecute(parameter)
-    
+function CommandBase:CanExecute(...)
+   assert({ ... }, "")
 end
 
-function CommandBase:Execute(parameter)
-    
+function CommandBase:Execute(...)
+   assert({ ... }, "")
 end
 
 function CommandBase:dtor()
-    
 end
 
 return CommandBase

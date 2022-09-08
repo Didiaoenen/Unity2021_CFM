@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 
 local BindGameObject = class("BindGameObject", ObservableObject) as BindGameObjectType

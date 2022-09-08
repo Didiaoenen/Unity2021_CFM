@@ -1,20 +1,19 @@
 local InteractionEventArgs = class("InteractionEventArgs")
 
 function InteractionEventArgs.get:Context()
-    return self.context
+   return self.context
 end
 
 function InteractionEventArgs.get:Callback()
-    return self.callback
+   return self.callback
 end
 
 function InteractionEventArgs:ctor(context, callback)
-    self.context = context
-    self.callback = callback
+   self.context = context
+   self.callback = callback
 end
 
 function InteractionEventArgs:dtor()
-    
 end
 
 return InteractionEventArgs

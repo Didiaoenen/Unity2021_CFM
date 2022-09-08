@@ -1,0 +1,7 @@
+local INotifiable = class("INotifiable")
+
+function INotifiable.set:ValueChanged(value)
+   assert({ value }, "")
+end
+
+return INotifiable

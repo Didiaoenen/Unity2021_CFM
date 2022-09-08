@@ -1,0 +1,55 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local TransformExt = class("TransformExt", ComponentExt)
+
+TransformExt.CSObject = CS.UnityEngine.Transform
+
+TransformExt.LocalRotation = "localRotation"
+
+TransformExt.LocalPosition = "localPosition"
+
+TransformExt.LocalScale = "localScale"
+
+TransformExt.Parent = "parent"
+
+function TransformExt.get:localRotation()
+   return (self.handler).localRotation
+end
+
+function TransformExt.set:localRotation(value)
+   (self.handler).localRotation = value
+end
+
+function TransformExt.get:localPosition()
+   return (self.handler).localPosition
+end
+
+function TransformExt.set:localPosition(value)
+   (self.handler).localPosition = value
+end
+
+function TransformExt.get:localScale()
+   return (self.handler).localScale
+end
+
+function TransformExt.set:localScale(value)
+   (self.handler).localScale = value
+end
+
+function TransformExt.set:parent(value)
+   (self.handler).parent = value
+end
+
+function TransformExt.get:parent()
+   return (self.handler).parent
+end
+
+function TransformExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+function TransformExt:SetParent(parent)
+   (self.handler):SetParent(parent.handler)
+end
+
+return TransformExt

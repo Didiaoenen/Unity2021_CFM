@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local IObtainable = class("IObtainable") as IObtainableType
 
 function IObtainable:GetValue(): any

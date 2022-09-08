@@ -1,0 +1,30 @@
+local ExecutorsExt = class("ExecutorsExtExt")
+
+function ExecutorsExt:ctor()
+   self.csharp = CS.Execution.Executors
+end
+
+function ExecutorsExt:__singleton()
+   return ExecutorsExt.new()
+end
+
+function ExecutorsExt:WaitWhile(callback)
+   return self.csharp.WaitWhile(callback)
+end
+
+function ExecutorsExt:RunOnMainThread(callback)
+   self.csharp.RunOnMainThread(callback)
+end
+
+function ExecutorsExt:RunOnCoroutine(callback)
+   return self.csharp.RunOnCoroutine(callback)
+end
+
+function ExecutorsExt:RunOnCoroutineNoReturn(callback)
+   self.csharp.RunOnCoroutineNoReturn(callback)
+end
+
+function ExecutorsExt:dtor()
+end
+
+return ExecutorsExt

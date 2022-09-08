@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 

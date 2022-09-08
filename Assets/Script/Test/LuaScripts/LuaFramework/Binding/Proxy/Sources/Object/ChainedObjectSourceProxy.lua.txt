@@ -1,0 +1,198 @@
+local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
+local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
+local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
+
+local ChainedObjectSourceProxy = class("ChainedObjectSourceProxy", NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable)
+
+local ProxyEntry = class("ProxyEntry")
+
+function ChainedObjectSourceProxy:ctor(source, token, factory)
+   NotifiableSourceProxyBase.ctor(self, source)
+   self.factory = factory
+   self.proxies = {}
+   self:Bind(source, token)
+end
+
+function ChainedObjectSourceProxy:Bind(source, token)
+   local index = token.Index
+   local proxy = self.factory:Create(source, token)
+   if nil == proxy then
+      return
+   end
+
+   local entry = ProxyEntry.new(proxy, token)
+   self.proxies[index] = entry
+
+   if token:HasNext() then
+      if (proxy).is(INotifiable) then
+         entry.Handler = { this = self, callback = function(sender, ...)
+            assert({ ... }, "")
+            local proxyEntry = self.proxies[index]
+            if nil == proxyEntry or sender ~= proxyEntry.Proxy then
+               return
+            end
+
+            self:Rebind(index)
+         end, }
+      end
+
+      local child = (proxy):GetValue()
+      if nil ~= child then
+         self:Bind(child, token:NextToken())
+      else
+         self:RaiseValueChanged()
+      end
+   else
+      if (proxy).is(IObtainable) then
+         entry.Handler = { this = self, callback = function(sender, ...)
+            assert({ sender, ... }, "")
+            self:RaiseValueChanged()
+         end, }
+      end
+      self:RaiseValueChanged()
+   end
+end
+
+function ChainedObjectSourceProxy:Rebind(index)
+   for i = #(self.proxies), index, -1 do
+      local proxyEntry = self.proxies[i]
+      if proxyEntry then
+         local proxy = proxyEntry.Proxy
+         proxyEntry.Proxy = nil
+         if nil ~= proxy then
+
+         end
+      end
+   end
+
+   local entry = self.proxies[index]
+   local bObtainable = (entry.Proxy).is(IObtainable)
+   if not bObtainable then
+      self:RaiseValueChanged()
+      return
+   end
+
+   local source = (entry.Proxy):GetValue()
+   if nil == source then
+      self:RaiseValueChanged()
+      return
+   end
+
+   self:Bind(source, entry.Token:NextToken())
+end
+
+function ChainedObjectSourceProxy:Unbind()
+   for i = #(self.proxies), 1, -1 do
+      local proxyEntry = self.proxies[i]
+      if proxyEntry then
+
+      end
+   end
+end
+
+function ChainedObjectSourceProxy:GetValue()
+   local obtainable = self:GetObtainable()
+   if nil == obtainable then
+      return
+   end
+
+   return obtainable:GetValue()
+end
+
+function ChainedObjectSourceProxy:SetValue(value)
+   local modifiable = self:GetModifiable()
+   if nil == modifiable then
+      return
+   end
+
+   modifiable:SetValue(value)
+end
+
+function ChainedObjectSourceProxy:GetObtainable()
+   local proxyEntry = self.proxies[#(self.proxies)]
+   if nil == proxyEntry then
+      return
+   end
+
+   return proxyEntry.Proxy
+end
+
+function ChainedObjectSourceProxy:GetModifiable()
+   local proxyEntry = self.proxies[#(self.proxies)]
+   if nil == proxyEntry then
+      return
+   end
+
+   return proxyEntry.Proxy
+end
+
+function ChainedObjectSourceProxy:dtor()
+end
+
+
+
+function ProxyEntry.get:Proxy()
+   return self.proxy
+end
+
+function ProxyEntry.set:Proxy(value)
+   if self.proxy == value then
+      return
+   end
+
+
+   if nil ~= self.handler then
+      local bNotifiable = (self.proxy).is(IObtainable)
+      if bNotifiable then
+         (self.proxy).ValueChanged = { this = self.handler.this }
+      end
+
+      bNotifiable = (value).is(IObtainable)
+      if bNotifiable then
+         (value).ValueChanged = self.handler
+      end
+   end
+   self.proxy = value
+end
+
+function ProxyEntry.get:Token()
+   return self.token
+end
+
+function ProxyEntry.set:Token(value)
+   self.token = value
+end
+
+function ProxyEntry.get:Handler()
+   return self.handler
+end
+
+function ProxyEntry.set:Handler(value)
+   if self.handler == value then
+      return
+   end
+
+   local bNotifiable = (self.proxy).is(IObtainable)
+   if bNotifiable then
+      if nil ~= self.handler then
+         (self.proxy).ValueChanged = { this = self.handler.this }
+      end
+
+      if nil ~= value then
+         (self.proxy).ValueChanged = value
+      end
+   end
+
+   self.handler = value
+end
+
+function ProxyEntry:ctor(proxy, token)
+   self.proxy = proxy
+   self.token = token
+end
+
+function ProxyEntry:dtor()
+end
+
+return ChainedObjectSourceProxy

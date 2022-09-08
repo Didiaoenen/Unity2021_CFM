@@ -1,0 +1,30 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindInputField = class("BindInputField", BindComponent)
+
+function BindInputField.get:Text()
+   return self.text
+end
+
+function BindInputField.set:Text(value)
+   self:Set({ name = "text" }, value, "Text")
+end
+
+function BindInputField:ctor()
+   BindComponent.ctor(self)
+   self.text = ""
+end
+
+function BindInputField:BindWithName(view, cType, name, mode)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local inputFieldExt = component
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(inputFieldExt.Text, inputFieldExt.OnValueChanged):To(name .. ".Text"):SetMode(mode)
+
+   builder = bindingSet:BindByTarget(component.gameObject)
+   builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(mode)
+end
+
+return BindInputField

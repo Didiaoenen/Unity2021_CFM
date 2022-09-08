@@ -7,60 +7,50 @@ local ObjectSourceDescription = require("LuaFramework.Binding.Proxy.Sources.Obje
 local BindingBuilderBase = class("BindingBuilderBase")
 
 function BindingBuilderBase:ctor(context, target)
-    assert(context and target, "")
+   assert(context and target, "")
 
-    self.context = context
-    self.target = target
+   self.context = context
+   self.target = target
 
-    self.builded = false
-    self.scopeKey = nil
-    self.description = BindingDescription.new()
-    self.description.Mode = BindingMode.Default
+   self.builded = false
+   self.scopeKey = ""
+   self.description = BindingDescription.new()
+   self.description.Mode = BindingMode.Default
 end
 
 function BindingBuilderBase:SetMode(mode)
-    self.description.Mode = mode
+   self.description.Mode = mode
 end
 
 function BindingBuilderBase:SetMemberPath(pathText)
-    local path = PathParse.Parse(pathText)
-    self:SetMemberPathWithPath(path)
+   local paths = PathParse.Parse(pathText)
+   self:SetMemberPathWithPath(paths)
 end
 
-function BindingBuilderBase:SetMemberPathWithPath(path)
-    self.description.Source = ObjectSourceDescription.new()
-    self.description.Source.Path = path
+function BindingBuilderBase:SetMemberPathWithPath(paths)
+   self.description.Source = ObjectSourceDescription.new(paths)
 end
 
-function BindingBuilderBase:SetStaticMemberPath(pathText)
-    
-end
-
-function BindingBuilderBase:SetExpression(expression)
-    
-end
-
-function BindingBuilderBase:SetCommandParameter(parameter)
-    
+function BindingBuilderBase:SetCommandParameter(...)
+   assert({ ... }, "")
 end
 
 function BindingBuilderBase:CheckBindingDescription()
-    assert(not StringExtension.IsNilOrEmpty(self.description.TargetName), "")
-    assert(self.description.Source, "")
+   assert(not StringExtension.IsNilOrEmpty(self.description.TargetName), "")
+   assert(self.description.Source, "")
 end
 
 function BindingBuilderBase:Build()
-    if self.builded then
-        return                
-    end
+   if self.builded then
+      return
+   end
 
-    self:CheckBindingDescription()
-    self.context:AddBySingleDesc(self.target, self.description, self.scopeKey)
-    self.builded = true
+   self:CheckBindingDescription()
+   self.context:AddWithSingleDesc(self.target, self.description, self.scopeKey)
+   self.builded = true
 end
 
 function BindingBuilderBase:dtor()
-    
 end
 
 return BindingBuilderBase

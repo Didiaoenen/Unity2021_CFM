@@ -1,0 +1,25 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local TextExt = class("TextExt", ComponentExt)
+
+TextExt.CSObject = CS.UnityEngine.UI.Text
+
+TextExt.Text = "text"
+
+function TextExt.get:text()
+   return (self.handler).text
+end
+
+function TextExt.set:text(value)
+   (self.handler).text = value
+end
+
+function TextExt.get:GameObject()
+   return self.gameObject
+end
+
+function TextExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return TextExt

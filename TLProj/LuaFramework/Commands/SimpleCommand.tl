@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local CommandBase = require("LuaFramework.Commands.CommandBase")
 
 local SimpleCommand = class("SimpleCommand", CommandBase) as SimpleCommandType
@@ -22,6 +20,7 @@ function SimpleCommand:ctor(execute: function)
 end
 
 function SimpleCommand:CanExecute(...: any): boolean
+    assert({...}, "")
     return self.Enabled
 end
 

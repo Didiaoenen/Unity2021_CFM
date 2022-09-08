@@ -1,0 +1,6 @@
+local IObtainable = class("IObtainable")
+
+function IObtainable:GetValue()
+end
+
+return IObtainable

@@ -1,56 +1,63 @@
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
+local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChanged")
 local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
+local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
+local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 
-local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase)
+local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable)
 
 function PropertyNodeProxy:ctor(source, propertyInfo)
-    NotifiableSourceProxyBase.ctor(self, source)
-    self.propertyInfo = propertyInfo
+   NotifiableSourceProxyBase.ctor(self, source)
+   self.propertyInfo = propertyInfo
 
-    if not self.source then
-        return
-    end
+   if nil == source then
+      return
+   end
 
-    self.source.PropertyChanged = {this = self, callback = self.OnPropertyChanged}
+   if self.source.is and self.source.is(INotifyPropertyChanged) then
+      local sourceNotify = self.source
+      sourceNotify.PropertyChanged = { this = self, callback = self.OnPropertyChanged }
+   end
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender, e)
-    local name = e.PropertyName
-    if name and name ~= "" then
-        self:RaiseValueChanged()
-    end
+   assert({ sender }, "")
+   local name = e.PropertyName
+   if name and name ~= "" and name == self.propertyInfo then
+      self:RaiseValueChanged()
+   end
 end
 
 function PropertyNodeProxy:GetValue()
-    local source = self.source
-    if not source then
-        return
-    end
+   local source = self.source
+   if nil == source then
+      return
+   end
 
-    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
-    if proxyInfo then
-        return proxyInfo.getter(source)
-    else
-        return self.source[self.propertyInfo]
-    end
+   local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
+   if proxyInfo then
+      return proxyInfo.getter(source)
+   else
+      return classget(self.source, self.propertyInfo)
+   end
 end
 
 function PropertyNodeProxy:SetValue(value)
-    local source = self.source
-    if not source then
-        return
-    end
+   local source = self.source
+   if nil == source then
+      return
+   end
 
-    local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
-    if proxyInfo then
-        proxyInfo.setter(source, value)
-    else
-        self.source[self.propertyInfo] = value
-    end
+   local proxyInfo = UnityProxyRegister.Instance:Get(self.propertyInfo)
+   if proxyInfo then
+      proxyInfo.setter(source, value)
+   else
+      classset(self.source, self.propertyInfo, value)
+   end
 end
 
 function PropertyNodeProxy:dtor()
-    
 end
 
 return PropertyNodeProxy

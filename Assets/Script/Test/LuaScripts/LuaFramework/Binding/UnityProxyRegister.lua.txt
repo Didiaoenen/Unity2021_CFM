@@ -1,31 +1,30 @@
 local UnityProxyRegister = class("UnityProxyRegister")
 
 function UnityProxyRegister:ctor()
-    self.registerProxies = {}
-    self:Initialize()
+   self.registerProxies = {}
+   self:Initialize()
 end
 
 function UnityProxyRegister:Initialize()
-    self.registerProxies["activeSelf"] = {
-        getter = function (target) return target.activeSelf end,
-        setter = function (target, value) target:SetActive(value) end,
-    }
-    self.registerProxies["parent"] = {
-        getter = function (target) return target.parent end,
-        setter = function (target, value) target:SetParent(value) end,
-    }
+   self.registerProxies["activeSelf"] = {
+      getter = function(target) return target.activeSelf end,
+      setter = function(target, value) target:SetActive(value) end,
+   }
+   self.registerProxies["parent"] = {
+      getter = function(target) return target.parent end,
+      setter = function(target, value) target:SetParent(value) end,
+   }
 end
 
 function UnityProxyRegister:__singleton()
-    return UnityProxyRegister.new()
+   return UnityProxyRegister.new()
 end
 
 function UnityProxyRegister:Get(memberInfo)
-    return self.registerProxies[memberInfo]
+   return self.registerProxies[memberInfo]
 end
 
 function UnityProxyRegister:dtor()
-    
 end
 
 return UnityProxyRegister

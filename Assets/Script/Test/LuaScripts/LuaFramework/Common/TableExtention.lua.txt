@@ -1,75 +1,75 @@
 local TableExtention = {}
 
 function TableExtention.Foreach(t, callback)
-    for i, v in ipairs(t) do
-        if callback then
-            callback(i, v)
-        end
-    end
+   for i, v in ipairs(t) do
+      if callback then
+         callback(i, v)
+      end
+   end
 end
 
 function TableExtention.FindLastIndex(t, callback)
-    local tt = {}
-    for i, v in ipairs(t) do
-        if callback and callback(i, v) then
-            table.insert(tt, i)
-        end
-    end
-    return tt[#(t)]
+   local tt = {}
+   for i, v in ipairs(t) do
+      if callback and callback(i, v) then
+         table.insert(tt, i)
+      end
+   end
+   return tt[#(t)]
 end
 
 function TableExtention.FindIndex(t, callback)
-    local tt = {}
-    for i, v in ipairs(t) do
-        if callback and callback(i, v) then
-            table.insert(tt, i)
-            break
-        end
-    end
-    return tt[1]
+   local tt = {}
+   for i, v in ipairs(t) do
+      if callback and callback(i, v) then
+         table.insert(tt, i)
+         break
+      end
+   end
+   return tt[1]
 end
 
 function TableExtention.Find(t, callback)
-    for i, v in ipairs(t) do
-        if callback and callback(i, v) then
-            return v
-        end
-    end
+   for i, v in ipairs(t) do
+      if callback and callback(i, v) then
+         return v
+      end
+   end
 end
 
 function TableExtention.RemoveObj(t, obj)
-    for i, v in ipairs(t) do
-        if v == obj then
-            return table.remove(t, i)
-        end
-    end
+   for i, v in ipairs(t) do
+      if v == obj then
+         return table.remove(t, i)
+      end
+   end
 end
 
 function TableExtention.Exists(t, callback)
-    for i, v in ipairs(t) do
-        if callback and callback(i, v) then
-            return true
-        end
-    end
-    return false
+   for i, v in ipairs(t) do
+      if callback and callback(i, v) then
+         return true
+      end
+   end
+   return false
 end
 
 function TableExtention.ContainsKey(t, key)
-    for k, _ in pairs(t) do
-        if k == key then
-            return true
-        end
-    end
-    return false
+   for k, _ in pairs(t) do
+      if k == key then
+         return true
+      end
+   end
+   return false
 end
 
 function TableExtention.ContainsValue(t, value)
-    for _, v in pairs(t) do
-        if v == value then
-            return true
-        end
-    end
-    return false
+   for _, v in pairs(t) do
+      if v == value then
+         return true
+      end
+   end
+   return false
 end
 
 return TableExtention

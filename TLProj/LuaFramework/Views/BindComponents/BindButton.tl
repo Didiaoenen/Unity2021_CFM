@@ -1,7 +1,4 @@
-require("OOP.Class")
-
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
-local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local BindButton = class("BindButton", BindComponent) as BindButtonType
 

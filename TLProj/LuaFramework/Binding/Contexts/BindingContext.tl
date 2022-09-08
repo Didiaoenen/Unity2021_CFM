@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local StandardBinder = require("LuaFramework.Binding.Binders.StandardBinder")
 local TableExtention = require("LuaFramework.Common.TableExtention")
 

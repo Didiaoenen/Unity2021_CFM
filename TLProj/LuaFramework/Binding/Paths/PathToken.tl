@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local PathToken = class("PathToken") as PathTokenType
 
 function PathToken:ctor(paths: {string}, index: integer)

@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
 
 local EventTargetProxyBase = class("EventTargetProxyBase", TargetProxyBase) as EventTargetProxyBaseType
@@ -9,6 +7,7 @@ function EventTargetProxyBase:ctor(target: LuaObject)
 end
 
 function EventTargetProxyBase:SetValue(value: any)
+    assert({value}, "")
 end
 
 function EventTargetProxyBase:dtor()

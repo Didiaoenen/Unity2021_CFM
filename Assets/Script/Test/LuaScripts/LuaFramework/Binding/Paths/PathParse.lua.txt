@@ -3,7 +3,7 @@ local StringExtension = require("LuaFramework.Common.StringExtension")
 local PathParse = class("PathParse")
 
 function PathParse.Parse(pathText)
-    return StringExtension.Split(pathText, ".")
+   return StringExtension.Split(pathText, ".")
 end
 
 return PathParse

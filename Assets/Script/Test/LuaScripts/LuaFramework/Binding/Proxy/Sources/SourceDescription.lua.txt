@@ -1,15 +1,18 @@
 local SourceDescription = class("SourceDescription")
 
 function SourceDescription.get:IsStatic()
-    return self.isStatic
+   return self.isStatic
 end
 
 function SourceDescription.set:IsStatic(value)
-    self.isStatic = value
+   self.isStatic = value
 end
 
 function SourceDescription:ctor()
-    self.isStatic = false
+   self.isStatic = false
+end
+
+function SourceDescription:dtor()
 end
 
 return SourceDescription

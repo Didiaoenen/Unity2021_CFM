@@ -1,0 +1,11 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local GraphicRaycasterExt = class("GraphicRaycasterExt", ComponentExt)
+
+GraphicRaycasterExt.CSObject = CS.UnityEngine.UI.GraphicRaycaster
+
+function GraphicRaycasterExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return GraphicRaycasterExt

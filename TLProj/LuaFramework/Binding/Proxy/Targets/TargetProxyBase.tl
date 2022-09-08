@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
@@ -20,6 +18,7 @@ function TargetProxyBase:ctor(target: LuaObject)
 end
 
 function TargetProxyBase:IsAlive(target: LuaObject): boolean
+    assert({target})
     return true
 end
 

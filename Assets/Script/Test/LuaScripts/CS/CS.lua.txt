@@ -5,30 +5,9 @@ local CSObject = {
     Execution = CS.Assembly_CSharp.Assets.Script.Simple.Execution,
     Asynchronous = CS.Assembly_CSharp.Assets.Script.Simple.Asynchronous,
 }
-rawset(CS, "CSObject", CSObject)
-
-local CSName = {
-    TestTemp_1_Single = "TestTemp`1[System.Single]",
-    ProgressResult_1_Single = "ProgressResult`1[System.Single]",
-}
-rawset(CS, "CSName", CSName)
-
-local CSType = {
-    ObjectT = typeof(CS.UnityEngine.Object),
-    CanvasT = typeof(CS.UnityEngine.Canvas),
-    TransformT = typeof(CS.UnityEngine.Transform),
-    GameObjectT = typeof(CS.UnityEngine.GameObject),
-    CanvasGroupT = typeof(CS.UnityEngine.CanvasGroup),
-    RectTransformT = typeof(CS.UnityEngine.RectTransform),
-
-    TextT = typeof(CS.UnityEngine.UI.Text),
-    ButtonT = typeof(CS.UnityEngine.UI.Button),
-    InputFieldT = typeof(CS.UnityEngine.UI.InputField),
-    GraphicRaycasterT = typeof(CS.UnityEngine.UI.GraphicRaycaster),
-
-    UnityEventBaseT = typeof(CS.UnityEngine.Events.UnityEventBase),
-}
-rawset(CS, "CSType", CSType)
+rawset(CS, "Simple", CSObject.Simple)
+rawset(CS, "Execution", CSObject.Execution)
+rawset(CS, "Asynchronous", CSObject.Asynchronous)
 
 --保存类类型的虚表
 local _class = {}
@@ -39,7 +18,7 @@ ClassType = {
 	class = 1,
 	instance = 2,
 }
- 
+
 function BaseClass(classname, super)
 	assert(type(classname) == "string" and #classname > 0)
 	-- 生成一个类类型
@@ -126,10 +105,6 @@ function BaseClass(classname, super)
  
 	return class_type
 end
-
-
-
-
 
 --[[
 getset.lua

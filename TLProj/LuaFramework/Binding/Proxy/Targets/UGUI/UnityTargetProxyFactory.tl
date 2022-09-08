@@ -1,5 +1,4 @@
-require("OOP.Class")
-
+local Misc = require("LuaFramework.Common.Misc")
 local UnityPropertyProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy")
 local UnityEventProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxy")
 
@@ -19,7 +18,7 @@ function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: Bin
     end
 
     if "userdata" == type(memberInfo) then
-        if CS.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo as CS.System.Object):GetType()) then
+        if Misc.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo as CS.System.Object):GetType()) then
             return UnityEventProxy.new(target, description.TargetName) as TargetProxyBaseType
         else
             if not updateTrigger then

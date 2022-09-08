@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
 
 local BindCanvas = class("BindCanvas", BindComponent) as BindCanvasType

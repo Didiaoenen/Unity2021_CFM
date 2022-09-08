@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local CommandBase = class("CommandBase") as CommandBaseType
 
 function CommandBase.set:ExecuteChanged(value: EventHandlerType)
@@ -17,9 +15,11 @@ function CommandBase:RaiseExecuteChanged()
 end
 
 function CommandBase:CanExecute(...: any)
+    assert({...}, "")
 end
 
 function CommandBase:Execute(...: any)
+    assert({...}, "")
 end
 
 function CommandBase:dtor()

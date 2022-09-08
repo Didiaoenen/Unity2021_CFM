@@ -1,32 +1,35 @@
-local TypedSourceProxyFactory = class("TypedSourceProxyFactory")
+local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
+
+local TypedSourceProxyFactory = class("TypedSourceProxyFactory", ISourceProxyFactory)
 
 function TypedSourceProxyFactory:ctor()
-    
+
 end
 
 function TypedSourceProxyFactory:IsSupported(description)
-    return true
+   assert({ description }, "")
+   return true
 end
 
 function TypedSourceProxyFactory:CreateProxy(source, description)
-    if not self:IsSupported(description) then
-        return
-    end
+   if not self:IsSupported(description) then
+      return
+   end
 
-    local proxy = {}
-    if self:TryCreateProxy(source, description, proxy) then
-        return proxy.ref
-    end
+   local proxy = {}
+   if self:TryCreateProxy(source, description, proxy) then
+      return proxy.ref
+   end
 
-    return proxy.ref
+   return proxy.ref
 end
 
 function TypedSourceProxyFactory:TryCreateProxy(source, description, proxy)
-    
+   assert({ source, description, proxy }, "")
+   return true
 end
 
 function TypedSourceProxyFactory:dtor()
-    
 end
 
 return TypedSourceProxyFactory

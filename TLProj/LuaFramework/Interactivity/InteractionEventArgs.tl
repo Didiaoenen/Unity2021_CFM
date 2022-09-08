@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local InteractionEventArgs = class("InteractionEventArgs") as InteractionEventArgsType
 
 function InteractionEventArgs.get:Context(): LuaObject

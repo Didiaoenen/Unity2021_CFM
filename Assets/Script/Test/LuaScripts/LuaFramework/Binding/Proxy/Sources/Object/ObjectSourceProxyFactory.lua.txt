@@ -1,67 +1,73 @@
+local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
+local PathToken = require("LuaFramework.Binding.Paths.PathToken")
 
-local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory)
+local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory, INodeProxyFactory)
 
 function ObjectSourceProxyFactory:ctor()
-    TypedSourceProxyFactory.ctor(self)
-    self.factories = {}        
+   TypedSourceProxyFactory.ctor(self)
+   self.factories = {}
 end
 
 function ObjectSourceProxyFactory:TryCreateProxy(source, description, proxy)
-    local path = description.Path
-    assert(#(path) > 0)
+   local paths = (description).Paths
+   assert(#(paths) > 0)
 
-    if #path == 1 then
-        proxy.ref = self:Create(source, path)
-        if proxy.ref then
-            return true
-        end
-        return false
-    end
+   local token = PathToken.new(paths, 1)
 
-    return true
+   if #paths == 1 then
+      proxy.ref = self:Create(source, token)
+      if proxy.ref then
+         return true
+      end
+      return false
+   end
+
+   proxy.ref = ChainedObjectSourceProxy.new(source, token, self)
+   return true
 end
 
-function ObjectSourceProxyFactory:Create(source, path)
-    local proxy = {}
-    for i, v in ipairs(self.factories) do
-        local factory = v.factory
-        if factory then
-            proxy.ref = factory:Create(source, path)
-            if proxy.ref then
-                return proxy.ref
-            end
-        end
-    end
-    return proxy.ref
+function ObjectSourceProxyFactory:Create(source, token)
+   local proxy = {}
+   for _, v in ipairs(self.factories) do
+      local factory = v.factory
+      if factory then
+         proxy.ref = (factory):Create(source, token)
+         if proxy.ref then
+            return proxy.ref
+         end
+      end
+   end
+
+   return proxy.ref
 end
 
 function ObjectSourceProxyFactory:Register(factory, priority)
-    if not factory then
-        return        
-    end
+   if nil == factory then
+      return
+   end
 
-    table.insert(self.factories, {factory = factory, priority = priority or 100})
-    table.sort(self.factories, function (a, b)
-        return a.priority > b.priority
-    end)
+   table.insert(self.factories, { factory = factory, priority = priority or 100 })
+   table.sort(self.factories, function(a, b)
+      return a.priority > b.priority
+   end)
 end
 
 function ObjectSourceProxyFactory:Unregister(factory)
-    if not factory then
-        return
-    end
+   if nil == factory then
+      return
+   end
 
-    for i, v in ipairs(self.factories) do
-        if v.factory == factory then
-            table.remove(self.factories, i)
-            return
-        end
-    end
+   for i, v in ipairs(self.factories) do
+      if v.factory == factory then
+         table.remove(self.factories, i)
+         return
+      end
+   end
 end
 
 function ObjectSourceProxyFactory:dtor()
-
 end
 
 return ObjectSourceProxyFactory

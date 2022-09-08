@@ -1,0 +1,21 @@
+local util = require("xlua.util")
+
+local CoroutineExt = class("CoroutineExt")
+
+function CoroutineExt.GetEnumerator(callback)
+   return util.cs_generator(function()
+      if callback then
+         callback()
+      end
+   end)
+end
+
+function CoroutineExt.Yield(enumerator)
+   coroutine.yield(enumerator)
+end
+
+function CoroutineExt.Wait(time)
+   coroutine.yield(CS.UnityEngine.WaitForSeconds(time))
+end
+
+return CoroutineExt

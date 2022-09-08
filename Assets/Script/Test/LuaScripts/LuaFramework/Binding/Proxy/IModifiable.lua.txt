@@ -1,0 +1,7 @@
+local IModifiable = class("IModifiable")
+
+function IModifiable:SetValue(value)
+   assert({ value }, "")
+end
+
+return IModifiable

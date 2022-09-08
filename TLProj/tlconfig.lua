@@ -9,5 +9,6 @@ return {
 
         "LuaFramework\\System.tl",
     },
+    global_env_def = "Types/Index",
     build_xlua = true,
  }

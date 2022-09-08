@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
 local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
 local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")

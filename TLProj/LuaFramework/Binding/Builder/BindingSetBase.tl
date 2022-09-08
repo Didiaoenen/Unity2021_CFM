@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local BindingSetBase = class("BindingSetBase") as BindingSetBaseType

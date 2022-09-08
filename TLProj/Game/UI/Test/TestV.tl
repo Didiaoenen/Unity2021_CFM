@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local TestVM = require("Game.UI.Test.TestVM")
 local WindowBase = require("LuaFramework.Views.WindowBase")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
@@ -51,6 +49,7 @@ function TestV:ctor(bundle)
 end
 
 function TestV:TestFunc(sender: any, args: any)
+    assert({sender, args}, "")
     print("hahaha")
 end
 
@@ -74,7 +73,7 @@ function TestV:OnCreate()
 
     self.viewModel.text:BindWithName(self, TextExt, "text", BindingMode.OneWay)
     self.viewModel.button:BindWithName(self, ButtonExt, "button", BindingMode.OneWay)
-    -- self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", BindingMode.OneWay)
+    self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", BindingMode.OneWay)
 
     --
     self.bindingSet:Build()

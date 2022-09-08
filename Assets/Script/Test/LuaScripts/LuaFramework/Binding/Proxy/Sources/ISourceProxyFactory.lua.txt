@@ -1,0 +1,7 @@
+local ISourceProxyFactory = class("ISourceProxyFactory")
+
+function ISourceProxyFactory:CreateProxy(source, description)
+   assert({ source, description }, "")
+end
+
+return ISourceProxyFactory

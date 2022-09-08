@@ -1,50 +1,42 @@
-local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.InteractionNodeProxy")
-local PropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.PropertyNodeProxy")
+local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
 local MethodNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.MethodNodeProxy")
+local PropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.PropertyNodeProxy")
+local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.InteractionNodeProxy")
 
-local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory")
+local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory", INodeProxyFactory)
 
 function UniversalNodeProxyFactory:ctor()
-    
+
 end
 
-function UniversalNodeProxyFactory:Create(source, path)
-    local node = path[1]
-    if not source and not node.IsStatic then
-        return
-    end
+function UniversalNodeProxyFactory:Create(source, token)
+   local node = token.Current
+   if nil == source then
+      return
+   end
 
-    if node.IsStatic then
-        return self:CreateStaticProxy(node)
-    end
-
-    return self:CreateProxy(source, node)
+   return self:CreateProxy(source, node)
 end
 
 function UniversalNodeProxyFactory:CreateProxy(source, node)
-    local memberInfo = source[node]
+   local memberInfo = classget(source, node)
 
-    if type(memberInfo) == "function" then
-        return MethodNodeProxy.new(source, node)
-    elseif type(memberInfo) == "userdata" then
-        return PropertyNodeProxy.new(source, node)
-    else
-        if type(memberInfo) == "table" then
-            if source[node].__name == "InteractionRequest" then
-                return InteractionNodeProxy.new(source, node)
-            end
-        end
+   if "function" == type(memberInfo) then
+      return MethodNodeProxy.new(source, node)
+   elseif "userdata" == type(memberInfo) then
+      return PropertyNodeProxy.new(source, node)
+   else
+      if "table" == type(memberInfo) then
+         if (memberInfo).is(InteractionNodeProxy) then
+            return InteractionNodeProxy.new(source, node)
+         end
+      end
 
-        return PropertyNodeProxy.new(source, node)
-    end
-end
-
-function UniversalNodeProxyFactory:CreateStaticProxy()
-    
+      return PropertyNodeProxy.new(source, node)
+   end
 end
 
 function UniversalNodeProxyFactory:dtor()
-
 end
 
 return UniversalNodeProxyFactory

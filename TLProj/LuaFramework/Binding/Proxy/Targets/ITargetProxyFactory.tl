@@ -1,8 +1,7 @@
-require("OOP.Class")
-
 local ITargetProxyFactory = class("ITargetProxyFactory") as ITargetProxyFactoryType
 
 function ITargetProxyFactory:CreateProxy(target: LuaObject, discription: BindingDescriptionType): TargetProxyBaseType
+    assert({target, discription}, "")
 end
 
 return ITargetProxyFactory
