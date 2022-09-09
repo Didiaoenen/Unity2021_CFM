@@ -6,6 +6,7 @@ local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 local TextExt = require("LuaFramework.Views.Components.TextExt")
 local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
 local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local TestV = class("TestV", WindowBase) as TestVType
 
@@ -71,9 +72,10 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:BindWithName(self, TextExt, "text", BindingMode.OneWay)
-    self.viewModel.button:BindWithName(self, ButtonExt, "button", BindingMode.OneWay)
-    self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", BindingMode.OneWay)
+    self.viewModel.text:BindWithName(self, TextExt, "text", {BindingMode.OneWay})
+    self.viewModel.button:BindWithName(self, ButtonExt, "button", {BindingMode.OneWay})
+    self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", {BindingMode.OneWay})
+    self.viewModel.gameObject:BindWithName(self, GameObjectExt, "gameObject", {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
@@ -83,6 +85,11 @@ function TestV:OnShow()
     WindowBase.OnShow(self)
 
     self.viewModel.text.Text = "hahaha"
+    self.viewModel.inputField.Text = "你好啊"
+    self.viewModel.gameObject.ActiveSelf = false
+
+    -- local inputBase = self.viewModel.inputField as BindComponentType
+    -- inputBase.GameObject.ActiveSelf = false
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")

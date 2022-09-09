@@ -8,7 +8,7 @@ function BindingSetBase:ctor(context: BindingContextType)
 end
 
 function BindingSetBase:Build()
-    TableExtention.Foreach(self.builders, function(_: number, v:BindingBuilderBaseType)
+    TableExtention.Foreach(self.builders, function(_: number, v: BindingBuilderBaseType)
         v:Build()
     end)
 end

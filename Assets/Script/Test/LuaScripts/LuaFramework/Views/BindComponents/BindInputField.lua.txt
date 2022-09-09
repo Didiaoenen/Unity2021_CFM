@@ -15,16 +15,22 @@ function BindInputField:ctor()
    self.text = ""
 end
 
-function BindInputField:BindWithName(view, cType, name, mode)
+function BindInputField:BindWithName(view, cType, name, modes)
    local component = view:GetComponentWithName(cType, name)
    local bindingSet = view.bindingSet
    local inputFieldExt = component
 
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
    local builder = bindingSet:BindByTarget(component)
-   builder:For(inputFieldExt.Text, inputFieldExt.OnValueChanged):To(name .. ".Text"):SetMode(mode)
+   builder:For(inputFieldExt.Text, inputFieldExt.OnValueChanged):To(name .. ".Text"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component.gameObject)
-   builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(mode)
+   builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 return BindInputField

@@ -15,13 +15,19 @@ function BindCanvasGroup:ctor()
     self.alpha = 1
 end
 
-function BindCanvasGroup:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, mode: number)
+function BindCanvasGroup:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
     local component = view:GetComponentWithName(cType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local canvasGroupExt = component as CanvasGroupExtType
 
+    local index: integer = 0
+    local _Mode = function(): number
+        index = #(modes) > 1 and index + 1 or 1
+        return modes[index]
+    end
+
     local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(canvasGroupExt.Alpha):To(name .. ".Alpha"):SetMode(mode)
+    builder:For(canvasGroupExt.Alpha):To(name .. ".Alpha"):SetMode(_Mode())
 end
 
 return BindCanvasGroup

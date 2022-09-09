@@ -64,6 +64,7 @@ local record TestVM
     text: BindTextType
     button: BindButtonType
     inputField: BindInputFieldType
+    gameObject: BindGameObjectType
 
     new: function(...: any): TestVM
     ctor: function

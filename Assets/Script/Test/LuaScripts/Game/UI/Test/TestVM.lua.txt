@@ -5,6 +5,7 @@ local InteractionRequest = require("LuaFramework.Interactivity.InteractionReques
 local BindText = require("LuaFramework.Views.BindComponents.BindText")
 local BindButton = require("LuaFramework.Views.BindComponents.BindButton")
 local BindInputField = require("LuaFramework.Views.BindComponents.BindInputField")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 
 local TestVM = class("TestVM", ViewModelBase)
 
@@ -66,6 +67,7 @@ function TestVM:ctor()
       print("SimpleCommand")
    end)
    self.inputField = BindInputField.new()
+   self.gameObject = BindGameObject.new()
 
 
    self.test = ""

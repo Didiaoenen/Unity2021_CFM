@@ -24,16 +24,22 @@ function BindCanvas:ctor()
    self.sortingOrder = 0
 end
 
-function BindCanvas:BindWithName(view, cType, name, mode)
+function BindCanvas:BindWithName(view, cType, name, modes)
    local component = view:GetComponentWithName(cType, name)
    local bindingSet = view.bindingSet
    local canvasExt = component
 
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
    local builder = bindingSet:BindByTarget(component)
-   builder:For(canvasExt.OverrideSorting):To(name .. ".OverrideSorting"):SetMode(mode)
+   builder:For(canvasExt.OverrideSorting):To(name .. ".OverrideSorting"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component)
-   builder:For(canvasExt.SortingOrder):To(name .. ".SortingOrder"):SetMode(mode)
+   builder:For(canvasExt.SortingOrder):To(name .. ".SortingOrder"):SetMode(_Mode())
 end
 
 return BindCanvas

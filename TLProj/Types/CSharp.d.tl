@@ -119,6 +119,11 @@ global record CS
             end
         end
 
+        -- Sprite
+        record Sprite
+
+        end
+
         -- UI
         record UI
             -- Text
@@ -143,6 +148,19 @@ global record CS
             -- GraphicRaycaster
             record GraphicRaycaster
 
+            end
+
+            -- Toggle
+            record Toggle
+                record ToggleEvent
+                end
+                onValueChanged: ToggleEvent
+            end
+
+            -- Image
+            record Image
+                sprit: UnityEngine.Sprite
+                fillAmount: number
             end
         end
     end

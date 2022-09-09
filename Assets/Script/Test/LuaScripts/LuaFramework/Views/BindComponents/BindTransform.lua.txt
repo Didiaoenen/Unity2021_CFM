@@ -42,22 +42,28 @@ function BindTransform:ctor()
    self.localScale = CS.UnityEngine.Vector3.one
 end
 
-function BindTransform:BindWithName(view, cType, name, mode)
+function BindTransform:BindWithName(view, cType, name, modes)
    local component = view:GetComponentWithName(cType, name)
    local bindingSet = view.bindingSet
    local transformExt = component
 
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
    local builder = bindingSet:BindByTarget(component)
-   builder:For(transformExt.Parent):To(name .. ".Parent"):SetMode(mode)
+   builder:For(transformExt.Parent):To(name .. ".Parent"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component)
-   builder:For(transformExt.LocalRotation):To(name .. ".LocalRotation"):SetMode(mode)
+   builder:For(transformExt.LocalRotation):To(name .. ".LocalRotation"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component)
-   builder:For(transformExt.LocalPosition):To(name .. ".LocalPosition"):SetMode(mode)
+   builder:For(transformExt.LocalPosition):To(name .. ".LocalPosition"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component)
-   builder:For(transformExt.LocalScale):To(name .. ".LocalScale"):SetMode(mode)
+   builder:For(transformExt.LocalScale):To(name .. ".LocalScale"):SetMode(_Mode())
 end
 
 return BindTransform

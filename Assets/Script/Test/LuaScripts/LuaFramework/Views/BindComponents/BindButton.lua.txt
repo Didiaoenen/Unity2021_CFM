@@ -7,7 +7,7 @@ function BindButton.get:OnClick()
 end
 
 function BindButton.set:OnClick(value)
-   self.onClick = value
+   self:Set({ name = "onClick" }, value, "OnClick")
 end
 
 function BindButton.get:SimpleCommand()
@@ -15,26 +15,32 @@ function BindButton.get:SimpleCommand()
 end
 
 function BindButton.set:SimpleCommand(value)
-   self.simpleCommand = value
+   self:Set({ name = "simpleCommand" }, value, "SimpleCommand")
 end
 
 function BindButton:ctor()
    BindComponent.ctor(self)
 end
 
-function BindButton:BindWithName(view, cType, name, mode)
+function BindButton:BindWithName(view, cType, name, modes)
    local component = view:GetComponentWithName(cType, name)
    local bindingSet = view.bindingSet
    local buttonExt = component
 
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
    local builder = bindingSet:BindByTarget(component)
-   builder:For(buttonExt.OnClick):To(name .. ".OnClick"):SetMode(mode)
+   builder:For(buttonExt.OnClick):To(name .. ".OnClick"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component)
-   builder:For(buttonExt.OnClick):To(name .. ".SimpleCommand"):SetMode(mode)
+   builder:For(buttonExt.OnClick):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component.gameObject)
-   builder:For(buttonExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(mode)
+   builder:For(buttonExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 return BindButton

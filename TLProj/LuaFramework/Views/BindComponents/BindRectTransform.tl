@@ -24,16 +24,22 @@ function BindRectTransform:ctor()
     self.offsetMin = CS.UnityEngine.Vector2.zero
 end
 
-function BindRectTransform:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, mode: number)
+function BindRectTransform:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
     local component = view:GetComponentWithName(cType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local rectTransformExt = component as RectTransformExtType
 
+    local index: integer = 0
+    local _Mode = function(): number
+        index = #(modes) > 1 and index + 1 or 1
+        return modes[index]
+    end
+    
     local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(rectTransformExt.OffsetMax):To(name .. ".OffsetMax"):SetMode(mode)
+    builder:For(rectTransformExt.OffsetMax):To(name .. ".OffsetMax"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(rectTransformExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(mode)
+    builder:For(rectTransformExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(_Mode())
 end
 
 return BindRectTransform

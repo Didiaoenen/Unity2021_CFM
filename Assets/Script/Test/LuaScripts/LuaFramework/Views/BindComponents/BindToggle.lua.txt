@@ -1,0 +1,35 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindToggle = class("BindToggle", BindComponent)
+
+function BindToggle.get:OnValueChanged()
+   return self.onValueChanged
+end
+
+function BindToggle.set:OnValueChanged(value)
+   self:Set({ name = "onValueChanged" }, value, "OnValueChanged")
+end
+
+function BindToggle:ctor()
+   BindComponent.ctor(self)
+end
+
+function BindToggle:BindWithName(view, cType, name, modes)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local toggleExt = component
+
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(toggleExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+
+   builder = bindingSet:BindByTarget(component.gameObject)
+   builder:For(toggleExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+end
+
+return BindToggle

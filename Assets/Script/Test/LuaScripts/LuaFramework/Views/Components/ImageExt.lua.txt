@@ -1,0 +1,25 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local ImageExt = class("ImageExt", ComponentExt)
+
+ImageExt.CSObject = CS.UnityEngine.UI.Text
+
+ImageExt.Sprite = "sprite"
+
+function ImageExt.get:sprite()
+   return (self.handler).sprit
+end
+
+function ImageExt.set:sprite(value)
+   (self.handler).sprit = value
+end
+
+function ImageExt.get:GameObject()
+   return self.gameObject
+end
+
+function ImageExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return ImageExt

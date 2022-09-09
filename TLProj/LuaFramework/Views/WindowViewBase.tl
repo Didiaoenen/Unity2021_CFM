@@ -159,6 +159,7 @@ function WindowViewBase:ctor(bundle)
     self.parent = nil
     self.variables = nil
     self.components = {}
+    self.gameObjects = {}
 end
 
 function WindowViewBase:OnEnable()
@@ -459,6 +460,13 @@ function WindowViewBase:GetComponentWithName(component: ComponentExtType, name: 
     component = component.new(self.variables:Get(name))
     table.insert(self.components, component)
     return component
+end
+
+function WindowViewBase:GetGameObjectWithName(gameObject: GameObjectExtType, name: string): GameObjectExtType
+    assert(gameObject and name, "")
+    gameObject = gameObject.new(self.variables:Get(name))
+    table.insert(self.gameObjects, gameObject)
+    return gameObject
 end
 
 function WindowViewBase:GetComponent(component: ComponentExtType): ComponentExtType

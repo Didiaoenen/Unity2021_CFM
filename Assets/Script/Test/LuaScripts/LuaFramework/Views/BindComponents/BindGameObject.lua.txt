@@ -15,4 +15,18 @@ function BindGameObject:ctor()
    self.activeSelf = true
 end
 
+function BindGameObject:BindWithName(view, cType, name, modes)
+   local gameObject = view:GetGameObjectWithName(cType, name)
+   local bindingSet = view.bindingSet
+
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
+   local builder = bindingSet:BindByTarget(gameObject)
+   builder:For(gameObject.ActiveSelf):To(name .. ".ActiveSelf"):SetMode(_Mode())
+end
+
 return BindGameObject

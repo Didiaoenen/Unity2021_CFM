@@ -1516,6 +1516,7 @@ global record WindowViewBaseType
     parent: TransformExtType
     variables: MonoVariableArrayExtType
     components: {ComponentExtType}
+    gameObjects: {GameObjectExtType}
 
     new: function(...: any): WindowViewBaseType
     ctor: function
@@ -1546,6 +1547,7 @@ global record WindowViewBaseType
     OnDismiss: function(self: WindowViewBaseType)
 
     GetComponentWithName: function(self: WindowViewBaseType, ComponentExtType, string): ComponentExtType
+    GetGameObjectWithName: function(self: WindowViewBaseType, GameObjectExtType, string): GameObjectExtType
     GetComponent: function(self: WindowViewBaseType, ComponentExtType): ComponentExtType
     AddComponent: function(self: WindowViewBaseType, ComponentExtType): ComponentExtType
 end
@@ -1562,7 +1564,7 @@ global record BindGameObjectType
         activeSelf: boolean
         ActiveSelf: function    
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end 
 
     activeSelf: boolean
@@ -1571,6 +1573,8 @@ global record BindGameObjectType
     new: function(...: any): BindGameObjectType
     ctor: function
     dtor: function
+
+    BindWithName: function(self: BindGameObjectType, WindowViewBaseType, GameObjectExtType, string, {number})
 end
 
 global record BindTextType
@@ -1586,7 +1590,7 @@ global record BindTextType
         text: string    
         Text: function    
     
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end 
 
     text: string
@@ -1599,7 +1603,7 @@ global record BindTextType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTextType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindTextType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindButtonType
@@ -1619,7 +1623,9 @@ global record BindButtonType
         OnClick: function   
 
         simpleCommand: SimpleCommandType    
-        SimpleCommand: function       
+        SimpleCommand: function   
+        
+        Set: function(self: set, SetType, any, string, boolean)
     end 
 
     onClick: function    
@@ -1635,7 +1641,7 @@ global record BindButtonType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindButtonType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindButtonType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindCanvasType
@@ -1654,7 +1660,7 @@ global record BindCanvasType
         sortingOrder: number
         SortingOrder: function
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end 
     
     overrideSorting: boolean
@@ -1667,7 +1673,7 @@ global record BindCanvasType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindCanvasType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindCanvasGroupType
@@ -1680,7 +1686,7 @@ global record BindCanvasGroupType
         alpha: number
         Alpha: function
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end 
     
     alpha: number
@@ -1690,7 +1696,7 @@ global record BindCanvasGroupType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasGroupType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindCanvasGroupType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindRectTransformType
@@ -1709,7 +1715,7 @@ global record BindRectTransformType
         offsetMin: CS.UnityEngine.Vector2
         OffsetMin: function
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end
 
     offsetMax: CS.UnityEngine.Vector2
@@ -1722,7 +1728,7 @@ global record BindRectTransformType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindRectTransformType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindRectTransformType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindTransformType
@@ -1753,7 +1759,7 @@ global record BindTransformType
         localScale: CS.UnityEngine.Vector3
         LocalScale: function
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end 
     
     parent: TransformExtType
@@ -1767,7 +1773,7 @@ global record BindTransformType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTransformType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindTransformType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindComponentType
@@ -1782,7 +1788,7 @@ global record BindComponentType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindComponentType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindComponentType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 
 global record BindInputFieldType
@@ -1795,7 +1801,7 @@ global record BindInputFieldType
         text: string
         Text: function
 
-        Set: function(set, SetType, any, string, boolean)
+        Set: function(self: set, SetType, any, string, boolean)
     end
 
     text: string
@@ -1805,7 +1811,62 @@ global record BindInputFieldType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindInputFieldType, WindowViewBaseType, ComponentExtType, string, number)
+    BindWithName: function(self: BindInputFieldType, WindowViewBaseType, ComponentExtType, string, {number})
+end
+
+global record BindToggleType
+    record get
+        onValueChanged: function
+        OnValueChanged: function
+    end
+
+    record set
+        onValueChanged: function
+        OnValueChanged: function
+
+        Set: function(self: set, SetType, any, string, boolean)
+    end
+
+    onValueChanged: function
+    OnValueChanged: function
+
+    new: function(...: any): BindToggleType
+    ctor: function
+    dtor: function
+
+    BindWithName: function(self: BindToggleType, WindowViewBaseType, ComponentExtType, string, {number})
+end
+
+global record BindImageType
+    record get
+        sprite: CS.UnityEngine.Sprite
+        Sprite: function
+
+        fillAmount: number
+        FillAmount: function
+    end
+
+    record set
+        sprite: CS.UnityEngine.Sprite
+        Sprite: function
+
+        fillAmount: number
+        FillAmount: function
+
+        Set: function(self: set, SetType, any, string, boolean)
+    end
+
+    sprite: CS.UnityEngine.Sprite
+    Sprite: CS.UnityEngine.Sprite
+
+    fillAmount: number
+    FillAmount: number
+
+    new: function(...: any): BindImageType
+    ctor: function
+    dtor: function
+
+    BindWithName: function(self: BindImageType, WindowViewBaseType, ComponentExtType, string, {number})
 end
 ------------------------------------------------------------------------------
 
@@ -2028,6 +2089,65 @@ global record ButtonExtType
 
     CSObject: CS.UnityEngine.Component
     OnClick: string
+
+    ctor: function
+    dtor: function
+end
+
+global record ToggleExtType
+    record get
+        onValueChanged: function
+
+        gameObject: GameObjectExtType
+        GameObject: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        onValueChanged: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    handler: CS.UnityEngine.Component
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
+
+    CSObject: CS.UnityEngine.Component
+    OnValueChanged: string
+
+    ctor: function
+    dtor: function
+end
+
+global record ImageExtType
+    record get
+        sprite: function
+        fillAmount: function
+
+        gameObject: GameObjectExtType
+        GameObject: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    record set
+        sprite: function
+        fillAmount: function
+
+        handler: CS.UnityEngine.Component
+    end
+
+    handler: CS.UnityEngine.Component
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
+
+    CSObject: CS.UnityEngine.Component
+    Sprite: string
+    FillAmount: number
 
     ctor: function
     dtor: function

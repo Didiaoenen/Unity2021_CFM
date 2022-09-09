@@ -1,0 +1,25 @@
+local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+
+local ToggleExt = class("ToggleExt", ComponentExt)
+
+ToggleExt.CSObject = CS.UnityEngine.UI.Toggle
+
+ToggleExt.OnValueChanged = "onValueChanged"
+
+function ToggleExt.get:onValueChanged()
+   return (self.handler).onValueChanged
+end
+
+function ToggleExt.set:onValueChanged(value)
+   (self.handler).onValueChanged = value
+end
+
+function ToggleExt.get:GameObject()
+   return self.gameObject
+end
+
+function ToggleExt:ctor(handler)
+   ComponentExt.ctor(self, handler)
+end
+
+return ToggleExt

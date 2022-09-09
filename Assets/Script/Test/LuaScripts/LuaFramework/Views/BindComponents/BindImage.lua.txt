@@ -1,0 +1,35 @@
+local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+
+local BindImage = class("BindImage", BindComponent)
+
+function BindImage.get:Sprite()
+   return self.sprite
+end
+
+function BindImage.set:Sprite(value)
+   self:Set({ name = "sprite" }, value, "Sprite")
+end
+
+function BindImage:ctor()
+   BindComponent.ctor(self)
+end
+
+function BindImage:BindWithName(view, cType, name, modes)
+   local component = view:GetComponentWithName(cType, name)
+   local bindingSet = view.bindingSet
+   local imageExt = component
+
+   local index = 0
+   local _Mode = function()
+      index = #(modes) > 1 and index + 1 or 1
+      return modes[index]
+   end
+
+   local builder = bindingSet:BindByTarget(component)
+   builder:For(imageExt.Sprite):To(name .. ".Sprite"):SetMode(_Mode())
+
+   builder = bindingSet:BindByTarget(component.gameObject)
+   builder:For(imageExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+end
+
+return BindImage
