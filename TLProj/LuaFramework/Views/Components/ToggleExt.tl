@@ -22,4 +22,7 @@ function ToggleExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 
+function ToggleExt:dtor()
+end
+
 return ToggleExt

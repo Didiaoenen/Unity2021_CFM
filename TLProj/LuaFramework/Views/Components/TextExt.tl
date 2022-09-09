@@ -22,4 +22,7 @@ function TextExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 
+function TextExt:dtor()
+end
+
 return TextExt

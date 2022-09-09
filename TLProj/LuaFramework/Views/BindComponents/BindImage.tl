@@ -36,8 +36,14 @@ function BindImage:BindWithName(view: WindowViewBaseType, cType: ComponentExtTyp
     local builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(imageExt.Sprite):To(name .. ".Sprite"):SetMode(_Mode())
 
+    builder = bindingSet:BindByTarget(component as LuaObject)
+    builder:For(imageExt.FillAmount):To(name .. ".FillAmount"):SetMode(_Mode())
+
     builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
     builder:For(imageExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+end
+
+function BindImage:dtor()
 end
 
 return BindImage

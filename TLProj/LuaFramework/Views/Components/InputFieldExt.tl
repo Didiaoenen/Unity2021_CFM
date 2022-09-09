@@ -32,4 +32,7 @@ function InputFieldExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 
+function InputFieldExt:dtor()
+end
+
 return InputFieldExt

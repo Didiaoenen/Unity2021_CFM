@@ -17,4 +17,7 @@ function BindComponent:BindWithName(view: WindowViewBaseType, cType: ComponentEx
     assert({view, cType, name, modes}, "")
 end
 
+function BindComponent:dtor()
+end
+
 return BindComponent

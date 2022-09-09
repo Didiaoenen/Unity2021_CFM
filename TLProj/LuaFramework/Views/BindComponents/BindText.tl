@@ -33,4 +33,7 @@ function BindText:BindWithName(view: WindowViewBaseType, cType: ComponentExtType
     builder:For(textExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
+function BindText:dtor()
+end
+
 return BindText

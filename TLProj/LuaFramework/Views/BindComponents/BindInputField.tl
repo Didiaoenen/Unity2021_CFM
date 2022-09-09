@@ -33,4 +33,7 @@ function BindInputField:BindWithName(view: WindowViewBaseType, cType: ComponentE
     builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
+function BindInputField:dtor()
+end
+
 return BindInputField

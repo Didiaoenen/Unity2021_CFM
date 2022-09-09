@@ -29,4 +29,7 @@ function BindGameObject:BindWithName(view: WindowViewBaseType, cType: GameObject
     builder:For(gameObject.ActiveSelf):To(name .. ".ActiveSelf"):SetMode(_Mode())
 end
 
+function BindGameObject:dtor()
+end
+
 return BindGameObject

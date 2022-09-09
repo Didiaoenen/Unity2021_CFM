@@ -12,4 +12,7 @@ function MonoVariableArrayExt:Get(name: string): CS.UnityEngine.Component
     return (self.handler as CS.Simple.MonoVariableArray).variableArray:Get(name)
 end
 
+function MonoVariableArrayExt:dtor()
+end
+
 return MonoVariableArrayExt

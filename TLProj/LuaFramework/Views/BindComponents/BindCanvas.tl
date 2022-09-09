@@ -42,4 +42,7 @@ function BindCanvas:BindWithName(view: WindowViewBaseType, cType: ComponentExtTy
     builder:For(canvasExt.SortingOrder):To(name .. ".SortingOrder"):SetMode(_Mode())
 end
 
+function BindCanvas:dtor()
+end
+
 return BindCanvas

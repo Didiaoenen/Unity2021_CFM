@@ -12,4 +12,7 @@ function CanvasExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 
+function CanvasExt:dtor()
+end
+
 return CanvasExt

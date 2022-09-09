@@ -10,4 +10,7 @@ function CanvasGroupExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end
 
+function CanvasGroupExt:dtor()
+end
+
 return CanvasGroupExt

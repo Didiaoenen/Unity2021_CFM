@@ -28,4 +28,7 @@ function RectTransformExt:ctor(handler: CS.UnityEngine.Component)
     TransformExt.ctor(self, handler)
 end
 
+function RectTransformExt:dtor()
+end
+
 return RectTransformExt

@@ -24,4 +24,7 @@ function GameObjectExt:SetActive(value: boolean)
     self.handler:SetActive(value)
 end
 
+function GameObjectExt:dtor()
+end
+
 return GameObjectExt

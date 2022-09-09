@@ -52,4 +52,7 @@ function TransformExt:SetParent(parent: TransformExtType)
     (self.handler as CS.UnityEngine.Transform):SetParent(parent.handler as CS.UnityEngine.Transform)
 end
 
+function TransformExt:dtor()
+end
+
 return TransformExt

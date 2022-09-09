@@ -6,6 +6,8 @@ ImageExt.CSObject = CS.UnityEngine.UI.Text as CS.UnityEngine.Component
 
 ImageExt.Sprite = "sprite"
 
+ImageExt.FillAmount = "fillAmount"
+
 function ImageExt.get:sprite(): CS.UnityEngine.Sprite
     return (self.handler as CS.UnityEngine.UI.Image).sprit
 end
@@ -28,6 +30,9 @@ end
 
 function ImageExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
+end
+
+function ImageExt:dtor()
 end
 
 return ImageExt

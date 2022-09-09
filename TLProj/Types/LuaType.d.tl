@@ -2147,7 +2147,7 @@ global record ImageExtType
 
     CSObject: CS.UnityEngine.Component
     Sprite: string
-    FillAmount: number
+    FillAmount: string
 
     ctor: function
     dtor: function
