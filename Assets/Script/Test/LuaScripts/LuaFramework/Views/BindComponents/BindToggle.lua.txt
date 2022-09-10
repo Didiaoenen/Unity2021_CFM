@@ -10,6 +10,14 @@ function BindToggle.set:OnValueChanged(value)
    self:Set({ name = "onValueChanged" }, value, "OnValueChanged")
 end
 
+function BindToggle.get:SimpleCommand()
+   return self.simpleCommand
+end
+
+function BindToggle.set:SimpleCommand(value)
+   self:Set({ name = "simpleCommand" }, value, "SimpleCommand")
+end
+
 function BindToggle:ctor()
    BindComponent.ctor(self)
 end
@@ -27,6 +35,9 @@ function BindToggle:BindWithName(view, cType, name, modes)
 
    local builder = bindingSet:BindByTarget(component)
    builder:For(toggleExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+
+   builder = bindingSet:BindByTarget(component)
+   builder:For(toggleExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component.gameObject)
    builder:For(toggleExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())

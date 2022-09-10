@@ -6,6 +6,7 @@ local BindText = require("LuaFramework.Views.BindComponents.BindText")
 local BindButton = require("LuaFramework.Views.BindComponents.BindButton")
 local BindInputField = require("LuaFramework.Views.BindComponents.BindInputField")
 local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
+local BindToggle = require("LuaFramework.Views.BindComponents.BindToggle")
 
 local TestVM = class("TestVM", ViewModelBase)
 
@@ -62,12 +63,10 @@ function TestVM:ctor()
 
    self.text = BindText.new()
    self.button = BindButton.new()
-   self.button.OnClick = self.OnClick
-   self.button.SimpleCommand = SimpleCommand.new(function()
-      print("SimpleCommand")
-   end)
    self.inputField = BindInputField.new()
    self.gameObject = BindGameObject.new()
+   self.toggle_1 = BindToggle.new()
+   self.toggle_2 = BindToggle.new()
 
 
    self.test = ""

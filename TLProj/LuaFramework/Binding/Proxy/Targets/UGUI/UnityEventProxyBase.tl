@@ -1,7 +1,7 @@
 require("OOP.Class")
 
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
-local ProxyInvoker = require("LuaFramework.Binding.Reflection.ProxyInvoker")
+local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
@@ -54,7 +54,7 @@ function UnityEventProxyBase:SetValue(value: any)
     
     else
         if type(value) == "table" then
-            if (value as LuaObject).is(ProxyInvoker) then
+            if (value as LuaObject).is(IProxyInvoker) then
                 self.invoker = value as IProxyInvokerType
             elseif (value as LuaObject).is(SimpleCommand) then
                 if nil == self.interactable or self.interactable == "" then

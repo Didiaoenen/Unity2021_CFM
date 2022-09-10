@@ -1,4 +1,4 @@
-local IProxyInvoker = class("ProxyInvoker")
+local IProxyInvoker = class("IProxyInvoker")
 
 function IProxyInvoker.get:ProxyMethodInfo()
    return self.proxyMethodInfo

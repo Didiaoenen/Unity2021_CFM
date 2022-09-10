@@ -10,6 +10,14 @@ function BindToggle.set:OnValueChanged(value: function)
     self:Set({name = "onValueChanged"}, value, "OnValueChanged")
 end
 
+function BindToggle.get:SimpleCommand(): SimpleCommandType
+    return self.simpleCommand
+end
+
+function BindToggle.set:SimpleCommand(value: SimpleCommandType)
+    self:Set({name = "simpleCommand"}, value, "SimpleCommand")
+end
+
 function BindToggle:ctor()
     BindComponent.ctor(self)
 end
@@ -27,6 +35,9 @@ function BindToggle:BindWithName(view: WindowViewBaseType, cType: ComponentExtTy
 
     local builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(toggleExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+
+    builder = bindingSet:BindByTarget(component as LuaObject)
+    builder:For(toggleExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
     builder:For(toggleExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())

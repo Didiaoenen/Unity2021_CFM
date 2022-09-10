@@ -14,6 +14,8 @@ local record TestV
     OnShow: function(self: TestV)
     GetComponentWithName: function(self: TestV, ComponentExtType, string): ComponentExtType
     TestFunc: function(self: TestV, any, any)
+    TestButtonSimpleCommand: function(self: TestV, ...: any)
+    TestToggleSimpleCommand: function(self: TestV, ...: any)
 end
 
 return TestV

@@ -7,6 +7,9 @@ local TextExt = require("LuaFramework.Views.Components.TextExt")
 local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
 local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
+local ToggleExt = require("LuaFramework.Views.Components.ToggleExt")
+
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local TestV = class("TestV", WindowBase) as TestVType
 
@@ -76,6 +79,8 @@ function TestV:OnCreate()
     self.viewModel.button:BindWithName(self as WindowViewBaseType, ButtonExt as ComponentExtType, "button", {BindingMode.OneWay})
     self.viewModel.inputField:BindWithName(self as WindowViewBaseType, InputFieldExt as ComponentExtType, "inputField", {BindingMode.OneWay})
     self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, GameObjectExt, "gameObject", {BindingMode.OneWay})
+    self.viewModel.toggle_1:BindWithName(self as WindowViewBaseType, ToggleExt as ComponentExtType, "toggle_1", {BindingMode.OneWay})
+    self.viewModel.toggle_2:BindWithName(self as WindowViewBaseType, ToggleExt as ComponentExtType, "toggle_2", {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
@@ -85,8 +90,11 @@ function TestV:OnShow()
     WindowBase.OnShow(self as WindowBaseType)
 
     self.viewModel.text.Text = "hahaha"
+    self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
     self.viewModel.inputField.Text = "你好啊"
     self.viewModel.gameObject.ActiveSelf = false
+    self.viewModel.toggle_1.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_1"))
+    self.viewModel.toggle_2.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_2"))
 
     -- local inputBase = self.viewModel.inputField as BindComponentType
     -- inputBase.GameObject.ActiveSelf = false
@@ -95,6 +103,20 @@ function TestV:OnShow()
     -- local transTwo = self.transform:Find("GameObjectTwo")
     -- self:CreateSubView("Game.TestSubV", {parent = transOne})
     -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
+end
+
+function TestV:TestButtonSimpleCommand(... :any)
+    for key, value in ipairs({...}) do
+        print("key : " .. key .. " value : " .. tostring(value))
+    end
+    print("TestButtonSimpleCommand")
+end
+
+function TestV:TestToggleSimpleCommand(...: any)
+    for key, value in ipairs({...}) do
+        print("key : " .. key .. " value : " .. tostring(value))
+    end
+    print("TestToggleSimpleCommand")
 end
 
 function TestV:dtor()

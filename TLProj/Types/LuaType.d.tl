@@ -936,7 +936,7 @@ global record SimpleCommandType
         executeChanged: {EventHandlerType}
         ExecuteChanged: function
     
-        RaiseCanExecuteChanged: function(set)
+        RaiseCanExecuteChanged: function(self: set)
     end
 
     enabled: boolean
@@ -1827,17 +1827,26 @@ global record BindToggleType
     record get
         onValueChanged: function
         OnValueChanged: function
+
+        simpleCommand: SimpleCommandType
+        SimpleCommand: function
     end
 
     record set
         onValueChanged: function
         OnValueChanged: function
 
+        simpleCommand: SimpleCommandType
+        SimpleCommand: function
+
         Set: function(self: set, SetType, any, string, boolean)
     end
 
     onValueChanged: function
     OnValueChanged: function
+
+    simpleCommand: SimpleCommandType    
+    SimpleCommand: SimpleCommandType
 
     new: function(...: any): BindToggleType
     ctor: function

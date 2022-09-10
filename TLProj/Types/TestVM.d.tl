@@ -65,6 +65,8 @@ local record TestVM
     button: BindButtonType
     inputField: BindInputFieldType
     gameObject: BindGameObjectType
+    toggle_1: BindToggleType
+    toggle_2: BindToggleType
 
     new: function(...: any): TestVM
     ctor: function

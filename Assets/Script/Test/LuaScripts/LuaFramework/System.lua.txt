@@ -54,11 +54,10 @@ function try(block)
 end
 
 function bindevent(ui, callback, ...)
-    assert(ui, "")
-    assert(callback, "")
+    assert(ui and callback, "")
     local args = {...}
-    return function (eventData)
-        callback(ui, eventData, table.unpack(args))
+    return function (...)
+        callback(ui, ..., table.unpack(args))
     end
 end
 

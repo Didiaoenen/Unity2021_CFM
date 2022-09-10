@@ -26,7 +26,7 @@ end
 
 function SimpleCommand:Execute(...: any)
     if self:CanExecute(...) and self.execute then
-        self.execute()
+        self.execute(...)
     end
 end
 
