@@ -32,4 +32,7 @@ function BindToggle:BindWithName(view, cType, name, modes)
    builder:For(toggleExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
+function BindToggle:dtor()
+end
+
 return BindToggle

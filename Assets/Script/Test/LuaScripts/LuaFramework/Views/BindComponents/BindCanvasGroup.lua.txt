@@ -30,4 +30,7 @@ function BindCanvasGroup:BindWithName(view, cType, name, modes)
    builder:For(canvasGroupExt.Alpha):To(name .. ".Alpha"):SetMode(_Mode())
 end
 
+function BindCanvasGroup:dtor()
+end
+
 return BindCanvasGroup

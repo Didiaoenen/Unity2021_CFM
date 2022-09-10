@@ -8,4 +8,7 @@ function GraphicRaycasterExt:ctor(handler)
    ComponentExt.ctor(self, handler)
 end
 
+function GraphicRaycasterExt:dtor()
+end
+
 return GraphicRaycasterExt

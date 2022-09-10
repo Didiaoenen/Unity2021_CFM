@@ -101,7 +101,7 @@ end
 
 function ViewModelBase:SetWithBroadCast(field: SetType, newValue: any, propertyName: string, broadcast: boolean)
     if field ~= newValue then
-        ObservableObject.Set(self, field, newValue, propertyName)
+        ObservableObject.Set(self as ObservableObjectType, field, newValue, propertyName)
 
         if broadcast then
             local oldValue = classget(self as LuaObject, field.name)

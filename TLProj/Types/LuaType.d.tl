@@ -312,7 +312,7 @@ end
 global record MethodNodeProxyType
     source: LuaObject
     methodInfo: string
-    invoker: ProxyInvokerType
+    invoker: IProxyInvokerType
 
     new: function(...: any): MethodNodeProxyType
     ctor: function
@@ -459,7 +459,7 @@ global record UnityEventProxyType
     target: LuaObject
     unityEvent: string
 
-    invoker: ProxyInvokerType
+    invoker: IProxyInvokerType
     command: SimpleCommandType
 
     new: function(...: any): UnityEventProxyType
@@ -468,7 +468,7 @@ global record UnityEventProxyType
 
     BindEvent: function(self: UnityEventProxyType)
     UnbindEvent: function(self: UnityEventProxyType)
-    IsValidInvoker: function(self: UnityEventProxyType, ProxyInvokerType)
+    IsValidInvoker: function(self: UnityEventProxyType, IProxyInvokerType)
     OnEvent: function(self: UnityEventProxyType, ...: any)
 end
 
@@ -483,14 +483,14 @@ global record UnityEventProxyBaseType
     unityEvent: string
     interactable: string
     command: SimpleCommandType
-    invoker: ProxyInvokerType
+    invoker: IProxyInvokerType
 
     ctor: function
     dtor: function
 
     BindEvent: function(self: UnityEventProxyBaseType)
     UnbindEvent: function(self: UnityEventProxyBaseType)
-    IsValidInvoker: function(self: UnityEventProxyBaseType, ProxyInvokerType)
+    IsValidInvoker: function(self: UnityEventProxyBaseType, IProxyInvokerType)
     SetValue: function(self: UnityEventProxyBaseType, any)
     OnExecuteChanged: function(self: UnityEventProxyBaseType, LuaObject, ...: any)
     UpdateTargetInteractable: function(self: UnityEventProxyBaseType)
@@ -551,7 +551,7 @@ global record MethodTargetProxyType
     ProxyMethodInfo: string
 
     target: LuaObject
-    invoker: ProxyInvokerType
+    invoker: IProxyInvokerType
     
     new: function(...: any): MethodTargetProxyType
     ctor: function
@@ -684,10 +684,19 @@ global record IObtainableType
     GetValue: function(self: IObtainableType): any
 end
 
+global record IProxyInvokerType
+    record get
+        proxyMethodInfo: string
+        ProxyMethodInfo: function(self: get): string
+    end
+
+    Invoke: function(self: IProxyInvokerType, ...: any): any...
+end
+
 global record ProxyInvokerType
     record get
         proxyMethodInfo: string
-        ProxyMethodInfo: function(get): string
+        ProxyMethodInfo: function(self: get): string
     end
 
     target: LuaObject

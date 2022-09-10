@@ -55,7 +55,7 @@ function TestV:TestFunc(sender: any, args: any)
 end
 
 function TestV:OnCreate()
-    WindowBase.OnCreate(self)
+    WindowBase.OnCreate(self as WindowBaseType)
     print("child OnCreate")
 
     -- local text = self:GetComponentWithName(TextExt, "text") as TextExtType
@@ -72,17 +72,17 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:BindWithName(self, TextExt, "text", {BindingMode.OneWay})
-    self.viewModel.button:BindWithName(self, ButtonExt, "button", {BindingMode.OneWay})
-    self.viewModel.inputField:BindWithName(self, InputFieldExt, "inputField", {BindingMode.OneWay})
-    self.viewModel.gameObject:BindWithName(self, GameObjectExt, "gameObject", {BindingMode.OneWay})
+    self.viewModel.text:BindWithName(self as WindowViewBaseType, TextExt as ComponentExtType, "text", {BindingMode.OneWay})
+    self.viewModel.button:BindWithName(self as WindowViewBaseType, ButtonExt as ComponentExtType, "button", {BindingMode.OneWay})
+    self.viewModel.inputField:BindWithName(self as WindowViewBaseType, InputFieldExt as ComponentExtType, "inputField", {BindingMode.OneWay})
+    self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, GameObjectExt, "gameObject", {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
 end
 
 function TestV:OnShow()
-    WindowBase.OnShow(self)
+    WindowBase.OnShow(self as WindowBaseType)
 
     self.viewModel.text.Text = "hahaha"
     self.viewModel.inputField.Text = "你好啊"

@@ -1,3 +1,3 @@
-# bat
+# Gen
 
-cmd: tl build --gen-compat off
+excute build

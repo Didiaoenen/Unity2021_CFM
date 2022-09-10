@@ -9,7 +9,7 @@ end
 
 function ComponentExt:dtor()
     self.handler = nil
-    self.gameObject.dtor()
+    self.gameObject:dtor()
 end
 
 return ComponentExt

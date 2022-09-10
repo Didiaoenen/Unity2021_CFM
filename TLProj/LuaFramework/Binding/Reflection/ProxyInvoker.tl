@@ -1,4 +1,6 @@
-local ProxyInvoker = class("ProxyInvoker") as ProxyInvokerType
+local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
+
+local ProxyInvoker = class("ProxyInvoker", IProxyInvoker) as ProxyInvokerType
 
 function ProxyInvoker.get:ProxyMethodInfo(): string
     return self.proxyMethodInfo

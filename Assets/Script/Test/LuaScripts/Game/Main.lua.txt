@@ -15,7 +15,7 @@ function Main()
    return 1
 end
 
-function __G__TRACKBACK__(msg)
+local function __G__TRACKBACK__(msg)
    error("----------------------------------------")
    error("LUA ERROR: " .. tostring(msg) .. "\n")
    error(debug.traceback())

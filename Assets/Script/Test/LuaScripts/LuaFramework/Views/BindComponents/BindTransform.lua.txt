@@ -66,4 +66,7 @@ function BindTransform:BindWithName(view, cType, name, modes)
    builder:For(transformExt.LocalScale):To(name .. ".LocalScale"):SetMode(_Mode())
 end
 
+function BindTransform:dtor()
+end
+
 return BindTransform

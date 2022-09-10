@@ -48,7 +48,7 @@ function ObjectSourceProxyFactory:Register(factory: INodeProxyFactoryType, prior
         return    
     end
 
-    table.insert(self.factories, {factory = factory, priority = priority or 100})
+    table.insert(self.factories, {factory = factory as LuaObject, priority = priority or 100})
     table.sort(self.factories, function (a: PriorityFactoryPairType, b: PriorityFactoryPairType): boolean
         return a.priority > b.priority
     end)

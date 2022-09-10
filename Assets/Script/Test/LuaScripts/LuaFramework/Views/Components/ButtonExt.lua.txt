@@ -22,4 +22,7 @@ function ButtonExt:ctor(handler)
    ComponentExt.ctor(self, handler)
 end
 
+function ButtonExt:dtor()
+end
+
 return ButtonExt

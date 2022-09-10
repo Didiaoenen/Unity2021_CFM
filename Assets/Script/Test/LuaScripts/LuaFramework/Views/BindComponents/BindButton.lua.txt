@@ -43,4 +43,7 @@ function BindButton:BindWithName(view, cType, name, modes)
    builder:For(buttonExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
+function BindButton:dtor()
+end
+
 return BindButton

@@ -148,7 +148,7 @@ function TransitionShow:Overlay(previous: WindowViewBaseType): number
 end
 
 function TransitionShow:DoTransition()
-    Transition.DoTransition(self)
+    Transition.DoTransition(self as TransitionType)
     local current = self.window
 
     local previous: WindowViewBaseType = nil
@@ -195,7 +195,7 @@ function TransitionHide:ctor(manager: WindowManager, window: WindowBaseType, dis
 end
 
 function TransitionHide:DoTransition()
-    Transition.DoTransition(self)
+    Transition.DoTransition(self as TransitionType)
     local current = self.window as WindowViewBaseType
     if current.Visibility then
         local hide = current:DoHide(self.AnimationDisabled)

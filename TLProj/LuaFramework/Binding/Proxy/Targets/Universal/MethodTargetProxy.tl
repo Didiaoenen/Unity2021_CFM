@@ -1,7 +1,9 @@
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
+local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase) as MethodTargetProxyType
+local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase, IObtainable, IProxyInvoker) as MethodTargetProxyType
 
 function MethodTargetProxy.get:DefaultMode(): number
     return BindingMode.OneWayToSource
@@ -14,7 +16,7 @@ end
 function MethodTargetProxy:ctor(target: LuaObject, methodInfo: string)
     TargetProxyBase.ctor(self, target)
     self.methodInfo = methodInfo
-    self.invoker = self
+    self.invoker = self as IProxyInvokerType
 end
 
 function MethodTargetProxy:GetValue(): any

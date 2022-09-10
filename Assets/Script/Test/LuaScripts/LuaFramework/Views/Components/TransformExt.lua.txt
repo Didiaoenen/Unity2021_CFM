@@ -52,4 +52,7 @@ function TransformExt:SetParent(parent)
    (self.handler):SetParent(parent.handler)
 end
 
+function TransformExt:dtor()
+end
+
 return TransformExt

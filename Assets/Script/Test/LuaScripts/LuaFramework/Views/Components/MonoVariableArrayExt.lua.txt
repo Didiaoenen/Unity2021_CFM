@@ -12,4 +12,7 @@ function MonoVariableArrayExt:Get(name)
    return (self.handler).variableArray:Get(name)
 end
 
+function MonoVariableArrayExt:dtor()
+end
+
 return MonoVariableArrayExt

@@ -31,7 +31,7 @@ function UnityEventProxy:UnbindEvent()
     end
 end
 
-function UnityEventProxy:IsValidInvoker(invoker: ProxyInvokerType)
+function UnityEventProxy:IsValidInvoker(invoker: IProxyInvokerType)
     assert({invoker}, "")
 end
 

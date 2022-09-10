@@ -27,7 +27,7 @@ end
 function UnityEventProxyBase:UnbindEvent()
 end
 
-function UnityEventProxyBase:IsValidInvoker(invoker: ProxyInvokerType)
+function UnityEventProxyBase:IsValidInvoker(invoker: IProxyInvokerType)
     assert({invoker}, "")
 end
 
@@ -55,7 +55,7 @@ function UnityEventProxyBase:SetValue(value: any)
     else
         if type(value) == "table" then
             if (value as LuaObject).is(ProxyInvoker) then
-                self.invoker = value as ProxyInvokerType
+                self.invoker = value as IProxyInvokerType
             elseif (value as LuaObject).is(SimpleCommand) then
                 if nil == self.interactable or self.interactable == "" then
                     self.interactable = "interactable"

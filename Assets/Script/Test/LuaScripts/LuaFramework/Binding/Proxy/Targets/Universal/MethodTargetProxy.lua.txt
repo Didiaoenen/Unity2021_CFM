@@ -1,7 +1,9 @@
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
+local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase)
+local MethodTargetProxy = class("MethodTargetProxy", TargetProxyBase, IObtainable, IProxyInvoker)
 
 function MethodTargetProxy.get:DefaultMode()
    return BindingMode.OneWayToSource

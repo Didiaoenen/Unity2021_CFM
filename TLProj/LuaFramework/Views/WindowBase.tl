@@ -18,11 +18,11 @@ function WindowBase:ctor(bundle)
 end
 
 function WindowBase:OnEnable()
-    WindowViewBase.OnEnable(self)
+    WindowViewBase.OnEnable(self as WindowViewBaseType)
 end
 
 function WindowBase:OnDisable()
-    WindowViewBase.OnDisable(self)
+    WindowViewBase.OnDisable(self as WindowViewBaseType)
 end
 
 function WindowBase:OnShow()

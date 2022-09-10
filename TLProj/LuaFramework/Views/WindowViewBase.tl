@@ -296,7 +296,7 @@ function WindowViewBase:OnCreate()
     builder:For(self.gameObject.ActiveSelf):To("ActiveSelf"):OneWay()
 
     -- RectTransform
-    self.transform = self:GetComponent(RectTransformExt) as TransformExtType
+    self.transform = self:GetComponent(RectTransformExt as ComponentExtType) as TransformExtType
     builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.Parent):To("Parent"):OneWay()
     

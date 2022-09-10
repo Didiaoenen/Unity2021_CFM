@@ -7,7 +7,7 @@ local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase, IObtainable) a
 function MethodNodeProxy:ctor(source: LuaObject, methodInfo: string)
     SourceProxyBase.ctor(self, source)
     self.methodInfo = methodInfo
-    self.invoker = ProxyInvoker.new(self.source, self.methodInfo) as ProxyInvokerType
+    self.invoker = ProxyInvoker.new(self.source, self.methodInfo) as IProxyInvokerType
 end
 
 function MethodNodeProxy:GetValue(): any

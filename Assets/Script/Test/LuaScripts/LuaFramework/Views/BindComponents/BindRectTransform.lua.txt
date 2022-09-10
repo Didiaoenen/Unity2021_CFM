@@ -42,4 +42,7 @@ function BindRectTransform:BindWithName(view, cType, name, modes)
    builder:For(rectTransformExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(_Mode())
 end
 
+function BindRectTransform:dtor()
+end
+
 return BindRectTransform

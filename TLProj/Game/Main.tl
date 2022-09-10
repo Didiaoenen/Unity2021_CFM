@@ -8,14 +8,14 @@ require("LuaFramework.System")
 
 local TestV = require("Game.UI.Test.TestV")
 
-function Main(): number
+global function Main(): number
     TestV.new():Create()
     TestV.new():Create()
 
     return 1
 end
 
-function __G__TRACKBACK__(msg: any)
+local function __G__TRACKBACK__(msg: any)
     error("----------------------------------------")
     error("LUA ERROR: " .. tostring(msg) .. "\n")
     error(debug.traceback())
