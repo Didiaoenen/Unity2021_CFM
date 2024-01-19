@@ -90,6 +90,7 @@ function TestV:OnShow()
     WindowBase.OnShow(self as WindowBaseType)
 
     self.viewModel.text.Text = "hahaha"
+    self.viewModel.text.Color = CS.UnityEngine.Color.red
     self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
     self.viewModel.inputField.Text = "你好啊"
     self.viewModel.gameObject.ActiveSelf = false

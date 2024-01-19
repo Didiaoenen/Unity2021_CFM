@@ -44,7 +44,7 @@ function BindingContext:RaiseDataContextChanged()
 end
 
 function BindingContext:GetOrCreateList(key: string): {BindingType}
-    if nil == key or key == "" then
+    if nil == key or "" == key then
         key = self.DEFAULT_KEY        
     end
 

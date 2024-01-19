@@ -12,7 +12,7 @@ function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: Bin
     local memberInfo = classget(target, description.TargetName)
 
     local updateTrigger: any = nil
-    if description.UpdateTrigger and description.UpdateTrigger ~= "" then
+    if description.UpdateTrigger and "" ~= description.UpdateTrigger then
         updateTrigger = classget(target, description.UpdateTrigger)
         assert(updateTrigger, "")
     end
@@ -21,12 +21,12 @@ function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: Bin
         if Misc.CSType.UnityEventBaseT:IsAssignableFrom((memberInfo as CS.System.Object):GetType()) then
             return UnityEventProxy.new(target, description.TargetName) as TargetProxyBaseType
         else
-            if not updateTrigger then
+            if nil == updateTrigger then
                 return
             end
         end
     else
-        if not updateTrigger then
+        if nil == updateTrigger then
             return
         end
         

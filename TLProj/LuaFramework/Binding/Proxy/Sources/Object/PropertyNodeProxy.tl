@@ -22,9 +22,9 @@ function PropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
-    assert({sender}, "")
+    assert({sender, e}, "")
     local name = e.PropertyName
-    if name and name ~= "" and name == self.propertyInfo then
+    if not name or name == "" or name == self.propertyInfo then
         self:RaiseValueChanged()
     end
 end

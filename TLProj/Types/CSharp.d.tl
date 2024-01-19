@@ -103,6 +103,7 @@ global record CS
         -- Color
         record Color
             red: Color
+            white: Color
         end
 
         -- Events
@@ -129,6 +130,7 @@ global record CS
             -- Text
             record Text
                 text: string
+                color: UnityEngine.Color
                 gameObject: UnityEngine.GameObject
             end
 

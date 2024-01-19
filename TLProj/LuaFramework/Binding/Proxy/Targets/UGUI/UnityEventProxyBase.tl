@@ -57,7 +57,7 @@ function UnityEventProxyBase:SetValue(value: any)
             if (value as LuaObject).is(IProxyInvoker) then
                 self.invoker = value as IProxyInvokerType
             elseif (value as LuaObject).is(SimpleCommand) then
-                if nil == self.interactable or self.interactable == "" then
+                if nil == self.interactable or "" == self.interactable then
                     self.interactable = "interactable"
                 end
 
@@ -78,7 +78,7 @@ end
 
 function UnityEventProxyBase:UpdateTargetInteractable()
     local target = self.target
-    if nil == self.interactable or self.interactable == "" or nil == target then
+    if nil == self.interactable or "" == self.interactable or nil == target then
         return
     end
 

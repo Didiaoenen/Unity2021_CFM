@@ -10,9 +10,18 @@ function BindText.set:Text(value: string)
     self:Set({name = "text"}, value, "Text")
 end
 
+function BindText.get:Color(): CS.UnityEngine.Color
+    return self.color
+end
+
+function BindText.set:Color(value: CS.UnityEngine.Color)
+    self:Set({name = "color"}, value, "Color")
+end
+
 function BindText:ctor()
     BindComponent.ctor(self)
     self.text = ""
+    self.color = CS.UnityEngine.Color.white
 end
 
 function BindText:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
@@ -28,6 +37,9 @@ function BindText:BindWithName(view: WindowViewBaseType, cType: ComponentExtType
 
     local builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(textExt.Text):To(name .. ".Text"):SetMode(_Mode())
+
+    builder = bindingSet:BindByTarget(component as LuaObject)
+    builder:For(textExt.Color):To(name .. ".Color"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
     builder:For(textExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())

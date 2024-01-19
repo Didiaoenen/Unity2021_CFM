@@ -1,4 +1,4 @@
-local record WindowTypeType
+global record WindowTypeType
     NONE: number
     FULL: number
     POPUP: number
@@ -7,7 +7,7 @@ local record WindowTypeType
     QUEUED_POPUP: number
 end
 
-local record WindowStateType
+global record WindowStateType
     NONE: number
     CREATE_BEGIN: number
     CREATE_END: number
@@ -27,7 +27,7 @@ local record WindowStateType
     DISMISS_END: number
 end
 
-local record ActionTypeType
+global record ActionTypeType
     None: number
     Hide: number
     Dismiss: number
@@ -137,6 +137,7 @@ global record BindingBuilderBaseType
     dtor: function
 
     SetMode: function(self: BindingBuilderBaseType, number)
+    SetScopeKey: function(self: BindingBuilderBaseType, string)
     SetMemberPath: function(self: BindingBuilderBaseType, string)
     SetMemberPathWithPath: function(self: BindingBuilderBaseType, {string})
     SetCommandParameter: function(self: BindingBuilderBaseType, ...: any)
@@ -1590,6 +1591,9 @@ global record BindTextType
     record get
         text: string    
         Text: function    
+
+        color: CS.UnityEngine.Color    
+        Color: function    
     
         gameObject: BindGameObjectType
         GameObject: function
@@ -1597,13 +1601,19 @@ global record BindTextType
     
     record set
         text: string    
-        Text: function    
+        Text: function   
+        
+        color: CS.UnityEngine.Color    
+        Color: function   
     
         Set: function(self: set, SetType, any, string, boolean)
     end 
 
     text: string
     Text: string
+
+    color: CS.UnityEngine.Color 
+    Color: CS.UnityEngine.Color 
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
@@ -2058,6 +2068,7 @@ end
 global record TextExtType
     record get
         text: function
+        color: function
 
         gameObject: GameObjectExtType
         GameObject: function
@@ -2067,11 +2078,13 @@ global record TextExtType
 
     record set
         text: function
+        color: function
 
         handler: CS.UnityEngine.Component
     end
     
     Text: string
+    Color: string
 
     gameObject: GameObjectExtType
     GameObject: GameObjectExtType

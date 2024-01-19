@@ -97,7 +97,7 @@ end
 function Binding:UpdateTargetFromSource()
     ExecutorsExt.Instance:RunOnMainThread(function ()
         local value = (self.sourceProxy as IObtainableType):GetValue()
-        self:SetTargetValue(self.targetProxy as LuaObject, value);
+        self:SetTargetValue(self.targetProxy as LuaObject, value)
     end)
 end
 

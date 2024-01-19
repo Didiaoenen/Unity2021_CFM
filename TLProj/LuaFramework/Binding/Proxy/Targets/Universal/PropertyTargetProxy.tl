@@ -22,7 +22,7 @@ function PropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
-    assert({sender}, "")
+    assert({sender, e}, "")
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then
         local target = self.target
