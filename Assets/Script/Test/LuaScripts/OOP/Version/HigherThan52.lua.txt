@@ -28,6 +28,4 @@ local bits = {
     end
 };
 
-return {
-    bits = bits
-};
+return bits;

@@ -19,11 +19,16 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local setmetatable = setmetatable;
-local Config = require("OOP.Config");
-local Debug = Config.Debug;
+-- Used to instruct const methods internally,
+-- external code doesn't need to care about this.
+-- Ensure that the value does not exist in the BitsMap.
+local __InternalConstMethod = 2 ^ 10;
+
 local WeakTable = {__mode = "k"};
-local LuaVersion = Config.LuaVersion;
+
+local Config = require("OOP.Config");
+local get = Config.get;
+local set = Config.set;
 
 local public = Config.Qualifiers.public;
 local private = Config.Qualifiers.private;
@@ -33,8 +38,6 @@ local const = Config.Qualifiers.const;
 local final = Config.Qualifiers.final;
 local virtual = Config.Qualifiers.virtual;
 local override = Config.Qualifiers.override;
-local get = Config.get;
-local set = Config.set;
 
 local BitsMap = {
     [public] = 2 ^ 0,
@@ -49,16 +52,12 @@ local BitsMap = {
     [override] = 2 ^ 9
 };
 
--- Used to instruct const methods internally,
--- external code doesn't need to care about this.
--- Ensure that the value does not exist in the BitsMap.
-local __InternalConstMethod = 2 ^ 10;
-
-if LuaVersion > 5.2 then
+if Config.LuaVersion > 5.2 then
     for k, v in pairs(BitsMap) do
         BitsMap[k] = math.tointeger(v);
     end
 end
+
 local Permission = {
     public = BitsMap[public],
     private = BitsMap[private],
@@ -72,73 +71,33 @@ local Permission = {
     override = BitsMap[override],
 };
 
-return {
-    NamedClasses = {},
-    ClassesChildrenByName = {},
-    DeathMark = setmetatable({},WeakTable),
-    AllClasses = setmetatable({},WeakTable),
-    AllStructs = setmetatable({},WeakTable),
-    AllEnumerations = setmetatable({},WeakTable),
-    ClassesReadable = setmetatable({},WeakTable),
-    ClassesWritable = setmetatable({},WeakTable),
-    ClassesHandlers = setmetatable({},WeakTable),
-    ClassesBases = setmetatable({},WeakTable),
-    -- Record which classes inherit from this class.
-    ClassesChildren = setmetatable({},WeakTable),
-    ClassesMembers = setmetatable({},WeakTable),
-    ClassesMetas = setmetatable({},WeakTable),
-    -- In order to keep __new/__delete/__singleton from being freely available and used externally,
-    -- they are stored in ClassesNew/ClassesDelete/ClassesSingleton instead of directly in the class.
-    ClassesNew = setmetatable({},WeakTable),
-    ClassesDelete = setmetatable({},WeakTable),
-    ClassesSingleton = setmetatable({},WeakTable),
-    ObjectsAll = setmetatable({},WeakTable),
-    ObjectsCls = setmetatable({},WeakTable),
-    ClassesStaticProperties = setmetatable({},WeakTable),
-    ClassesStatic = setmetatable({},WeakTable),
-    ClassesPermissions = Debug and setmetatable({},WeakTable) or nil,
-    FinalClasses = Debug and setmetatable({},WeakTable) or nil,
-    ClassesAll = Debug and setmetatable({},WeakTable) or nil,
-    FinalClassesMembers = Debug and setmetatable({},WeakTable) or nil,
-    -- This table only holds all unimplemented pure virtual functions.
-    VirtualClassesMembers = Debug and setmetatable({},WeakTable) or nil,
-    -- This table holds all the pure virtual functions.
-    VirtualClassesPermissons = Debug and setmetatable({},WeakTable) or nil,
-    ClassesFriends = Debug and setmetatable({},WeakTable) or nil,
-    ClassesBanNew = Debug and setmetatable({},WeakTable) or nil,
-    ClassesBanDelete = Debug and setmetatable({},WeakTable) or nil,
-    ClassesAllFunctions = Debug and setmetatable({},WeakTable) or nil,
-    ClassesAllMetaFunctions = Debug and setmetatable({},WeakTable) or nil,
-    AccessStack = Debug and {} or nil,
-    ConstStack = Debug and {} or nil,
-    ReservedWord = {
-        [Config.Qualifiers.public] = true,
-        [Config.Qualifiers.protected] = true,
-        [Config.Qualifiers.private] = true,
-        [Config.Qualifiers.const] = true,
-        [Config.Qualifiers.static] = true,
-        [Config.Qualifiers.final] = true,
-        [Config.Qualifiers.virtual] = true,
-        [Config.Qualifiers.override] = true,
-        [Config.new] = true,
-        [Config.delete] = true,
-        [Config.is] = true,
-        [Config.handlers] = true,
-        [Config.set] = true,
-        [Config.get] = true
-    },
-    RouterReservedWord = {
-        [Config.new] = true,
-        [Config.delete] = true,
-        [Config.is] = true,
-        [Config.handlers] = true,
-        [Config.friends] = true,
-        [Config.__new] = true,
-        [Config.__delete] = true,
-        [Config.__singleton] = true
-    },
-    Permission = Permission,
+local Internal = {
     BitsMap = BitsMap,
+    Permission = Permission,
     __InternalConstMethod = __InternalConstMethod,
-    WeakTable = WeakTable
-};
+}
+
+Internal.NamedClasses = {};
+Internal.ClassesChildrenByName = {};
+Internal.DeathMark = setmetatable({},WeakTable);
+Internal.AllClasses = setmetatable({},WeakTable);
+Internal.AllStructs = setmetatable({},WeakTable);
+Internal.AllEnumerations = setmetatable({},WeakTable);
+Internal.ClassesReadable = setmetatable({},WeakTable);
+Internal.ClassesWritable = setmetatable({},WeakTable);
+Internal.ClassesBases = setmetatable({},WeakTable);
+-- Record which classes inherit from this class.
+Internal.ClassesChildren = setmetatable({},WeakTable);
+Internal.ClassesMembers = setmetatable({},WeakTable);
+Internal.ClassesMetas = setmetatable({},WeakTable);
+-- In order to keep __new/__delete/__singleton from being freely available and used externally,
+-- they are stored in ClassesNew/ClassesDelete/ClassesSingleton instead of directly in the class.
+Internal.ClassesNew = setmetatable({},WeakTable);
+Internal.ClassesDelete = setmetatable({},WeakTable);
+Internal.ClassesSingleton = setmetatable({},WeakTable);
+Internal.ObjectsAll = setmetatable({},WeakTable);
+Internal.ObjectsCls = setmetatable({},WeakTable);
+Internal.ClassesStatic = setmetatable({},WeakTable);
+Internal.ClassesStaticProperties = setmetatable({},WeakTable);
+
+return Internal;

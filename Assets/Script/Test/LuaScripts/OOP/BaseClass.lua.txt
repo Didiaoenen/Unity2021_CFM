@@ -19,67 +19,44 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local type = type;
-local getmetatable = getmetatable;
-local setmetatable = setmetatable;
-local d_setmetatable = debug.setmetatable;
-
-require("OOP.Enum");
-require("OOP.Struct");
-local Config = require("OOP.Config");
+local i18n = require("OOP.i18n");
 local Internal = require("OOP.Variant.Internal");
-local Debug = Config.Debug;
-local Null = Config.ExternalClass.Null;
+local Config = require("OOP.Config");
 local null = Config.null;
 local final = Config.Qualifiers.final;
-local FinalClasses = Internal.FinalClasses;
-local DeathMark = Internal.DeathMark;
 local ClassDefault = Config["class.default"];
 local ClassDelete = Config["class.delete"];
-local i18n = require("OOP.i18n");
 
 local class = setmetatable({},{
     __call = function(c,...)
-        return c.New(...)
+        return c.new(...)
     end
 });
 rawset(_G,Config.class,class);
 
-local _null = Null and function(t)
+class[null] = function(t)
     local tt = type(t);
     if tt == "table" then
-        return DeathMark[t] == true;
+        return Internal.DeathMark[t] == true;
     elseif tt == "userdata" then
-        return Null(t);
-    end
-    return not t;
-end or
-function(t)
-    local tt = type(t);
-    if tt == "table" or tt == "userdata" then
-        return DeathMark[t] == true;
-    end
-    return not t;
-end;
-class[null] = _null;
-
-if Debug then
-    class[final] = function (...)
-        if type((...)) == "string" then
-            FinalClasses[(...)] = true;
+        if Config.ExternalClass.Null then
+            return Config.ExternalClass.Null(t);
+        else
+            return Internal.DeathMark[t] == true;
         end
-        local cls = class.New(...);
-        FinalClasses[cls] = true;
-        return cls;
-    end;
-else
-    class[final] = function (...)
-        return class.New(...);
-    end;
+    end
+    return not t;
 end
 
-class[ClassDefault] = function ()end;
-class[ClassDelete] = function () error(i18n"This is the function that has been deleted.");end;
-class.Version = Config.Version;
+class[final] = function (...)
+    return class.new(...);
+end;
+
+class[ClassDefault] = function()
+end;
+
+class[ClassDelete] = function()
+    error(i18n"This is the function that has been deleted.");
+end;
 
 return class;

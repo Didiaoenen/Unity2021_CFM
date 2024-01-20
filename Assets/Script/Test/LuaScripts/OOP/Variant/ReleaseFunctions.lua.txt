@@ -19,81 +19,36 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local getmetatable = getmetatable;
-local setmetatable = setmetatable;
-local rawset = rawset;
-local rawget = rawget;
-local pairs = pairs;
-local ipairs = ipairs;
-local type = type;
-local select = select;
-local remove = table.remove;
-local insert = table.insert;
-local d_setmetatable = debug.setmetatable;
-local next = next;
-
-local Config = require("OOP.Config");
 local i18n = require("OOP.i18n");
-local Internal = require("OOP.Variant.Internal");
 local class = require("OOP.BaseClass");
+local null = class.null;
+
+local R = require("OOP.Router");
 local BaseFunctions = require("OOP.BaseFunctions");
 
-local Copy = BaseFunctions.Copy;
-local Update2Children = BaseFunctions.Update2Children;
-local Update2ChildrenWithKey = BaseFunctions.Update2ChildrenWithKey;
-local ClassBasesIsRecursive = BaseFunctions.ClassBasesIsRecursive;
-
-
-local E_Handlers = require("OOP.Event").handlers;
-local R = require("OOP.Router");
-local Router = R.Router;
-local BitsMap = R.BitsMap;
-local Begin = R.Begin;
-
+local Config = require("OOP.Config");
 local delete = Config.delete;
 local dtor = Config.dtor;
 
 local new = Config.new;
 local is = Config.is;
 
-local __internal__ = Config.__internal__;
-local __singleton = Config.__singleton;
-local Instance = Config.Instance;
-local handlers = Config.handlers;
-local friends = Config.friends;
-local __new = Config.__new;
-local __delete = Config.__delete;
-local Meta = Config.Meta;
-local static = Config.Qualifiers.static;
 local get = Config.get;
 local set = Config.set;
+local static = Config.Qualifiers.static;
+
 local __cls__ = Config.__cls__;
+local __internal__ = Config.__internal__;
 
-local MetaMapName = Config.MetaMapName;
+local __new = Config.__new;
+local __delete = Config.__delete;
+local __singleton = Config.__singleton;
 
-local null = class.null;
+local Internal = require("OOP.Variant.Internal");
 
-local Functions = Internal;
-local ClassesChildrenByName = Functions.ClassesChildrenByName;
-local NamedClasses = Functions.NamedClasses;
-local AllClasses = Functions.AllClasses;
-local AllEnumerations = Functions.AllEnumerations;
-local ClassesReadable = Functions.ClassesReadable;
-local ClassesWritable = Functions.ClassesWritable;
-local ClassesHandlers = Functions.ClassesHandlers;
-local ClassesBases = Functions.ClassesBases;
-local ClassesChildren = Functions.ClassesChildren;
-local ClassesMembers = Functions.ClassesMembers;
-local ClassesMetas = Functions.ClassesMetas;
-local ClassesNew = Functions.ClassesNew;
-local ClassesDelete = Functions.ClassesDelete;
-local ClassesSingleton = Functions.ClassesSingleton;
-local ClassesStatic = Functions.ClassesStatic;
-local ObjectsAll = Functions.ObjectsAll;
-local ObjectsCls = Functions.ObjectsCls;
-local DeathMark = Functions.DeathMark;
-
-local ClearMembersInRelease = Config.ClearMembersInRelease;
+local Functions = {
+    class = class,
+}
 
 ---Get the single instance, where it is automatically judged empty
 ---and does not require the user to care.
@@ -101,11 +56,11 @@ local ClearMembersInRelease = Config.ClearMembersInRelease;
 ---@param self any
 ---@param call function
 ---
-local function GetSingleton(self,call)
-    local s = ClassesSingleton[self];
+function Functions.GetSingleton(self,call)
+    local s = Internal.ClassesSingleton[self];
     if null(s) then
         s = call(self);
-        ClassesSingleton[self] = s;
+        Internal.ClassesSingleton[self] = s;
     end
     return s;
 end
@@ -116,12 +71,12 @@ end
 ---@param self table
 ---@param val nil   This parameter must be a nil value.
 ---
-local function DestroySingleton(self,val)
+function Functions.DestroySingleton(self,val)
     if nil == val then
-        local s = ClassesSingleton[self];
+        local s = Internal.ClassesSingleton[self];
         if not null(s) then
             s:delete();
-            ClassesSingleton[self] = nil;
+            Internal.ClassesSingleton[self] = nil;
         end
     end
 end
@@ -133,7 +88,7 @@ end
 ---@param rw table Readable or writable.
 ---@return table,table
 ---
-local function CreateClassPropertiesTable(cls,bases,rw)
+function Functions.CreateClassPropertiesTable(cls,bases,rw)
     if rw then
         return setmetatable({},{
             __index = function (_,key)
@@ -149,11 +104,11 @@ local function CreateClassPropertiesTable(cls,bases,rw)
             end
         });
     end
-    return CreateClassPropertiesTable(cls,bases,ClassesReadable),CreateClassPropertiesTable(cls,bases,ClassesWritable);
+    return
+        Functions.CreateClassPropertiesTable(cls,bases,Internal.ClassesReadable),
+        Functions.CreateClassPropertiesTable(cls,bases,Internal.ClassesWritable);
 end
 
-
-local registry = debug.getregistry();
 ---
 ---Check the class and return the meta-table for the class object.
 ---
@@ -163,57 +118,51 @@ local registry = debug.getregistry();
 ---@return table @metas
 ---@return string? @name
 ---
-local function CheckClass(args)
-    local metas = nil;
-    local name = nil;
+function Functions.CheckClass(args)
     local cls = {};
+    local name = nil;
+    local metas = nil;
     if type(args[1]) == "string" then
-        name = remove(args,1);
-        if NamedClasses[name] then
+        name = table.remove(args,1);
+        if Internal.NamedClasses[name] then
             error((i18n"You cannot use this name \"%s\", which is already used by other class.").format(name));
         else
             -- Save the names and classes mapped to each other.
-            NamedClasses[name] = cls;
-            NamedClasses[cls] = name;
+            Internal.NamedClasses[name] = cls;
+            Internal.NamedClasses[cls] = name;
 
-            metas = registry[name];
+            metas = debug.getregistry()[name];
             if nil == metas or rawget(metas,__internal__) then
                 -- If a meta table by that name does not exist in the registry, it is created.
                 -- Otherwise, the class is not an internal class.
                 metas = {[__internal__] = true};
-                registry[name] = metas;
-                ClassesMetas[cls] = metas;
+                debug.getregistry()[name] = metas;
+                Internal.ClassesMetas[cls] = metas;
             else
-                ClassesMetas[cls] = {[__internal__] = true};
+                Internal.ClassesMetas[cls] = {[__internal__] = true};
             end
         end
     else
         metas = {[__internal__] = true};
-        ClassesMetas[cls] = metas;
+        Internal.ClassesMetas[cls] = metas;
     end
     return cls,metas,name;
 end
 
-local function PushBase(cls,bases,base,handlers,members,metas)
-    -- Inherite handlers/members/metas from base.
+function Functions.PushBase(cls,bases,base,members,metas)
+    -- Inherite members/metas from base.
 
     -- To save runtime performance,
     -- some values that may be looked up at runtime are recorded in the table at inheritance time.
-    local found = ClassesHandlers[base];
-    if found then
-        for handler,func in pairs(found) do
-            handlers[handler] = func;
-        end
-    end
-    found = ClassesMembers[base];
+    local found = Internal.ClassesMembers[base];
     if found then
         for key,save in pairs(found) do
             members[key] = save;
         end
     end
-    found = ClassesMetas[base];
+    found = Internal.ClassesMetas[base];
     if found then
-        for key,_ in pairs(Meta) do
+        for key,_ in pairs(Config.Meta) do
             local meta = found[key];
             if nil ~= meta and nil == metas[key] then
                 metas[key] = meta;
@@ -224,7 +173,7 @@ local function PushBase(cls,bases,base,handlers,members,metas)
     local bmt = getmetatable(base);
     if bmt then
         local mt = getmetatable(cls);
-        for key,_ in pairs(Meta) do
+        for key,_ in pairs(Config.Meta) do
             local meta = bmt[key];
             if nil == mt[key] and nil ~= meta then
                 mt[key] = meta;
@@ -232,19 +181,19 @@ local function PushBase(cls,bases,base,handlers,members,metas)
         end
     end
 
-    local _new = ClassesNew[base];
+    local _new = Internal.ClassesNew[base];
     if _new then
-        ClassesNew[cls] = _new;
+        Internal.ClassesNew[cls] = _new;
     end
-    local _delete = ClassesDelete[base];
+    local _delete = Internal.ClassesDelete[base];
     if _delete then
-        ClassesDelete[cls] = _delete;
+        Internal.ClassesDelete[cls] = _delete;
     end
     -- Record the current class into the subclasses table of the base class,
     -- and if there are any member (except for functions, but containing metamethods and events) changes in the base class afterwards,
     -- they will be mapped to all subclasses.
 
-    local children = ClassesChildren[base];
+    local children = Internal.ClassesChildren[base];
     if children then
         children[#children + 1] = cls;
     end
@@ -253,7 +202,7 @@ end
 
 ---If there is no parameter,it means the return value is the current type.
 ---@return table
-local function ClassIs(cls,bases,...)
+function Functions.ClassIs(cls,bases,...)
     local len = select("#",...);
     if 0 == len then
         return cls;
@@ -261,16 +210,15 @@ local function ClassIs(cls,bases,...)
     local baseCls = select(1,...);
     if baseCls == nil then
         return false;
-    end
-    if baseCls == cls then
+    elseif baseCls == cls then
         return true;
     end
-    return ClassBasesIsRecursive(baseCls,bases);
+    return BaseFunctions.ClassBasesIsRecursive(baseCls,bases);
 end
 
-local function CreateClassIs(cls,bases)
+function Functions.CreateClassIs(cls,bases)
     return function (...)
-        return ClassIs(cls,bases,...);
+        return Functions.ClassIs(cls,bases,...);
     end;
 end
 
@@ -281,8 +229,8 @@ end
 ---@param cls table
 ---@return "table?|userdata?"
 ---@return "table?"
-local function CreateClassObject(cls,...)
-    local _new = ClassesNew[cls];
+function Functions.CreateClassObject(cls,...)
+    local _new = Internal.ClassesNew[cls];
     local obj = _new and _new(...) or {};
     local all = nil;
     local t = type(obj);
@@ -290,10 +238,10 @@ local function CreateClassObject(cls,...)
         all = obj;
     elseif nil ~= obj then
         -- Try to get a pre-existing 'all' table (nested constructs may exist).
-        all = ObjectsAll[obj];
+        all = Internal.ObjectsAll[obj];
         if nil == all then
             all = {};
-            ObjectsAll[obj] = all;
+            Internal.ObjectsAll[obj] = all;
         end
     end
     return obj,all;
@@ -308,7 +256,7 @@ end
 ---@param byObject? boolean
 ---@return any
 ---
-local function CascadeGet(cls,key,called,byObject)
+function Functions.CascadeGet(cls,key,called,byObject)
     if called[cls] then
         return nil;
     end
@@ -318,7 +266,7 @@ local function CascadeGet(cls,key,called,byObject)
         return ret;
     end
     if not byObject then
-        local static = ClassesStatic[cls];
+        local static = Internal.ClassesStatic[cls];
         if static then
             ret = static[key];
             if nil ~= ret then
@@ -326,10 +274,10 @@ local function CascadeGet(cls,key,called,byObject)
             end
         end
     end
-    local bases = ClassesBases[cls];
+    local bases = Internal.ClassesBases[cls];
     if bases then
         for _,base in ipairs(bases) do
-            ret = CascadeGet(base,key,called,byObject);
+            ret = Functions.CascadeGet(base,key,called,byObject);
             if nil ~= ret then
                 return ret;
             end
@@ -337,51 +285,23 @@ local function CascadeGet(cls,key,called,byObject)
     end
 end
 
-local function RegisterHandlersAndMembers(obj,all,handlers,members)
-    for key,func in pairs(handlers) do
-        -- Automatically listens to events.
-        E_Handlers.On(key,obj,func);
-    end
+function Functions.RegisterMembers(all,members)
     for key,value in pairs(members) do
         -- Automatically set member of object.
         -- Before the instance can change the meta-table, its members must be set.
-        rawset(all,key,Copy(value));
+        rawset(all,key,BaseFunctions.Copy(value));
     end
 end
-
-local HandlersControlObj = nil;
-local HandlersControl = setmetatable({},{
-    __newindex = function (_,key,value)
-        if nil == value then
-            -- If value is nil,we remove the response of this event name.
-            E_Handlers.Remove(key,HandlersControlObj);
-        elseif value == false or value == true then
-            -- If value is a boolean,we enable/disable it.
-            E_Handlers.Enabled(key,HandlersControlObj,value);
-        elseif type(value) == "function" then
-            -- If value is a function,we reset the response of this event name.
-            E_Handlers.Remove(key,HandlersControlObj);
-            E_Handlers.On(key,HandlersControlObj,value);
-        else
-            -- If value is a number,we sort it.
-            E_Handlers.Order(key,HandlersControlObj,math.floor(value));
-        end
-    end
-});
 
 ---Generate a meta-table for an internal object.
 ---
 ---@param cls table
 ---@return table
 ---
-local function MakeInternalObjectMeta(cls,metas)
+function Functions.MakeInternalObjectMeta(cls,metas)
     metas.__index = function (sender,key)
-        if key == handlers then
-            HandlersControlObj = sender;
-            return HandlersControl;
-        end
         local ret = nil;
-        local all = ObjectsAll[sender];
+        local all = Internal.ObjectsAll[sender];
         if all then
             ret = all[key];
             if nil ~= ret then
@@ -390,7 +310,7 @@ local function MakeInternalObjectMeta(cls,metas)
         end
 
         -- Check the properties of current class.
-        local property = ClassesReadable[cls][key];
+        local property = Internal.ClassesReadable[cls][key];
         if property and not property[2] then
             return property[1](sender);
         end
@@ -402,20 +322,21 @@ local function MakeInternalObjectMeta(cls,metas)
         end
 
         -- Check base class.
-        for _, base in ipairs(ClassesBases[cls]) do
-            ret = CascadeGet(base,key,{},true);
+        for _, base in ipairs(Internal.ClassesBases[cls]) do
+            ret = Functions.CascadeGet(base, key, {}, true);
             if nil ~= ret then
                 return ret;
             end
         end
+        return nil;
     end;
     metas.__newindex = function (sender,key,value)
-        local property = ClassesWritable[cls][key];
+        local property = Internal.ClassesWritable[cls][key];
         if property and not property[2] then
             property[1](sender,value);
             return;
         end
-        local all = ObjectsAll[sender];
+        local all = Internal.ObjectsAll[sender];
         if all then
             all[key] = value;
             return;
@@ -425,30 +346,30 @@ local function MakeInternalObjectMeta(cls,metas)
     return metas;
 end
 
-local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
+function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
     --- Since the meta table may still be used for external classes or other classes after being retrofitted,
-    -- the custom meta method goes through the sender to find it.
-    local oldMeta = rawget(metas,name);
+    --- the custom meta method goes through the sender to find it.
+    local oldMeta = rawget(metas, name);
     if name == "__gc" or name == "__close" then
         rawset(metas,name,function (sender)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender);
             end
         end);
     elseif name == "__eq" then
         rawset(metas,name,function (sender,other)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender,other);
             end
@@ -458,10 +379,10 @@ local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
         rawset(metas,name,function (sender)
             local cls = ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender);
             end
@@ -471,10 +392,10 @@ local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
         rawset(metas,name,function (sender)
             local cls = ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender);
             end
@@ -484,10 +405,10 @@ local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
         rawset(metas,name,function (sender)
             local cls = ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender);
             end
@@ -497,10 +418,10 @@ local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
         rawset(metas,name,function (sender,...)
             local cls = ObjectsCls[sender];
             if nil == cls and forceRetrofit then
-                ObjectsCls[sender] = _cls;
+                Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
             end
-            local meta = cls and ClassesMetas[cls][name] or oldMeta;
+            local meta = cls and Internal.ClassesMetas[cls][name] or oldMeta;
             if meta then
                 return meta(sender,...);
             end
@@ -509,7 +430,7 @@ local function RetrofiteMetaMethod(_cls,metas,name,forceRetrofit)
     end
 end
 
-local function RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
+function Functions.RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
     if rawget(metas,__cls__) then
         return;
     end
@@ -517,8 +438,8 @@ local function RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
     -- Attempt to retrofit the meta-table.
     -- Only __index and __newindex will integrate the logic,
     -- the logic of other meta methods will be overwritten.
-    for name,_ in pairs(Meta) do
-        RetrofiteMetaMethod(cls,metas,name,forceRetrofit);
+    for name,_ in pairs(Config.Meta) do
+        Functions.RetrofiteMetaMethod(cls,metas,name,forceRetrofit);
     end
 
     local index = rawget(metas,"__index");
@@ -526,19 +447,14 @@ local function RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
     local newIndex = rawget(metas,"__newindex");
     local newIndexFunc =  "function" == type(newIndex);
     rawset(metas,"__index",function (sender,key)
-        local oCls = ObjectsCls[sender];
+        local oCls = Internal.ObjectsCls[sender];
         if nil == oCls and forceRetrofit then
-            ObjectsCls[sender] = cls;
+            Internal.ObjectsCls[sender] = cls;
             oCls = cls;
         end
         if oCls then
-            if key == handlers then
-                HandlersControlObj = sender;
-                return HandlersControl;
-            end
-
             -- Check self all.
-            local all = ObjectsAll[sender];
+            local all = Internal.ObjectsAll[sender];
             local ret = nil;
             if all then
                 ret = all[key];
@@ -554,13 +470,13 @@ local function RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
             end
 
             -- Check cls properties.
-            local property = ClassesReadable[oCls][key];
+            local property = Internal.ClassesReadable[oCls][key];
             if property and not property[2] then
                 return property[1](sender);
             end
             -- Check cls bases.
-            for _, base in ipairs(ClassesBases[oCls]) do
-                ret = CascadeGet(base,key,{},true);
+            for _, base in ipairs(Internal.ClassesBases[oCls]) do
+                ret = Functions.CascadeGet(base,key,{},true);
                 if nil ~= ret then
                     return ret;
                 end
@@ -575,18 +491,22 @@ local function RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
         end
     end);
     rawset(metas,"__newindex",function (sender,key,value)
-        local oCls = ObjectsCls[sender];
+        local oCls = Internal.ObjectsCls[sender];
         if nil == oCls and forceRetrofit then
-            ObjectsCls[sender] = cls;
+            Internal.ObjectsCls[sender] = cls;
             oCls = cls;
         end
         if oCls then
-            local property = ClassesWritable[oCls][key];
+            local property = Internal.ClassesWritable[oCls][key];
             if property and not property[2] then
                 property[1](sender,value);
                 return;
             end
-            local all = ObjectsAll[sender];
+            local all = Internal.ObjectsAll[sender];
+            if all == nil and forceRetrofit then
+                all = {};
+                Internal.ObjectsAll[sender] = all;
+            end
             all[key] = value;
         else
              -- Finally, write by the original method.
@@ -624,7 +544,7 @@ end
     to avoid repeated calls to the destructors of X and A that have been inherited multiple times,
     record the classes that have been called in "called".
 ]]
-local function CascadeDelete(self,cls,called)
+function Functions.CascadeDelete(self,cls,called)
     if called[cls] then
         return;
     end
@@ -633,52 +553,41 @@ local function CascadeDelete(self,cls,called)
         del(self);
     end
     called[cls] = true;
-    local bases = ClassesBases[cls];
+    local bases = Internal.ClassesBases[cls];
     if bases then
         for _,base in ipairs(bases) do
-            CascadeDelete(self,base,called);
+            Functions.CascadeDelete(self,base,called);
         end
     end
 end
 
-local function CallDel(self)
-    CascadeDelete(self,self[is](),{});
-    DeathMark[self] = true;
-    ObjectsAll[self] = nil;
+function Functions.CallDel(self)
+    Functions.CascadeDelete(self,self[is](),{});
+    Internal.DeathMark[self] = true;
+    Internal.ObjectsAll[self] = nil;
 end
 
-local CreateClassDelete = ClearMembersInRelease and function(cls)
+function Functions.CreateClassDelete(cls)
     return function (self)
-        CascadeDelete(self,cls,{});
-        local d = ClassesDelete[cls];
+        Functions.CascadeDelete(self,cls,{});
+        local d = Internal.ClassesDelete[cls];
         if d then
             d(self);
         else
             local ut = "userdata" == type(self);
             if ut then
-                d_setmetatable(self,nil);
+                debug.setmetatable(self,nil);
             else
                 setmetatable(self,nil);
-                for k,_ in pairs(self) do
-                    self[k] = nil;
+                if Config.ClearMembersInRelease then
+                    for k,_ in pairs(self) do
+                        self[k] = nil;
+                    end
                 end
             end
         end
-        DeathMark[self] = true;
-        ObjectsAll[self] = nil;
-    end
-end or
-function (cls)
-    return function (self)
-        CascadeDelete(self,cls,{});
-        local d = ClassesDelete[cls];
-        if d then
-            d(self);
-        else
-            ("userdata" == type(self) and d_setmetatable or setmetatable)(self,nil);
-        end
-        DeathMark[self] = true;
-        ObjectsAll[self] = nil;
+        Internal.DeathMark[self] = true;
+        Internal.ObjectsAll[self] = nil;
     end
 end
 
@@ -687,66 +596,58 @@ end
 ---@param cls table
 ---@return table @all
 ---@return table @bases
----@return table @handlers
 ---@return table @members
 ---@return table @r
 ---@return table @w
 ---
-local function CreateClassTables(cls)
+function Functions.CreateClassTables(cls)
     local bases = {};
-    local handlers = setmetatable({},{
-        __newindex = function (h,k,v)
-            rawset(h,k,v);
-            Update2ChildrenWithKey(cls,ClassesHandlers,k,v);
-        end
-    });
     local members = {};
 
-    AllClasses[cls] = true;
-    ClassesBases[cls] = bases;
-    ClassesChildren[cls] = {};
-    ClassesHandlers[cls] = handlers;
-    ClassesStatic[cls] = {};
+    Internal.AllClasses[cls] = true;
+    Internal.ClassesBases[cls] = bases;
+    Internal.ClassesChildren[cls] = {};
+    Internal.ClassesStatic[cls] = {};
 
-    local r,w = CreateClassPropertiesTable(cls,bases);
-    ClassesReadable[cls] = r;
-    ClassesWritable[cls] = w;
-    ClassesMembers[cls] = members;
+    local r,w = Functions.CreateClassPropertiesTable(cls,bases);
+    Internal.ClassesReadable[cls] = r;
+    Internal.ClassesWritable[cls] = w;
+    Internal.ClassesMembers[cls] = members;
 
-    return cls,bases,handlers,members,r,w;
+    return cls,bases,members,r,w;
 end
 
-local function AttachClassFunctions(cls,_is,_new,_delete)
-    local static = ClassesStatic[cls];
+function Functions.AttachClassFunctions(cls,_is,_new,_delete)
+    local static = Internal.ClassesStatic[cls];
     cls[is] = _is;
     static[new] = {_new};
     cls[delete] = _delete;
 end
 
-local function ClassInherite(cls,args,bases,handlers,members,metas,name,pb)
-    local children = ClassesChildrenByName[name];
+function Functions.ClassInherite(cls,args,bases,members,metas,name,pb)
+    local children = Internal.ClassesChildrenByName[name];
     if children then
         -- If some class inherits by name before that class is defined,
         -- update the bases table and children table here.
-        ClassesChildren[cls] = children;
-        ClassesChildrenByName[name] = nil;
+        Internal.ClassesChildren[cls] = children;
+        Internal.ClassesChildrenByName[name] = nil;
         for _,child in ipairs(children) do
-            insert(ClassesBases[child],cls);
+            table.insert(Internal.ClassesBases[child],cls);
         end
     end
     for _, base in ipairs(args) do
         if "string" == type(base) then
             local baseName = base;
-            base = NamedClasses[base];
+            base = Internal.NamedClasses[base];
             if nil == base then
                 -- If there is no class named 'base',record it in ClassesChildrenByName.
                 -- When the class which named 'base' is created,push 'base' into cls bases table.
-                ClassesChildrenByName[baseName] = ClassesChildrenByName[baseName] or {};
-                insert(ClassesChildrenByName[baseName],cls);
+                Internal.ClassesChildrenByName[baseName] = Internal.ClassesChildrenByName[baseName] or {};
+                table.insert(Internal.ClassesChildrenByName[baseName],cls);
             end
         end
         if nil ~= base then
-            (pb or PushBase)(cls,bases,base,handlers,members,metas);
+            (pb or Functions.PushBase)(cls,bases,base,members,metas);
         end
     end
 end
@@ -757,80 +658,77 @@ end
 ---@param key any
 ---@return any
 ---
-local function ClassGet(cls,key)
-    if BitsMap[key] then
-        return Begin(Router,cls,key);
-    end
-    if key == handlers then
-        return ClassesHandlers[cls];
+function Functions.ClassGet(cls,key)
+    if R.BitsMap[key] then
+        return R.Begin(R.Router,cls,key);
     end
     -- Check the properties first.
-    local property = ClassesReadable[cls][key];
+    local property = Internal.ClassesReadable[cls][key];
     if property and property[2] then
         -- Is static property?
         -- Class can't access object's property directly.
-        return property[1]()
+        return property[1](cls);
     end
-    local ret = ClassesStatic[cls][key];
+    local ret = Internal.ClassesStatic[cls][key];
     if nil ~= ret then
         return ret[1];
     end
-    ret = ClassesMembers[cls][key];
+    ret = Internal.ClassesMembers[cls][key];
     if nil ~= ret then
         return ret;
     end
-    for _, base in ipairs(ClassesBases[cls]) do
-        ret = CascadeGet(base,key,{});
+    for _, base in ipairs(Internal.ClassesBases[cls]) do
+        ret = Functions.CascadeGet(base,key,{});
         if nil ~= ret then
             return ret;
         end
     end
 end
 
-local function ClassSet(cls,key,value)
+function Functions.ClassSet(cls,key,value)
     if key == __singleton then
         -- Register "Instance" automatically.
-        cls[static][get][Instance] = function ()
-            return GetSingleton(cls,value);
+        cls[static][get][Config.Instance] = function ()
+            return Functions.GetSingleton(cls,value);
         end;
-        cls[static][set][Instance] = function (val)
-            DestroySingleton(cls,val)
+        cls[static][set][Config.Instance] = function (_,val)
+            Functions.DestroySingleton(cls,val);
         end;
         return;
     elseif key == __new then
-        ClassesNew[cls] = value;
-        Update2Children(cls,ClassesNew,value);
+        Internal.ClassesNew[cls] = value;
+        BaseFunctions.Update2Children(cls,Internal.ClassesNew,value);
         return;
     elseif key == __delete then
-        ClassesDelete[cls] = value;
-        Update2Children(cls,ClassesDelete,value);
+        Internal.ClassesDelete[cls] = value;
+        BaseFunctions.Update2Children(cls,Internal.ClassesDelete,value);
         return;
-    elseif key == friends or nil == key then
+    elseif nil == key then
         return;
     else
-        local property = ClassesWritable[cls][key];
+        local property = Internal.ClassesWritable[cls][key];
         if property and property[2] then
             -- Is static property?
             -- Class can't access object's property directly.
-            property[1](value);
+            property[1](cls,value);
             return;
         end
-        local meta = MetaMapName[key];
+        local meta = Config.MetaMapName[key];
         if meta then
-            ClassesMetas[cls][meta] = value;
-            Update2ChildrenWithKey(cls,ClassesMetas,meta,value);
+            Internal.ClassesMetas[cls][meta] = value;
+            BaseFunctions.Update2ChildrenWithKey(cls,Internal.ClassesMetas,meta,value);
             return;
         end
-        local cs = ClassesStatic[cls];
+        local cs = Internal.ClassesStatic[cls];
         local isStatic = cs[key] ~= nil;
         if not isStatic then
             local exist = rawget(cls,key);
             local vt = type(value);
             local isFunction = "function" == vt;
             local isTable = "table" == vt;
-            if not exist and not isFunction and (not isTable or (not AllEnumerations[value] and not AllClasses[value])) then
-                ClassesMembers[cls][key] = value;
-                Update2ChildrenWithKey(cls,ClassesMembers,key,value);
+            if not exist and not isFunction and (not isTable or (not Internal.AllEnumerations[value] and not Internal.AllClasses[value])) then
+                Internal.ClassesMembers[cls][key] = value;
+                BaseFunctions.Update2ChildrenWithKey(cls,Internal.ClassesMembers,key,value);
             end
             if isFunction then
                 rawset(cls,key,value);
@@ -840,25 +738,5 @@ local function ClassSet(cls,key,value)
         end
     end
 end
-
-Functions.class = class;
-Functions.GetSingleton = GetSingleton;
-Functions.DestroySingleton = DestroySingleton;
-Functions.CheckClass = CheckClass;
-Functions.PushBase = PushBase;
-Functions.CreateClassIs = CreateClassIs;
-Functions.CreateClassDelete = CreateClassDelete;
-Functions.CreateClassObject = CreateClassObject;
-Functions.CallDel = CallDel;
-Functions.MakeInternalObjectMeta = MakeInternalObjectMeta;
-Functions.RegisterHandlersAndMembers = RegisterHandlersAndMembers;
-Functions.RetrofitExternalObjectMeta = RetrofitExternalObjectMeta;
-Functions.RetrofiteMetaMethod = RetrofiteMetaMethod;
-Functions.CreateClassTables = CreateClassTables;
-Functions.AttachClassFunctions = AttachClassFunctions;
-Functions.ClassInherite = ClassInherite;
-Functions.ClassGet = ClassGet;
-Functions.ClassSet = ClassSet;
-Functions.CascadeDelete = CascadeDelete;
 
 return Functions;

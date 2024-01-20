@@ -19,32 +19,16 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local setmetatable = setmetatable;
-local getmetatable = getmetatable;
-local warn = warn or print;
-local pairs = pairs;
-local ipairs = ipairs;
-local type = type;
-local select = select;
-local error = error;
-local rawset = rawset;
-local rawget = rawget;
-local Internal = require("OOP.Variant.Internal");
-local Config = require("OOP.Config");
-local BaseFunctions = require("OOP.BaseFunctions");
 local i18n = require("OOP.i18n");
-local Meta = Config.Meta;
-local AllStructs = Internal.AllStructs;
-local StructsMembers = Internal.ClassesMembers;
-local StructsDelays = Internal.ClassesStatic;
-local StructsBases = Internal.ClassesBases;
-local Copy = BaseFunctions.Copy;
+local Config = require("OOP.Config");
 local ctor = Config.ctor;
-local struct = Config.struct;
-local Debug = Config.Debug;
-local StructBehavior = Config.StructBehavior;
 
-local function MetaCascadeGet(bases,tab)
+local Internal = require("OOP.Variant.Internal");
+local BaseFunctions = require("OOP.BaseFunctions");
+
+local StructTemp = {}
+
+function StructTemp.MetaCascadeGet(bases,tab)
     return {
         __index = function(_, k)
             for _,base in ipairs(bases) do
@@ -57,8 +41,8 @@ local function MetaCascadeGet(bases,tab)
     };
 end
 
-local function CascadeRawGet(proto,key)
-    local members = StructsMembers[proto];
+function StructTemp.CascadeRawGet(proto,key)
+    local members = Internal.StructsMembers[proto];
     local ret = members[key];
     if nil ~= ret then
         return ret;
@@ -67,65 +51,32 @@ local function CascadeRawGet(proto,key)
     if nil ~= ret then
         return ret;
     end
-    local bases = StructsBases[proto];
+    local bases = Internal.StructsBases[proto];
     for _,base in ipairs(bases) do
-        ret = CascadeRawGet(base,key);
+        ret = StructTemp.CascadeRawGet(base,key);
         if nil ~= ret then
             return ret;
         end
     end
 end
 
-local ProtoNewIndexMeta = nil;
-if Debug then
-    if StructBehavior == 0 then
-        ProtoNewIndexMeta = function(obj,key,value)
-            local m = StructsMembers[getmetatable(obj)];
-            if m[key] == nil then
-                warn(i18n"You are attempting to add a field to the struct.");
-            end
-            rawset(obj,key,value);
-        end;
-    elseif StructBehavior == 1 then
-        ProtoNewIndexMeta = function(obj,key,value)
-            local m = StructsMembers[getmetatable(obj)];
-            if m[key] == nil then
-                error(i18n"You are attempting to add a field to the struct and that behavior is prohibited.");
-            end
-            rawset(obj,key,value);
-        end;
-    elseif StructBehavior ~= 2 then
-        ProtoNewIndexMeta = function(obj,key,value)
-            local m = StructsMembers[getmetatable(obj)];
-            if m[key] == nil then
-                return;
-            end
-            rawset(obj,key,value);
-        end;
-    end
-end
-
-local function StructBuild(bases)
+function StructTemp.StructBuild(bases)
     return function (proto)
-        if Debug and type(proto) ~= "table" then
-            error(i18n"The structure must be declared as a table.");
-        end
         if nil ~= getmetatable(proto) then
-            warn(i18n"Struct be used on a table with metatable.");
+            print(i18n"Struct be used on a table with metatable.");
         end
         -- Member table containing only the fields of non-function and non-meta methods.
         -- And these fields are not changed after initialization.
-        local members = setmetatable({},MetaCascadeGet(bases,StructsMembers));
-        local delays = setmetatable({},MetaCascadeGet(bases,StructsDelays));
-        StructsMembers[proto] = members;
-        StructsDelays[proto] = delays;
-        StructsBases[proto] = bases;
-        AllStructs[proto] = true;
-
+        local members = setmetatable({},StructTemp.MetaCascadeGet(bases,Internal.StructsMembers));
+        local delays = setmetatable({},StructTemp.MetaCascadeGet(bases,Internal.StructsDelays));
+        Internal.StructsMembers[proto] = members;
+        Internal.StructsDelays[proto] = delays;
+        Internal.StructsBases[proto] = bases;
+        Internal.AllStructs[proto] = true;
 
         -- 1.Here all "members" are assigned only from the inherited structure.
         for _,base in ipairs(bases) do
-            local baseMembers = StructsMembers[base];
+            local baseMembers = Internal.StructsMembers[base];
             for k,v in pairs(baseMembers) do
                 members[k] = v;
             end
@@ -133,7 +84,7 @@ local function StructBuild(bases)
 
         -- 2.Moves non-meta methods and non-function fields from the prototype to members.
         for k,v in pairs(proto) do
-            if not Meta[k] and type(v) ~= "function" then
+            if not Config.Meta[k] and type(v) ~= "function" then
                 members[k] = v;
                 proto[k] = nil;
             end
@@ -152,9 +103,11 @@ local function StructBuild(bases)
         end
 
         proto.__index = function (_,k)
-            return CascadeRawGet(proto,k);
+            return StructTemp.CascadeRawGet(proto,k);
         end;
-        proto.__newindex = ProtoNewIndexMeta;
+
+        proto.__newindex = nil;
+
         return setmetatable(proto,{
             __index = function (_,k)
                 local ret = members[k];
@@ -173,14 +126,14 @@ local function StructBuild(bases)
                 end
             end,
             __newindex = function (_,k,v)
-                if Meta[k] or type(v) == "function" then
+                if Config.Meta[k] or type(v) == "function" then
                     rawset(proto,k,v);
                 else
                     delays[k] = v;
                 end
             end,
             __call = function (_,...)
-                local sObj = setmetatable(Copy(members),proto);
+                local sObj = setmetatable(BaseFunctions.Copy(members),proto);
                 local _ctor = proto[ctor];
                 if _ctor then
                     _ctor(sObj, ...);
@@ -191,18 +144,13 @@ local function StructBuild(bases)
     end;
 end
 
-_G[struct] = function(...)
+local function Struct(...)
     local len = select("#",...);
-    if len == 1 and nil == AllStructs[(...)] then
-        return StructBuild({})(...);
+    if len == 1 and nil == Internal.AllStructs[(...)] then
+        return StructTemp.StructBuild({})(...);
     end
     local bases = {...};
-    if Debug then
-        for _,v in ipairs(bases) do
-            if not AllStructs[v] then
-                error(i18n"The base structure is not a struct type.");
-            end
-        end
-    end
-    return StructBuild(bases);
-end;
+    return StructTemp.StructBuild(bases);
+end
+
+return Struct;

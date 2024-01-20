@@ -21,37 +21,26 @@
 
 local LuaVersion = tonumber(_VERSION:sub(5)) or 5.1;
 if LuaVersion >= 5.4 then
-    warn("@on");
+    print("@on");
 end
+
 local Config = {
     LuaVersion = LuaVersion,
-    Version = "1.0.7",
+    Version = "1.1.0",
 
     --****************Rename fields start****************
     -- If you need to rename some of the LuaOOP names to suit specific needs,
     -- please modify the following mapping.
 
     class = "class",
-    struct = "struct",
 
     ["class.default"] = "default",
     ["class.delete"] = "delete",
 
-    enum = "enum",
-
-    event = "event",
-
-    handlers = "handlers",
-
     null = "null",
-    raw = "raw",
-    del = "del",
-    to = "to",
 
     set = "set",
     get = "get",
-
-    friends = "friends",
 
     -- If __singleton is defined,
     -- then the class can only access the singleton using the Instance property
@@ -129,10 +118,6 @@ local Config = {
     --****************Functional fields start****************
     -- The following are functional configurations.
 
-    -- Indicates whether the current mode is debug or not.
-    -- When false, a more optimized speed will be used.
-    Debug = true,
-
     -- What is the behavior when you use properties incorrectly?
     -- For example, writing a read-only property,
     -- or reading a write-only property.
@@ -148,12 +133,6 @@ local Config = {
 
     -- Same as PropertyBehavior.
     ConstBehavior = 1,
-
-    -- Same as PropertyBehavior.
-    EnumBehavior = 1,
-
-    -- Same as PropertyBehavior.
-    StructBehavior = 2,
 
     -- The default initial index of the enumeration value.
     DefaultEnumIndex = 1,
@@ -187,14 +166,14 @@ local Config = {
     --****************Functional fields end****************
 
     __internal__ = "💠",
-    __cls__ = "🧬"
+    __cls__ = "🧬",
+
+    MetaMapName = {},
 };
 
 -- Reverse mapping to meta method names.
-local MetaMapName = {};
-Config.MetaMapName = MetaMapName;
 for meta,name in pairs(Config.Meta) do
-    MetaMapName[name] = meta;
+    Config.MetaMapName[name] = meta;
 end
 
 return Config;
