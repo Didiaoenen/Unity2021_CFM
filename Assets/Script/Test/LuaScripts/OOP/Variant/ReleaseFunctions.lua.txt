@@ -19,7 +19,6 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local i18n = require("OOP.i18n");
 local class = require("OOP.BaseClass");
 local null = class.null;
 
@@ -125,7 +124,7 @@ function Functions.CheckClass(args)
     if type(args[1]) == "string" then
         name = table.remove(args,1);
         if Internal.NamedClasses[name] then
-            error((i18n"You cannot use this name \"%s\", which is already used by other class.").format(name));
+            error(("You cannot use this name \"%s\", which is already used by other class.").format(name));
         else
             -- Save the names and classes mapped to each other.
             Internal.NamedClasses[name] = cls;
@@ -377,7 +376,7 @@ function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
         end);
     elseif name == "__tostring" then
         rawset(metas,name,function (sender)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
                 Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
@@ -390,7 +389,7 @@ function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
         end);
     elseif name == "__len" then
         rawset(metas,name,function (sender)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
                 Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
@@ -403,7 +402,7 @@ function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
         end);
     elseif name == "__pairs" then
         rawset(metas,name,function (sender)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
                 Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
@@ -416,7 +415,7 @@ function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
         end);
     else
         rawset(metas,name,function (sender,...)
-            local cls = ObjectsCls[sender];
+            local cls = Internal.ObjectsCls[sender];
             if nil == cls and forceRetrofit then
                 Internal.ObjectsCls[sender] = _cls;
                 cls = _cls;
@@ -425,7 +424,7 @@ function Functions.RetrofiteMetaMethod(_cls, metas, name, forceRetrofit)
             if meta then
                 return meta(sender,...);
             end
-            error((i18n"This meta method is not implemented. - %s"):format(name));
+            error(("This meta method is not implemented. - %s"):format(name));
         end);
     end
 end
@@ -521,7 +520,7 @@ function Functions.RetrofitExternalObjectMeta(cls,metas,forceRetrofit)
                 if "table" == t then
                     rawset(sender,key,value);
                 else
-                    error((i18n"attempt to index a %s value."):format(t));
+                    error(("attempt to index a %s value."):format(t));
                 end
             end
         end

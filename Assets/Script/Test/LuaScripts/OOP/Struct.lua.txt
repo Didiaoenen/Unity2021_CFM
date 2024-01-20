@@ -19,7 +19,6 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local i18n = require("OOP.i18n");
 local Config = require("OOP.Config");
 local ctor = Config.ctor;
 
@@ -63,7 +62,7 @@ end
 function StructTemp.StructBuild(bases)
     return function (proto)
         if nil ~= getmetatable(proto) then
-            print(i18n"Struct be used on a table with metatable.");
+            print("Struct be used on a table with metatable.");
         end
         -- Member table containing only the fields of non-function and non-meta methods.
         -- And these fields are not changed after initialization.

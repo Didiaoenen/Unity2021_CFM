@@ -34,13 +34,13 @@ local Config = {
 
     class = "class",
 
-    ["class.default"] = "default",
-    ["class.delete"] = "delete",
-
     null = "null",
 
     set = "set",
     get = "get",
+
+    -- add/remove
+    opt = "opt",
 
     -- If __singleton is defined,
     -- then the class can only access the singleton using the Instance property
@@ -116,30 +116,6 @@ local Config = {
 
 
     --****************Functional fields start****************
-    -- The following are functional configurations.
-
-    -- What is the behavior when you use properties incorrectly?
-    -- For example, writing a read-only property,
-    -- or reading a write-only property.
-    -- It works with Debug mode only.
-    -- All incorrect operations will be allowed in non-debug mode.
-    -------------------------------------
-    -- 0 -> warning(for lua5.4 and after)
-    -- 1 -> error
-    -- 2 -> allow
-    -- other -> ignore
-    -------------------------------------
-    PropertyBehavior = 1,
-
-    -- Same as PropertyBehavior.
-    ConstBehavior = 1,
-
-    -- The default initial index of the enumeration value.
-    DefaultEnumIndex = 1,
-
-    -- "get" property will be qualified with const if this is true.
-    GetPropertyAutoConst = false,
-
     -- Whether to clean up members in Release mode.
     ClearMembersInRelease = true,
 
@@ -154,14 +130,6 @@ local Config = {
         ---@type fun(cls:table,base:table):boolean
         IsInherite = nil,
     },
-
-    -- When the number of holes in the event response objects reaches a certain number,
-    -- the list of objects is rearranged to optimise speed.
-    HoleLimit = 15,
-
-    -- The language configuration, with a nil value, means that English is used by default.
-    -- Currently only English and Chinese are available, use "zh" for Chinese.
-    Language = nil,
 
     --****************Functional fields end****************
 

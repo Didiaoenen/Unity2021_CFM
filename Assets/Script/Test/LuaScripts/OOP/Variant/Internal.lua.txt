@@ -29,6 +29,7 @@ local WeakTable = {__mode = "k"};
 local Config = require("OOP.Config");
 local get = Config.get;
 local set = Config.set;
+local opt = Config.opt;
 
 local public = Config.Qualifiers.public;
 local private = Config.Qualifiers.private;
@@ -49,7 +50,8 @@ local BitsMap = {
     [get] = 2 ^ 6,
     [set] = 2 ^ 7,
     [virtual] = 2 ^ 8,
-    [override] = 2 ^ 9
+    [override] = 2 ^ 9,
+    [opt] = 2 ^ 10,
 };
 
 if Config.LuaVersion > 5.2 then
@@ -69,6 +71,7 @@ local Permission = {
     set = BitsMap[set],
     virtual = BitsMap[virtual],
     override = BitsMap[override],
+    opt = BitsMap[opt],
 };
 
 local Internal = {

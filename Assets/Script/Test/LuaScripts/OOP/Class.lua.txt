@@ -24,7 +24,6 @@ local ctor = Config.ctor;
 
 local __internal__ = Config.__internal__;
 
-local i18n = require("OOP.i18n");
 local Internal = require("OOP.Variant.Internal");
 local Functions = require("OOP.Variant.ReleaseFunctions");
 
@@ -56,7 +55,7 @@ local function CreateClassNew(cls,clsAll,members)
         local ok,obj,all = pcall(Functions.CreateClassObject,cls,...);
         if not ok or nil == obj then
             if obj then
-                print(i18n"An error occurred when creating the object -",obj);
+                print("An error occurred when creating the object -",obj);
             end
             ClassCreateLayer = ClassCreateLayer - 1;
             if not ok then

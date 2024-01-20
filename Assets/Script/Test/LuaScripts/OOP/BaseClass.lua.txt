@@ -19,13 +19,10 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local i18n = require("OOP.i18n");
-local Internal = require("OOP.Variant.Internal");
 local Config = require("OOP.Config");
 local null = Config.null;
 local final = Config.Qualifiers.final;
-local ClassDefault = Config["class.default"];
-local ClassDelete = Config["class.delete"];
+local Internal = require("OOP.Variant.Internal");
 
 local class = setmetatable({},{
     __call = function(c,...)
@@ -50,13 +47,6 @@ end
 
 class[final] = function (...)
     return class.new(...);
-end;
-
-class[ClassDefault] = function()
-end;
-
-class[ClassDelete] = function()
-    error(i18n"This is the function that has been deleted.");
 end;
 
 return class;

@@ -22,6 +22,7 @@
 local Config = require("OOP.Config");
 local Internal = require("OOP.Variant.Internal");
 local Permission = Internal.Permission;
+local p_opt = Permission.opt;
 local p_static = Permission.static;
 local p_virtual = Permission.virtual;
 local p_get = Permission.get;
@@ -29,8 +30,6 @@ local p_gs = Permission.get + Permission.set;
 
 local BaseFunctions = require("OOP.BaseFunctions");
 local bits = BaseFunctions.bits;
-local band = bits.band;
-local bor = bits.bor;
 
 local virtualKey = nil;
 local decor = 0;
@@ -66,16 +65,21 @@ end
 function Router.Pass(self,key)
     local bit = Internal.BitsMap[key];
     if bit then
-        decor = bor(decor,bit);
+        decor = bits.bor(decor,bit);
     else
-        local isVirtual = band(decor,p_virtual) ~= 0;
+        local isVirtual = bits.band(decor,p_virtual) ~= 0;
         if isVirtual then
             virtualKey = key;
             return Router.SimulationVirtualFunction;
         end
-        local get_set = band(decor,p_gs);
+        local get_set = bits.band(decor,p_gs);
         if get_set ~= 0 then
             local property = (get_set == p_get and Internal.ClassesReadable or Internal.ClassesWritable)[cls][key];
+            return property and property[1] or nil;
+        end
+        local opt = bits.band(decor,p_opt);
+        if opt ~= 0 then
+            local property = Internal.ClassesWritable[cls][key];
             return property and property[1] or nil;
         end
     end
@@ -83,11 +87,11 @@ function Router.Pass(self,key)
 end;
 
 function Router.Done(_,key,value)
-    if nil == key or band(decor,p_virtual) ~= 0 then
+    if nil == key or bits.band(decor,p_virtual) ~= 0 then
         -- Skip pure virtual functions.
         return;
     end
-    local isStatic = band(decor,p_static) ~= 0;
+    local isStatic = bits.band(decor,p_static) ~= 0;
     local meta = Config.MetaMapName[key];
     if meta then
         if isStatic then
@@ -104,9 +108,10 @@ function Router.Done(_,key,value)
     end
 
     local vt = type(value);
-    local gs = band(decor,p_gs);
+    local gs = bits.band(decor,p_gs);
+    local opt = bits.band(decor,p_opt);
 
-    if gs ~= 0 or isStatic then
+    if gs ~= 0 or opt ~= 0 or isStatic then
         local cms = Internal.ClassesMembers[cls];
         local cm = cms[key];
         if cm ~= nil then
@@ -115,6 +120,8 @@ function Router.Done(_,key,value)
         end
         if gs ~= 0 then
             (gs == p_get and Internal.ClassesReadable or Internal.ClassesWritable)[cls][key] = {value,isStatic};
+        elseif opt ~= 0 then
+            Internal.ClassesWritable[cls][key] = {value,isStatic};
         else
             local cs = Internal.ClassesStatic[cls];
             local st = cs[key];
