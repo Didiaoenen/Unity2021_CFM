@@ -22,6 +22,10 @@ function BindingBuilderBase:SetMode(mode)
    self.description.Mode = mode
 end
 
+function BindingBuilderBase:SetScopeKey(scopeKey)
+   self.scopeKey = scopeKey
+end
+
 function BindingBuilderBase:SetMemberPath(pathText)
    local paths = PathParse.Parse(pathText)
    self:SetMemberPathWithPath(paths)

@@ -1,6 +1,7 @@
 local IObtainable = class("IObtainable")
 
 function IObtainable:GetValue()
+   return nil
 end
 
 return IObtainable

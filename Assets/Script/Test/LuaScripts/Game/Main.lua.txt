@@ -6,6 +6,9 @@ require("OOP.Class")
 
 require("LuaFramework.System")
 
+local test = require("Game.Test")
+test:f()
+
 local TestV = require("Game.UI.Test.TestV")
 
 function Main()

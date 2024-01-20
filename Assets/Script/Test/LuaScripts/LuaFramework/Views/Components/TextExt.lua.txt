@@ -6,12 +6,22 @@ TextExt.CSObject = CS.UnityEngine.UI.Text
 
 TextExt.Text = "text"
 
+TextExt.Color = "color"
+
 function TextExt.get:text()
    return (self.handler).text
 end
 
 function TextExt.set:text(value)
    (self.handler).text = value
+end
+
+function TextExt.get:color()
+   return (self.handler).color
+end
+
+function TextExt.set:color(value)
+   (self.handler).color = value
 end
 
 function TextExt.get:GameObject()

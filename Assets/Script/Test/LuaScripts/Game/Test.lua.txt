@@ -1,0 +1,12 @@
+
+
+
+
+
+local test = {}
+
+function test:f()
+   print("1111111111111111111")
+end
+
+return test

@@ -22,9 +22,9 @@ function PropertyNodeProxy:ctor(source, propertyInfo)
 end
 
 function PropertyNodeProxy:OnPropertyChanged(sender, e)
-   assert({ sender }, "")
+   assert({ sender, e }, "")
    local name = e.PropertyName
-   if name and name ~= "" and name == self.propertyInfo then
+   if not name or name == "" or name == self.propertyInfo then
       self:RaiseValueChanged()
    end
 end

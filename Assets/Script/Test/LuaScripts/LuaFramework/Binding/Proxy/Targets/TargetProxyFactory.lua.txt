@@ -38,7 +38,7 @@ function TargetProxyFactory:Register(factory, priority)
 end
 
 function TargetProxyFactory:Unregister(factory)
-   if not factory then
+   if nil == factory then
       return
    end
 
