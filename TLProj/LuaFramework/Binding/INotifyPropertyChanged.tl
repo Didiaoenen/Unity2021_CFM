@@ -1,7 +1,7 @@
 local INotifyPropertyChanged = class("INotifyPropertyChanged") as INotifyPropertyChangedType
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
-function INotifyPropertyChanged.set:PropertyChanged(value: OptHandlerType)
+function INotifyPropertyChanged.opt:PropertyChanged(value: OptHandlerType)
     if value.opt == TableOprationMode.Add then
         self.propertyChanged[value.save] = value
     end

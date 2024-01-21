@@ -906,7 +906,7 @@ global record BindingExtensionType
 end
 
 global record INotifyPropertyChangedType
-    record set
+    record opt
         propertyChanged: {string: OptHandlerType}
         PropertyChanged: function
     end
