@@ -1,7 +1,6 @@
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
 function AbstractBinding.get:Target(): LuaObject
-    assert(self.target, "")
     local target = (self.target as TargetProxyBaseType).Target
     return self:IsAlive(target) and target
 end
