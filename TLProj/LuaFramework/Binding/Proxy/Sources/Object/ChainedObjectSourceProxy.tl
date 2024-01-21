@@ -1,9 +1,8 @@
 local NotifiableSourceProxyBase = require("LuaFramework.Binding.Proxy.Sources.NotifiableSourceProxyBase")
 local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
-local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 
-local ChainedObjectSourceProxy = class("ChainedObjectSourceProxy", NotifiableSourceProxyBase, IObtainable, IModifiable, INotifiable) as ChainedObjectSourceProxyType
+local ChainedObjectSourceProxy = class("ChainedObjectSourceProxy", NotifiableSourceProxyBase) as ChainedObjectSourceProxyType
 
 local ProxyEntry = class("ProxyEntry") as ChainedObjectSourceProxyType.ProxyEntryType
 

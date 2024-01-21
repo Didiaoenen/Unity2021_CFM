@@ -1,8 +1,9 @@
 local Misc = require("LuaFramework.Common.Misc")
+local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")
 local UnityPropertyProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityPropertyProxy")
 local UnityEventProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEventProxy")
 
-local UnityTargetProxyFactory = class("UnityTargetProxyFactory") as UnityTargetProxyFactoryType
+local UnityTargetProxyFactory = class("UnityTargetProxyFactory", ITargetProxyFactory) as UnityTargetProxyFactoryType
 
 function UnityTargetProxyFactory:ctor()
     

@@ -1,0 +1,11 @@
+local INodeProxyFactoryRegister = class("INodeProxyFactoryRegister")
+
+function INodeProxyFactoryRegister:Register(factory, priority)
+   assert({ factory, priority }, "")
+end
+
+function INodeProxyFactoryRegister:Unregister(factory)
+   assert({ factory }, "")
+end
+
+return INodeProxyFactoryRegister

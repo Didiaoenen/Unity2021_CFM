@@ -1,6 +1,6 @@
 local Layer = require("Luaframework.Views.Layer")
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
-local TableExtention = require("LuaFramework.Common.TableExtention")
+local ListExtention = require("LuaFramework.Common.ListExtention")
 local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local Transition = require("LuaFramework.Views.Transition")
@@ -108,20 +108,20 @@ function WindowManager:ClearWindowStack()
 end
 
 function WindowManager:GetWindow(name)
-   return TableExtention.Find(self.windowViews, function(_, v)
+   return ListExtention.Find(self.windowViews, function(_, v)
       return v.Name == name
    end)
 end
 
 function WindowManager:CreateLayers()
-   TableExtention.Foreach(layers, function(_, v)
+   ListExtention.Foreach(layers, function(_, v)
       local layer = Layer.new(v)
       table.insert(self.layers, layer)
    end)
 end
 
 function WindowManager:GetLayer(windowType)
-   return TableExtention.Find(self.layers, function(_, v)
+   return ListExtention.Find(self.layers, function(_, v)
       return v.WindowType == windowType
    end)
 end

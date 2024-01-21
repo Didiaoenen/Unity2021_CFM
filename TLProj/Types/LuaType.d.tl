@@ -47,6 +47,11 @@ global record BindingModeType
     OneWayToSource: number  
 end
 
+global record TableOprationModelType
+    Add: number         
+    Remove: number          
+end
+
 global record LayerDataType
     WindowType: number
     OrderInLayer: number
@@ -74,6 +79,14 @@ end
 global record PriorityFactoryPairType
     factory: LuaObject
     priority: number
+end
+
+global record OptHandlerType
+    opt: number
+    save: string
+    this: LuaObject
+    callback: function
+    args: PropertyChangedEventArgsType
 end
 
 global record EventHandlerType
@@ -295,6 +308,11 @@ global record INodeProxyFactoryType
     Create: function(self: INodeProxyFactoryType, LuaObject, PathTokenType): SourceProxyBaseType
 end
 
+global record INodeProxyFactoryRegisterType
+    Register: function(self: INodeProxyFactoryRegisterType, factory: INodeProxyFactoryType, priority: number)
+    Unregister: function(self: INodeProxyFactoryRegisterType, factory: INodeProxyFactoryType)
+end
+
 global record InteractionNodeProxyType
     source: LuaObject
     request: string
@@ -355,6 +373,20 @@ global record ObjectSourceProxyFactoryType
     Unregister: function(self: ObjectSourceProxyFactoryType, INodeProxyFactoryType)
 end
 
+global record ObservableNodeProxyType
+    source: LuaObject
+    propertyInfo: string
+    
+    new: function(...: any): ObservableNodeProxyType
+    ctor: function
+    dtor: function
+
+    OnPropertyChanged: function(self: ObservableNodeProxyType, LuaObject, PropertyChangedEventArgsType)
+    RaiseValueChanged: function(self: ObservableNodeProxyType)
+    GetValue: function(self: ObservableNodeProxyType): any
+    SetValue: function(self: ObservableNodeProxyType, any)
+end
+
 global record PropertyNodeProxyType
     source: LuaObject
     propertyInfo: string
@@ -379,7 +411,12 @@ global record UniversalNodeProxyFactoryType
 end
 
 global record ISourceProxyFactoryType
-    CreateProxy: function(ISourceProxyFactoryType, LuaObject, SourceDescriptionType): SourceProxyBaseType
+    CreateProxy: function(self: ISourceProxyFactoryType, LuaObject, SourceDescriptionType): SourceProxyBaseType
+end
+
+global record ISourceProxyFactoryRegistryType
+    Register: function(self: ISourceProxyFactoryRegistryType, ISourceProxyFactoryType, number)
+    Unregister: function(self: ISourceProxyFactoryRegistryType, ISourceProxyFactoryType)
 end
 
 global record NotifiableSourceProxyBaseType
@@ -593,6 +630,11 @@ global record ITargetProxyFactoryType
     CreateProxy: function(self: ITargetProxyFactoryType, LuaObject, BindingDescriptionType): TargetProxyBaseType
 end
 
+global record ITargetProxyFactoryRegisterType
+    Register: function(self: ITargetProxyFactoryRegisterType, factory: ITargetProxyFactoryType, priority: number)
+    Unregister: function(self: ITargetProxyFactoryRegisterType, factory: ITargetProxyFactoryType)
+end
+
 global record TargetProxyBaseType
     record get
         target: LuaObject
@@ -637,15 +679,16 @@ global record ValueTargetProxyBaseType
     record set
         subScribed: boolean
     
-        valueChanged: {EventHandlerType}
+        valueChanged: {OptHandlerType}
         ValueChanged: function
-    
+
         Subscribe: function(self: set)
+        Unsubscribe: function(self: set)
     end
 
     subScribed: boolean
 
-    valueChanged: {EventHandlerType}
+    valueChanged: {OptHandlerType}
     ValueChanged: function
 
     target: LuaObject
@@ -864,12 +907,12 @@ end
 
 global record INotifyPropertyChangedType
     record set
-        propertyChanged: {EventHandlerType}
+        propertyChanged: {string: OptHandlerType}
         PropertyChanged: function
     end
 
-    propertyChanged: {EventHandlerType}
-    PropertyChanged: EventHandlerType
+    propertyChanged: {string: OptHandlerType}
+    PropertyChanged: OptHandlerType
 
     ctor: function
 end
@@ -977,6 +1020,16 @@ global record InteractionEventArgsType
     dtor: function
 end
 
+global record IInteractionRequestType
+    record get
+        Raised: function
+    end
+
+    record set
+        Raised: function
+    end
+end
+
 global record InteractionRequestType
     record get
         raised: function
@@ -1004,14 +1057,28 @@ global record MessengerType
     new: function(...: any): MessengerType
 end
 
+global record IObservablePropertyType
+    record get
+        ValueChanged: function
+
+        Value: any
+    end
+
+    record set
+        ValueChanged: function
+
+        Value: any
+    end
+end
+
 global record ObservableObjectType
     record set
-        propertyChanged: {EventHandlerType}
+        propertyChanged: {string: OptHandlerType}
         PropertyChanged: function
     end
 
-    propertyChanged: {EventHandlerType}
-    PropertyChanged: EventHandlerType
+    propertyChanged: {string: OptHandlerType}
+    PropertyChanged: OptHandlerType
 
     ctor: function
     dtor: function

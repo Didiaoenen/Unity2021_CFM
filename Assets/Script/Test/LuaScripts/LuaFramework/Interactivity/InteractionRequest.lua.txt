@@ -1,6 +1,7 @@
+local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequest")
 local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEventArgs")
 
-local InteractionRequest = class("InteractionRequest")
+local InteractionRequest = class("InteractionRequest", IInteractionRequest)
 
 function InteractionRequest.get:Raised()
    return self.raised

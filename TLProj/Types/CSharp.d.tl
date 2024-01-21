@@ -103,7 +103,10 @@ global record CS
         -- Color
         record Color
             red: Color
+            green: Color
+            blue: Color
             white: Color
+            black: Color
         end
 
         -- Events

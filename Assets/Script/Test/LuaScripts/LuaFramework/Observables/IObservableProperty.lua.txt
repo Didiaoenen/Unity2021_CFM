@@ -1,0 +1,19 @@
+local IObservableProperty = class("IObservableProperty")
+
+function IObservableProperty.get:ValueChanged()
+   return nil
+end
+
+function IObservableProperty.set:ValueChanged(value)
+   assert({ value }, "")
+end
+
+function IObservableProperty.get:Value()
+   return nil
+end
+
+function IObservableProperty.set:Value(value)
+   assert({ value }, "")
+end
+
+return IObservableProperty

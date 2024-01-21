@@ -1,6 +1,7 @@
 local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactory")
+local ISourceProxyFactoryRegistry = require("LuaFramework.Binding.Proxy.Sources.ISourceProxyFactoryRegistry")
 
-local SourceProxyFactory = class("SourceProxyFactory", ISourceProxyFactory) as SourceProxyFactoryType
+local SourceProxyFactory = class("SourceProxyFactory", ISourceProxyFactory, ISourceProxyFactoryRegistry) as SourceProxyFactoryType
 
 function SourceProxyFactory:ctor()
     self.factories = {}

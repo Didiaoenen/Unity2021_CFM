@@ -1,5 +1,6 @@
 local ValueTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.ValueTargetProxyBase")
 local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
+local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
 local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase)
@@ -14,11 +15,13 @@ function PropertyTargetProxy:ctor(target, propertyInfo)
 end
 
 function PropertyTargetProxy:DoSubscribeForValueChange(target)
-   (target).PropertyChanged = { this = self, callback = self.OnPropertyChanged }
+   local targetNotify = (target)
+   targetNotify.PropertyChanged = { opt = TableOprationMode.Add, save = self.propertyInfo, this = self, callback = self.OnPropertyChanged }
 end
 
 function PropertyTargetProxy:DoUnsubscribeForValueChange(target)
-   (target).PropertyChanged = { this = self }
+   local targetNotify = (target)
+   targetNotify.PropertyChanged = { opt = TableOprationMode.Remove, save = self.propertyInfo }
 end
 
 function PropertyTargetProxy:OnPropertyChanged(sender, e)

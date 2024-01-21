@@ -1,5 +1,5 @@
 local Misc = require("LuaFramework.Common.Misc")
-local TableExtention = require("LuaFramework.Common.TableExtention")
+local ListExtention = require("LuaFramework.Common.ListExtention")
 local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
 local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
@@ -171,26 +171,26 @@ function WindowViewBase:OnDisable()
 end
 
 function WindowViewBase:RaiseActivatedChanged()
-    TableExtention.Foreach(self.activatedChanged, function (_: number, v: EventHandlerType)
+    ListExtention.Foreach(self.activatedChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseVisibilityChanged()
-    TableExtention.Foreach(self.visibilityChanged, function (_: number, v: EventHandlerType)
+    ListExtention.Foreach(self.visibilityChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseOnDismissed()
-    TableExtention.Foreach(self.onDismissed, function (_: number, v: EventHandlerType)
+    ListExtention.Foreach(self.onDismissed, function (_: number, v: EventHandlerType)
         v.callback(v.this, self)
     end)
 end
 
 function WindowViewBase:RaiseStateChanged(oldState: number, newState: number)
     local eventArgs = WindowStateEventArgs.new(self, oldState, newState)
-    TableExtention.Foreach(self.stateChanged, function (_: number, v: EventHandlerType)
+    ListExtention.Foreach(self.stateChanged, function (_: number, v: EventHandlerType)
         v.callback(v.this, self, eventArgs)
     end)
 end
@@ -484,7 +484,7 @@ function WindowViewBase:dtor()
         self:Dismiss(true)
     end
     
-    TableExtention.Foreach(self.components, function (_: number, v: ComponentExtType)
+    ListExtention.Foreach(self.components, function (_: number, v: ComponentExtType)
         v:delete()
     end)
     self.components = nil

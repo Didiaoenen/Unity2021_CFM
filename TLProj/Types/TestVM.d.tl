@@ -3,6 +3,9 @@ local record TestVM
         test: string
         Test: function
 
+        test1: string
+        Test1: function
+
         testColor: CS.UnityEngine.Color
         TestColor: function
 
@@ -25,6 +28,9 @@ local record TestVM
         test: string
         Test: function
 
+        test1: string
+        Test1: function
+
         testColor: CS.UnityEngine.Color
         TestColor: function
 
@@ -46,8 +52,14 @@ local record TestVM
     test: string
     Test: string
 
+    test1: string
+    Test1: string
+
     testColor: CS.UnityEngine.Color
     TestColor: CS.UnityEngine.Color
+
+    testColor1: CS.UnityEngine.Color
+    TestColor1: CS.UnityEngine.Color
 
     testLocalScale: CS.UnityEngine.Vector3
     TestLocalScale: CS.UnityEngine.Vector3
@@ -62,6 +74,7 @@ local record TestVM
     TestCommand: SimpleCommandType
 
     text: BindTextType
+    text1: BindTextType
     button: BindButtonType
     inputField: BindInputFieldType
     gameObject: BindGameObjectType

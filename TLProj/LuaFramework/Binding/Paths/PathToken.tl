@@ -18,7 +18,7 @@ function PathToken.get:Current(): string
 end
 
 function PathToken:HasNext(): boolean
-    if #(self.paths) <= 0 or self.index >= #(self.paths) then
+    if #(self.paths) == 0 or self.index >= #(self.paths) then
         return false
     end
     return true

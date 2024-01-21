@@ -1,9 +1,10 @@
-local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
-local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local INodeProxyFactoryRegister = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactoryRegister")
 local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
+local TypedSourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.TypedSourceProxyFactory")
+local ChainedObjectSourceProxy = require("LuaFramework.Binding.Proxy.Sources.Object.ChainedObjectSourceProxy")
 local PathToken = require("LuaFramework.Binding.Paths.PathToken")
 
-local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory, INodeProxyFactory) as ObjectSourceProxyFactoryType
+local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourceProxyFactory, INodeProxyFactory, INodeProxyFactoryRegister) as ObjectSourceProxyFactoryType
 
 function ObjectSourceProxyFactory:ctor()
     TypedSourceProxyFactory.ctor(self)

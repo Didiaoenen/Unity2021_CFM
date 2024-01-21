@@ -1,5 +1,3 @@
-require("OOP.Class")
-
 local INodeProxyFactory = class("INodeProxyFactory")
 
 function INodeProxyFactory:Create(source, token)

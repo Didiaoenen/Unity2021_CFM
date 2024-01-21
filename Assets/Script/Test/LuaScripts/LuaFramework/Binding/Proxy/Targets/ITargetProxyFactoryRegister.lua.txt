@@ -1,0 +1,11 @@
+local ITargetProxyFactoryRegister = class("ITargetProxyFactoryRegister")
+
+function ITargetProxyFactoryRegister:Register(factory, priority)
+   assert({ factory, priority }, "")
+end
+
+function ITargetProxyFactoryRegister:Unregister(factory)
+   assert({ factory }, "")
+end
+
+return ITargetProxyFactoryRegister

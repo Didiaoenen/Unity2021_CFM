@@ -1,7 +1,8 @@
-local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")
+local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")
 local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
+local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")
 
-local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory") as UniversalTargetProxyFactoryType
+local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory", ITargetProxyFactory) as UniversalTargetProxyFactoryType
 
 function UniversalTargetProxyFactory:ctor()
     

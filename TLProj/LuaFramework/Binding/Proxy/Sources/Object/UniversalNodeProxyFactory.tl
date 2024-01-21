@@ -2,6 +2,8 @@ local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INo
 local MethodNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.MethodNodeProxy")
 local PropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.PropertyNodeProxy")
 local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.InteractionNodeProxy")
+local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequest")
+local IObservableProperty = require("LuaFramework.Observables.IObservableProperty")
 
 local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory", INodeProxyFactory) as UniversalNodeProxyFactoryType
 
@@ -27,7 +29,9 @@ function UniversalNodeProxyFactory:CreateProxy(source: LuaObject, node: string):
         return PropertyNodeProxy.new(source, node) as SourceProxyBaseType
     else
         if "table" == type(memberInfo) then
-            if (memberInfo as LuaObject).is(InteractionNodeProxy) then
+            if (memberInfo as LuaObject).is(IObservableProperty) then
+
+            elseif (memberInfo as LuaObject).is(IInteractionRequest) then
                 return InteractionNodeProxy.new(source, node) as SourceProxyBaseType
             end
         end

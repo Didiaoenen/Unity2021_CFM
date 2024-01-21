@@ -1,0 +1,11 @@
+local IInteractionRequest = class("IInteractionRequest")
+
+function IInteractionRequest.get:Raised()
+   return nil
+end
+
+function IInteractionRequest.set:Raised(value)
+   assert({ value }, "")
+end
+
+return IInteractionRequest

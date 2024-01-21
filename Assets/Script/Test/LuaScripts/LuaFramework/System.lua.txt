@@ -1,4 +1,4 @@
-local TableExtention = require("LuaFramework.Common.TableExtention")
+local ListExtention = require("LuaFramework.Common.ListExtention")
 
 function clone(object)
     local lookup_table = {}
@@ -68,7 +68,7 @@ function setcallback(t, value, addcb, removecb)
         end
         table.insert(t, value)
     else
-        TableExtention.Find(t, function (i, v)
+        ListExtention.Find(t, function (i, v)
             if value.this == value.this then
                 if removecb then
                     removecb()

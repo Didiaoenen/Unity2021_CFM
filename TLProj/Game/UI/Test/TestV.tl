@@ -76,6 +76,7 @@ function TestV:OnCreate()
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
     self.viewModel.text:BindWithName(self as WindowViewBaseType, TextExt as ComponentExtType, "text", {BindingMode.OneWay})
+    self.viewModel.text1:BindWithName(self as WindowViewBaseType, TextExt as ComponentExtType, "text1", {BindingMode.OneWay})
     self.viewModel.button:BindWithName(self as WindowViewBaseType, ButtonExt as ComponentExtType, "button", {BindingMode.OneWay})
     self.viewModel.inputField:BindWithName(self as WindowViewBaseType, InputFieldExt as ComponentExtType, "inputField", {BindingMode.OneWay})
     self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, GameObjectExt, "gameObject", {BindingMode.OneWay})
@@ -91,6 +92,8 @@ function TestV:OnShow()
 
     self.viewModel.text.Text = "hahaha"
     self.viewModel.text.Color = CS.UnityEngine.Color.red
+    self.viewModel.text1.Text = "哈哈哈"
+    self.viewModel.text1.Color = CS.UnityEngine.Color.green
     self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
     self.viewModel.inputField.Text = "你好啊"
     self.viewModel.gameObject.ActiveSelf = false

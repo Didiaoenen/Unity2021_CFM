@@ -1,0 +1,57 @@
+local MapExtention = {}
+
+function MapExtention.Foreach(t, callback)
+   for k, v in pairs(t) do
+      if callback then
+         callback(k, v)
+      end
+   end
+end
+
+function MapExtention.Exists(t, obj)
+   for _, v in pairs(t) do
+      if obj == v then
+         return true
+      end
+   end
+end
+
+function MapExtention.RemoveObj(t, obj)
+   for k, v in pairs(t) do
+      if obj == v then
+         t[k] = nil
+         return true
+      end
+   end
+end
+
+function MapExtention.Remove(t, callback)
+   for k, v in pairs(t) do
+      if callback and callback(k, v) then
+         t[k] = nil
+         return true
+      end
+   end
+end
+
+function MapExtention.ContainsKey(t, key)
+   for k, _ in pairs(t) do
+      if k == key then
+         return true
+      end
+   end
+end
+
+function MapExtention.ContainsValue(t, value)
+   for _, v in pairs(t) do
+      if v == value then
+         return true
+      end
+   end
+end
+
+function MapExtention.IsNilOrEmpty(t)
+   return not t or not next(t)
+end
+
+return MapExtention

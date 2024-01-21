@@ -62,6 +62,7 @@ function TestVM:ctor()
    ViewModelBase.ctor(self)
 
    self.text = BindText.new()
+   self.text1 = BindText.new()
    self.button = BindButton.new()
    self.inputField = BindInputField.new()
    self.gameObject = BindGameObject.new()
@@ -70,7 +71,9 @@ function TestVM:ctor()
 
 
    self.test = ""
+   self.test1 = ""
    self.testColor = CS.UnityEngine.Color.red
+   self.testColor1 = CS.UnityEngine.Color.green
    self.testLocalScale = CS.UnityEngine.Vector3(0.5, 0.5, 0.5)
    self.testActive = false
    self.testRequest = InteractionRequest.new(self)

@@ -1,6 +1,6 @@
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
+local ListExtention = require("LuaFramework.Common.ListExtention")
 local WindowViewBase = require("LuaFramework.Views.WindowViewBase")
-local TableExtention = require("LuaFramework.Common.TableExtention")
 
 local WindowBase = class("WindowBase", WindowViewBase) as WindowBaseType
 
@@ -26,16 +26,16 @@ function WindowBase:OnDisable()
 end
 
 function WindowBase:OnShow()
-    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
+    ListExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:DoShow()
     end)
 end
 
 function WindowBase:OnHide()
-    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
+    ListExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:DoHide()
     end)
-    TableExtention.Foreach(self.viewStack, function (_: number, v: WindowViewBaseType)
+    ListExtention.Foreach(self.viewStack, function (_: number, v: WindowViewBaseType)
         v:DoDismiss()
     end)
 end
@@ -62,7 +62,7 @@ function WindowBase:PopViewStack(): WindowViewBaseType
 end
 
 function WindowBase:dtor()
-    TableExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
+    ListExtention.Foreach(self.subView, function (_: number, v: WindowViewBaseType)
         v:delete()
     end)
     self.subView = nil
