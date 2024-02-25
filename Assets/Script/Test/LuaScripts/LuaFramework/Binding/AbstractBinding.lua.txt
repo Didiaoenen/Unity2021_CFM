@@ -1,7 +1,6 @@
 local AbstractBinding = class("AbstractBinding")
 
 function AbstractBinding.get:Target()
-   assert(self.target, "")
    local target = (self.target).Target
    return self:IsAlive(target) and target
 end

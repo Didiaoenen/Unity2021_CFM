@@ -1,41 +1,61 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Execution
 {
     public class InterceptableEnumerator : IEnumerator
     {
+        private const int CAPACITY = 100;
+        private static readonly ConcurrentQueue<InterceptableEnumerator> pools = new ConcurrentQueue<InterceptableEnumerator>();
+
+        public static InterceptableEnumerator Create(IEnumerator routine)
+        {
+            InterceptableEnumerator enumerator;
+            if (pools.TryDequeue(out enumerator))
+            {
+                enumerator.stack.Push(routine);
+                return enumerator;
+            }
+            return new InterceptableEnumerator(routine);
+        }
+
+        private static void Free(InterceptableEnumerator enumerator)
+        {
+            if (pools.Count > CAPACITY)
+                return;
+
+            enumerator.Clear();
+            pools.Enqueue(enumerator);
+        }
+
         private object current;
-
         private Stack<IEnumerator> stack = new Stack<IEnumerator>();
-
+        private List<Func<bool>> hasNext = new List<Func<bool>>();
         private Action<Exception> onException;
-
         private Action onFinally;
-
-        private Func<bool> hasNext;
-
-        public object Current { get { return current; } }
 
         public InterceptableEnumerator(IEnumerator routine)
         {
-            stack.Push(routine);
+            this.stack.Push(routine);
         }
+
+        public object Current { get { return this.current; } }
 
         public bool MoveNext()
         {
             try
             {
-                if (!HasNext())
+                if (!this.HasNext())
                 {
-                    OnFinally();
+                    this.OnFinally();
                     return false;
                 }
 
                 if (stack.Count <= 0)
                 {
-                    OnFinally();
+                    this.OnFinally();
                     return false;
                 }
 
@@ -43,14 +63,14 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                 bool hasNext = ie.MoveNext();
                 if (!hasNext)
                 {
-                    stack.Pop();
+                    this.stack.Pop();
                     return MoveNext();
                 }
 
-                current = ie.Current;
-                if (current is IEnumerator)
+                this.current = ie.Current;
+                if (this.current is IEnumerator)
                 {
-                    stack.Push(current as IEnumerator);
+                    stack.Push(this.current as IEnumerator);
                     return MoveNext();
                 }
 
@@ -58,8 +78,8 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
             }
             catch (Exception e)
             {
-                OnException(e);
-                OnFinally();
+                this.OnException(e);
+                this.OnFinally();
                 return false;
             }
         }
@@ -73,19 +93,10 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
         {
             try
             {
-                if (onException == null)
+                if (this.onException == null)
                     return;
 
-                foreach (Action<Exception> action in onException.GetInvocationList())
-                {
-                    try
-                    {
-                        action(e);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
+                onException(e);
             }
             catch (Exception) { }
         }
@@ -94,44 +105,56 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
         {
             try
             {
-                if (onFinally == null)
+                if (this.onFinally == null)
                     return;
 
-                foreach (Action action in onFinally.GetInvocationList())
-                {
-                    try
-                    {
-                        action();
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
+                onFinally();
             }
             catch (Exception) { }
+            finally
+            {
+                Free(this);
+            }
+        }
+
+        private void Clear()
+        {
+            this.current = null;
+            this.onException = null;
+            this.onFinally = null;
+            this.hasNext.Clear();
+            this.stack.Clear();
         }
 
         private bool HasNext()
         {
-            if (hasNext == null)
-                return true;
-            return hasNext();
+            if (hasNext.Count > 0)
+            {
+                foreach (Func<bool> action in this.hasNext)
+                {
+                    if (!action())
+                        return false;
+                }
+            }
+            return true;
         }
 
         public virtual void RegisterConditionBlock(Func<bool> hasNext)
         {
-            this.hasNext = hasNext;
+            if (hasNext != null)
+                this.hasNext.Add(hasNext);
         }
 
         public virtual void RegisterCatchBlock(Action<Exception> onException)
         {
-            this.onException += onException;
+            if (onException != null)
+                this.onException += onException;
         }
 
         public virtual void RegisterFinallyBlock(Action onFinally)
         {
-            this.onFinally += onFinally;
+            if (onFinally != null)
+                this.onFinally += onFinally;
         }
     }
 }
-

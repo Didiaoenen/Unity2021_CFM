@@ -1,206 +1,25 @@
 using System;
-using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Object = UnityEngine.Object;
-using Assembly_CSharp.Assets.Script.Simple.Asynchronous;
 
-#if !NET_LEGACY
+#if NETFX_CORE || !NET_LEGACY
 using System.Threading.Tasks;
 #endif
+using System.Threading;
+
+using UnityEngine;
+using Assembly_CSharp.Assets.Script.Simple.Asynchronous;
 
 namespace Assembly_CSharp.Assets.Script.Simple.Execution
 {
     public class Executors
     {
-        class MainThreadExecutor : MonoBehaviour
-        {
-            public bool useFixedUpdate = false;
-
-            private List<object> pendingQueue = new List<object>();
-
-            private List<object> stopingQueue = new List<object>();
-
-            private List<object> runningQueue = new List<object>();
-
-            private List<object> stopingTempQueue = new List<object>();
-
-
-            void OnApplicationQuit()
-            {
-                StopAllCoroutines();
-                Executors.Destroy();
-                if (gameObject != null)
-                {
-                    Destroy(gameObject);
-                }
-            }
-
-            void Update()
-            {
-                if (useFixedUpdate)
-                    return;
-
-                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
-                    return;
-
-                DoStopingQueue();
-
-                DoPendingQueue();
-            }
-
-            void FixedUpdate()
-            {
-                if (!useFixedUpdate)
-                    return;
-
-                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
-                    return;
-
-                DoStopingQueue();
-
-                DoPendingQueue();
-            }
-
-            protected void DoStopingQueue()
-            {
-                lock (stopingQueue)
-                {
-                    if (stopingQueue.Count <= 0)
-                        return;
-
-                    stopingTempQueue.Clear();
-                    stopingTempQueue.AddRange(stopingQueue);
-                    stopingQueue.Clear();
-                }
-
-                for (int i = 0; i < stopingTempQueue.Count; i++)
-                {
-                    try
-                    {
-                        object task = stopingTempQueue[i];
-                        if (task is IEnumerator)
-                        {
-                            StopCoroutine(task as IEnumerator);
-                            continue;
-                        }
-
-                        if (task is Coroutine)
-                        {
-                            StopCoroutine(task as Coroutine);
-                            continue;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-                stopingTempQueue.Clear();
-            }
-
-            protected void DoPendingQueue()
-            {
-                lock (pendingQueue)
-                {
-                    if (pendingQueue.Count <= 0)
-                        return;
-
-                    runningQueue.Clear();
-                    runningQueue.AddRange(pendingQueue);
-                    pendingQueue.Clear();
-                }
-
-                float startTime = Time.realtimeSinceStartup;
-                for (int i = 0; i < runningQueue.Count; i++)
-                {
-                    try
-                    {
-                        object task = runningQueue[i];
-                        if (task is Action)
-                        {
-                            (task as Action)();
-                            continue;
-                        }
-
-                        if (task is IEnumerator)
-                        {
-                            StartCoroutine(task as IEnumerator);
-                            continue;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-                runningQueue.Clear();
-
-                float time = Time.realtimeSinceStartup - startTime;
-                if (time > 0.15f)
-                    Debug.Log("timeout : " + time);
-            }
-
-            public void Execute(Action action)
-            {
-                if (action == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    pendingQueue.Add(action);
-                }
-            }
-
-            public void Execute(IEnumerator routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    pendingQueue.Add(routine);
-                }
-            }
-
-            public void Stop(IEnumerator routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (pendingQueue)
-                {
-                    if (pendingQueue.Contains(routine))
-                    {
-                        pendingQueue.Remove(routine);
-                        return;
-                    }
-                }
-
-                lock (stopingQueue)
-                {
-                    stopingQueue.Add(routine);
-                }
-            }
-
-            public void Stop(Coroutine routine)
-            {
-                if (routine == null)
-                    return;
-
-                lock (stopingQueue)
-                {
-                    stopingQueue.Add(routine);
-                }
-            }
-        }
-
-        private static object syncLock = new object();
-
+        private static readonly object syncLock = new object();
         private static bool disposed = false;
-
         private static MainThreadExecutor executor;
+        private static SynchronizationContext context;
 
-#if  !NET_LEGACY
+#if NETFX_CORE || !NET_LEGACY
         private static int mainThreadId;
 #else
         private static Thread mainThread;
@@ -209,31 +28,56 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
 #if UNITY_EDITOR
         private static Dictionary<int, Thread> threads = new Dictionary<int, Thread>();
 #endif
-
-        public static bool UseFixedUpdate
+        static void Destroy()
         {
-            get { return executor.useFixedUpdate; }
-            set { executor.useFixedUpdate = value; }
-        }
-
-#if !NET_LEGACY
-        public static bool IsMainThread { get { return Environment.CurrentManagedThreadId == mainThreadId; } }
-#else
-        public static bool IsMainThread { get { return Thread.CurrentThread == mainThread; } }
+            disposed = true;
+#if UNITY_EDITOR
+            lock (threads)
+            {
+                foreach (Thread thread in threads.Values)
+                {
+                    try
+                    {
+                        thread.Abort();
+                    }
+                    catch (Exception) { }
+                }
+                threads.Clear();
+            }
 #endif
-
-        static Executors()
-        {
-            Create();
         }
 
-        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void OnRuntimeCreate()
         {
+            //For compatibility with the "Configurable Enter Play Mode" feature
+#if UNITY_2019_3_OR_NEWER //&& UNITY_EDITOR
+            disposed = false;
+            executor = null;
+            context = null;
+#endif
             Create();
         }
 
-        public static void Create(bool dontDestroy = true, bool useFixedUpdate = true)
+        private static void CheckDisposed()
+        {
+            if (disposed)
+                throw new ObjectDisposedException("Executors");
+        }
+
+        private static MainThreadExecutor CreateMainThreadExecutor(bool dontDestroy, bool useFixedUpdate)
+        {
+            GameObject go = new GameObject("MainThreadExecutor");
+            var executor = go.AddComponent<MainThreadExecutor>();
+            go.hideFlags = HideFlags.HideAndDontSave;
+            if (dontDestroy)
+                GameObject.DontDestroyOnLoad(go);
+
+            executor.useFixedUpdate = useFixedUpdate;
+            return executor;
+        }
+
+        public static void Create(bool dontDestroy = true, bool useFixedUpdate = false)
         {
             lock (syncLock)
             {
@@ -241,7 +85,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                 {
                     if (executor != null)
                         return;
-#if  !NET_LEGACY
+#if NETFX_CORE || !NET_LEGACY
                     mainThreadId = Environment.CurrentManagedThreadId;
 #else
                     Thread currentThread = Thread.CurrentThread;
@@ -251,6 +95,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     mainThread = currentThread;
 #endif
                     executor = CreateMainThreadExecutor(dontDestroy, useFixedUpdate);
+                    context = SynchronizationContext.Current;
                 }
                 catch (Exception e)
                 {
@@ -258,17 +103,17 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
             }
         }
 
-        private static MainThreadExecutor CreateMainThreadExecutor(bool dontDestroy, bool useFixedUpdate)
+        public static bool UseFixedUpdate
         {
-            GameObject go = new GameObject("MainThreadExecutor");
-            var executor = go.AddComponent<MainThreadExecutor>();
-            //go.hideFlags = HideFlags.HideAndDontSave;
-            if (dontDestroy)
-                Object.DontDestroyOnLoad(go);
-
-            executor.useFixedUpdate = useFixedUpdate;
-            return executor;
+            get { return executor.useFixedUpdate; }
+            set { executor.useFixedUpdate = value; }
         }
+
+#if NETFX_CORE || !NET_LEGACY
+        public static bool IsMainThread { get { return Environment.CurrentManagedThreadId == mainThreadId; } }
+#else
+        public static bool IsMainThread { get { return Thread.CurrentThread == mainThread; } }
+#endif
 
         public static void RunOnMainThread(Action action, bool waitForExecution = false)
         {
@@ -289,7 +134,25 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                 return;
             }
 
-            executor.Execute(action);
+            //executor.Execute(action);
+            context.Post(DoAction, action);
+        }
+
+        private static void DoAction(object state)
+        {
+            Action action = (Action)state;
+            if (action != null)
+                action();
+        }
+
+        public static TResult RunOnMainThread<TResult>(Func<TResult> func)
+        {
+            if (disposed)
+                return default(TResult);
+
+            AsyncResult<TResult> result = new AsyncResult<TResult>();
+            RunOnMainThread<TResult>(func, result);
+            return result.Synchronized().WaitForResult();
         }
 
         public static void RunOnMainThread(Action action, IPromise promise)
@@ -305,7 +168,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     return;
                 }
 
-                executor.Execute(() =>
+                context.Post((state) =>
                 {
                     try
                     {
@@ -316,22 +179,12 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     {
                         promise.SetException(e);
                     }
-                });
+                }, null);
             }
             catch (Exception e)
             {
                 promise.SetException(e);
             }
-        }
-
-        public static TResult RunOnMainThread<TResult>(Func<TResult> func)
-        {
-            if (disposed)
-                return default(TResult);
-
-            AsyncResult<TResult> result = new AsyncResult<TResult>();
-            RunOnMainThread(func, result);
-            return result.Synchronized().WaitForResult();
         }
 
         public static void RunOnMainThread<TResult>(Func<TResult> func, IPromise<TResult> promise)
@@ -346,7 +199,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     return;
                 }
 
-                executor.Execute(() =>
+                context.Post((state) =>
                 {
                     try
                     {
@@ -356,7 +209,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     {
                         promise.SetException(e);
                     }
-                });
+                }, null);
             }
             catch (Exception e)
             {
@@ -372,7 +225,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
             throw new NotSupportedException("The function must execute on main thread.");
         }
 
-        private static InterceptableEnumerator WrapEnumerator(IEnumerator routine, IPromise promise)
+        protected static InterceptableEnumerator WrapEnumerator(IEnumerator routine, IPromise promise)
         {
             InterceptableEnumerator enumerator = routine is InterceptableEnumerator ? (InterceptableEnumerator)routine : new InterceptableEnumerator(routine);
             if (promise != null)
@@ -408,7 +261,15 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                 return;
             }
 
-            executor.Execute(routine);
+            //executor.Execute(routine);
+            context.Post(DoStartCoroutine, routine);
+        }
+
+        private static void DoStartCoroutine(object state)
+        {
+            IEnumerator routine = (IEnumerator)state;
+            if (routine != null)
+                executor.StartCoroutine(routine);
         }
 
         public static Coroutine RunOnCoroutineReturn(IEnumerator routine)
@@ -545,9 +406,12 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
             executor.Execute(WrapEnumerator(routine, promise));
         }
 
+
         private static void DoRunAsync(Action action)
         {
-#if UNITY_EDITOR
+#if UNITY_WEBGL
+            throw new NotSupportedException("Multithreading is not supported on the WebGL platform.");
+#elif UNITY_EDITOR
             ThreadPool.QueueUserWorkItem((state) =>
             {
                 var thread = Thread.CurrentThread;
@@ -567,7 +431,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
                     }
                 }
             });
-#elif !NET_LEGACY
+#elif NETFX_CORE || !NET_LEGACY
             Task.Factory.StartNew(action);
 #else
             ThreadPool.QueueUserWorkItem((state) => { action(); });
@@ -706,30 +570,176 @@ namespace Assembly_CSharp.Assets.Script.Simple.Execution
             return result;
         }
 
-        private static void CheckDisposed()
+        class MainThreadExecutor : MonoBehaviour
         {
-            if (disposed)
-                throw new ObjectDisposedException("Executors");
-        }
+            public bool useFixedUpdate = false;
+            private List<object> pendingQueue = new List<object>();
+            private List<object> stopingQueue = new List<object>();
 
-        static void Destroy()
-        {
-            disposed = true;
-#if UNITY_EDITOR
-            lock (threads)
+            private List<object> runningQueue = new List<object>();
+            private List<object> stopingTempQueue = new List<object>();
+
+            void OnApplicationQuit()
             {
-                foreach (Thread thread in threads.Values)
+                this.StopAllCoroutines();
+                Executors.Destroy();
+                if (this.gameObject != null)
+                {
+                    Destroy(this.gameObject);
+                }
+            }
+
+            void Update()
+            {
+                if (useFixedUpdate)
+                    return;
+
+                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
+                    return;
+
+                this.DoStopingQueue();
+
+                this.DoPendingQueue();
+
+            }
+
+            void FixedUpdate()
+            {
+                if (!useFixedUpdate)
+                    return;
+
+                if (pendingQueue.Count <= 0 && stopingQueue.Count <= 0)
+                    return;
+
+                this.DoStopingQueue();
+
+                this.DoPendingQueue();
+            }
+
+            protected void DoStopingQueue()
+            {
+                lock (stopingQueue)
+                {
+                    if (stopingQueue.Count <= 0)
+                        return;
+
+                    stopingTempQueue.Clear();
+                    stopingTempQueue.AddRange(stopingQueue);
+                    stopingQueue.Clear();
+                }
+
+                for (int i = 0; i < stopingTempQueue.Count; i++)
                 {
                     try
                     {
-                        thread.Abort();
+                        object task = stopingTempQueue[i];
+                        if (task is IEnumerator)
+                        {
+                            this.StopCoroutine((IEnumerator)task);
+                            continue;
+                        }
+
+                        if (task is Coroutine)
+                        {
+                            this.StopCoroutine((Coroutine)task);
+                            continue;
+                        }
                     }
-                    catch (Exception) { }
+                    catch (Exception e)
+                    {
+                    }
                 }
-                threads.Clear();
+                stopingTempQueue.Clear();
             }
-#endif
+            protected void DoPendingQueue()
+            {
+                lock (pendingQueue)
+                {
+                    if (pendingQueue.Count <= 0)
+                        return;
+
+                    runningQueue.Clear();
+                    runningQueue.AddRange(pendingQueue);
+                    pendingQueue.Clear();
+                }
+
+                float startTime = Time.realtimeSinceStartup;
+                for (int i = 0; i < runningQueue.Count; i++)
+                {
+                    try
+                    {
+                        object task = runningQueue[i];
+                        if (task is Action)
+                        {
+                            ((Action)task)();
+                            continue;
+                        }
+
+                        if (task is IEnumerator)
+                        {
+                            this.StartCoroutine((IEnumerator)task);
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+                runningQueue.Clear();
+            }
+
+            public void Execute(Action action)
+            {
+                if (action == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    pendingQueue.Add(action);
+                }
+            }
+
+            public void Execute(IEnumerator routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    pendingQueue.Add(routine);
+                }
+            }
+
+            public void Stop(IEnumerator routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (pendingQueue)
+                {
+                    if (pendingQueue.Contains(routine))
+                    {
+                        pendingQueue.Remove(routine);
+                        return;
+                    }
+                }
+
+                lock (stopingQueue)
+                {
+                    stopingQueue.Add(routine);
+                }
+            }
+
+            public void Stop(Coroutine routine)
+            {
+                if (routine == null)
+                    return;
+
+                lock (stopingQueue)
+                {
+                    stopingQueue.Add(routine);
+                }
+            }
         }
     }
 }
-

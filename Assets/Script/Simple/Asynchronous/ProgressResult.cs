@@ -6,14 +6,17 @@ namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
 
         protected TProgress _progress;
 
-        public virtual TProgress Progress { get { return _progress; } }
-
         public ProgressResult() : this(false)
         {
         }
 
         public ProgressResult(bool cancelable) : base(cancelable)
         {
+        }
+
+        public virtual TProgress Progress
+        {
+            get { return _progress; }
         }
 
         protected override void RaiseOnCallback()
@@ -48,8 +51,16 @@ namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
         private Callbackable<TResult> callbackable;
 
         private ProgressCallbackable<TProgress, TResult> progressCallbackable;
-        
+
         private Synchronizable<TResult> synchronizable;
+
+        public ProgressResult() : this(false)
+        {
+        }
+
+        public ProgressResult(bool cancelable) : base(cancelable)
+        {
+        }
 
         public virtual new TResult Result
         {
@@ -58,14 +69,6 @@ namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
                 var result = base.Result;
                 return result != null ? (TResult)result : default(TResult);
             }
-        }
-
-        public ProgressResult() : this(false)
-        {
-        }
-
-        public ProgressResult(bool cancelable) : base(cancelable)
-        {
         }
 
         public virtual void SetResult(TResult result)

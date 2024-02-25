@@ -19,7 +19,7 @@ namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
         new TResult WaitForResult(TimeSpan timeout);
     }
 
-    public class Synchronizable : ISynchronizable
+    internal class Synchronizable : ISynchronizable
     {
         private IAsyncResult result;
 
