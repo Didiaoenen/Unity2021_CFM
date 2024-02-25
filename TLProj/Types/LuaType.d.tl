@@ -950,6 +950,15 @@ global record UnityProxyRegisterType
     Get: function(self: UnityProxyRegisterType, string): Convert
 end
 
+global record ICommandType
+    record opt
+        CanExecuteChanged: function
+    end
+
+    CanExecute: function(self: ICommandType, parameter: any)
+    Execute: function(self: ICommandType, parameter: any)
+end
+
 global record CommandBaseType
     record set
         executeChanged: {EventHandlerType}

@@ -4,7 +4,7 @@ local ListExtention = require("LuaFramework.Common.ListExtention")
 local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local Transition = require("LuaFramework.Views.Transition")
-local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
+local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 
 local WindowManager = class("WindowManager")
 

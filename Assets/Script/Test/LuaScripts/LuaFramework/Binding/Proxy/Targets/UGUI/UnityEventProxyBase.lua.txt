@@ -2,7 +2,7 @@ require("OOP.Class")
 
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
 local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
-local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 

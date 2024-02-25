@@ -1,12 +1,12 @@
 local Misc = require("LuaFramework.Common.Misc")
+local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 local ListExtention = require("LuaFramework.Common.ListExtention")
-local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
-local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local DefaultUIViewLocator = require("LuaFramework.Views.Locators.DefaultUIViewLocator")
 
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local Messenger = require("LuaFramework.Messaging.Messenger")
-local AsyncResultExt = require("LuaFramework.CSharpObject.AsyncResultExt")
+local AsyncResultExt = require("LuaFramework.Asynchronous.AsyncResultExt")
 local WindowStateEventArgs = require("LuaFramework.Views.WindowStateEventArgs")
 
 local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")

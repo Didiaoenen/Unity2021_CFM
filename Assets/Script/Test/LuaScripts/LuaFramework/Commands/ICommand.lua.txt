@@ -1,0 +1,15 @@
+local ICommand = class("ICommand")
+
+function ICommand.opt:CanExecuteChanged(value)
+   assert({ value }, "")
+end
+
+function ICommand:CanExecute(...)
+   assert({ ... }, "")
+end
+
+function ICommand:Execute(...)
+   assert({ ... }, "")
+end
+
+return ICommand

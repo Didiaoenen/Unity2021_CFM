@@ -1,5 +1,5 @@
-local CoroutineExt = require("LuaFramework.CSharpObject.CoroutineExt")
-local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
+local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 
 local TransitionExecutor = class("TransitionExecutor") as TransitionExecutorType
 

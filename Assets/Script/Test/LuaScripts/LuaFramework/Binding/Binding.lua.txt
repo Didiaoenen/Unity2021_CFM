@@ -1,5 +1,5 @@
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
-local ExecutorsExt = require("LuaFramework.CSharpObject.ExecutorsExt")
+local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
