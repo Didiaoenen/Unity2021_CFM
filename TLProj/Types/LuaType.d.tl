@@ -960,13 +960,13 @@ global record ICommandType
 end
 
 global record CommandBaseType
-    record set
-        executeChanged: {EventHandlerType}
-        ExecuteChanged: function
+    record opt
+        canExecuteChanged: {EventHandlerType}
+        CanExecuteChanged: function
     end
 
-    executeChanged: {EventHandlerType}
-    ExecuteChanged: EventHandlerType
+    canExecuteChanged: {EventHandlerType}
+    CanExecuteChanged: EventHandlerType
 
     ctor: function
     dtor: function

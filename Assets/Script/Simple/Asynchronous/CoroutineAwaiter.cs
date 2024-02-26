@@ -7,10 +7,13 @@ namespace Assembly_CSharp.Assets.Script.Simple.Asynchronous
 {
     public class CoroutineAwaiter : IAwaiter, ICriticalNotifyCompletion
     {
-        protected object _lock = new object();
         protected bool done = false;
+
         protected Exception exception;
+        
         protected Action continuation;
+        
+        protected object _lock = new object();
 
         public bool IsCompleted { get { return this.done; } }
 
