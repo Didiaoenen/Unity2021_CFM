@@ -1,6 +1,6 @@
 local INotifiable = class("INotifiable")
 
-function INotifiable.set:ValueChanged(value)
+function INotifiable.opt:ValueChanged(value)
    assert({ value }, "")
 end
 

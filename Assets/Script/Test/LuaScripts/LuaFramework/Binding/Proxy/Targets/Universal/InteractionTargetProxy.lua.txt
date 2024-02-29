@@ -1,5 +1,29 @@
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
+local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local InteractionTargetProxy = class("InteractionTargetProxy", TargetProxyBase)
+local InteractionTargetProxy = class("InteractionTargetProxy", TargetProxyBase, IObtainable)
+
+function InteractionTargetProxy.get:DefaultMode()
+   return BindingMode.OneWayToSource
+end
+
+function InteractionTargetProxy:ctor(target, interactionAction)
+   TargetProxyBase.ctor(self, target)
+   self.interactionAction = interactionAction
+end
+
+function InteractionTargetProxy:GetValue()
+   return self.handler
+end
+
+function InteractionTargetProxy:OnRequest(sender, args)
+   local target = self.Target
+   if nil == target then
+      return
+   end
+
+   self.interactionAction:OnRequest(sender, args)
+end
 
 return InteractionTargetProxy

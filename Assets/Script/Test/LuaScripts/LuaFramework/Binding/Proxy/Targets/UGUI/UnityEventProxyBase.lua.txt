@@ -1,4 +1,5 @@
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
+local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local ICommand = require("LuaFramework.Commands.ICommand")
@@ -53,7 +54,7 @@ function UnityEventProxyBase:SetValue(value)
    end
 end
 
-function UnityEventProxyBase:OnExecuteChanged(sender, ...)
+function UnityEventProxyBase:OnCanExecuteChanged(sender, ...)
    assert({ sender, ... }, "")
    ExecutorsExt.Instance:RunOnMainThread(function()
       self:UpdateTargetInteractable()
@@ -75,7 +76,7 @@ function UnityEventProxyBase:BindCommand(command)
       return
    end
 
-   command.CanExecuteChanged = { this = self, callback = self.OnExecuteChanged }
+   command.CanExecuteChanged = { opt = TableOprationMode.Add, this = self, callback = self.OnCanExecuteChanged }
 end
 
 function UnityEventProxyBase:UnbindCommand(command)
@@ -83,7 +84,7 @@ function UnityEventProxyBase:UnbindCommand(command)
       return
    end
 
-   command.CanExecuteChanged = { this = self }
+   command.CanExecuteChanged = { opt = TableOprationMode.Remove, this = self }
 end
 
 function UnityEventProxyBase:dtor()

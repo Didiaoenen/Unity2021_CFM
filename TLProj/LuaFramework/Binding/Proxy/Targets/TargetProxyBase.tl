@@ -1,7 +1,8 @@
 local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
+local ITargetProxy = require("LuaFramework.Binding.Proxy.Targets.ITargetProxy")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local TargetProxyBase = class("TargetProxyBase", BindingProxyBase) as TargetProxyBaseType
+local TargetProxyBase = class("TargetProxyBase", BindingProxyBase, ITargetProxy) as TargetProxyBaseType
 
 function TargetProxyBase.get:Target(): LuaObject
     return self.target
@@ -12,7 +13,6 @@ function TargetProxyBase.get:DefaultMode(): number
 end
 
 function TargetProxyBase:ctor(target: LuaObject)
-    assert(target, "")
     self.target = target
     self.targetName = ""
 end

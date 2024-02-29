@@ -1,5 +1,5 @@
 local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")
-local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
+local FieldOrPropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.FieldOrPropertyTargetProxy")
 local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")
 
 local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory", ITargetProxyFactory)
@@ -11,16 +11,15 @@ end
 function UniversalTargetProxyFactory:CreateProxy(target, description)
    local memberInfo = classget(target, description.TargetName)
 
+   if "userdata" == type(memberInfo) then
+      return FieldOrPropertyTargetProxy.new(target, description.TargetName)
+   end
+
    if "function" == type(memberInfo) then
       return MethodTargetProxy.new(target, description.TargetName)
-   elseif "userdata" == type(memberInfo) then
-      return PropertyTargetProxy.new(target, description.TargetName)
-   else
-      if "table" == type(memberInfo) then
-
-      end
-      return PropertyTargetProxy.new(target, description.TargetName)
    end
+
+   return FieldOrPropertyTargetProxy.new(target, description.TargetName)
 end
 
 function UniversalTargetProxyFactory:dtor()

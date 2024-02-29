@@ -1,6 +1,6 @@
 local INotifiable = class("INotifiable") as INotifiableType
 
-function INotifiable.set:ValueChanged(value: OptHandlerType)
+function INotifiable.opt:ValueChanged(value: OptHandlerType)
     assert({value}, "")
 end
 

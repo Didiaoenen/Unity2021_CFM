@@ -24,11 +24,11 @@ function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: Bin
         end
         return
     end
-
+    
     if nil == updateTrigger then
         return
     end
-    
+
     return UnityFieldOrPropertyProxy.new(target, description.TargetName, description.UpdateTrigger) as TargetProxyBaseType
 end
 

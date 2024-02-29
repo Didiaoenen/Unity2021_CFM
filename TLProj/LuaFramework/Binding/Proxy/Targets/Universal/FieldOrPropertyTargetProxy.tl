@@ -3,28 +3,28 @@ local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local PropertyTargetProxy = class("PropertyTargetProxy", ValueTargetProxyBase) as PropertyTargetProxyType
+local FieldOrPropertyTargetProxy = class("FieldOrPropertyTargetProxy", ValueTargetProxyBase) as PropertyTargetProxyType
 
-function PropertyTargetProxy.get:DefaultMode(): number
+function FieldOrPropertyTargetProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function PropertyTargetProxy:ctor(target: LuaObject, propertyInfo: string)
+function FieldOrPropertyTargetProxy:ctor(target: LuaObject, propertyInfo: string)
     ValueTargetProxyBase.ctor(self, target)
     self.propertyInfo = propertyInfo
 end
 
-function PropertyTargetProxy:DoSubscribeForValueChange(target: LuaObject)
+function FieldOrPropertyTargetProxy:DoSubscribeForValueChange(target: LuaObject)
     local targetNotify = (target as INotifyPropertyChangedType)
     targetNotify.PropertyChanged = {opt = TableOprationMode.Add, save = self.propertyInfo, this = self, callback = self.OnPropertyChanged}
 end
 
-function PropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
+function FieldOrPropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
     local targetNotify = (target as INotifyPropertyChangedType)
     targetNotify.PropertyChanged = {opt = TableOprationMode.Remove, save = self.propertyInfo}
 end
 
-function PropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
+function FieldOrPropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
     assert({sender, e}, "")
     local name = e.PropertyName
     if not name or name == "" or name == self.propertyInfo then
@@ -37,7 +37,7 @@ function PropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyCha
     end
 end
 
-function PropertyTargetProxy:GetValue(): any
+function FieldOrPropertyTargetProxy:GetValue(): any
     local target = self.target
     if nil == target then
         return
@@ -51,7 +51,7 @@ function PropertyTargetProxy:GetValue(): any
     end
 end
 
-function PropertyTargetProxy:SetValue(value)
+function FieldOrPropertyTargetProxy:SetValue(value)
     local target = self.target
     if nil == target then
         return
@@ -65,7 +65,7 @@ function PropertyTargetProxy:SetValue(value)
     end
 end
 
-function PropertyTargetProxy:dtor()
+function FieldOrPropertyTargetProxy:dtor()
 end
 
-return PropertyTargetProxy
+return FieldOrPropertyTargetProxy

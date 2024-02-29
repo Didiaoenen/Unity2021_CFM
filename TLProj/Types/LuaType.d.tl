@@ -527,7 +527,7 @@ global record UnityEventProxyBaseType
     BindEvent: function(self: UnityEventProxyBaseType)
     UnbindEvent: function(self: UnityEventProxyBaseType)
     SetValue: function(self: UnityEventProxyBaseType, any)
-    OnExecuteChanged: function(self: UnityEventProxyBaseType, LuaObject, ...: any)
+    OnCanExecuteChanged: function(self: UnityEventProxyBaseType, LuaObject, ...: any)
     UpdateTargetInteractable: function(self: UnityEventProxyBaseType)
     BindCommand: function(self: UnityEventProxyBaseType, ICommandType)
     UnbindCommand: function(self: UnityEventProxyBaseType, ICommandType)
@@ -569,7 +569,21 @@ global record EventTargetProxyBaseType
 end
 
 global record InteractionTargetProxyType
+    
+    record get
+        DefaultMode: function
+    end
 
+    Target: LuaObject
+
+    handler: string
+    interactionAction: IInteractionActionType
+    
+    ctor: function
+    dtor: function
+
+    GetValue: function(self: InteractionTargetProxyType): any
+    OnRequest: function(self: InteractionTargetProxyType, sender: LuaObject, args: InteractionEventArgsType)
 end
 
 global record MethodTargetProxyType
@@ -621,6 +635,13 @@ global record UniversalTargetProxyFactoryType
     dtor: function
 
     CreateProxy: function(self: UniversalTargetProxyFactoryType, LuaObject, BindingDescriptionType): TargetProxyBaseType
+end
+
+global record ITargetProxyType
+    record get
+        Target: function
+        DefaultMode: function
+    end
 end
 
 global record ITargetProxyFactoryType
@@ -702,6 +723,9 @@ global record ValueTargetProxyBaseType
     SetValue: function(self: ValueTargetProxyBaseType, any)
 end
 
+global record IBindingProxyType
+end
+
 global record BindingProxyBaseType
     ctor: function
     dtor: function
@@ -712,12 +736,10 @@ global record IModifiableType
 end
 
 global record INotifiableType
-    record set
-        valueChanged: EventHandlerType
+    record opt
         ValueChanged: function
     end
 
-    valueChanged: {EventHandlerType}
     ValueChanged: EventHandlerType
 end
 
@@ -1031,6 +1053,10 @@ global record InteractionEventArgsType
     new: function(...: any): InteractionEventArgsType
     ctor: function
     dtor: function
+end
+
+global record IInteractionActionType
+    OnRequest: function(self:IInteractionActionType, sender: LuaObject, args: InteractionEventArgsType)
 end
 
 global record IInteractionRequestType
