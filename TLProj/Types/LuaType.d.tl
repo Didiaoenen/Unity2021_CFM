@@ -497,7 +497,6 @@ global record UnityEventProxyType
     target: LuaObject
     unityEvent: string
 
-    invoker: IProxyInvokerType
     command: SimpleCommandType
 
     new: function(...: any): UnityEventProxyType
@@ -506,7 +505,7 @@ global record UnityEventProxyType
 
     BindEvent: function(self: UnityEventProxyType)
     UnbindEvent: function(self: UnityEventProxyType)
-    IsValidInvoker: function(self: UnityEventProxyType, IProxyInvokerType)
+
     OnEvent: function(self: UnityEventProxyType, ...: any)
 end
 
@@ -520,20 +519,18 @@ global record UnityEventProxyBaseType
     target: LuaObject
     unityEvent: string
     interactable: string
-    command: SimpleCommandType
-    invoker: IProxyInvokerType
+    command: ICommandType
 
     ctor: function
     dtor: function
 
     BindEvent: function(self: UnityEventProxyBaseType)
     UnbindEvent: function(self: UnityEventProxyBaseType)
-    IsValidInvoker: function(self: UnityEventProxyBaseType, IProxyInvokerType)
     SetValue: function(self: UnityEventProxyBaseType, any)
     OnExecuteChanged: function(self: UnityEventProxyBaseType, LuaObject, ...: any)
     UpdateTargetInteractable: function(self: UnityEventProxyBaseType)
-    BindCommand: function(self: UnityEventProxyBaseType, SimpleCommandType)
-    UnbindCommand: function(self: UnityEventProxyBaseType, SimpleCommandType)
+    BindCommand: function(self: UnityEventProxyBaseType, ICommandType)
+    UnbindCommand: function(self: UnityEventProxyBaseType, ICommandType)
 end
 
 global record UnityPropertyProxyType
@@ -905,6 +902,8 @@ global record BindingExtensionType
     GetDataContext: function(self: BindingExtensionType): LuaObject
 end
 
+
+
 global record INotifyPropertyChangedType
     record opt
         propertyChanged: {string: OptHandlerType}
@@ -955,18 +954,21 @@ global record ICommandType
         CanExecuteChanged: function
     end
 
+    canExecuteChanged: {OptHandlerType}
+    CanExecuteChanged: OptHandlerType
+
     CanExecute: function(self: ICommandType, parameter: any)
     Execute: function(self: ICommandType, parameter: any)
 end
 
 global record CommandBaseType
     record opt
-        canExecuteChanged: {EventHandlerType}
+        canExecuteChanged: {OptHandlerType}
         CanExecuteChanged: function
     end
 
-    canExecuteChanged: {EventHandlerType}
-    CanExecuteChanged: EventHandlerType
+    canExecuteChanged: {OptHandlerType}
+    CanExecuteChanged: OptHandlerType
 
     ctor: function
     dtor: function
@@ -986,17 +988,19 @@ global record SimpleCommandType
         enabled: boolean
         Enabled: function
     
-        executeChanged: {EventHandlerType}
-        ExecuteChanged: function
-    
         RaiseCanExecuteChanged: function(self: set)
+    end
+
+    record opt
+        executeChanged: {OptHandlerType}
+        ExecuteChanged: function
     end
 
     enabled: boolean
     Enabled: boolean
 
-    executeChanged: {EventHandlerType}
-    ExecuteChanged: EventHandlerType
+    canExecuteChanged: {OptHandlerType}
+    CanExecuteChanged: OptHandlerType
 
     execute: function
 

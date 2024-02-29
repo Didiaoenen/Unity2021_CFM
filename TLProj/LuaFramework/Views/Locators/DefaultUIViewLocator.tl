@@ -1,11 +1,11 @@
-local Misc = require("LuaFramework.Common.Misc")
+local Miscellaneous = require("LuaFramework.Common.Miscellaneous")
 local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 
 local DefaultUIViewLocator = class("DefaultUIViewLocator") as DefaultUIViewLocatorType
 
 function DefaultUIViewLocator.LoadAsync(name: string, ctype: CS.System.Type): CS.Asynchronous.ProgressResult_1_Single
-    local result = (classget(CS.Asynchronous, Misc.CSName.ProgressResult_1_Single) as CS.Asynchronous.ProgressResult_1_Single)(true)
+    local result = (classget(CS.Asynchronous, Miscellaneous.CSName.ProgressResult_1_Single) as CS.Asynchronous.ProgressResult_1_Single)(true)
     ExecutorsExt.Instance:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
         DefaultUIViewLocator.DoLoad(result, name, ctype)
     end))

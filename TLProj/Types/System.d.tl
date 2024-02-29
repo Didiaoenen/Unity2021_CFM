@@ -7,3 +7,5 @@ global try: function(...: any): any
 global clone: function(obj: any): any
 global classget: function(cls: any, key: string): any
 global classset: function(cls: any, key: string, value: any)
+
+global istype: function(obj: any): boolean

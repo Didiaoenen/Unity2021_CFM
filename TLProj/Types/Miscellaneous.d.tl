@@ -19,7 +19,7 @@ local record CSTypeType
     UnityEventBaseT: CS.System.Type
 end
 
-global record MiscType
+global record MiscellaneousType
     CSName: CSNameType
     CSType: CSTypeType
 end

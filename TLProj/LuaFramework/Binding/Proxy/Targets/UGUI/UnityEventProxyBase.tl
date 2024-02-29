@@ -1,10 +1,7 @@
-require("OOP.Class")
-
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
-local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
 local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
-local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
+local ICommand = require("LuaFramework.Commands.ICommand")
 
 local UnityEventProxyBase = class("UnityEventProxyBase", EventTargetProxyBase) as UnityEventProxyBaseType
 
@@ -16,7 +13,6 @@ function UnityEventProxyBase:ctor(target: LuaObject, unityEvent: string)
     EventTargetProxyBase.ctor(self, target)
 
     self.command = nil
-    self.invoker = nil
     self.interactable = nil
     self.unityEvent = unityEvent
 end
@@ -25,10 +21,6 @@ function UnityEventProxyBase:BindEvent()
 end
 
 function UnityEventProxyBase:UnbindEvent()
-end
-
-function UnityEventProxyBase:IsValidInvoker(invoker: IProxyInvokerType)
-    assert({invoker}, "")
 end
 
 function UnityEventProxyBase:SetValue(value: any)
@@ -42,30 +34,22 @@ function UnityEventProxyBase:SetValue(value: any)
         self.command = nil
     end
 
-    if self.invoker then
-        self.invoker = nil
-    end
-
     if nil == value then
         return
     end
 
     if "userdata" == type(value) then
-    
-    else
-        if type(value) == "table" then
-            if (value as LuaObject).is(IProxyInvoker) then
-                self.invoker = value as IProxyInvokerType
-            elseif (value as LuaObject).is(SimpleCommand) then
-                if nil == self.interactable or "" == self.interactable then
-                    self.interactable = "interactable"
-                end
+        return
+    end
 
-                self.command = value as SimpleCommandType
-                self:BindCommand(self.command)
-                self:UpdateTargetInteractable()
-            end
+    if (value as LuaObject).is(ICommand) then
+        if nil == self.interactable or "" == self.interactable then
+            self.interactable = "interactable"
         end
+
+        self.command = value as ICommandType
+        self:BindCommand(self.command)
+        self:UpdateTargetInteractable()
     end
 end
 
@@ -86,20 +70,20 @@ function UnityEventProxyBase:UpdateTargetInteractable()
     classset(target, self.interactable, value)
 end
 
-function UnityEventProxyBase:BindCommand(command: SimpleCommandType)
+function UnityEventProxyBase:BindCommand(command: ICommandType)
     if nil == command then
         return
     end
 
-    command.ExecuteChanged = {this = self, callback = self.OnExecuteChanged}
+    command.CanExecuteChanged = {this = self, callback = self.OnExecuteChanged}
 end
 
-function UnityEventProxyBase:UnbindCommand(command: SimpleCommandType)
+function UnityEventProxyBase:UnbindCommand(command: ICommandType)
     if nil == command then
         return
     end
 
-    command.ExecuteChanged = {this = self}
+    command.CanExecuteChanged = {this = self}
 end
 
 function UnityEventProxyBase:dtor()

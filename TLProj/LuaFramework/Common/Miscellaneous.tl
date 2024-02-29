@@ -1,11 +1,11 @@
-local Misc: MiscType = {}
+local Miscellaneous: MiscellaneousType = {}
 
-Misc.CSName = {
+Miscellaneous.CSName = {
     TestTemp_1_Single = "TestTemp`1[System.Single]",
     ProgressResult_1_Single = "ProgressResult`1[System.Single]"
 }
 
-Misc.CSType = {
+Miscellaneous.CSType = {
     ObjectT = typeof(CS.UnityEngine.Object),
     CanvasT = typeof(CS.UnityEngine.Canvas),
     TransformT = typeof(CS.UnityEngine.Transform),
@@ -21,4 +21,4 @@ Misc.CSType = {
     UnityEventBaseT = typeof(CS.UnityEngine.Events.UnityEventBase),
 }
 
-return Misc
+return Miscellaneous

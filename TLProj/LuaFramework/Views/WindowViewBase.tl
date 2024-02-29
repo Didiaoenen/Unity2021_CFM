@@ -1,4 +1,4 @@
-local Misc = require("LuaFramework.Common.Misc")
+local Miscellaneous = require("LuaFramework.Common.Miscellaneous")
 local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 local ListExtention = require("LuaFramework.Common.ListExtention")
 local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
@@ -268,7 +268,7 @@ function WindowViewBase:Create()
         self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, Misc.CSType.GameObjectT)
+        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, Miscellaneous.CSType.GameObjectT)
         CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 

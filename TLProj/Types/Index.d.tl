@@ -1,10 +1,10 @@
 require("Types.CSharp")
 
 require("Types.util")
-require("Types.Misc")
 require("Types.Class")
 require("Types.System")
 require("Types.LuaType")
+require("Types.Miscellaneous")
 
 global StringExtensionType = require("Types.StringExtension")
 global TableExtentionType = require("Types.TableExtention")

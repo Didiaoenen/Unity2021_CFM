@@ -1,15 +1,17 @@
-local CommandBase = class("CommandBase")
+local ICommand = require("LuaFramework.Commands.ICommand")
 
-function CommandBase.set:ExecuteChanged(value)
-   setcallback(self.executeChanged, value)
+local CommandBase = class("CommandBase", ICommand)
+
+function CommandBase.opt:CanExecuteChanged(value)
+   setcallback(self.canExecuteChanged, value)
 end
 
 function CommandBase:ctor()
-   self.executeChanged = {}
+   self.canExecuteChanged = {}
 end
 
 function CommandBase:RaiseExecuteChanged()
-   for _, v in ipairs(self.executeChanged) do
+   for _, v in ipairs(self.canExecuteChanged) do
       v.callback(v.this)
    end
 end

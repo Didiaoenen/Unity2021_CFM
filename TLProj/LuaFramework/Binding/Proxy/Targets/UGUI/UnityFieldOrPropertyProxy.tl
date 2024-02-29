@@ -1,18 +1,18 @@
 local PropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.PropertyTargetProxy")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
-local UnityPropertyProxy = class("UnityPropertyProxy", PropertyTargetProxy) as UnityPropertyProxyType
+local UnityFieldOrPropertyProxy = class("UnityFieldOrPropertyProxy", PropertyTargetProxy) as UnityPropertyProxyType
 
-function UnityPropertyProxy.get:DefaultMode(): number
+function UnityFieldOrPropertyProxy.get:DefaultMode(): number
     return BindingMode.TwoWay
 end
 
-function UnityPropertyProxy:ctor(target: LuaObject, propertyInfo: string, unityEvent: string)
+function UnityFieldOrPropertyProxy:ctor(target: LuaObject, propertyInfo: string, unityEvent: string)
     PropertyTargetProxy.ctor(self, target, propertyInfo)
     self.unityEvent = unityEvent
 end
 
-function UnityPropertyProxy:DoSubscribeForValueChange(target: LuaObject)
+function UnityFieldOrPropertyProxy:DoSubscribeForValueChange(target: LuaObject)
     assert({target}, "")
     local unityEvent = classget(self.target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
@@ -20,20 +20,20 @@ function UnityPropertyProxy:DoSubscribeForValueChange(target: LuaObject)
     end
 end
 
-function UnityPropertyProxy:DoUnsubscribeForValueChange()
+function UnityFieldOrPropertyProxy:DoUnsubscribeForValueChange()
     local unityEvent = classget(self.target, self.unityEvent) as CS.UnityEngine.Events.UnityEvent
     if unityEvent then
         unityEvent:RemoveAllListeners()
     end
 end
 
-function UnityPropertyProxy:OnValueChanged(...: any)
+function UnityFieldOrPropertyProxy:OnValueChanged(...: any)
     assert({...}, "")
     self:RaiseValueChanged()
 end
 
-function UnityPropertyProxy:dtor()
+function UnityFieldOrPropertyProxy:dtor()
     
 end
 
-return UnityPropertyProxy
+return UnityFieldOrPropertyProxy

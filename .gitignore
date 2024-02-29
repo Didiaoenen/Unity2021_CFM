@@ -15,4 +15,5 @@ TsProj/output
 *.suo
 *.sln
 *.csproj
+*.lua.txt
 com.unity*
