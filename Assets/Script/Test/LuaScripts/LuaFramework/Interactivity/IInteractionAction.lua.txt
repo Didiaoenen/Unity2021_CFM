@@ -1,0 +1,7 @@
+local IInteractionAction = class("IInteractionAction")
+
+function IInteractionAction:OnRequest(sender, args)
+   assert({ sender, args })
+end
+
+return IInteractionAction

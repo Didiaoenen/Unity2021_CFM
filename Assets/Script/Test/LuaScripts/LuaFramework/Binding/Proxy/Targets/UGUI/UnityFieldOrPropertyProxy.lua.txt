@@ -1,0 +1,41 @@
+local FieldOrPropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.FieldOrPropertyTargetProxy")
+local BindingMode = require("LuaFramework.Binding.BindingMode")
+
+local UnityFieldOrPropertyProxy = class("UnityFieldOrPropertyProxy", FieldOrPropertyTargetProxy)
+
+function UnityFieldOrPropertyProxy.get:DefaultMode()
+   return BindingMode.TwoWay
+end
+
+function UnityFieldOrPropertyProxy:ctor(target, propertyInfo, unityEvent)
+   FieldOrPropertyTargetProxy.ctor(self, target, propertyInfo)
+   self.unityEvent = unityEvent
+end
+
+function UnityFieldOrPropertyProxy:DoSubscribeForValueChange(target)
+   if nil == self.unityEvent or nil == target then
+      return
+   end
+
+   local unityEvent = classget(self.target, self.unityEvent)
+   if unityEvent then
+      unityEvent:AddListener(bindevent(self, self.OnValueChanged))
+   end
+end
+
+function UnityFieldOrPropertyProxy:DoUnsubscribeForValueChange()
+   local unityEvent = classget(self.target, self.unityEvent)
+   if unityEvent then
+      unityEvent:RemoveAllListeners()
+   end
+end
+
+function UnityFieldOrPropertyProxy:OnValueChanged(...)
+   assert({ ... }, "")
+   self:RaiseValueChanged()
+end
+
+function UnityFieldOrPropertyProxy:dtor()
+end
+
+return UnityFieldOrPropertyProxy

@@ -1,0 +1,7 @@
+local ISourceProxy = class("ISourceProxy")
+
+function ISourceProxy.get:Source()
+   return nil
+end
+
+return ISourceProxy
