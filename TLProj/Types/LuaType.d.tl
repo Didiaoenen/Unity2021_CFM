@@ -701,19 +701,20 @@ global record TargetProxyFactoryType
 end
 
 global record ValueTargetProxyBaseType
-    record set
+
+    record opt
         subScribed: boolean
-    
-        valueChanged: {OptHandlerType}
+
+        valueChanged: {string: OptHandlerType}
         ValueChanged: function
 
-        Subscribe: function(self: set)
-        Unsubscribe: function(self: set)
+        Subscribe: function
+        Unsubscribe: function
     end
 
     subScribed: boolean
 
-    valueChanged: {OptHandlerType}
+    valueChanged: {string: OptHandlerType}
     ValueChanged: function
 
     target: LuaObject
@@ -983,7 +984,7 @@ global record ICommandType
         CanExecuteChanged: function
     end
 
-    canExecuteChanged: {OptHandlerType}
+    canExecuteChanged: {string: OptHandlerType}
     CanExecuteChanged: OptHandlerType
 
     CanExecute: function(self: ICommandType, parameter: any)
@@ -992,11 +993,11 @@ end
 
 global record CommandBaseType
     record opt
-        canExecuteChanged: {OptHandlerType}
+        canExecuteChanged: {string: OptHandlerType}
         CanExecuteChanged: function
     end
 
-    canExecuteChanged: {OptHandlerType}
+    canExecuteChanged: {string: OptHandlerType}
     CanExecuteChanged: OptHandlerType
 
     ctor: function
@@ -1021,14 +1022,14 @@ global record SimpleCommandType
     end
 
     record opt
-        executeChanged: {OptHandlerType}
+        executeChanged: {string: OptHandlerType}
         ExecuteChanged: function
     end
 
     enabled: boolean
     Enabled: boolean
 
-    canExecuteChanged: {OptHandlerType}
+    canExecuteChanged: {string: OptHandlerType}
     CanExecuteChanged: OptHandlerType
 
     execute: function
@@ -1077,17 +1078,18 @@ global record IInteractionRequestType
 end
 
 global record InteractionRequestType
+    
     record get
-        raised: function
+        raised: {string: OptHandlerType}
+        Raised: function
+    end
+
+    record opt
+        raised: {string: OptHandlerType}
         Raised: function
     end
     
-    record set
-        raised: function
-        Raised: function
-    end
-    
-    raised: function
+    raised: {string: OptHandlerType}
     Raised: function
 
     sender: LuaObject

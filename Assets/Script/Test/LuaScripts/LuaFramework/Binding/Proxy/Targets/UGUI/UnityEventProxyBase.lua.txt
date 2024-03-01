@@ -73,7 +73,7 @@ function UnityEventProxyBase:BindCommand(command)
       return
    end
 
-   command.CanExecuteChanged = { opt = TableOprationMode.Add, this = self, callback = self.OnCanExecuteChanged }
+   command.CanExecuteChanged = { opt = TableOprationMode.Add, save = "", this = self, callback = self.OnCanExecuteChanged }
 end
 
 function UnityEventProxyBase:UnbindCommand(command)
@@ -81,7 +81,7 @@ function UnityEventProxyBase:UnbindCommand(command)
       return
    end
 
-   command.CanExecuteChanged = { opt = TableOprationMode.Remove, this = self }
+   command.CanExecuteChanged = { opt = TableOprationMode.Remove, save = "" }
 end
 
 function UnityEventProxyBase:dtor()

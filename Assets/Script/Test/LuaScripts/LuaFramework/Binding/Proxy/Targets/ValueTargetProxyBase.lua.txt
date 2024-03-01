@@ -1,17 +1,27 @@
 local TargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.TargetProxyBase")
+local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 local IObtainable = require("LuaFramework.Binding.Proxy.IObtainable")
 local IModifiable = require("LuaFramework.Binding.Proxy.IModifiable")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
-local ListExtention = require("LuaFramework.Common.ListExtention")
+local MapExtention = require("LuaFramework.Common.MapExtention")
 
 local ValueTargetProxyBase = class("ValueTargetProxyBase", TargetProxyBase, IModifiable, IObtainable, INotifiable)
 
-function ValueTargetProxyBase.set:ValueChanged(value)
-   setcallback(self.valueChanged, value, function()
+function ValueTargetProxyBase.opt:ValueChanged(value)
+   if value.opt == TableOprationMode.Add then
+      self.valueChanged[value.save] = value
       if not self.subScribed then
          self:Subscribe()
       end
-   end)
+   end
+
+   if value.opt == TableOprationMode.Remove then
+      self.valueChanged[value.save] = nil
+
+      if self.subScribed then
+         self:Unsubscribe()
+      end
+   end
 end
 
 function ValueTargetProxyBase:ctor(target)
@@ -57,7 +67,7 @@ function ValueTargetProxyBase:DoUnsubscribeForValueChange(target)
 end
 
 function ValueTargetProxyBase:RaiseValueChanged()
-   ListExtention.Foreach(self.valueChanged, function(_, v)
+   MapExtention.Foreach(self.valueChanged, function(_, v)
       v.callback(v.this)
    end)
 end

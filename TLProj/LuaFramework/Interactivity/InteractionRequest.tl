@@ -1,14 +1,22 @@
 local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequest")
 local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEventArgs")
+local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
 local InteractionRequest = class("InteractionRequest", IInteractionRequest) as InteractionRequestType
 
-function InteractionRequest.get:Raised(): function
-    return self.raised
+function InteractionRequest.opt:Raised(value: OptHandlerType)
+
+    if value.opt == TableOprationMode.Add then
+        self.raised[value.save] = value
+    end
+    
+    if value.opt == TableOprationMode.Remove then
+        self.raised[value.save] = nil
+    end
 end
 
-function InteractionRequest.set:Raised(value: function)
-    self.raised = value
+function InteractionRequest.get:Raised(): {string: OptHandlerType}
+    return self.raised
 end
 
 function InteractionRequest:ctor(sender: LuaObject)
@@ -17,9 +25,10 @@ function InteractionRequest:ctor(sender: LuaObject)
 end
 
 function InteractionRequest:Raise(context: LuaObject, callback: function)
-    if nil == self.raised then
+    if nil == self.Raised then
         return
     end
+
     self.Raised(self.sender, InteractionEventArgs.new(context, function()
         if callback then
             callback(context)
