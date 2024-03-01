@@ -1,6 +1,5 @@
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
-local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local ICommand = require("LuaFramework.Commands.ICommand")
 
@@ -56,9 +55,7 @@ end
 
 function UnityEventProxyBase:OnCanExecuteChanged(sender, ...)
    assert({ sender, ... }, "")
-   ExecutorsExt.Instance:RunOnMainThread(function()
-      self:UpdateTargetInteractable()
-   end)
+   self:UpdateTargetInteractable()
 end
 
 function UnityEventProxyBase:UpdateTargetInteractable()

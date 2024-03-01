@@ -1,5 +1,4 @@
 local AbstractBinding = require("LuaFramework.Binding.AbstractBinding")
-local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local INotifiable = require("LuaFramework.Binding.Proxy.INotifiable")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 
@@ -95,10 +94,8 @@ function Binding:DisposeSourceProxy()
 end
 
 function Binding:UpdateTargetFromSource()
-   ExecutorsExt.Instance:RunOnMainThread(function()
-      local value = (self.sourceProxy):GetValue()
-      self:SetTargetValue(self.targetProxy, value)
-   end)
+   local value = (self.sourceProxy):GetValue()
+   self:SetTargetValue(self.targetProxy, value)
 end
 
 function Binding:SetTargetValue(modifier, value)
