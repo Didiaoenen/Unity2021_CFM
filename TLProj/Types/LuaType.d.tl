@@ -1078,7 +1078,6 @@ global record IInteractionRequestType
 end
 
 global record InteractionRequestType
-    
     record get
         raised: {string: OptHandlerType}
         Raised: function
@@ -1090,7 +1089,7 @@ global record InteractionRequestType
     end
     
     raised: {string: OptHandlerType}
-    Raised: function
+    Raised: OptHandlerType
 
     sender: LuaObject
 
@@ -1929,14 +1928,32 @@ global record BindInputFieldType
     record get
         text: string
         Text: function
+
+        onValueChanged: function
+        OnValueChanged: function
+
+        simpleCommand: SimpleCommandType
+        SimpleCommand: function
     end
 
     record set
         text: string
         Text: function
 
+        onValueChanged: function
+        OnValueChanged: function
+
+        simpleCommand: SimpleCommandType
+        SimpleCommand: function
+
         Set: function(self: set, SetType, any, string, boolean)
     end
+
+    onValueChanged: function
+    OnValueChanged: function
+
+    simpleCommand: SimpleCommandType    
+    SimpleCommand: SimpleCommandType
 
     text: string
     Text: string
@@ -2151,6 +2168,7 @@ end
 global record InputFieldExtType
     record get
         text: function
+        onEndEdit: function
         onValueChanged: function
 
         gameObject: GameObjectExtType
@@ -2161,6 +2179,7 @@ global record InputFieldExtType
 
     record set
         text: function
+        onEndEdit: function
         onValueChanged: function
 
         handler: CS.UnityEngine.Component
@@ -2170,6 +2189,7 @@ global record InputFieldExtType
     GameObject: GameObjectExtType
 
     Text: string
+    OnEndEdit: string
     OnValueChanged: string
 
     handler: CS.UnityEngine.Component

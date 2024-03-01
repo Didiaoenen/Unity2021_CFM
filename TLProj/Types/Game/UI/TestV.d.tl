@@ -16,6 +16,7 @@ local record TestV
     TestFunc: function(self: TestV, any, any)
     TestButtonSimpleCommand: function(self: TestV, ...: any)
     TestToggleSimpleCommand: function(self: TestV, ...: any)
+    TestInputFieldSimpleCommand: function(self: TestV, ...: any)
 end
 
 return TestV

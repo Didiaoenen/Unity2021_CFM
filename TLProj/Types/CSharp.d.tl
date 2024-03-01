@@ -144,9 +144,12 @@ global record CS
 
             -- InputField
             record InputField
+                record SubmitEvent
+                end
                 record OnChangeEvent
                 end
                 text: string
+                onEndEdit: SubmitEvent
                 onValueChanged: OnChangeEvent
             end
 

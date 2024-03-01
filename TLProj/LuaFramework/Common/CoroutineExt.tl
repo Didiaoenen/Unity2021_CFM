@@ -1,4 +1,4 @@
-local util = require("xlua.util")
+local util = require("xlua.util") as UtilType
 
 local CoroutineExt = class("CoroutineExt") as CoroutineExtType
 

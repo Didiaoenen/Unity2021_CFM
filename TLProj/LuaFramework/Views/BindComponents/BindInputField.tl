@@ -10,6 +10,22 @@ function BindInputField.set:Text(value: string)
     self:Set({name = "text"}, value, "Text")
 end
 
+function BindInputField.get:OnValueChanged(): function
+    return self.onValueChanged
+end
+
+function BindInputField.set:OnValueChanged(value: function)
+    self:Set({name = "onValueChanged"}, value, "OnValueChanged")
+end
+
+function BindInputField.get:SimpleCommand(): SimpleCommandType
+    return self.simpleCommand
+end
+
+function BindInputField.set:SimpleCommand(value: SimpleCommandType)
+    self:Set({name = "simpleCommand"}, value, "SimpleCommand")
+end
+
 function BindInputField:ctor()
     BindComponent.ctor(self)
     self.text = ""
@@ -27,7 +43,13 @@ function BindInputField:BindWithName(view: WindowViewBaseType, cType: ComponentE
     end
 
     local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(inputFieldExt.Text, inputFieldExt.OnValueChanged):To(name .. ".Text"):SetMode(_Mode())
+    builder:For(inputFieldExt.Text, inputFieldExt.OnEndEdit):To(name .. ".Text"):SetMode(_Mode())
+
+    builder = bindingSet:BindByTarget(component as LuaObject)
+    builder:For(inputFieldExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+
+    builder = bindingSet:BindByTarget(component as LuaObject)
+    builder:For(inputFieldExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
     builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())

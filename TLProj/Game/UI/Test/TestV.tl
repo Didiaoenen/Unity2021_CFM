@@ -96,7 +96,8 @@ function TestV:OnShow()
     self.viewModel.text1.Color = CS.UnityEngine.Color.green
     self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
     self.viewModel.inputField.Text = "你好啊"
-    self.viewModel.gameObject.ActiveSelf = false
+    self.viewModel.inputField.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestInputFieldSimpleCommand, "inputField"))
+    self.viewModel.gameObject.ActiveSelf = true
     self.viewModel.toggle_1.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_1"))
     self.viewModel.toggle_2.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_2"))
 
@@ -121,6 +122,13 @@ function TestV:TestToggleSimpleCommand(...: any)
         print("key : " .. key .. " value : " .. tostring(value))
     end
     print("TestToggleSimpleCommand")
+end
+
+function TestV:TestInputFieldSimpleCommand(...: any)
+    for key, value in ipairs({...}) do
+        print("key : " .. key .. " value : " .. tostring(value))
+    end
+    print("TestInputFieldSimpleCommand")
 end
 
 function TestV:dtor()

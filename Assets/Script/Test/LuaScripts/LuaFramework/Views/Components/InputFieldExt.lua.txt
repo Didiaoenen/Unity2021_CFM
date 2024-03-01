@@ -6,6 +6,8 @@ InputFieldExt.CSObject = CS.UnityEngine.UI.InputField
 
 InputFieldExt.Text = "text"
 
+InputFieldExt.OnEndEdit = "onEndEdit"
+
 InputFieldExt.OnValueChanged = "onValueChanged"
 
 function InputFieldExt.get:text()
@@ -14,6 +16,14 @@ end
 
 function InputFieldExt.set:text(value)
    (self.handler).text = value
+end
+
+function InputFieldExt.get:onEndEdit()
+   return (self.handler).onEndEdit
+end
+
+function InputFieldExt.set:onEndEdit(value)
+   (self.handler).onEndEdit = value
 end
 
 function InputFieldExt.get:onValueChanged()

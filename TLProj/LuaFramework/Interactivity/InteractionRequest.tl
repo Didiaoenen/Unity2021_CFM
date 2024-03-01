@@ -1,11 +1,11 @@
 local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequest")
 local InteractionEventArgs = require("LuaFramework.Interactivity.InteractionEventArgs")
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
+local MapExtention = require("LuaFramework.Common.MapExtention")
 
 local InteractionRequest = class("InteractionRequest", IInteractionRequest) as InteractionRequestType
 
 function InteractionRequest.opt:Raised(value: OptHandlerType)
-
     if value.opt == TableOprationMode.Add then
         self.raised[value.save] = value
     end
@@ -21,19 +21,17 @@ end
 
 function InteractionRequest:ctor(sender: LuaObject)
     self.sender = sender or (self as LuaObject)
-    self.raised = nil
+    self.raised = {}
 end
 
 function InteractionRequest:Raise(context: LuaObject, callback: function)
-    if nil == self.Raised then
-        return
-    end
-
-    self.Raised(self.sender, InteractionEventArgs.new(context, function()
-        if callback then
-            callback(context)
-        end
-    end))
+    MapExtention.Foreach(self.raised, function(_: number, v: OptHandlerType)
+        v.callback(v.this, self.sender, InteractionEventArgs.new(context, function()
+            if callback then
+                callback(context)
+            end
+        end))
+    end)
 end
 
 function InteractionRequest:dtor()

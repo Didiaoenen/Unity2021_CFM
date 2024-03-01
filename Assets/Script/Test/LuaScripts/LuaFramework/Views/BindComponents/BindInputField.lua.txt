@@ -10,6 +10,22 @@ function BindInputField.set:Text(value)
    self:Set({ name = "text" }, value, "Text")
 end
 
+function BindInputField.get:OnValueChanged()
+   return self.onValueChanged
+end
+
+function BindInputField.set:OnValueChanged(value)
+   self:Set({ name = "onValueChanged" }, value, "OnValueChanged")
+end
+
+function BindInputField.get:SimpleCommand()
+   return self.simpleCommand
+end
+
+function BindInputField.set:SimpleCommand(value)
+   self:Set({ name = "simpleCommand" }, value, "SimpleCommand")
+end
+
 function BindInputField:ctor()
    BindComponent.ctor(self)
    self.text = ""
@@ -27,7 +43,13 @@ function BindInputField:BindWithName(view, cType, name, modes)
    end
 
    local builder = bindingSet:BindByTarget(component)
-   builder:For(inputFieldExt.Text, inputFieldExt.OnValueChanged):To(name .. ".Text"):SetMode(_Mode())
+   builder:For(inputFieldExt.Text, inputFieldExt.OnEndEdit):To(name .. ".Text"):SetMode(_Mode())
+
+   builder = bindingSet:BindByTarget(component)
+   builder:For(inputFieldExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+
+   builder = bindingSet:BindByTarget(component)
+   builder:For(inputFieldExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
    builder = bindingSet:BindByTarget(component.gameObject)
    builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
