@@ -16,11 +16,10 @@ end
 function MethodTargetProxy:ctor(target: LuaObject, methodInfo: string)
     TargetProxyBase.ctor(self, target)
     self.methodInfo = methodInfo
-    self.invoker = self as IProxyInvokerType
 end
 
 function MethodTargetProxy:GetValue(): any
-    return self.invoker
+    return self as IProxyInvokerType
 end
 
 function MethodTargetProxy:Invoke(sender: LuaObject, ...: any)

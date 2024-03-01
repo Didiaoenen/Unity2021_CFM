@@ -16,11 +16,10 @@ end
 function MethodTargetProxy:ctor(target, methodInfo)
    TargetProxyBase.ctor(self, target)
    self.methodInfo = methodInfo
-   self.invoker = self
 end
 
 function MethodTargetProxy:GetValue()
-   return self.invoker
+   return self
 end
 
 function MethodTargetProxy:Invoke(sender, ...)

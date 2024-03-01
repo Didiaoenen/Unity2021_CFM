@@ -3,9 +3,9 @@ local INotifyPropertyChanged = require("LuaFramework.Binding.INotifyPropertyChan
 local UnityProxyRegister = require("LuaFramework.Binding.UnityProxyRegister")
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
-local PropertyNodeProxy = class("PropertyNodeProxy", NotifiableSourceProxyBase) as PropertyNodeProxyType
+local FieldOrPropertyNodeProxy = class("FieldOrPropertyNodeProxy", NotifiableSourceProxyBase) as PropertyNodeProxyType
 
-function PropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
+function FieldOrPropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
     NotifiableSourceProxyBase.ctor(self, source)
     self.propertyInfo = propertyInfo
 
@@ -19,15 +19,15 @@ function PropertyNodeProxy:ctor(source: LuaObject, propertyInfo: string)
     end    
 end
 
-function PropertyNodeProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
+function FieldOrPropertyNodeProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
     assert({sender, e}, "")
     local name = e.PropertyName
-    if not name or name == "" or name == self.propertyInfo then
+    if nil == name or "" == name or self.propertyInfo == name then
         self:RaiseValueChanged()
     end
 end
 
-function PropertyNodeProxy:GetValue(): any
+function FieldOrPropertyNodeProxy:GetValue(): any
     local source = self.source
     if nil == source then
         return
@@ -41,7 +41,7 @@ function PropertyNodeProxy:GetValue(): any
     end
 end
 
-function PropertyNodeProxy:SetValue(value: any)
+function FieldOrPropertyNodeProxy:SetValue(value: any)
     local source = self.source
     if nil == source then
         return
@@ -55,7 +55,7 @@ function PropertyNodeProxy:SetValue(value: any)
     end
 end
 
-function PropertyNodeProxy:dtor()
+function FieldOrPropertyNodeProxy:dtor()
 end
 
-return PropertyNodeProxy
+return FieldOrPropertyNodeProxy

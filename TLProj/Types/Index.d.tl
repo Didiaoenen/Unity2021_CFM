@@ -2,9 +2,11 @@ require("Types.CSharp")
 
 require("Types.util")
 require("Types.Class")
-require("Types.System")
 require("Types.LuaType")
+require("Types.ToolFunction")
 require("Types.Miscellaneous")
+
+global LuaPandaType = require("Types.LuaPanda")
 
 global StringExtensionType = require("Types.StringExtension")
 global TableExtentionType = require("Types.TableExtention")

@@ -1,3 +1,5 @@
+local BindingMode = require("LuaFramework.Binding.BindingMode")
+
 local ITargetProxy = class("ITargetProxy") as ITargetProxyType
 
 function ITargetProxy.get:Target(): any
@@ -5,7 +7,7 @@ function ITargetProxy.get:Target(): any
 end
 
 function ITargetProxy.get:DefaultMode(): number
-    return 0
+    return BindingMode.Default
 end
 
 return ITargetProxy

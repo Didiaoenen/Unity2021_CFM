@@ -1,6 +1,7 @@
 local BindingProxyBase = require("LuaFramework.Binding.Proxy.BindingProxyBase")
+local ISourceProxy = require("LuaFramework.Binding.Proxy.Sources.ISourceProxy")
 
-local SourceProxyBase = class("SourceProxyBase", BindingProxyBase) as SourceProxyBaseType
+local SourceProxyBase = class("SourceProxyBase", BindingProxyBase, ISourceProxy) as SourceProxyBaseType
 
 function SourceProxyBase.get:Source(): LuaObject
     return self.source

@@ -1,9 +1,8 @@
 local INodeProxyFactory = require("LuaFramework.Binding.Proxy.Sources.Object.INodeProxyFactory")
 local MethodNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.MethodNodeProxy")
-local PropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.PropertyNodeProxy")
+local FieldOrPropertyNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.FieldOrPropertyNodeProxy")
 local InteractionNodeProxy = require("LuaFramework.Binding.Proxy.Sources.Object.InteractionNodeProxy")
 local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequest")
-local IObservableProperty = require("LuaFramework.Observables.IObservableProperty")
 
 local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory", INodeProxyFactory)
 
@@ -23,21 +22,21 @@ end
 function UniversalNodeProxyFactory:CreateProxy(source, node)
    local memberInfo = classget(source, node)
 
+   if "userdata" == type(memberInfo) then
+      return FieldOrPropertyNodeProxy.new(source, node)
+   end
+
    if "function" == type(memberInfo) then
       return MethodNodeProxy.new(source, node)
-   elseif "userdata" == type(memberInfo) then
-      return PropertyNodeProxy.new(source, node)
-   else
-      if "table" == type(memberInfo) then
-         if (memberInfo).is(IObservableProperty) then
-
-         elseif (memberInfo).is(IInteractionRequest) then
-            return InteractionNodeProxy.new(source, node)
-         end
-      end
-
-      return PropertyNodeProxy.new(source, node)
    end
+
+   if "table" == type(memberInfo) then
+      if (memberInfo).is(IInteractionRequest) then
+         return InteractionNodeProxy.new(source, node)
+      end
+   end
+
+   return FieldOrPropertyNodeProxy.new(source, node)
 end
 
 function UniversalNodeProxyFactory:dtor()

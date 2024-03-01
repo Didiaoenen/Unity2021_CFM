@@ -1,6 +1,8 @@
 local ITargetProxyFactory = require("LuaFramework.Binding.Proxy.Targets.ITargetProxyFactory")
 local FieldOrPropertyTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.FieldOrPropertyTargetProxy")
+local InteractionTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.InteractionTargetProxy")
 local MethodTargetProxy = require("LuaFramework.Binding.Proxy.Targets.Universal.MethodTargetProxy")
+local IInteractionAction = require("LuaFramework.Interactivity.IInteractionAction")
 
 local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory", ITargetProxyFactory)
 
@@ -17,6 +19,12 @@ function UniversalTargetProxyFactory:CreateProxy(target, description)
 
    if "function" == type(memberInfo) then
       return MethodTargetProxy.new(target, description.TargetName)
+   end
+
+   if "table" == type(memberInfo) then
+      if (memberInfo).is(IInteractionAction) then
+         return InteractionTargetProxy.new(target, description.TargetName)
+      end
    end
 
    return FieldOrPropertyTargetProxy.new(target, description.TargetName)

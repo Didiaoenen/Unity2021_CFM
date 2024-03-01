@@ -410,6 +410,12 @@ global record UniversalNodeProxyFactoryType
     CreateProxy: function(self: UniversalNodeProxyFactoryType, LuaObject, string): SourceProxyBaseType
 end
 
+global record ISourceProxyType
+    record get
+        Source: function
+    end
+end
+
 global record ISourceProxyFactoryType
     CreateProxy: function(self: ISourceProxyFactoryType, LuaObject, SourceDescriptionType): SourceProxyBaseType
 end
@@ -574,11 +580,12 @@ global record InteractionTargetProxyType
         DefaultMode: function
     end
 
-    Target: LuaObject
+    target: LuaObject
 
-    handler: string
-    interactionAction: IInteractionActionType
+    handler: any
+    interactionAction: string
     
+    new: function(...: any): InteractionTargetProxyType
     ctor: function
     dtor: function
 

@@ -27,7 +27,7 @@ end
 function FieldOrPropertyTargetProxy:OnPropertyChanged(sender: LuaObject, e: PropertyChangedEventArgsType)
     assert({sender, e}, "")
     local name = e.PropertyName
-    if not name or name == "" or name == self.propertyInfo then
+    if nil == name or "" == name or self.propertyInfo == name then
         local target = self.target
         if nil == target then
             return

@@ -5,9 +5,8 @@ return {
         "CS\\*.tl",
         "Debug\\*.tl",
         "OOP\\*.tl",
+        "Tools\\*.tl",
         "xlua\\*.tl",
-
-        "LuaFramework\\System.tl",
     },
     global_env_def = "Types/Index",
     build_xlua = true,

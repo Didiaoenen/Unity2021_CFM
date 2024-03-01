@@ -8,9 +8,10 @@ function InteractionTargetProxy.get:DefaultMode(): number
     return BindingMode.OneWayToSource
 end
 
-function InteractionTargetProxy:ctor(target: LuaObject, interactionAction: IInteractionActionType)
+function InteractionTargetProxy:ctor(target: LuaObject, interactionAction: string)
     TargetProxyBase.ctor(self, target)
     self.interactionAction = interactionAction
+    self.handler = bindevent(self, self.OnRequest)
 end
 
 function InteractionTargetProxy:GetValue(): any
@@ -18,12 +19,15 @@ function InteractionTargetProxy:GetValue(): any
 end
 
 function InteractionTargetProxy:OnRequest(sender: LuaObject, args: InteractionEventArgsType)
-    local target = self.Target
+    local target = self.target
     if nil == target then
         return
     end
 
-    self.interactionAction:OnRequest(sender, args)
+    local action = classget(self.target, self.interactionAction) as IInteractionActionType
+    if action then
+        action:OnRequest(sender, args)
+    end
 end
 
 return InteractionTargetProxy

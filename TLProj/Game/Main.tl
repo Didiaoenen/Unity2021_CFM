@@ -1,10 +1,11 @@
-require("Debug.LuaPanda").start("127.0.0.1", 8818)
+local luaPanda = require("Debug.LuaPanda") as LuaPandaType
+luaPanda.start("127.0.0.1", 8818)
 
 require("CS.CS")
 
 require("OOP.Class")
 
-require("LuaFramework.System")
+require("Tools.ToolFunction")
 
 local test = require("Game.Test")
 test:f()

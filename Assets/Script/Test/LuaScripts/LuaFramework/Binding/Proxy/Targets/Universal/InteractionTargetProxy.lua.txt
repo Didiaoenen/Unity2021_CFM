@@ -11,6 +11,7 @@ end
 function InteractionTargetProxy:ctor(target, interactionAction)
    TargetProxyBase.ctor(self, target)
    self.interactionAction = interactionAction
+   self.handler = bindevent(self, self.OnRequest)
 end
 
 function InteractionTargetProxy:GetValue()
@@ -18,12 +19,15 @@ function InteractionTargetProxy:GetValue()
 end
 
 function InteractionTargetProxy:OnRequest(sender, args)
-   local target = self.Target
+   local target = self.target
    if nil == target then
       return
    end
 
-   self.interactionAction:OnRequest(sender, args)
+   local action = classget(self.target, self.interactionAction)
+   if action then
+      action:OnRequest(sender, args)
+   end
 end
 
 return InteractionTargetProxy
