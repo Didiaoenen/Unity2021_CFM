@@ -1,5 +1,7 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
+
 
 local BindInputField = class("BindInputField", BindComponent)
 
@@ -34,8 +36,8 @@ function BindInputField:ctor()
    self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindInputField:BindWithName(view, cType, name, modes)
-   local component = view:GetComponentWithName(cType, name)
+function BindInputField:BindWithName(view, name, modes)
+   local component = view:GetComponentWithName(InputFieldExt, name)
    local bindingSet = view.bindingSet
    local inputFieldExt = component
 

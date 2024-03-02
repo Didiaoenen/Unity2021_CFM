@@ -1,4 +1,5 @@
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local BindGameObject = class("BindGameObject", ObservableObject) as BindGameObjectType
 
@@ -15,8 +16,8 @@ function BindGameObject:ctor()
     self.activeSelf = true
 end
 
-function BindGameObject:BindWithName(view: WindowViewBaseType, cType: GameObjectExtType, name: string, modes: {number})
-    local gameObject = view:GetGameObjectWithName(cType, name)
+function BindGameObject:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local gameObject = view:GetGameObjectWithName(GameObjectExt, name)
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0

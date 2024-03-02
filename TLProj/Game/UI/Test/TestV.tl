@@ -3,12 +3,6 @@ local WindowBase = require("LuaFramework.Views.WindowBase")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
-local TextExt = require("LuaFramework.Views.Components.TextExt")
-local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
-local InputFieldExt = require("LuaFramework.Views.Components.InputFieldExt")
-local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
-local ToggleExt = require("LuaFramework.Views.Components.ToggleExt")
-
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local TestV = class("TestV", WindowBase) as TestVType
@@ -75,13 +69,13 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:BindWithName(self as WindowViewBaseType, TextExt as ComponentExtType, "text", {BindingMode.OneWay})
-    self.viewModel.text1:BindWithName(self as WindowViewBaseType, TextExt as ComponentExtType, "text1", {BindingMode.OneWay})
-    self.viewModel.button:BindWithName(self as WindowViewBaseType, ButtonExt as ComponentExtType, "button", {BindingMode.OneWay})
-    self.viewModel.inputField:BindWithName(self as WindowViewBaseType, InputFieldExt as ComponentExtType, "inputField", {BindingMode.TwoWay})
-    self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, GameObjectExt, "gameObject", {BindingMode.OneWay})
-    self.viewModel.toggle_1:BindWithName(self as WindowViewBaseType, ToggleExt as ComponentExtType, "toggle_1", {BindingMode.OneWay})
-    self.viewModel.toggle_2:BindWithName(self as WindowViewBaseType, ToggleExt as ComponentExtType, "toggle_2", {BindingMode.OneWay})
+    self.viewModel.text:BindWithName(self as WindowViewBaseType, "text", {BindingMode.OneWay})
+    self.viewModel.text1:BindWithName(self as WindowViewBaseType, "text1", {BindingMode.OneWay})
+    self.viewModel.button:BindWithName(self as WindowViewBaseType, "button", {BindingMode.OneWay})
+    self.viewModel.inputField:BindWithName(self as WindowViewBaseType, "inputField", {BindingMode.TwoWay})
+    self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, "gameObject", {BindingMode.OneWay})
+    self.viewModel.toggle_1:BindWithName(self as WindowViewBaseType, "toggle_1", {BindingMode.OneWay})
+    self.viewModel.toggle_2:BindWithName(self as WindowViewBaseType, "toggle_2", {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
@@ -94,13 +88,13 @@ function TestV:OnShow()
     self.viewModel.text.Color = CS.UnityEngine.Color.red
     self.viewModel.text1.Text = "哈哈哈"
     self.viewModel.text1.Color = CS.UnityEngine.Color.green
-    self.viewModel.button.OnClick = bindevent(self, self.TestButtonSimpleCommand) as function
+    self.viewModel.button.OnClick = bindevent(self, self.TestButtonSimpleCommand)
     self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
     self.viewModel.inputField.Text = "你好啊"
     self.viewModel.inputField.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestInputFieldSimpleCommand, "inputField"))
-    self.viewModel.gameObject.ActiveSelf = true
     self.viewModel.toggle_1.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_1"))
     self.viewModel.toggle_2.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_2"))
+    self.viewModel.gameObject.ActiveSelf = true
 
     -- local inputBase = self.viewModel.inputField as BindComponentType
     -- inputBase.GameObject.ActiveSelf = false
@@ -108,7 +102,7 @@ function TestV:OnShow()
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")
     -- self:CreateSubView("Game.TestSubV", {parent = transOne})
-    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
+    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})0
 end
 
 function TestV:TestButtonSimpleCommand(... :any)

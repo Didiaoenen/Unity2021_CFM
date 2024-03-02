@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local TransformExt = require("LuaFramework.Views.Components.TransformExt")
 
 local BindTransform = class("BindTransform", BindComponent) as BindTransformType
 
@@ -36,7 +37,7 @@ end
 
 function BindTransform:ctor()
     BindComponent.ctor(self)
-    self.parent = nil
+    self.parent = TransformExt.new()
     self.localRotation = CS.UnityEngine.Quaternion.identity
     self.localPosition = CS.UnityEngine.Vector3.zero
     self.localScale = CS.UnityEngine.Vector3.one

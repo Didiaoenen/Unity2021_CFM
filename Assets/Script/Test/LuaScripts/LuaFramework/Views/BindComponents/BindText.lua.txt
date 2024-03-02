@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local TextExt = require("LuaFramework.Views.Components.TextExt")
 
 local BindText = class("BindText", BindComponent)
 
@@ -24,8 +25,8 @@ function BindText:ctor()
    self.color = CS.UnityEngine.Color.white
 end
 
-function BindText:BindWithName(view, cType, name, modes)
-   local component = view:GetComponentWithName(cType, name)
+function BindText:BindWithName(view, name, modes)
+   local component = view:GetComponentWithName(TextExt, name)
    local bindingSet = view.bindingSet
    local textExt = component
 

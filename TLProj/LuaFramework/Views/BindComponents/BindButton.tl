@@ -1,5 +1,6 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
+local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
 
 local BindButton = class("BindButton", BindComponent) as BindButtonType
 
@@ -25,8 +26,8 @@ function BindButton:ctor()
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindButton:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindButton:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local component = view:GetComponentWithName(ButtonExt, name)
     local bindingSet = view.bindingSet as BindingSetType
     local buttonExt = component as ButtonExtType
 

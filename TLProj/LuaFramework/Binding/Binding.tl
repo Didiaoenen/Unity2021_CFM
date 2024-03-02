@@ -99,7 +99,9 @@ function Binding:UpdateTargetFromSource()
 end
 
 function Binding:SetTargetValue(modifier: LuaObject, value: any)
-    (modifier as IModifiableType):SetValue(value)
+    if modifier then
+        (modifier as IModifiableType):SetValue(value)
+    end
 end
 
 function Binding:UpdateSourceFromTarget()
@@ -108,7 +110,9 @@ function Binding:UpdateSourceFromTarget()
 end
 
 function Binding:SetSourceValue(modifier: LuaObject, value: any)
-    (modifier as IModifiableType):SetValue(value)
+    if modifier then
+        (modifier as IModifiableType):SetValue(value)
+    end 
 end
 
 function Binding:UpdateDataOnBind()

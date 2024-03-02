@@ -1,5 +1,6 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
+local ToggleExt = require("LuaFramework.Views.Components.ToggleExt")
 
 local BindToggle = class("BindToggle", BindComponent) as BindToggleType
 
@@ -25,8 +26,8 @@ function BindToggle:ctor()
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindToggle:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindToggle:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local component = view:GetComponentWithName(ToggleExt, name)
     local bindingSet = view.bindingSet as BindingSetType
     local toggleExt = component as ToggleExtType
 

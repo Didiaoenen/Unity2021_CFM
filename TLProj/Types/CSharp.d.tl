@@ -63,6 +63,8 @@ global record CS
             localScale: Vector3
             parent: Transform
 
+            metamethod __call: function(self: Transform): Transform
+
             SetParent: function(self: Transform, Transform)
         end
 
@@ -71,6 +73,8 @@ global record CS
             transform: Transform
             activeSelf: boolean
         
+            metamethod __call: function(self: GameObject): GameObject
+
             Find: function(string): GameObject
             SetActive: function(self: GameObject, boolean)
             GetComponent: function(self: GameObject, System.Type): Component

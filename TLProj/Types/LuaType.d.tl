@@ -1702,7 +1702,7 @@ global record BindGameObjectType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindGameObjectType, WindowViewBaseType, GameObjectExtType, string, {number})
+    BindWithName: function(self: BindGameObjectType, WindowViewBaseType, string, {number})
 end
 
 global record BindTextType
@@ -1740,7 +1740,7 @@ global record BindTextType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTextType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindTextType, WindowViewBaseType, string, {number})
 end
 
 global record BindButtonType
@@ -1778,7 +1778,7 @@ global record BindButtonType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindButtonType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindButtonType, WindowViewBaseType, string, {number})
 end
 
 global record BindCanvasType
@@ -1966,7 +1966,7 @@ global record BindInputFieldType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindInputFieldType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindInputFieldType, WindowViewBaseType, string, {number})
 end
 
 global record BindToggleType
@@ -1998,7 +1998,7 @@ global record BindToggleType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindToggleType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindToggleType, WindowViewBaseType, string, {number})
 end
 
 global record BindImageType
@@ -2066,6 +2066,7 @@ global record TransformExtType
 
     parent: TransformExtType
 
+    new: function(...: any): TransformExtType
     ctor: function
     dtor: function
 
