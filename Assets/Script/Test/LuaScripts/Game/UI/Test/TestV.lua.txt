@@ -94,6 +94,7 @@ function TestV:OnShow()
    self.viewModel.text.Color = CS.UnityEngine.Color.red
    self.viewModel.text1.Text = "哈哈哈"
    self.viewModel.text1.Color = CS.UnityEngine.Color.green
+   self.viewModel.button.OnClick = bindevent(self, self.TestButtonSimpleCommand)
    self.viewModel.button.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestButtonSimpleCommand))
    self.viewModel.inputField.Text = "你好啊"
    self.viewModel.inputField.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestInputFieldSimpleCommand, "inputField"))

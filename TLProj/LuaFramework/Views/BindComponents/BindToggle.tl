@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local BindToggle = class("BindToggle", BindComponent) as BindToggleType
 
@@ -20,6 +21,8 @@ end
 
 function BindToggle:ctor()
     BindComponent.ctor(self)
+    self.onValueChanged = function() end
+    self.simpleCommand = SimpleCommand.new(function() end)
 end
 
 function BindToggle:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})

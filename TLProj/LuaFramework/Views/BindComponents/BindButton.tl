@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local BindButton = class("BindButton", BindComponent) as BindButtonType
 
@@ -20,6 +21,8 @@ end
 
 function BindButton:ctor()
     BindComponent.ctor(self)
+    self.onClick = function() end
+    self.simpleCommand = SimpleCommand.new(function() end)
 end
 
 function BindButton:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})

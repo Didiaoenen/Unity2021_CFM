@@ -14,7 +14,6 @@ local TestV = require("Game.UI.Test.TestV")
 
 global function Main(): number
     TestV.new():Create()
-    TestV.new():Create()
 
     return 1
 end

@@ -503,7 +503,8 @@ global record UnityEventProxyType
     target: LuaObject
     unityEvent: string
 
-    command: SimpleCommandType
+    command: ICommandType
+    invoker: IProxyInvokerType
 
     new: function(...: any): UnityEventProxyType
     ctor: function
@@ -511,7 +512,7 @@ global record UnityEventProxyType
 
     BindEvent: function(self: UnityEventProxyType)
     UnbindEvent: function(self: UnityEventProxyType)
-
+    IsValidInvoker: function(self: UnityEventProxyType, IProxyInvokerType)
     OnEvent: function(self: UnityEventProxyType, ...: any)
 end
 
@@ -525,13 +526,16 @@ global record UnityEventProxyBaseType
     target: LuaObject
     unityEvent: string
     interactable: string
+
     command: ICommandType
+    invoker: IProxyInvokerType
 
     ctor: function
     dtor: function
 
     BindEvent: function(self: UnityEventProxyBaseType)
     UnbindEvent: function(self: UnityEventProxyBaseType)
+    IsValidInvoker: function(self: UnityEventProxyBaseType, IProxyInvokerType)
     SetValue: function(self: UnityEventProxyBaseType, any)
     OnCanExecuteChanged: function(self: UnityEventProxyBaseType, LuaObject, ...: any)
     UpdateTargetInteractable: function(self: UnityEventProxyBaseType)
@@ -1761,7 +1765,7 @@ global record BindButtonType
         Set: function(self: set, SetType, any, string, boolean)
     end 
 
-    onClick: function    
+    onClick: function
     OnClick: function
 
     gameObject: BindGameObjectType

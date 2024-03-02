@@ -1,4 +1,5 @@
 local EventTargetProxyBase = require("LuaFramework.Binding.Proxy.Targets.Universal.EventTargetProxyBase")
+local IProxyInvoker = require("LuaFramework.Binding.Reflection.IProxyInvoker")
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local ICommand = require("LuaFramework.Commands.ICommand")
@@ -13,6 +14,7 @@ function UnityEventProxyBase:ctor(target: LuaObject, unityEvent: string)
     EventTargetProxyBase.ctor(self, target)
 
     self.command = nil
+    self.invoker = nil
     self.interactable = nil
     self.unityEvent = unityEvent
 end
@@ -23,10 +25,18 @@ end
 function UnityEventProxyBase:UnbindEvent()
 end
 
+function UnityEventProxyBase:IsValidInvoker(invoker: IProxyInvokerType)
+    assert({invoker}, "")
+end
+
 function UnityEventProxyBase:SetValue(value: any)
     local target = self.target
     if nil == target then
         return
+    end
+
+    if self.invoker then
+        self.invoker = nil
     end
 
     if self.command then
@@ -42,14 +52,22 @@ function UnityEventProxyBase:SetValue(value: any)
         return
     end
 
-    if (value as LuaObject).is(ICommand) then
-        if nil == self.interactable or "" == self.interactable then
-            self.interactable = "interactable"
+    if type(value) == "table" then
+        if (value as LuaObject).is(IProxyInvoker) then
+            self.invoker = value as IProxyInvokerType
+            return
         end
 
-        self.command = value as ICommandType
-        self:BindCommand(self.command)
-        self:UpdateTargetInteractable()
+        if (value as LuaObject).is(ICommand) then
+            if nil == self.interactable or "" == self.interactable then
+                self.interactable = "interactable"
+            end
+    
+            self.command = value as ICommandType
+            self:BindCommand(self.command)
+            self:UpdateTargetInteractable()
+            return
+        end
     end
 end
 

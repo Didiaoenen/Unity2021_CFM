@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local BindInputField = class("BindInputField", BindComponent) as BindInputFieldType
 
@@ -29,6 +30,8 @@ end
 function BindInputField:ctor()
     BindComponent.ctor(self)
     self.text = ""
+    self.onValueChanged = function() end
+    self.simpleCommand = SimpleCommand.new(function() end)
 end
 
 function BindInputField:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
