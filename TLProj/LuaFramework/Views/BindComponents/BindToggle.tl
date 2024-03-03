@@ -27,7 +27,7 @@ function BindToggle:ctor()
 end
 
 function BindToggle:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(ToggleExt, name)
+    local component = view:GetComponentWithName(ToggleExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local toggleExt = component as ToggleExtType
 

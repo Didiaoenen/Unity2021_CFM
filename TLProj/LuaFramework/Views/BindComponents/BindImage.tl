@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local ImageExt = require("LuaFramework.Views.Components.ImageExt")
 
 local BindImage = class("BindImage", BindComponent) as BindImageType
 
@@ -22,8 +23,8 @@ function BindImage:ctor()
     BindComponent.ctor(self)
 end
 
-function BindImage:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindImage:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local component = view:GetComponentWithName(ImageExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local imageExt = component as ImageExtType
 

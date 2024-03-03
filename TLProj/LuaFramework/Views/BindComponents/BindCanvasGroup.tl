@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local CanvasGroupExt = require("LuaFramework.Views.Components.CanvasGroupExt")
 
 local BindCanvasGroup = class("BindCanvasGroup", BindComponent) as BindCanvasGroupType
 
@@ -15,8 +16,8 @@ function BindCanvasGroup:ctor()
     self.alpha = 1
 end
 
-function BindCanvasGroup:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindCanvasGroup:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local component = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local canvasGroupExt = component as CanvasGroupExtType
 

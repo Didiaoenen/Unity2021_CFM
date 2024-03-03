@@ -37,14 +37,14 @@ end
 
 function BindTransform:ctor()
     BindComponent.ctor(self)
-    self.parent = TransformExt.new()
+    self.parent = nil
     self.localRotation = CS.UnityEngine.Quaternion.identity
     self.localPosition = CS.UnityEngine.Vector3.zero
     self.localScale = CS.UnityEngine.Vector3.one
 end
 
-function BindTransform:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindTransform:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    local component = view:GetComponentWithName(TransformExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local transformExt = component as TransformExtType
 

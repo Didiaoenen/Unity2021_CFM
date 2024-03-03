@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
 
 local BindCanvas = class("BindCanvas", BindComponent)
 
@@ -24,8 +25,8 @@ function BindCanvas:ctor()
    self.sortingOrder = 0
 end
 
-function BindCanvas:BindWithName(view, cType, name, modes)
-   local component = view:GetComponentWithName(cType, name)
+function BindCanvas:BindWithName(view, name, modes)
+   local component = view:GetComponentWithName(CanvasExt, name)
    local bindingSet = view.bindingSet
    local canvasExt = component
 

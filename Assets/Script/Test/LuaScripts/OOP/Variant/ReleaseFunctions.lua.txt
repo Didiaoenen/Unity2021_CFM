@@ -575,7 +575,7 @@ function Functions.CreateClassDelete(cls)
         else
             local ut = "userdata" == type(self);
             if ut then
-                debug.setmetatable(self,nil);
+                setmetatable(self,nil);
             else
                 setmetatable(self,nil);
                 if Config.ClearMembersInRelease then

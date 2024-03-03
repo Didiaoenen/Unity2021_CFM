@@ -26,7 +26,7 @@ function BindText:ctor()
 end
 
 function BindText:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(TextExt, name)
+    local component = view:GetComponentWithName(TextExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local textExt = component as TextExtType
 

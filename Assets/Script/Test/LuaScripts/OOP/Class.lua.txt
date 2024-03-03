@@ -70,7 +70,7 @@ local function CreateClassNew(cls,clsAll,members)
             if not metas or rawget(metas,__internal__) then
                 -- If the object does not have a meta table or if the meta table is internal to LuaOOP,
                 -- then it is sufficient to use that meta table directly.
-                debug.setmetatable(obj,Internal.ClassesMetas[cls]);
+                setmetatable(obj,Internal.ClassesMetas[cls]);
             else
                 -- Otherwise, the meta-table is retrofited.
                 Internal.ObjectsCls[obj] = cls;
@@ -151,7 +151,7 @@ class.to = function(obj,cls)
     end
     local metas = getmetatable(obj);
     if not metas or rawget(metas,__internal__) then
-        debug.setmetatable(obj,Internal.ClassesMetas[cls]);
+        setmetatable(obj,Internal.ClassesMetas[cls]);
     else
         Functions.RetrofitExternalObjectMeta(cls,metas,false);
         Internal.ObjectsCls[obj] = cls;

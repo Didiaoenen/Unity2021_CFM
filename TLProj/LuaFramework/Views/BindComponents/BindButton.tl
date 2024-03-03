@@ -27,7 +27,7 @@ function BindButton:ctor()
 end
 
 function BindButton:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(ButtonExt, name)
+    local component = view:GetComponentWithName(ButtonExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local buttonExt = component as ButtonExtType
 

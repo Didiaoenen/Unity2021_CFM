@@ -1,4 +1,5 @@
 local BindTransform = require("LuaFramework.Views.BindComponents.BindTransform")
+local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
 
 local BindRectTransform = class("BindRectTransform", BindTransform) as BindRectTransformType
 
@@ -24,8 +25,10 @@ function BindRectTransform:ctor()
     self.offsetMin = CS.UnityEngine.Vector2.zero
 end
 
-function BindRectTransform:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    local component = view:GetComponentWithName(cType, name)
+function BindRectTransform:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    BindTransform.BindWithName(self as BindTransformType, view, name, modes)
+    
+    local component = view:GetComponentWithName(RectTransformExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local rectTransformExt = component as RectTransformExtType
 

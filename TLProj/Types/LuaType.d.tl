@@ -1606,6 +1606,7 @@ global record WindowViewBaseType
 
     gameObject: GameObjectExtType
     transform: TransformExtType
+    bindTransform: BindRectTransformType
 
     dismissTransition: TransitionType
     DismissTransition: TransitionType
@@ -1810,7 +1811,7 @@ global record BindCanvasType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindCanvasType, WindowViewBaseType, string, {number})
 end
 
 global record BindCanvasGroupType
@@ -1833,7 +1834,7 @@ global record BindCanvasGroupType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasGroupType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindCanvasGroupType, WindowViewBaseType, string, {number})
 end
 
 global record BindRectTransformType
@@ -1865,7 +1866,7 @@ global record BindRectTransformType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindRectTransformType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindRectTransformType, WindowViewBaseType, string, {number})
 end
 
 global record BindTransformType
@@ -1910,7 +1911,7 @@ global record BindTransformType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTransformType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindTransformType, WindowViewBaseType, string, {number})
 end
 
 global record BindComponentType
@@ -1925,7 +1926,7 @@ global record BindComponentType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindComponentType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindComponentType, WindowViewBaseType, string, {number})
 end
 
 global record BindInputFieldType
@@ -2030,7 +2031,7 @@ global record BindImageType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindImageType, WindowViewBaseType, ComponentExtType, string, {number})
+    BindWithName: function(self: BindImageType, WindowViewBaseType, string, {number})
 end
 ------------------------------------------------------------------------------
 

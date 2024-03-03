@@ -37,7 +37,7 @@ function BindInputField:ctor()
 end
 
 function BindInputField:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(InputFieldExt, name)
+    local component = view:GetComponentWithName(InputFieldExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local inputFieldExt = component as InputFieldExtType
 

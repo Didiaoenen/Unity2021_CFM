@@ -13,8 +13,8 @@ function BindComponent:ctor()
     self.gameObject.ActiveSelf = true
 end
 
-function BindComponent:BindWithName(view: WindowViewBaseType, cType: ComponentExtType, name: string, modes: {number})
-    assert({view, cType, name, modes}, "")
+function BindComponent:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+    assert({view, name, modes}, "")
 end
 
 function BindComponent:dtor()
