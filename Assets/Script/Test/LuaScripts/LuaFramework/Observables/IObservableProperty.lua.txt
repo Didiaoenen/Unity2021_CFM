@@ -16,4 +16,7 @@ function IObservableProperty.set:Value(value)
    assert({ value }, "")
 end
 
+function IObservableProperty:ctor()
+end
+
 return IObservableProperty

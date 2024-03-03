@@ -220,6 +220,9 @@ global record BindingContextType
 end
 
 global record PathParseType
+
+    ctor: function
+
     Parse: function(string): {string}
 end
 
@@ -305,10 +308,16 @@ global record ChainedObjectSourceProxyType
 end
 
 global record INodeProxyFactoryType
+
+    ctor: function
+
     Create: function(self: INodeProxyFactoryType, LuaObject, PathTokenType): SourceProxyBaseType
 end
 
 global record INodeProxyFactoryRegisterType
+
+    ctor: function
+
     Register: function(self: INodeProxyFactoryRegisterType, factory: INodeProxyFactoryType, priority: number)
     Unregister: function(self: INodeProxyFactoryRegisterType, factory: INodeProxyFactoryType)
 end
@@ -414,13 +423,21 @@ global record ISourceProxyType
     record get
         Source: function
     end
+
+    ctor: function
 end
 
 global record ISourceProxyFactoryType
+
+    ctor: function
+
     CreateProxy: function(self: ISourceProxyFactoryType, LuaObject, SourceDescriptionType): SourceProxyBaseType
 end
 
 global record ISourceProxyFactoryRegistryType
+
+    ctor: function
+
     Register: function(self: ISourceProxyFactoryRegistryType, ISourceProxyFactoryType, number)
     Unregister: function(self: ISourceProxyFactoryRegistryType, ISourceProxyFactoryType)
 end
@@ -653,13 +670,21 @@ global record ITargetProxyType
         Target: function
         DefaultMode: function
     end
+
+    ctor: function
 end
 
 global record ITargetProxyFactoryType
+
+    ctor: function
+
     CreateProxy: function(self: ITargetProxyFactoryType, LuaObject, BindingDescriptionType): TargetProxyBaseType
 end
 
 global record ITargetProxyFactoryRegisterType
+
+    ctor: function
+
     Register: function(self: ITargetProxyFactoryRegisterType, factory: ITargetProxyFactoryType, priority: number)
     Unregister: function(self: ITargetProxyFactoryRegisterType, factory: ITargetProxyFactoryType)
 end
@@ -736,6 +761,8 @@ global record ValueTargetProxyBaseType
 end
 
 global record IBindingProxyType
+    ctor: function
+    dtor: function
 end
 
 global record BindingProxyBaseType
@@ -744,6 +771,9 @@ global record BindingProxyBaseType
 end
 
 global record IModifiableType
+    ctor: function
+    dtor: function
+
     SetValue: function(self: IModifiableType, any)
 end
 
@@ -752,10 +782,16 @@ global record INotifiableType
         ValueChanged: function
     end
 
+    ctor: function
+    dtor: function
+
     ValueChanged: EventHandlerType
 end
 
 global record IObtainableType
+    ctor: function
+    dtor: function
+
     GetValue: function(self: IObtainableType): any
 end
 
@@ -764,6 +800,9 @@ global record IProxyInvokerType
         proxyMethodInfo: string
         ProxyMethodInfo: function(self: get): string
     end
+
+    ctor: function
+    dtor: function
 
     Invoke: function(self: IProxyInvokerType, ...: any): any...
 end
@@ -988,6 +1027,9 @@ global record ICommandType
         CanExecuteChanged: function
     end
 
+    ctor: function
+    dtor: function
+
     canExecuteChanged: {string: OptHandlerType}
     CanExecuteChanged: OptHandlerType
 
@@ -1068,6 +1110,9 @@ global record InteractionEventArgsType
 end
 
 global record IInteractionActionType
+    ctor: function
+    dtor: function
+
     OnRequest: function(self:IInteractionActionType, sender: LuaObject, args: InteractionEventArgsType)
 end
 
@@ -1079,6 +1124,9 @@ global record IInteractionRequestType
     record set
         Raised: function
     end
+
+    ctor: function
+    dtor: function
 end
 
 global record InteractionRequestType
@@ -1106,6 +1154,8 @@ end
 
 global record MessengerType
     new: function(...: any): MessengerType
+    ctor: function
+    dtor: function
 end
 
 global record IObservablePropertyType
@@ -1120,6 +1170,9 @@ global record IObservablePropertyType
 
         Value: any
     end
+
+    ctor: function
+    dtor: function
 end
 
 global record ObservableObjectType
@@ -1232,6 +1285,10 @@ global record TransitionType
 end
 
 global record TransitionAwaiterType
+
+    ctor: function
+    dtor: function
+
     metamethod __call: function(self: TransitionAwaiterType, ...: any): TransitionAwaiterType
 end
 

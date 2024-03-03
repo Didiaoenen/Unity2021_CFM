@@ -6,7 +6,6 @@ local UnityEventProxy = require("LuaFramework.Binding.Proxy.Targets.UGUI.UnityEv
 local UnityTargetProxyFactory = class("UnityTargetProxyFactory", ITargetProxyFactory) as UnityTargetProxyFactoryType
 
 function UnityTargetProxyFactory:ctor()
-    
 end
 
 function UnityTargetProxyFactory:CreateProxy(target: LuaObject, description: BindingDescriptionType): TargetProxyBaseType

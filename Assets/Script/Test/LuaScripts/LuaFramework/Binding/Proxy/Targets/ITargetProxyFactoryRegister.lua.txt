@@ -1,5 +1,8 @@
 local ITargetProxyFactoryRegister = class("ITargetProxyFactoryRegister")
 
+function ITargetProxyFactoryRegister:ctor()
+end
+
 function ITargetProxyFactoryRegister:Register(factory, priority)
    assert({ factory, priority }, "")
 end

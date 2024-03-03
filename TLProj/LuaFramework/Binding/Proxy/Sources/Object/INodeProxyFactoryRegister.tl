@@ -1,5 +1,8 @@
 local INodeProxyFactoryRegister = class("INodeProxyFactoryRegister") as INodeProxyFactoryRegisterType
 
+function INodeProxyFactoryRegister:ctor()
+end
+
 function INodeProxyFactoryRegister:Register(factory: INodeProxyFactoryType, priority: number)
     assert({factory, priority}, "")
 end

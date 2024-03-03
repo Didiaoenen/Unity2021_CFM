@@ -7,6 +7,7 @@ Assets/Gen
 Assets/XLua
 Assets/Plugins
 Assets/ThirdParty
+Assets/LuaProfiler
 TsProj/node_modules
 TsProj/output
 .vs

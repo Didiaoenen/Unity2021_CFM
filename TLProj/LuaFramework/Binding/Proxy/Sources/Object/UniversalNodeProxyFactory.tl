@@ -7,7 +7,6 @@ local IInteractionRequest = require("LuaFramework.Interactivity.IInteractionRequ
 local UniversalNodeProxyFactory = class("UniversalNodeProxyFactory", INodeProxyFactory) as UniversalNodeProxyFactoryType
 
 function UniversalNodeProxyFactory:ctor()
-
 end
 
 function UniversalNodeProxyFactory:Create(source: LuaObject, token: PathTokenType): SourceProxyBaseType

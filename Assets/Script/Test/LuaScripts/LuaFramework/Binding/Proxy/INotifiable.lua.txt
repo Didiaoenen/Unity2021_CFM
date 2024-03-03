@@ -4,4 +4,10 @@ function INotifiable.opt:ValueChanged(value)
    assert({ value }, "")
 end
 
+function INotifiable:ctor()
+end
+
+function INotifiable:dtor()
+end
+
 return INotifiable

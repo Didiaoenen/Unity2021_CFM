@@ -4,6 +4,9 @@ function IProxyInvoker.get:ProxyMethodInfo()
    return self.proxyMethodInfo
 end
 
+function IProxyInvoker:ctor()
+end
+
 function IProxyInvoker:Invoke(...)
    assert({ ... }, "")
 end

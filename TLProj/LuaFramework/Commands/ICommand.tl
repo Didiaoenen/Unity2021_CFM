@@ -1,5 +1,8 @@
 local ICommand = class("ICommand") as ICommandType
 
+function ICommand:ctor()
+end
+
 function ICommand.opt:CanExecuteChanged(value: OptHandlerType)
     assert({value}, "")
 end

@@ -8,4 +8,7 @@ function IInteractionRequest.set:Raised(value: function)
     assert({value}, "")
 end
 
+function IInteractionRequest:ctor()
+end
+
 return IInteractionRequest

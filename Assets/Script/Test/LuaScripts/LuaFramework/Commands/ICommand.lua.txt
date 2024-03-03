@@ -1,5 +1,8 @@
 local ICommand = class("ICommand")
 
+function ICommand:ctor()
+end
+
 function ICommand.opt:CanExecuteChanged(value)
    assert({ value }, "")
 end

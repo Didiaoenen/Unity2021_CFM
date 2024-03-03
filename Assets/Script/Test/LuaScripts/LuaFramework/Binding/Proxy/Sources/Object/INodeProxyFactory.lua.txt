@@ -1,5 +1,8 @@
 local INodeProxyFactory = class("INodeProxyFactory")
 
+function INodeProxyFactory:ctor()
+end
+
 function INodeProxyFactory:Create(source, token)
    assert({ source, token }, "")
 end

@@ -10,4 +10,7 @@ function ITargetProxy.get:DefaultMode()
    return BindingMode.Default
 end
 
+function ITargetProxy:ctor()
+end
+
 return ITargetProxy

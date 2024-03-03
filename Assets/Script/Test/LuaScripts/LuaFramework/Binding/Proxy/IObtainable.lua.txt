@@ -1,7 +1,13 @@
 local IObtainable = class("IObtainable")
 
+function IObtainable:ctor()
+end
+
 function IObtainable:GetValue()
    return nil
+end
+
+function IObtainable:dtor()
 end
 
 return IObtainable

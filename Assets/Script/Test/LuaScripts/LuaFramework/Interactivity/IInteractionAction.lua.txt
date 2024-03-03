@@ -1,5 +1,8 @@
 local IInteractionAction = class("IInteractionAction")
 
+function IInteractionAction:ctor()
+end
+
 function IInteractionAction:OnRequest(sender, args)
    assert({ sender, args })
 end

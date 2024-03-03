@@ -1,5 +1,8 @@
 local ISourceProxyFactoryRegistry = class("ISourceProxyFactoryRegistry")
 
+function ISourceProxyFactoryRegistry:ctor()
+end
+
 function ISourceProxyFactoryRegistry:Register(factory, priority)
    assert({ factory, priority }, "")
 end
