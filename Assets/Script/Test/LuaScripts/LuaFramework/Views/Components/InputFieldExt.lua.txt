@@ -11,27 +11,33 @@ InputFieldExt.OnEndEdit = "onEndEdit"
 InputFieldExt.OnValueChanged = "onValueChanged"
 
 function InputFieldExt.get:text()
-   return (self.handler).text
+   local handler = self.handler
+   return handler.text
 end
 
 function InputFieldExt.set:text(value)
-   (self.handler).text = value
+   local handler = self.handler
+   handler.text = value
 end
 
 function InputFieldExt.get:onEndEdit()
-   return (self.handler).onEndEdit
+   local handler = self.handler
+   return handler.onEndEdit
 end
 
 function InputFieldExt.set:onEndEdit(value)
-   (self.handler).onEndEdit = value
+   local handler = self.handler
+   handler.onEndEdit = value
 end
 
 function InputFieldExt.get:onValueChanged()
-   return (self.handler).onValueChanged
+   local handler = self.handler
+   return handler.onValueChanged
 end
 
 function InputFieldExt.set:onValueChanged(value)
-   (self.handler).onValueChanged = value
+   local handler = self.handler
+   handler.onValueChanged = value
 end
 
 function InputFieldExt.get:GameObject()

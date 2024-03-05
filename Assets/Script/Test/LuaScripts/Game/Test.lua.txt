@@ -1,12 +1,37 @@
 
+local testClass = {get = {}, set = {}, }
 
 
 
 
-local test = {}
 
-function test:f()
-   print("1111111111111111111")
+
+
+
+
+
+
+
+
+
+
+local test = class("testClass")
+
+function test.get:F()
+   return self.f
 end
 
-return test
+function test.set:F(value)
+   self.f = value
+end
+
+
+
+
+
+
+
+
+local test1 = class("testClass1", testClass)
+
+return test1

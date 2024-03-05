@@ -13,35 +13,43 @@ TransformExt.LocalScale = "localScale"
 TransformExt.Parent = "parent"
 
 function TransformExt.get:localRotation(): CS.UnityEngine.Quaternion
-    return (self.handler as CS.UnityEngine.Transform).localRotation
+    local handler = self.handler as CS.UnityEngine.Transform
+    return handler.localRotation
 end
 
 function TransformExt.set:localRotation(value: CS.UnityEngine.Quaternion)
-    (self.handler as CS.UnityEngine.Transform).localRotation = value
+    local handler = self.handler as CS.UnityEngine.Transform
+    handler.localRotation = value
 end
 
 function TransformExt.get:localPosition(): CS.UnityEngine.Vector3
-    return (self.handler as CS.UnityEngine.Transform).localPosition
+    local handler = self.handler as CS.UnityEngine.Transform
+    return handler.localPosition
 end
 
 function TransformExt.set:localPosition(value: CS.UnityEngine.Vector3)
-    (self.handler as CS.UnityEngine.Transform).localPosition = value
+    local handler = self.handler as CS.UnityEngine.Transform
+    handler.localPosition = value
 end
 
 function TransformExt.get:localScale(): CS.UnityEngine.Vector3
-    return (self.handler as CS.UnityEngine.Transform).localScale
+    local handler = self.handler as CS.UnityEngine.Transform
+    return handler.localScale
 end
 
 function TransformExt.set:localScale(value: CS.UnityEngine.Vector3)
-    (self.handler as CS.UnityEngine.Transform).localScale = value
+    local handler = self.handler as CS.UnityEngine.Transform
+    handler.localScale = value
 end
 
 function TransformExt.set:parent(value: CS.UnityEngine.Transform)
-    (self.handler as CS.UnityEngine.Transform).parent = value
+    local handler = self.handler as CS.UnityEngine.Transform
+    handler.parent = value
 end
 
 function TransformExt.get:parent(): CS.UnityEngine.Transform
-    return (self.handler as CS.UnityEngine.Transform).parent
+    local handler = self.handler as CS.UnityEngine.Transform
+    return handler.parent
 end
 
 function TransformExt:ctor(handler: CS.UnityEngine.Component)
@@ -49,7 +57,8 @@ function TransformExt:ctor(handler: CS.UnityEngine.Component)
 end
 
 function TransformExt:SetParent(parent: TransformExtType)
-    (self.handler as CS.UnityEngine.Transform):SetParent(parent.handler as CS.UnityEngine.Transform)
+    local handler = self.handler as CS.UnityEngine.Transform
+    handler:SetParent(parent.handler as CS.UnityEngine.Transform)
 end
 
 function TransformExt:dtor()

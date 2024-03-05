@@ -4,6 +4,8 @@ local ITargetProxyFactoryRegister = require("LuaFramework.Binding.Proxy.Targets.
 local TargetProxyFactory = class("TargetProxyFactory", ITargetProxyFactory, ITargetProxyFactoryRegister) as TargetProxyFactoryType
 
 function TargetProxyFactory:ctor()
+    ITargetProxyFactory.ctor(self)
+    ITargetProxyFactoryRegister.ctor(self)
     self.factories = {}
 end
 

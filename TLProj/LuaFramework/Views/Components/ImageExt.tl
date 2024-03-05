@@ -9,19 +9,23 @@ ImageExt.Sprite = "sprite"
 ImageExt.FillAmount = "fillAmount"
 
 function ImageExt.get:sprite(): CS.UnityEngine.Sprite
-    return (self.handler as CS.UnityEngine.UI.Image).sprit
+    local handler = self.handler as CS.UnityEngine.UI.Image
+    return handler.sprit
 end
 
 function ImageExt.set:sprite(value: CS.UnityEngine.Sprite)
-    (self.handler as CS.UnityEngine.UI.Image).sprit = value
+    local handler = self.handler as CS.UnityEngine.UI.Image
+    handler.sprit = value
 end
 
 function ImageExt.get:fillAmount(): number
-    return (self.handler as CS.UnityEngine.UI.Image).fillAmount
+    local handler = self.handler as CS.UnityEngine.UI.Image
+    return handler.fillAmount
 end
 
 function ImageExt.set:fillAmount(value: number)
-    (self.handler as CS.UnityEngine.UI.Image).fillAmount = value
+    local handler = self.handler as CS.UnityEngine.UI.Image
+    handler.fillAmount = value
 end
 
 function ImageExt.get:GameObject(): GameObjectExtType

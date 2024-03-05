@@ -12,6 +12,8 @@ function SourceProxyBase.set:Source(value: LuaObject)
 end
 
 function SourceProxyBase:ctor(source: LuaObject)
+    BindingProxyBase.ctor(self)
+    ISourceProxy.ctor(self)
     self.source = source
 end
 

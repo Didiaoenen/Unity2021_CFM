@@ -3,7 +3,7 @@ local ISourceProxyFactory = require("LuaFramework.Binding.Proxy.Sources.ISourceP
 local TypedSourceProxyFactory = class("TypedSourceProxyFactory", ISourceProxyFactory) as TypedSourceProxyFactoryType
 
 function TypedSourceProxyFactory:ctor()
-    
+    ISourceProxyFactory.ctor(self)
 end
 
 function TypedSourceProxyFactory:IsSupported(description: SourceDescriptionType): boolean

@@ -7,11 +7,13 @@ ToggleExt.CSObject = CS.UnityEngine.UI.Toggle
 ToggleExt.OnValueChanged = "onValueChanged"
 
 function ToggleExt.get:onValueChanged()
-   return (self.handler).onValueChanged
+   local handler = self.handler
+   return handler.onValueChanged
 end
 
 function ToggleExt.set:onValueChanged(value)
-   (self.handler).onValueChanged = value
+   local handler = self.handler
+   handler.onValueChanged = value
 end
 
 function ToggleExt.get:GameObject()

@@ -15,6 +15,7 @@ function CommandBase.opt:CanExecuteChanged(value: OptHandlerType)
 end
 
 function CommandBase:ctor()
+    ICommand.ctor(self)
     self.canExecuteChanged = {}
 end
 

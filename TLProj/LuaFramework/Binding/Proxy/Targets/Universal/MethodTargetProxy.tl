@@ -15,6 +15,8 @@ end
 
 function MethodTargetProxy:ctor(target: LuaObject, methodInfo: string)
     TargetProxyBase.ctor(self, target)
+    IObtainable.ctor(self)
+    IProxyInvoker.ctor(self)
     self.methodInfo = methodInfo
 end
 

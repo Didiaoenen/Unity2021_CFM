@@ -13,6 +13,8 @@ function TargetProxyBase.get:DefaultMode(): number
 end
 
 function TargetProxyBase:ctor(target: LuaObject)
+    BindingProxyBase.ctor(self)
+    ITargetProxy.ctor(self)
     self.target = target
     self.targetName = ""
 end

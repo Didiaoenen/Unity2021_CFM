@@ -1,8 +1,8 @@
 local AbstractBinding = class("AbstractBinding")
 
 function AbstractBinding.get:Target()
-   local target = (self.target).Target
-   return self:IsAlive(target) and target
+   local target = self.target
+   return target.Target
 end
 
 function AbstractBinding.get:DataContext()

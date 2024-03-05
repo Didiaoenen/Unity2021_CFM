@@ -1,10 +1,10 @@
 local ISourceProxy = class("ISourceProxy")
 
-function ISourceProxy.ctor()
-end
-
 function ISourceProxy.get:Source()
    return nil
+end
+
+function ISourceProxy:ctor()
 end
 
 return ISourceProxy

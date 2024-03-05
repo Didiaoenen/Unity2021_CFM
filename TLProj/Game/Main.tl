@@ -8,7 +8,7 @@ require("OOP.Class")
 require("Tools.ToolFunction")
 
 local test = require("Game.Test")
-test:f()
+test.new().F = "123456"
 
 local TestV = require("Game.UI.Test.TestV")
 

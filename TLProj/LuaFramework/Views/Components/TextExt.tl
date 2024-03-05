@@ -9,19 +9,23 @@ TextExt.Text = "text"
 TextExt.Color = "color"
 
 function TextExt.get:text(): string
-    return (self.handler as CS.UnityEngine.UI.Text).text
+    local handler = self.handler as CS.UnityEngine.UI.Text
+    return handler.text
 end
 
 function TextExt.set:text(value: string)
-    (self.handler as CS.UnityEngine.UI.Text).text = value
+    local handler = self.handler as CS.UnityEngine.UI.Text
+    handler.text = value
 end
 
 function TextExt.get:color(): CS.UnityEngine.Color
-    return (self.handler as CS.UnityEngine.UI.Text).color
+    local handler = self.handler as CS.UnityEngine.UI.Text
+    return handler.color
 end
 
 function TextExt.set:color(value: CS.UnityEngine.Color)
-    (self.handler as CS.UnityEngine.UI.Text).color = value
+    local handler = self.handler as CS.UnityEngine.UI.Text
+    handler.color = value
 end
 
 function TextExt.get:GameObject(): GameObjectExtType

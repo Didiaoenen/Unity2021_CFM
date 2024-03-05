@@ -9,7 +9,8 @@ function MonoVariableArrayExt:ctor(handler: CS.UnityEngine.Component)
 end
 
 function MonoVariableArrayExt:Get(name: string): CS.UnityEngine.Component
-    return (self.handler as CS.Simple.MonoVariableArray).variableArray:Get(name)
+    local handler = self.handler as CS.Simple.MonoVariableArray
+    return handler.variableArray:Get(name)
 end
 
 function MonoVariableArrayExt:dtor()

@@ -20,6 +20,7 @@ function InteractionRequest.get:Raised()
 end
 
 function InteractionRequest:ctor(sender)
+   IInteractionRequest.ctor(self)
    self.sender = sender or (self)
    self.raised = {}
 end

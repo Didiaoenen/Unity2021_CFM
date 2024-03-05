@@ -7,6 +7,7 @@ local IInteractionAction = require("LuaFramework.Interactivity.IInteractionActio
 local UniversalTargetProxyFactory = class("UniversalTargetProxyFactory", ITargetProxyFactory)
 
 function UniversalTargetProxyFactory:ctor()
+   ITargetProxyFactory.ctor(self)
 end
 
 function UniversalTargetProxyFactory:CreateProxy(target, description)

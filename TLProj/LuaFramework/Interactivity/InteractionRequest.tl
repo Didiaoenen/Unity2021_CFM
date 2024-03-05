@@ -20,6 +20,7 @@ function InteractionRequest.get:Raised(): {string: OptHandlerType}
 end
 
 function InteractionRequest:ctor(sender: LuaObject)
+    IInteractionRequest.ctor(self)
     self.sender = sender or (self as LuaObject)
     self.raised = {}
 end

@@ -9,7 +9,8 @@ function MonoVariableArrayExt:ctor(handler)
 end
 
 function MonoVariableArrayExt:Get(name)
-   return (self.handler).variableArray:Get(name)
+   local handler = self.handler
+   return handler.variableArray:Get(name)
 end
 
 function MonoVariableArrayExt:dtor()

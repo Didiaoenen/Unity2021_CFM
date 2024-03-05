@@ -6,6 +6,7 @@ local MethodNodeProxy = class("MethodNodeProxy", SourceProxyBase, IObtainable)
 
 function MethodNodeProxy:ctor(source, methodInfo)
    SourceProxyBase.ctor(self, source)
+   IObtainable.ctor(self)
    self.methodInfo = methodInfo
    self.invoker = ProxyInvoker.new(self.source, self.methodInfo)
 end

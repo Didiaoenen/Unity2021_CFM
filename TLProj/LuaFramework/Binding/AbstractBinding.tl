@@ -1,8 +1,8 @@
 local AbstractBinding = class("AbstractBinding") as AbstractBindingType
 
 function AbstractBinding.get:Target(): LuaObject
-    local target = (self.target as TargetProxyBaseType).Target
-    return self:IsAlive(target) and target
+    local target = self.target as TargetProxyBaseType
+    return target.Target
 end
 
 function AbstractBinding.get:DataContext(): LuaObject

@@ -7,11 +7,13 @@ ButtonExt.CSObject = CS.UnityEngine.UI.Button
 ButtonExt.OnClick = "onClick"
 
 function ButtonExt.get:onClick()
-   return (self.handler).onClick
+   local handler = self.handler
+   return handler.onClick
 end
 
 function ButtonExt.set:onClick(value)
-   (self.handler).onClick = value
+   local handler = self.handler
+   handler.onClick = value
 end
 
 function ButtonExt.get:GameObject()

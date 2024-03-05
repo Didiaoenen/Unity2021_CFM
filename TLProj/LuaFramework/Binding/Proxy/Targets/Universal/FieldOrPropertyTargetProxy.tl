@@ -15,12 +15,12 @@ function FieldOrPropertyTargetProxy:ctor(target: LuaObject, propertyInfo: string
 end
 
 function FieldOrPropertyTargetProxy:DoSubscribeForValueChange(target: LuaObject)
-    local targetNotify = (target as INotifyPropertyChangedType)
+    local targetNotify = target as INotifyPropertyChangedType
     targetNotify.PropertyChanged = {opt = TableOprationMode.Add, save = self.propertyInfo, this = self, callback = self.OnPropertyChanged}
 end
 
 function FieldOrPropertyTargetProxy:DoUnsubscribeForValueChange(target: LuaObject)
-    local targetNotify = (target as INotifyPropertyChangedType)
+    local targetNotify = target as INotifyPropertyChangedType
     targetNotify.PropertyChanged = {opt = TableOprationMode.Remove, save = self.propertyInfo}
 end
 

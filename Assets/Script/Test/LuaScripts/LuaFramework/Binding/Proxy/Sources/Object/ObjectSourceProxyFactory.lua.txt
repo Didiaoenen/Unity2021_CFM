@@ -8,6 +8,8 @@ local ObjectSourceProxyFactory = class("ObjectSourceProxyFactory", TypedSourcePr
 
 function ObjectSourceProxyFactory:ctor()
    TypedSourceProxyFactory.ctor(self)
+   INodeProxyFactory.ctor(self)
+   INodeProxyFactoryRegister.ctor(self)
    self.factories = {}
 end
 

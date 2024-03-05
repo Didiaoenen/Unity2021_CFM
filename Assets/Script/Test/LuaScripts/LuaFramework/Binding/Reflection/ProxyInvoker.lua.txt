@@ -7,6 +7,7 @@ function ProxyInvoker.get:ProxyMethodInfo()
 end
 
 function ProxyInvoker:ctor(target, proxyMethodInfo)
+   IProxyInvoker.ctor(self)
    self.target = target
    self.proxyMethodInfo = proxyMethodInfo
 end

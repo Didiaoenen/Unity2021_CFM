@@ -9,19 +9,23 @@ TextExt.Text = "text"
 TextExt.Color = "color"
 
 function TextExt.get:text()
-   return (self.handler).text
+   local handler = self.handler
+   return handler.text
 end
 
 function TextExt.set:text(value)
-   (self.handler).text = value
+   local handler = self.handler
+   handler.text = value
 end
 
 function TextExt.get:color()
-   return (self.handler).color
+   local handler = self.handler
+   return handler.color
 end
 
 function TextExt.set:color(value)
-   (self.handler).color = value
+   local handler = self.handler
+   handler.color = value
 end
 
 function TextExt.get:GameObject()

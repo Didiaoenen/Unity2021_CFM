@@ -55,7 +55,8 @@ function Transition:Bind()
 
     self.bound = true
     if self.window then
-        (self.window as WindowViewBaseType).StateChanged = {this = self, callback = self.StateChanged}
+        local window = self.window as WindowViewBaseType
+        window.StateChanged = {this = self, callback = self.StateChanged}
     end
 end
 
@@ -66,7 +67,8 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        (self.window as WindowViewBaseType).StateChanged = {this = self}
+        local window = self.window as WindowViewBaseType
+        window.StateChanged = {this = self}
     end
 end
 

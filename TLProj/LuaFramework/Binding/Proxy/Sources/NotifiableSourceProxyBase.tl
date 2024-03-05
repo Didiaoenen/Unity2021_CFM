@@ -12,6 +12,9 @@ end
 
 function NotifiableSourceProxyBase:ctor(source: LuaObject)
     SourceProxyBase.ctor(self, source)
+    IObtainable.ctor(self)
+    IModifiable.ctor(self)
+    INotifiable.ctor(self)
     self.valueChanged = {}
 end
 

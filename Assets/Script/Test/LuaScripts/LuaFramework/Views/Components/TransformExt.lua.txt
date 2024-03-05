@@ -13,35 +13,43 @@ TransformExt.LocalScale = "localScale"
 TransformExt.Parent = "parent"
 
 function TransformExt.get:localRotation()
-   return (self.handler).localRotation
+   local handler = self.handler
+   return handler.localRotation
 end
 
 function TransformExt.set:localRotation(value)
-   (self.handler).localRotation = value
+   local handler = self.handler
+   handler.localRotation = value
 end
 
 function TransformExt.get:localPosition()
-   return (self.handler).localPosition
+   local handler = self.handler
+   return handler.localPosition
 end
 
 function TransformExt.set:localPosition(value)
-   (self.handler).localPosition = value
+   local handler = self.handler
+   handler.localPosition = value
 end
 
 function TransformExt.get:localScale()
-   return (self.handler).localScale
+   local handler = self.handler
+   return handler.localScale
 end
 
 function TransformExt.set:localScale(value)
-   (self.handler).localScale = value
+   local handler = self.handler
+   handler.localScale = value
 end
 
 function TransformExt.set:parent(value)
-   (self.handler).parent = value
+   local handler = self.handler
+   handler.parent = value
 end
 
 function TransformExt.get:parent()
-   return (self.handler).parent
+   local handler = self.handler
+   return handler.parent
 end
 
 function TransformExt:ctor(handler)
@@ -49,7 +57,8 @@ function TransformExt:ctor(handler)
 end
 
 function TransformExt:SetParent(parent)
-   (self.handler):SetParent(parent.handler)
+   local handler = self.handler
+   handler:SetParent(parent.handler)
 end
 
 function TransformExt:dtor()

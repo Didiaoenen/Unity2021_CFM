@@ -36,8 +36,11 @@ function Binding:CreateTargetProxy(target: LuaObject, description: BindingDescri
 
     self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-    if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy as LuaObject).is(INotifiable) then
-        (self.targetProxy as INotifiableType).ValueChanged = {this = self, callback = self.UpdateSourceFromTarget}
+    if "table" == type(self.targetProxy) then
+        if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy as LuaObject).is(INotifiable) then
+            local targetProxy = self.targetProxy as INotifiableType
+            targetProxy.ValueChanged = {this = self, callback = self.UpdateSourceFromTarget}
+        end
     end
 end
 
@@ -67,8 +70,11 @@ function Binding:CreateSourceProxy(source: LuaObject, description: SourceDescrip
 
     self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
-    if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy as LuaObject).is(INotifiable) then
-        (self.sourceProxy as INotifiableType).ValueChanged = {this = self, callback = self.UpdateTargetFromSource}
+    if "table" == type(self.sourceProxy) then
+        if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy as LuaObject).is(INotifiable) then
+            local sourceProxy = self.sourceProxy as INotifiableType
+            sourceProxy.ValueChanged = {this = self, callback = self.UpdateTargetFromSource}
+        end
     end
 end
 
@@ -94,7 +100,8 @@ function Binding:DisposeSourceProxy()
 end
 
 function Binding:UpdateTargetFromSource()
-    local value = (self.sourceProxy as IObtainableType):GetValue()
+    local sourceProxy = self.sourceProxy as IObtainableType
+    local value = sourceProxy:GetValue()
     self:SetTargetValue(self.targetProxy as LuaObject, value)
 end
 
@@ -105,7 +112,8 @@ function Binding:SetTargetValue(modifier: LuaObject, value: any)
 end
 
 function Binding:UpdateSourceFromTarget()
-    local value = (self.targetProxy as IObtainableType):GetValue()
+    local targetProxy = self.targetProxy as IObtainableType
+    local value = targetProxy:GetValue()
     self:SetSourceValue(self.sourceProxy as LuaObject, value)
 end
 

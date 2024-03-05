@@ -36,8 +36,11 @@ function Binding:CreateTargetProxy(target, description)
 
    self.targetProxy = self.targetProxyFactory:CreateProxy(target, description)
 
-   if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy).is(INotifiable) then
-      (self.targetProxy).ValueChanged = { this = self, callback = self.UpdateSourceFromTarget }
+   if "table" == type(self.targetProxy) then
+      if self:IsSubscribeTargetValueChanged(self.BindingMode) and (self.targetProxy).is(INotifiable) then
+         local targetProxy = self.targetProxy
+         targetProxy.ValueChanged = { this = self, callback = self.UpdateSourceFromTarget }
+      end
    end
 end
 
@@ -67,8 +70,11 @@ function Binding:CreateSourceProxy(source, description)
 
    self.sourceProxy = self.sourceProxyFactory:CreateProxy(source, description)
 
-   if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy).is(INotifiable) then
-      (self.sourceProxy).ValueChanged = { this = self, callback = self.UpdateTargetFromSource }
+   if "table" == type(self.sourceProxy) then
+      if self:IsSubscribeSourceValueChanged(self.BindingMode) and (self.sourceProxy).is(INotifiable) then
+         local sourceProxy = self.sourceProxy
+         sourceProxy.ValueChanged = { this = self, callback = self.UpdateTargetFromSource }
+      end
    end
 end
 
@@ -94,7 +100,8 @@ function Binding:DisposeSourceProxy()
 end
 
 function Binding:UpdateTargetFromSource()
-   local value = (self.sourceProxy):GetValue()
+   local sourceProxy = self.sourceProxy
+   local value = sourceProxy:GetValue()
    self:SetTargetValue(self.targetProxy, value)
 end
 
@@ -105,7 +112,8 @@ function Binding:SetTargetValue(modifier, value)
 end
 
 function Binding:UpdateSourceFromTarget()
-   local value = (self.targetProxy):GetValue()
+   local targetProxy = self.targetProxy
+   local value = targetProxy:GetValue()
    self:SetSourceValue(self.sourceProxy, value)
 end
 

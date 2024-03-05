@@ -9,19 +9,23 @@ ImageExt.Sprite = "sprite"
 ImageExt.FillAmount = "fillAmount"
 
 function ImageExt.get:sprite()
-   return (self.handler).sprit
+   local handler = self.handler
+   return handler.sprit
 end
 
 function ImageExt.set:sprite(value)
-   (self.handler).sprit = value
+   local handler = self.handler
+   handler.sprit = value
 end
 
 function ImageExt.get:fillAmount()
-   return (self.handler).fillAmount
+   local handler = self.handler
+   return handler.fillAmount
 end
 
 function ImageExt.set:fillAmount(value)
-   (self.handler).fillAmount = value
+   local handler = self.handler
+   handler.fillAmount = value
 end
 
 function ImageExt.get:GameObject()

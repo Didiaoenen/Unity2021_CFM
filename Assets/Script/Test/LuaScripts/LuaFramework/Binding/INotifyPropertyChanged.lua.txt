@@ -1,4 +1,5 @@
 local INotifyPropertyChanged = class("INotifyPropertyChanged")
+
 local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
 function INotifyPropertyChanged.opt:PropertyChanged(value)

@@ -31,6 +31,7 @@ global record CS
 
         -- Resources
         record Resources
+            Load: function(string, any): UnityEngine.Object
             LoadAsync: function(string, any)
         end
 
