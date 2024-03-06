@@ -2090,6 +2090,33 @@ global record BindImageType
 
     BindWithName: function(self: BindImageType, WindowViewBaseType, string, {number})
 end
+
+global record WindowConfigTable
+    Name: string
+    Layer: number
+    View: LuaObject
+    ViewModel: LuaObject
+    PrefabName :string
+end
+
+global record WindowConfigType
+
+    record get
+        config: {string: WindowConfigTable}
+        Config: function
+    end
+
+    config: {string: WindowConfigTable}
+    Config: {string: WindowConfigTable}
+
+    Instance: WindowConfigType
+
+    __singleton: function(self: WindowConfigType): WindowConfigType
+
+    new: function(...: any): WindowConfigType
+    ctor: function
+    dtor: function
+end
 ------------------------------------------------------------------------------
 
 -- UnityObject Extent
