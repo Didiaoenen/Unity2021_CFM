@@ -10,6 +10,8 @@ Assets/ThirdParty
 Assets/LuaProfiler
 TsProj/node_modules
 TsProj/output
+Assets/Test/LuaScripts/Game/
+Assets/Test/LuaScripts/LuaFramework/
 .vs
 .vscode
 .vsconfig
