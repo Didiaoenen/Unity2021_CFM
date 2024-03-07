@@ -36,7 +36,7 @@ function BindInputField:ctor()
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindInputField:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindInputField:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(InputFieldExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local inputFieldExt = component as InputFieldExtType

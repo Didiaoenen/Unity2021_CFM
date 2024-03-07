@@ -1,5 +1,13 @@
 local MapExtention = {}
 
+function MapExtention.Find(t: {any: any}, callback: function): any
+   for k, v in pairs(t) do
+      if callback and callback(k, v) then
+         return v
+      end
+   end
+end
+
 function MapExtention.Foreach(t: {any: any}, callback: function)
    for k, v in pairs(t) do
       if callback then

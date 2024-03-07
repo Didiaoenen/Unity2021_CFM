@@ -10,13 +10,13 @@ local BindToggle = require("LuaFramework.Views.BindComponents.BindToggle")
 
 local TestVM = class("TestVM", ViewModelBase) as TestVMType
 
--- function TestVM.get:Test(): string
---     return self.test
--- end
+function TestVM.get:Test(): string
+    return self.test
+end
 
--- function TestVM.set:Test(value)
---     self:Set({name = "test"}, value, "Test")
--- end
+function TestVM.set:Test(value)
+    self:Set({name = "test"}, value, "Test")
+end
 
 function TestVM.get:TestColor(): CS.UnityEngine.Color
     return self.testColor
@@ -50,13 +50,13 @@ function TestVM.set:TestRequest(value: InteractionRequestType)
     self.testRequest = value
 end
 
--- function TestVM.get:TestCommand(): SimpleCommandType
---     return self.testCommand
--- end
+function TestVM.get:TestCommand(): SimpleCommandType
+    return self.testCommand
+end
 
--- function TestVM.set:TestCommand(value: SimpleCommandType)
---     self.testCommand = value
--- end
+function TestVM.set:TestCommand(value: SimpleCommandType)
+    self.testCommand = value
+end
 
 function TestVM:ctor()
     ViewModelBase.ctor(self)

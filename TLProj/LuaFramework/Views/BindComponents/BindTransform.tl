@@ -43,7 +43,7 @@ function BindTransform:ctor()
     self.localScale = CS.UnityEngine.Vector3.one
 end
 
-function BindTransform:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(TransformExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local transformExt = component as TransformExtType

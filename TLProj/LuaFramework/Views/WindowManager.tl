@@ -1,25 +1,21 @@
 local Layer = require("Luaframework.Views.Layer")
 local WindowEnum = require("LuaFramework.Views.WindowEnum")
+local MapExtention = require("LuaFramework.Common.MapExtention")
 local ListExtention = require("LuaFramework.Common.ListExtention")
 local TransitionExecutor = require("Luaframework.Views.TransitionExecutor")
 
 local Transition = require("LuaFramework.Views.Transition")
 local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 
+local LayerConfig = require("Game.UI.Config.LayerConfig")
+local WindowConfig = require("Game.UI.Config.WindowConfig")
+local WindowFactory = require("LuaFramework.Views.WindowFactory")
+
 local WindowManager = class("WindowManager") as WindowManagerType
 
 local TransitionShow = class("TransitionShow", Transition) as WindowManager.TransitionShowType
 
 local TransitionHide = class("TransitionHide", Transition) as WindowManagerType.TransitionHideType
-
-local layers = {
-	{WindowType = WindowEnum.WindowType.NONE, OrderInLayer = 0, OrderStep = 10},
-	{WindowType = WindowEnum.WindowType.FULL, OrderInLayer = 1000, OrderStep = 10},
-	{WindowType = WindowEnum.WindowType.POPUP, OrderInLayer = 2000, OrderStep = 10},
-	{WindowType = WindowEnum.WindowType.DIALOG, OrderInLayer = 3000, OrderStep = 10},
-	{WindowType = WindowEnum.WindowType.PROGRESS, OrderInLayer = 4000, OrderStep = 10},
-	{WindowType = WindowEnum.WindowType.QUEUED_POPUP, OrderInLayer = 5000, OrderStep = 10},
-}
 
 local blockingExecutor: TransitionExecutorType = nil
 
@@ -30,7 +26,7 @@ local GetTransitionExecutor = function (): TransitionExecutorType
     return blockingExecutor
 end
 
-function WindowManager.get:Current(): WindowViewBaseType
+function WindowManager.get:Current(): ViewBaseType
     return self.windowStack[#(self.windowStack)]
 end
 
@@ -38,7 +34,7 @@ function WindowManager:ctor()
     self.current = nil
 
     self.layers = {}
-    self.windowViews = {}
+    self.windows = {}
     self.windowStack = {}
     self.hideWindows = {}
 
@@ -57,34 +53,34 @@ function WindowManager:OnDisable()
 
 end
 
-function WindowManager:Show(window: WindowViewBaseType): TransitionType
+function WindowManager:Show(window: ViewBaseType): TransitionType
     local transition = TransitionShow.new(self, window)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
         if state == WindowEnum.WindowState.VISIBLE then
         end
     end)
 end
 
-function WindowManager:Hide(window: WindowViewBaseType): TransitionType
+function WindowManager:Hide(window: ViewBaseType): TransitionType
     local transition = TransitionHide.new(self, window, false)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
         if state == WindowEnum.WindowState.INVISIBLE then
         end
     end)
 end
 
-function WindowManager:Dismiss(window: WindowViewBaseType): TransitionType
+function WindowManager:Dismiss(window: ViewBaseType): TransitionType
     local transition = TransitionHide.new(self, window, true)
     GetTransitionExecutor():Execute(transition as TransitionType)
-    return (transition as TransitionType):OnStateChanged(function (_: WindowViewBaseType, state: number)
+    return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
         if state == WindowEnum.WindowState.INVISIBLE then
         end
     end)
 end
 
-function WindowManager:PushWindowStack(window: WindowViewBaseType): WindowViewBaseType
+function WindowManager:PushWindowStack(window: ViewBaseType): ViewBaseType
     local preCurrent = self.Current
     if #(self.windowStack) > 0 then
         if preCurrent ~= self.windowStack[1] then
@@ -95,7 +91,7 @@ function WindowManager:PushWindowStack(window: WindowViewBaseType): WindowViewBa
     return preCurrent
 end
 
-function WindowManager:PopWindowStack(): WindowViewBaseType
+function WindowManager:PopWindowStack(): ViewBaseType
     assert(#(self.windowStack) > 0, "")
     table.remove(self.windowStack, #(self.windowStack))
     return self.Current
@@ -107,14 +103,14 @@ function WindowManager:ClearWindowStack()
     end
 end
 
-function WindowManager:GetWindow(name: string): WindowViewBaseType
-    return ListExtention.Find(self.windowViews, function (_: number, v: WindowViewBaseType): boolean
+function WindowManager:GetWindow(name: string): WindowFactoryType
+    return MapExtention.Find(self.windows, function (_: number, v: ViewBaseType): boolean
         return v.Name == name
-    end) as WindowViewBaseType
+    end) as WindowFactoryType
 end
 
 function WindowManager:CreateLayers()
-    ListExtention.Foreach(layers, function (_: number, v: LayerType)
+    ListExtention.Foreach(LayerConfig, function (_: number, v: LayerType)
         local layer = Layer.new(v)
         table.insert(self.layers, layer)
     end)
@@ -126,16 +122,42 @@ function WindowManager:GetLayer(windowType: number): LayerType
     end) as LayerType
 end
 
+function WindowManager:OpenWindow(name: string, ...): WindowFactoryType
+    local window = self:GetWindow(name)
+    if nil == window then
+        window = WindowFactory.new()
+        self.windows[name] = window
+    end
+
+    local config = WindowConfig.Instance.Config[window.name]
+    if nil == config then
+        return
+    end
+
+    window.name = name
+    window.prefabPath = config.PrefabPath
+    window.windowType = config.WindowType
+
+    window.viewModel = config.ViewModel.new(...)
+    window.view = config.View.new(...)
+
+    
+end
+
+function WindowManager:CloseWindow(name: string)
+
+end
+
 function WindowManager:dtor()
 end
 
 ----------------------------------------------
-function TransitionShow:ctor(manager: WindowManager, window: WindowBaseType)
+function TransitionShow:ctor(manager: WindowManager, window: WindowFactoryType)
     Transition.ctor(self, window)
     self.manager = manager
 end
 
-function TransitionShow:Overlay(previous: WindowViewBaseType): number
+function TransitionShow:Overlay(previous: ViewBaseType): number
     if previous.WindowType == WindowEnum.WindowType.FULL then
         return WindowEnum.ActionType.Hide
     end
@@ -151,13 +173,13 @@ function TransitionShow:DoTransition()
     Transition.DoTransition(self as TransitionType)
     local current = self.window
 
-    local previous: WindowViewBaseType = nil
+    local previous: ViewBaseType = nil
     if current.windowType == WindowEnum.WindowType.NONE then
-        (WindowManager.Instance.Current as WindowBaseType):AddSubView(current)
+        -- (WindowManager.Instance.Current as WindowFactoryType):AddSubView(current)
     elseif current.windowType == WindowEnum.WindowType.FULL then
-        previous = WindowManager.Instance:PushWindowStack(current) as WindowViewBaseType
+        previous = WindowManager.Instance:PushWindowStack(current) as ViewBaseType
     elseif current.windowType == WindowEnum.WindowType.POPUP or self.window.windowType == WindowEnum.WindowType.DIALOG then
-        previous = (WindowManager.Instance.Current as WindowBaseType):PushViewStack(current) as WindowViewBaseType
+        -- previous = (WindowManager.Instance.Current as WindowFactoryType):PushViewStack(current) as ViewBaseType
     end
 
     if previous then
@@ -188,7 +210,7 @@ end
 ----------------------------------------------
 
 ----------------------------------------------
-function TransitionHide:ctor(manager: WindowManager, window: WindowBaseType, dismiss: boolean)
+function TransitionHide:ctor(manager: WindowManager, window: WindowFactoryType, dismiss: boolean)
     Transition.ctor(self, window)
     self.dismiss = dismiss
     self.manager = manager
@@ -196,7 +218,7 @@ end
 
 function TransitionHide:DoTransition()
     Transition.DoTransition(self as TransitionType)
-    local current = self.window as WindowViewBaseType
+    local current = self.window as ViewBaseType
     if current.Visibility then
         local hide = current:DoHide(self.AnimationDisabled)
         CoroutineExt.Yield(hide:WaitForDone())
@@ -206,13 +228,13 @@ function TransitionHide:DoTransition()
         current:DoDismiss()
     end
 
-    local previous: WindowViewBaseType = nil
+    local previous: ViewBaseType = nil
     if current.windowType == WindowEnum.WindowType.NONE then
         -- nothing to do
     elseif current.windowType == WindowEnum.WindowType.FULL then
         previous = WindowManager.Instance:PopWindowStack()
     elseif current.windowType == WindowEnum.WindowType.POPUP or current.windowType == WindowEnum.WindowType.DIALOG then
-        previous = (self.window as WindowBaseType):PopViewStack()
+        -- previous = (self.window as WindowFactoryType):PopViewStack()
     end
 
     if previous then

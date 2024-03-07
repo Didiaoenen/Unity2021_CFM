@@ -1,16 +1,19 @@
 local TestVM = require("Game.UI.Test.TestVM")
-local WindowBase = require("LuaFramework.Views.WindowBase")
+local ViewBase = require("LuaFramework.Views.ViewBase")
+local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
-local TestV = class("TestV", WindowBase)
+local TestV = class("TestV", ViewBase)
 
 TestV.PrefabPath = "TestV"
 
 function TestV:ctor(bundle)
-   WindowBase.ctor(self, bundle)
+   ViewBase.ctor(self, bundle)
+
+   self.windowType = WindowEnum.WindowType.FULL
 
    self.viewModel = TestVM.new()
    self.bindingExt = BindingExtension.new(self)
@@ -52,7 +55,7 @@ function TestV:TestFunc(sender, args)
 end
 
 function TestV:OnCreate()
-   WindowBase.OnCreate(self)
+   ViewBase.OnCreate(self)
    print("child OnCreate")
 
 
@@ -82,7 +85,7 @@ function TestV:OnCreate()
 end
 
 function TestV:OnShow()
-   WindowBase.OnShow(self)
+   ViewBase.OnShow(self)
 
    self.viewModel.text.Text = "hahaha"
    self.viewModel.text.Color = CS.UnityEngine.Color.red

@@ -26,7 +26,7 @@ function BindToggle:ctor()
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindToggle:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(ToggleExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local toggleExt = component as ToggleExtType

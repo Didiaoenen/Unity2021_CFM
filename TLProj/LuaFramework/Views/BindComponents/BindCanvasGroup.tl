@@ -16,7 +16,7 @@ function BindCanvasGroup:ctor()
     self.alpha = 1
 end
 
-function BindCanvasGroup:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindCanvasGroup:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local canvasGroupExt = component as CanvasGroupExtType

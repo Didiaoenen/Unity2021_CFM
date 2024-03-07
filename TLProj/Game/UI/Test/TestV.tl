@@ -1,16 +1,19 @@
 local TestVM = require("Game.UI.Test.TestVM")
-local WindowBase = require("LuaFramework.Views.WindowBase")
+local ViewBase = require("LuaFramework.Views.ViewBase")
+local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
-local TestV = class("TestV", WindowBase) as TestVType
+local TestV = class("TestV", ViewBase) as TestVType
 
 TestV.PrefabPath = "TestV"
 
 function TestV:ctor(bundle)
-    WindowBase.ctor(self, bundle)
+    ViewBase.ctor(self, bundle)
+
+    self.windowType = WindowEnum.WindowType.FULL
 
     self.viewModel = TestVM.new()
     self.bindingExt = BindingExtension.new(self)
@@ -52,7 +55,7 @@ function TestV:TestFunc(sender: any, args: any)
 end
 
 function TestV:OnCreate()
-    WindowBase.OnCreate(self as WindowBaseType)
+    ViewBase.OnCreate(self as ViewBaseType)
     print("child OnCreate")
 
     -- local text = self:GetComponentWithName(TextExt, "text") as TextExtType
@@ -69,20 +72,20 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:BindWithName(self as WindowViewBaseType, "text", {BindingMode.OneWay})
-    self.viewModel.text1:BindWithName(self as WindowViewBaseType, "text1", {BindingMode.OneWay})
-    self.viewModel.button:BindWithName(self as WindowViewBaseType, "button", {BindingMode.OneWay})
-    self.viewModel.inputField:BindWithName(self as WindowViewBaseType, "inputField", {BindingMode.TwoWay})
-    self.viewModel.gameObject:BindWithName(self as WindowViewBaseType, "gameObject", {BindingMode.OneWay})
-    self.viewModel.toggle_1:BindWithName(self as WindowViewBaseType, "toggle_1", {BindingMode.OneWay})
-    self.viewModel.toggle_2:BindWithName(self as WindowViewBaseType, "toggle_2", {BindingMode.OneWay})
+    self.viewModel.text:BindWithName(self as ViewBaseType, "text", {BindingMode.OneWay})
+    self.viewModel.text1:BindWithName(self as ViewBaseType, "text1", {BindingMode.OneWay})
+    self.viewModel.button:BindWithName(self as ViewBaseType, "button", {BindingMode.OneWay})
+    self.viewModel.inputField:BindWithName(self as ViewBaseType, "inputField", {BindingMode.TwoWay})
+    self.viewModel.gameObject:BindWithName(self as ViewBaseType, "gameObject", {BindingMode.OneWay})
+    self.viewModel.toggle_1:BindWithName(self as ViewBaseType, "toggle_1", {BindingMode.OneWay})
+    self.viewModel.toggle_2:BindWithName(self as ViewBaseType, "toggle_2", {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
 end
 
 function TestV:OnShow()
-    WindowBase.OnShow(self as WindowBaseType)
+    ViewBase.OnShow(self as ViewBaseType)
 
     self.viewModel.text.Text = "hahaha"
     self.viewModel.text.Color = CS.UnityEngine.Color.red

@@ -23,7 +23,7 @@ function BindImage:ctor()
     BindComponent.ctor(self)
 end
 
-function BindImage:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(ImageExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local imageExt = component as ImageExtType

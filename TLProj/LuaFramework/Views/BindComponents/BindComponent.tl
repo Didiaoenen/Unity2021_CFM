@@ -13,7 +13,7 @@ function BindComponent:ctor()
     self.gameObject.ActiveSelf = true
 end
 
-function BindComponent:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindComponent:BindWithName(view: ViewBaseType, name: string, modes: {number})
     assert({view, name, modes}, "")
 end
 

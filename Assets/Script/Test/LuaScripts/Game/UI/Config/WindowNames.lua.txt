@@ -1,0 +1,5 @@
+local WindowNames = {
+   TestV = "TestV",
+}
+
+return WindowNames

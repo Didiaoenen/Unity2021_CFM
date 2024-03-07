@@ -13,15 +13,20 @@ end
 
 function WindowConfig:ctor()
     self.config = {}
+    
+    self:InitConfig()
+end
+
+function WindowConfig:__singleton(): WindowConfigType
+    return WindowConfig.new()
+end
+
+function WindowConfig:InitConfig()
     MapExtention.Foreach(Config, function(_, configs: {string: WindowConfigTable})
         MapExtention.Foreach(configs, function(_, config: WindowConfigTable)
             self.config[config.Name] = config
         end)
     end)
-end
-
-function WindowConfig:__singleton(): WindowConfigType
-    return WindowConfig.new()
 end
 
 return WindowConfig

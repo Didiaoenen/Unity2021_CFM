@@ -26,7 +26,7 @@ function BindButton:ctor()
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindButton:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(ButtonExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local buttonExt = component as ButtonExtType

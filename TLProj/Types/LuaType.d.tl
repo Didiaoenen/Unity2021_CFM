@@ -1197,6 +1197,28 @@ global record DefaultUIViewLocatorType
     DoLoad: function(CS.Asynchronous.ProgressResult_1_Single, string, CS.System.Type)
 end
 
+global record ViewGroupType
+    views: {ViewBaseType}
+
+    ctor: function
+    dtor: function
+
+    OnEnable: function(self: ViewGroupType)
+    OnDisable: function(self: ViewGroupType)
+    OnShow: function(self: ViewGroupType)
+    OnHide: function(self: ViewGroupType)
+
+    GetView: function(self: ViewGroupType, name: string): ViewBaseType
+    AddView: function(self: ViewGroupType, name: string, parent: RectTransformExtType)
+    RemoveView: function(self: ViewGroupType, name: string)
+end
+
+global record LayerConfigType
+    WindowType: number
+    OrderInLayer: number
+    OrderStep: number
+end
+
 global record LayerType
     record get
         windowType: number
@@ -1224,9 +1246,13 @@ global record LayerType
     PopWindowOder: function(self: LayerType)
 end
 
+global record ModelBaseType
+
+end
+
 global record TransitionType
     record get
-        window: WindowViewBaseType
+        window: ViewBaseType
         Window: function
     
         done: boolean
@@ -1240,7 +1266,7 @@ global record TransitionType
     end
     
     record set
-        window: WindowViewBaseType
+        window: ViewBaseType
         Window: function
 
         done: boolean
@@ -1253,7 +1279,7 @@ global record TransitionType
         OverlayPolicy: function
     end
     
-    window: WindowViewBaseType
+    window: ViewBaseType
     done: boolean
     animationDisabled: boolean
     overlayPolicy: function
@@ -1269,8 +1295,8 @@ global record TransitionType
     Bind: function(self: TransitionType)
     Unbind: function(self: TransitionType)
     WaitForDone: function(self: TransitionType): CS.System.Object
-    StateChanged: function(self: TransitionType, WindowViewBaseType, any)
-    RaiseStateChanged: function(self: TransitionType, WindowViewBaseType, number)
+    StateChanged: function(self: TransitionType, ViewBaseType, any)
+    RaiseStateChanged: function(self: TransitionType, ViewBaseType, number)
     RaiseStart: function(self: TransitionType)
     RaiseFinished: function(self: TransitionType)
     OnStart: function(self: TransitionType)
@@ -1406,6 +1432,7 @@ global record ViewModelBaseType
     bindCanvasGroup: BindCanvasGroupType
     bindRectTransform: BindRectTransformType
 
+    new: function(...: any): ViewModelBaseType
     ctor: function
     dtor: function
 
@@ -1416,14 +1443,14 @@ end
 
 global record WindowBaseType
     record get
-        viewStack: {WindowViewBaseType}
+        viewStack: {ViewBaseType}
         Current: function
     end
 
-    Current: WindowViewBaseType
+    Current: ViewBaseType
 
-    subView: {WindowViewBaseType}
-    viewStack: {WindowViewBaseType}
+    subView: {ViewBaseType}
+    viewStack: {ViewBaseType}
     windowType: number
 
     ctor: function
@@ -1443,14 +1470,29 @@ global record WindowBaseType
     Dismiss: function(WindowBaseType, boolean)
     OnDismiss: function(WindowBaseType)
 
-    AddSubView: function(self: WindowBaseType, WindowViewBaseType)
-    PushViewStack: function(self: WindowBaseType, WindowViewBaseType)
-    PopViewStack: function(self: WindowBaseType): WindowViewBaseType
+    AddSubView: function(self: WindowBaseType, ViewBaseType)
+    PushViewStack: function(self: WindowBaseType, ViewBaseType)
+    PopViewStack: function(self: WindowBaseType): ViewBaseType
+end
+
+global record WindowFactoryType
+
+    name: string
+    prefabPath: string
+    windowType: number
+    view: ViewBaseType
+    viewModel: ViewModelBaseType
+    loaded: boolean
+    state: number
+
+    new: function(...: any): WindowFactoryType
+    ctor: function
+    dtor: function
 end
 
 global record WindowManagerType
     record get
-        windowStack: {WindowViewBaseType}
+        windowStack: {ViewBaseType}
         Current: function
     end
 
@@ -1458,7 +1500,7 @@ global record WindowManagerType
         animationDisabled: boolean
         AnimationDisabled: boolean
         
-        window: WindowViewBaseType
+        window: ViewBaseType
         dismiss: boolean
         manager: WindowManagerType
         
@@ -1476,7 +1518,7 @@ global record WindowManagerType
         overlayPolicy: function
         OverlayPolicy: function
     
-        window: WindowViewBaseType
+        window: ViewBaseType
         dismiss: boolean
         manager: WindowManagerType
         
@@ -1484,45 +1526,48 @@ global record WindowManagerType
         ctor: function
         dtor: function
     
-        Overlay: function(self: TransitionShowType, WindowViewBaseType): number
+        Overlay: function(self: TransitionShowType, ViewBaseType): number
         DoTransition: function(self: TransitionShowType)
     end
 
-    current: WindowViewBaseType
-    Current: WindowViewBaseType
+    current: ViewBaseType
+    Current: ViewBaseType
 
     layers: {LayerType}
-    windowViews: {WindowViewBaseType}
-    windowStack: {WindowViewBaseType}
-    hideWindows: {WindowViewBaseType}
+    windows: {string: WindowFactoryType}
+    windowStack: {ViewBaseType}
+    hideWindows: {ViewBaseType}
 
     Instance: WindowManagerType
 
-    __singleton: function(slef: WindowManagerType): WindowManagerType
+    __singleton: function(self: WindowManagerType): WindowManagerType
 
     new: function(...: any): WindowManagerType
     ctor: function
     dtor: function
 
-    OnEnable: function(slef: WindowManagerType)
-    OnDisable: function(slef: WindowManagerType)
+    OnEnable: function(self: WindowManagerType)
+    OnDisable: function(self: WindowManagerType)
 
-    Show: function(slef: WindowManagerType, WindowViewBaseType): TransitionType
-    Hide: function(slef: WindowManagerType, WindowViewBaseType): TransitionType
-    Dismiss: function(slef: WindowManagerType, WindowViewBaseType): TransitionType
+    OpenWindow: function(self: WindowManagerType, name: string, ...: any): WindowFactoryType
+    CloseWindow: function(self: WindowManagerType, name: string)
+
+    Show: function(self: WindowManagerType, ViewBaseType): TransitionType
+    Hide: function(self: WindowManagerType, ViewBaseType): TransitionType
+    Dismiss: function(self: WindowManagerType, ViewBaseType): TransitionType
     
-    PushWindowStack: function(slef: WindowManagerType, WindowViewBaseType)
-    PopWindowStack: function(slef: WindowManagerType): WindowViewBaseType
-    ClearWindowStack: function(slef: WindowManagerType, WindowViewBaseType)
-    GetWindow: function(slef: WindowManagerType, string): WindowViewBaseType
+    PushWindowStack: function(self: WindowManagerType, ViewBaseType)
+    PopWindowStack: function(self: WindowManagerType): ViewBaseType
+    ClearWindowStack: function(self: WindowManagerType, ViewBaseType)
+    GetWindow: function(self: WindowManagerType, string): WindowFactoryType
     
-    CreateLayers: function(slef: WindowManagerType)
-    GetLayer: function(slef: WindowManagerType, number): LayerType
+    CreateLayers: function(self: WindowManagerType)
+    GetLayer: function(self: WindowManagerType, number): LayerType
 end
 
 global record WindowStateEventArgsType
     record get
-        window: WindowViewBaseType
+        window: ViewBaseType
         Window: function
     
         state: number
@@ -1532,8 +1577,8 @@ global record WindowStateEventArgsType
         OldState: function
     end
 
-    window: WindowViewBaseType
-    Window: WindowViewBaseType
+    window: ViewBaseType
+    Window: ViewBaseType
 
     state: number
     State: number
@@ -1546,7 +1591,7 @@ global record WindowStateEventArgsType
     dtor: function
 end
 
-global record WindowViewBaseType
+global record ViewBaseType
     record get
         messenger: MessengerType
         Messenger: function
@@ -1695,6 +1740,8 @@ global record WindowViewBaseType
     stateChanged: {EventHandlerType}
     StateChanged: EventHandlerType
 
+    views: {ViewBaseType}
+    
     viewModel: ViewModelBaseType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType
@@ -1704,38 +1751,42 @@ global record WindowViewBaseType
     components: {ComponentExtType}
     gameObjects: {GameObjectExtType}
 
-    new: function(...: any): WindowViewBaseType
+    new: function(...: any): ViewBaseType
     ctor: function
     delete: function
     dtor: function
 
-    OnEnable: function(self: WindowViewBaseType)
-    OnDisable: function(self: WindowViewBaseType)
-    RaiseActivatedChanged: function(self: WindowViewBaseType)
-    RaiseVisibilityChanged: function(self: WindowViewBaseType)
-    RaiseOnDismissed: function(self: WindowViewBaseType)
-    RaiseStateChanged: function(self: WindowViewBaseType, number, number)
-    Activate: function(self: WindowViewBaseType, boolean): AsyncResultExtType
-    Passivate: function(self: WindowViewBaseType, boolean): AsyncResultExtType
-    Create: function(self: WindowViewBaseType)
-    OnCreate: function(self: WindowViewBaseType)
+    OnEnable: function(self: ViewBaseType)
+    OnDisable: function(self: ViewBaseType)
+    RaiseActivatedChanged: function(self: ViewBaseType)
+    RaiseVisibilityChanged: function(self: ViewBaseType)
+    RaiseOnDismissed: function(self: ViewBaseType)
+    RaiseStateChanged: function(self: ViewBaseType, number, number)
+    Activate: function(self: ViewBaseType, boolean): AsyncResultExtType
+    Passivate: function(self: ViewBaseType, boolean): AsyncResultExtType
+    Create: function(self: ViewBaseType)
+    OnCreate: function(self: ViewBaseType)
     
-    Show: function(self: WindowViewBaseType, boolean)
-    DoShow: function(self: WindowViewBaseType, boolean): AsyncResultExtType
-    OnShow: function(self: WindowViewBaseType)
+    Show: function(self: ViewBaseType, boolean)
+    DoShow: function(self: ViewBaseType, boolean): AsyncResultExtType
+    OnShow: function(self: ViewBaseType)
     
-    Hide: function(self: WindowViewBaseType, boolean)
-    DoHide: function(self: WindowViewBaseType, boolean): AsyncResultExtType
-    OnHide: function(self: WindowViewBaseType)
+    Hide: function(self: ViewBaseType, boolean)
+    DoHide: function(self: ViewBaseType, boolean): AsyncResultExtType
+    OnHide: function(self: ViewBaseType)
     
-    Dismiss: function(self: WindowViewBaseType, boolean)
-    DoDismiss: function(self: WindowViewBaseType)
-    OnDismiss: function(self: WindowViewBaseType)
+    Dismiss: function(self: ViewBaseType, boolean)
+    DoDismiss: function(self: ViewBaseType)
+    OnDismiss: function(self: ViewBaseType)
 
-    GetComponentWithName: function(self: WindowViewBaseType, ComponentExtType, string): ComponentExtType
-    GetGameObjectWithName: function(self: WindowViewBaseType, GameObjectExtType, string): GameObjectExtType
-    GetComponent: function(self: WindowViewBaseType, ComponentExtType): ComponentExtType
-    AddComponent: function(self: WindowViewBaseType, ComponentExtType): ComponentExtType
+    GetComponentWithName: function(self: ViewBaseType, ComponentExtType, string): ComponentExtType
+    GetGameObjectWithName: function(self: ViewBaseType, GameObjectExtType, string): GameObjectExtType
+    GetComponent: function(self: ViewBaseType, ComponentExtType): ComponentExtType
+    AddComponent: function(self: ViewBaseType, ComponentExtType): ComponentExtType
+
+    GetView: function(self: ViewGroupType, name: string): ViewBaseType
+    AddView: function(self: ViewGroupType, name: string, parent: RectTransformExtType)
+    RemoveView: function(self: ViewGroupType, name: string)
 end
 
 -- Bind UnityEngine Object
@@ -1760,7 +1811,7 @@ global record BindGameObjectType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindGameObjectType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindGameObjectType, ViewBaseType, string, {number})
 end
 
 global record BindTextType
@@ -1798,7 +1849,7 @@ global record BindTextType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTextType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindTextType, ViewBaseType, string, {number})
 end
 
 global record BindButtonType
@@ -1836,7 +1887,7 @@ global record BindButtonType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindButtonType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindButtonType, ViewBaseType, string, {number})
 end
 
 global record BindCanvasType
@@ -1868,7 +1919,7 @@ global record BindCanvasType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindCanvasType, ViewBaseType, string, {number})
 end
 
 global record BindCanvasGroupType
@@ -1891,7 +1942,7 @@ global record BindCanvasGroupType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasGroupType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindCanvasGroupType, ViewBaseType, string, {number})
 end
 
 global record BindRectTransformType
@@ -1923,7 +1974,7 @@ global record BindRectTransformType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindRectTransformType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindRectTransformType, ViewBaseType, string, {number})
 end
 
 global record BindTransformType
@@ -1968,7 +2019,7 @@ global record BindTransformType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTransformType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindTransformType, ViewBaseType, string, {number})
 end
 
 global record BindComponentType
@@ -1983,7 +2034,7 @@ global record BindComponentType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindComponentType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindComponentType, ViewBaseType, string, {number})
 end
 
 global record BindInputFieldType
@@ -2024,7 +2075,7 @@ global record BindInputFieldType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindInputFieldType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindInputFieldType, ViewBaseType, string, {number})
 end
 
 global record BindToggleType
@@ -2056,7 +2107,7 @@ global record BindToggleType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindToggleType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindToggleType, ViewBaseType, string, {number})
 end
 
 global record BindImageType
@@ -2088,15 +2139,15 @@ global record BindImageType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindImageType, WindowViewBaseType, string, {number})
+    BindWithName: function(self: BindImageType, ViewBaseType, string, {number})
 end
 
 global record WindowConfigTable
     Name: string
-    Layer: number
-    View: LuaObject
-    ViewModel: LuaObject
-    PrefabName :string
+    PrefabPath :string
+    WindowType: number
+    View: ViewBaseType
+    ViewModel: ViewModelBaseType
 end
 
 global record WindowConfigType
@@ -2116,6 +2167,8 @@ global record WindowConfigType
     new: function(...: any): WindowConfigType
     ctor: function
     dtor: function
+
+    InitConfig: function(self: WindowConfigType)
 end
 ------------------------------------------------------------------------------
 

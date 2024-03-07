@@ -25,7 +25,7 @@ function BindRectTransform:ctor()
     self.offsetMin = CS.UnityEngine.Vector2.zero
 end
 
-function BindRectTransform:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindRectTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
     BindTransform.BindWithName(self as BindTransformType, view, name, modes)
     
     local component = view:GetComponentWithName(RectTransformExt as ComponentExtType, name)

@@ -1,6 +1,8 @@
 local record TestV
     PrefabPath: string
 
+    windowType: number 
+
     viewModel: TestVMType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType

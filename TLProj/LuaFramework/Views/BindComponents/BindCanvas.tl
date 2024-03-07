@@ -25,7 +25,7 @@ function BindCanvas:ctor()
     self.sortingOrder = 0
 end
 
-function BindCanvas:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindCanvas:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(CanvasExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local canvasExt = component as CanvasExtType

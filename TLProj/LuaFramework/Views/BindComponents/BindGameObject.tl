@@ -16,7 +16,7 @@ function BindGameObject:ctor()
     self.activeSelf = true
 end
 
-function BindGameObject:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindGameObject:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local gameObject = view:GetGameObjectWithName(GameObjectExt, name)
     local bindingSet = view.bindingSet as BindingSetType
 

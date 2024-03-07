@@ -1,0 +1,27 @@
+local MapExtention = require("LuaFramework.Common.MapExtention")
+local TestVConfig = require("Game.UI.Test.TestVConfig")
+
+local Config = {
+   TestVConfig = TestVConfig,
+}
+
+local WindowConfig = class("WindowConfig")
+
+function WindowConfig.get:Config()
+   return self.config
+end
+
+function WindowConfig:ctor()
+   self.config = {}
+   MapExtention.Foreach(Config, function(_, configs)
+      MapExtention.Foreach(configs, function(_, config)
+         self.config[config.Name] = config
+      end)
+   end)
+end
+
+function WindowConfig:__singleton()
+   return WindowConfig.new()
+end
+
+return WindowConfig

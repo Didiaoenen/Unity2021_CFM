@@ -25,7 +25,7 @@ function BindText:ctor()
     self.color = CS.UnityEngine.Color.white
 end
 
-function BindText:BindWithName(view: WindowViewBaseType, name: string, modes: {number})
+function BindText:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(TextExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
     local textExt = component as TextExtType

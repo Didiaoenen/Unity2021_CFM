@@ -9,7 +9,6 @@ function Layer.set:WindowType(value: number)
 end
 
 function Layer:ctor(data: LayerDataType)
-    assert(data, "")
     self.windowType = data.WindowType
     self.orderInLayer = data.OrderInLayer
     self.orderStep = data.OrderStep
@@ -30,7 +29,6 @@ function Layer:PopWindowOder()
 end
 
 function Layer:dtor()
-
 end
 
 return Layer

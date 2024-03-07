@@ -4,11 +4,11 @@ local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
 
 local Transition = class("Transition") as TransitionType
 
-function Transition.get:Window(): WindowViewBaseType
+function Transition.get:Window(): ViewBaseType
     return self.window
 end
 
-function Transition.set:Window(value: WindowViewBaseType)
+function Transition.set:Window(value: ViewBaseType)
     self.window = value
 end
 
@@ -36,7 +36,7 @@ function Transition.set:OverlayPolicy(value: function)
     self.overlayPolicy = value
 end
 
-function Transition:ctor(window: WindowViewBaseType)
+function Transition:ctor(window: ViewBaseType)
     self.window = window
     self.done = false
     self.animationDisabled = false
@@ -55,7 +55,7 @@ function Transition:Bind()
 
     self.bound = true
     if self.window then
-        local window = self.window as WindowViewBaseType
+        local window = self.window as ViewBaseType
         window.StateChanged = {this = self, callback = self.StateChanged}
     end
 end
@@ -67,7 +67,7 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        local window = self.window as WindowViewBaseType
+        local window = self.window as ViewBaseType
         window.StateChanged = {this = self}
     end
 end
@@ -78,11 +78,11 @@ function Transition:WaitForDone(): CS.System.Object
     end)
 end
 
-function Transition:StateChanged(sender: WindowViewBaseType, args: WindowStateEventArgsType)
+function Transition:StateChanged(sender: ViewBaseType, args: WindowStateEventArgsType)
     self:RaiseStateChanged(sender, args.State)
 end
 
-function Transition:RaiseStateChanged(window: WindowViewBaseType, state: number)
+function Transition:RaiseStateChanged(window: ViewBaseType, state: number)
     if self.onStateChanged then
         self.onStateChanged(window, state)
     end

@@ -1,6 +1,6 @@
 local WindowStateEventArgs = class("WindowStateEventArgs") as WindowStateEventArgsType
 
-function WindowStateEventArgs.get:Window(): WindowViewBaseType
+function WindowStateEventArgs.get:Window(): ViewBaseType
     return self.window
 end
 
@@ -12,7 +12,7 @@ function WindowStateEventArgs.get:OldState(): number
     return self.oldState
 end
 
-function WindowStateEventArgs:ctor(window: WindowViewBaseType, oldState: number, newState: number)
+function WindowStateEventArgs:ctor(window: ViewBaseType, oldState: number, newState: number)
     self.window = window
     self.oldState = oldState
     self.state = newState
