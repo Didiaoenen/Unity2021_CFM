@@ -1,6 +1,0 @@
-local Messenger = class("Messenger")
-
-function Messenger:ctor()
-end
-
-return Messenger

@@ -1,9 +1,0 @@
-local IBindingProxy = class("IBindingProxy")
-
-function IBindingProxy:ctor()
-end
-
-function IBindingProxy:dtor()
-end
-
-return IBindingProxy

@@ -1,6 +1,0 @@
-local TestSubV = class("TestSubV")
-
-function TestSubV:ctor()
-end
-
-return TestSubV
