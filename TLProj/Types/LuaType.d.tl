@@ -5,6 +5,7 @@ global record WindowTypeType
     DIALOG: number
     PROGRESS: number
     QUEUED_POPUP: number
+    SUB_VIEW: number
 end
 
 global record WindowStateType
@@ -1425,6 +1426,7 @@ global record ViewModelBaseType
     SortingOrder: number
     alpha: number
 
+    window: WindowFactoryType
     messenger: MessengerType
 
     bindCanvas: BindCanvasType
@@ -1492,7 +1494,7 @@ end
 
 global record WindowManagerType
     record get
-        windowStack: {ViewBaseType}
+        windowStack: {WindowFactoryType}
         Current: function
     end
 
@@ -1500,7 +1502,7 @@ global record WindowManagerType
         animationDisabled: boolean
         AnimationDisabled: boolean
         
-        window: ViewBaseType
+        window: WindowFactoryType
         dismiss: boolean
         manager: WindowManagerType
         
@@ -1518,7 +1520,7 @@ global record WindowManagerType
         overlayPolicy: function
         OverlayPolicy: function
     
-        window: ViewBaseType
+        window: WindowFactoryType
         dismiss: boolean
         manager: WindowManagerType
         
@@ -1530,13 +1532,15 @@ global record WindowManagerType
         DoTransition: function(self: TransitionShowType)
     end
 
-    current: ViewBaseType
-    Current: ViewBaseType
+    current: WindowFactoryType
+    Current: WindowFactoryType
 
     layers: {LayerType}
     windows: {string: WindowFactoryType}
-    windowStack: {ViewBaseType}
-    hideWindows: {ViewBaseType}
+    windowStack: {WindowFactoryType}
+    hideWindows: {WindowFactoryType}
+
+    uiRoot: TransformExtType
 
     Instance: WindowManagerType
 
@@ -1549,19 +1553,19 @@ global record WindowManagerType
     OnEnable: function(self: WindowManagerType)
     OnDisable: function(self: WindowManagerType)
 
-    OpenWindow: function(self: WindowManagerType, name: string, ...: any): WindowFactoryType
+    OpenWindow: function(self: WindowManagerType, name: string, parent: TransformExtType, ...: any): WindowFactoryType
     CloseWindow: function(self: WindowManagerType, name: string)
 
-    Show: function(self: WindowManagerType, ViewBaseType): TransitionType
-    Hide: function(self: WindowManagerType, ViewBaseType): TransitionType
-    Dismiss: function(self: WindowManagerType, ViewBaseType): TransitionType
+    Show: function(self: WindowManagerType, WindowFactoryType): TransitionType
+    Hide: function(self: WindowManagerType, WindowFactoryType): TransitionType
+    Dismiss: function(self: WindowManagerType, WindowFactoryType): TransitionType
     
-    PushWindowStack: function(self: WindowManagerType, ViewBaseType)
-    PopWindowStack: function(self: WindowManagerType): ViewBaseType
-    ClearWindowStack: function(self: WindowManagerType, ViewBaseType)
+    PushWindowStack: function(self: WindowManagerType, WindowFactoryType)
+    PopWindowStack: function(self: WindowManagerType): WindowFactoryType
+    ClearWindowStack: function(self: WindowManagerType, WindowFactoryType)
     GetWindow: function(self: WindowManagerType, string): WindowFactoryType
     
-    CreateLayers: function(self: WindowManagerType)
+    InitLayers: function(self: WindowManagerType)
     GetLayer: function(self: WindowManagerType, number): LayerType
 end
 
@@ -1694,7 +1698,6 @@ global record ViewBaseType
 
     Name: string
     Visibility: boolean
-    PrefabPath: string
 
     activationAnimation: UIAnimationType
     ActivationAnimation: UIAnimationType
@@ -1703,6 +1706,8 @@ global record ViewBaseType
     PassivationAnimation: UIAnimationType
 
     bundle: any
+
+    window: WindowFactoryType
 
     messenger: MessengerType
 
@@ -1726,6 +1731,7 @@ global record ViewBaseType
     Activated: boolean
     
     stateBroadcast: boolean
+    prefabPath: string
     windowType: number
     WindowType: number
     state: number
@@ -1738,7 +1744,7 @@ global record ViewBaseType
     onDismissed: {EventHandlerType}
     OnDismissed: EventHandlerType
     stateChanged: {EventHandlerType}
-    StateChanged: EventHandlerType
+    StateChanged: OptHandlerType
 
     views: {ViewBaseType}
     
@@ -1746,6 +1752,7 @@ global record ViewBaseType
     bindingExt: BindingExtensionType
     bindingSet: BindingSetBaseType
 
+    name: string
     parent: TransformExtType
     variables: MonoVariableArrayExtType
     components: {ComponentExtType}
@@ -1785,7 +1792,7 @@ global record ViewBaseType
     AddComponent: function(self: ViewBaseType, ComponentExtType): ComponentExtType
 
     GetView: function(self: ViewGroupType, name: string): ViewBaseType
-    AddView: function(self: ViewGroupType, name: string, parent: RectTransformExtType)
+    AddView: function(self: ViewGroupType, name: string, parent: TransformExtType, ...: any)
     RemoveView: function(self: ViewGroupType, name: string)
 end
 

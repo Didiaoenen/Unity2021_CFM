@@ -5,6 +5,9 @@ require("Types.LuaType")
 require("Types.ToolFunction")
 require("Types.Miscellaneous")
 
+global WindowConfig: WindowConfigType
+global WindowManager: WindowManagerType
+
 global UtilType = require("Types.util")
 global LuaPandaType = require("Types.LuaPanda")
 

@@ -7,10 +7,10 @@ require("OOP.Class")
 
 require("Tools.ToolFunction")
 
-local TestV = require("Game.UI.Test.TestV")
+require("Game.UI.Config.WindowConfig")
+require("LuaFramework.Views.WindowManager")
 
 local WindowNames = require("Game.UI.Config.WindowNames")
-local WindowManager = require("LuaFramework.Views.WindowManager")
 
 global function Main(): number
     -- TestV.new():Create()

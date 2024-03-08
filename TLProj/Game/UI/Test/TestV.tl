@@ -1,6 +1,4 @@
-local TestVM = require("Game.UI.Test.TestVM")
 local ViewBase = require("LuaFramework.Views.ViewBase")
-local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local BindingMode = require("LuaFramework.Binding.BindingMode")
 local BindingExtension = require("LuaFramework.Binding.BindingExtension")
 
@@ -8,14 +6,9 @@ local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local TestV = class("TestV", ViewBase) as TestVType
 
-TestV.PrefabPath = "TestV"
+function TestV:ctor(window: WindowFactoryType, ...: any)
+    ViewBase.ctor(self, window, ...)
 
-function TestV:ctor(bundle)
-    ViewBase.ctor(self, bundle)
-
-    self.windowType = WindowEnum.WindowType.FULL
-
-    self.viewModel = TestVM.new()
     self.bindingExt = BindingExtension.new(self)
     self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel as LuaObject) as BindingSetBaseType
     -- local builder = set:Bind()

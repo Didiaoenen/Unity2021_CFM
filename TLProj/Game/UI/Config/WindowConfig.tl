@@ -5,7 +5,7 @@ local Config: {string: {string: WindowConfigTable}} = {
     TestVConfig = TestVConfig,
 }
 
-local WindowConfig = class("WindowConfig") as WindowConfigType
+WindowConfig = class("WindowConfig") as WindowConfigType
 
 function WindowConfig.get:Config(): {string: WindowConfigTable}
     return self.config
@@ -28,5 +28,3 @@ function WindowConfig:InitConfig()
         end)
     end)
 end
-
-return WindowConfig

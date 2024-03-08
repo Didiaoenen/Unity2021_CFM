@@ -1,6 +1,7 @@
 local CoroutineExt = require("LuaFramework.Common.CoroutineExt")
 local ExecutorsExt = require("LuaFramework.Execution.ExecutorsExt")
 local TransitionAwaiter = require("LuaFramework.Views.TransitionAwaiter")
+local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
 local Transition = class("Transition") as TransitionType
 
@@ -36,8 +37,8 @@ function Transition.set:OverlayPolicy(value: function)
     self.overlayPolicy = value
 end
 
-function Transition:ctor(window: ViewBaseType)
-    self.window = window
+function Transition:ctor(window: WindowFactoryType)
+    self.window = window.view
     self.done = false
     self.animationDisabled = false
     self.overlayPolicy = nil
@@ -55,8 +56,8 @@ function Transition:Bind()
 
     self.bound = true
     if self.window then
-        local window = self.window as ViewBaseType
-        window.StateChanged = {this = self, callback = self.StateChanged}
+        local view = self.window
+        view.StateChanged = {opt = TableOprationMode.Add, this = self, callback = self.StateChanged}
     end
 end
 
@@ -67,8 +68,8 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        local window = self.window as ViewBaseType
-        window.StateChanged = {this = self}
+        local view = self.window
+        view.StateChanged = {opt = TableOprationMode.Remove, this = self}
     end
 end
 

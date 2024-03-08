@@ -1,5 +1,4 @@
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
-local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
 
 local ViewModelBase = class("ViewModelBase", ObservableObject) as ViewModelBaseType
 
@@ -83,11 +82,12 @@ function ViewModelBase.set:Alpha(value: number)
     self:Set({name = "alpha"}, value, "Alpha")
 end
 
-function ViewModelBase:ctor(messenger: MessengerType)
+function ViewModelBase:ctor(window: WindowFactoryType)
     ObservableObject.ctor(self)
-    self.messenger = messenger
+    -- self.messenger = messenger
 
-    self.parent = RectTransformExt.new(CS.UnityEngine.GameObject.Find("UIRoot").transform) as TransformExtType
+    self.window = window
+
     self.localRotation = CS.UnityEngine.Quaternion.identity
     self.localPosition = CS.UnityEngine.Vector3.zero
     self.localScale = CS.UnityEngine.Vector3.one

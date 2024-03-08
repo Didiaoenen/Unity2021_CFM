@@ -4,7 +4,7 @@ local WindowEnum = require("LuaFramework.Views.WindowEnum")
 local TestV = require("Game.UI.Test.TestV")
 local TestVM = require("Game.UI.Test.TestVM")
 
-local TestUI: WindowConfigTable = {
+local TestVConfig: WindowConfigTable = {
     Name = WindowNames.TestV,
     PrefabPath = "TestV",
     WindowType = WindowEnum.WindowType.FULL,
@@ -13,7 +13,7 @@ local TestUI: WindowConfigTable = {
 }
 
 local Config: {string: WindowConfigTable} = {
-    TestUI = TestUI,
+    [WindowNames.TestV] = TestVConfig,
 }
 
 return Config

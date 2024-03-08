@@ -18,11 +18,7 @@ local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt
 local GraphicRaycasterExt = require("LuaFramework.Views.Components.GraphicRaycasterExt")
 local MonoVariableArrayExt = require("LuaFramework.Views.Components.MonoVariableArrayExt")
 
--- local WindowManager = require("LuaFramework.Views.WindowManager")
-
 local ViewBase = class("ViewBase", ViewGroup) as ViewBaseType
-
-ViewBase.PrefabPath = ""
 
 function ViewBase.get:Messenger(): MessengerType
     return self.messenger
@@ -96,7 +92,6 @@ function ViewBase.set:ExitAnimation(value: UIAnimationType)
 end
 
 function ViewBase.get:Name(): string
-    assert(self.gameObject, "")
     return self.gameObject.name
 end
 
@@ -113,7 +108,6 @@ function ViewBase.get:Transform(): TransformExtType
 end
 
 function ViewBase.get:Visibility(): boolean
-    assert(self.viewModel, "")
     return self.viewModel.ActiveSelf
 end
 
@@ -129,11 +123,23 @@ function ViewBase.set:Visibility(value: boolean)
     self.viewModel.ActiveSelf = value
 end
 
-function ViewBase:ctor(bundle)
+function ViewBase:ctor(window: WindowFactoryType, parent: TransformExtType, ...: any)
     ViewGroup.ctor(self)
 
-    self.bundle = bundle
+    assert(window, "window is nil")
+    self.window = window
 
+    self.name = window.name
+    self.state = window.state
+    self.prefabPath = window.prefabPath
+    self.windowType = window.windowType
+    self.viewModel = window.viewModel
+    
+    self.parent = parent
+    self.viewModel.Parent = parent
+    
+    self.bundle = {...}
+    
     self.messenger = Messenger.new()
 
     self.gameObject = nil
@@ -148,15 +154,12 @@ function ViewBase:ctor(bundle)
     self.dismissed = false
     self.activated = false
     self.stateBroadcast = true
-    self.windowType = WindowEnum.WindowType.NONE
-    self.state = WindowEnum.WindowState.NONE
     
     self.activatedChanged = {}
     self.visibilityChanged = {}
     self.onDismissed = {}
     self.stateChanged = {}
 
-    self.viewModel = nil
     self.bindingExt = nil
     self.bindingSet = nil
 
@@ -272,7 +275,7 @@ function ViewBase:Create()
         self.State = WindowEnum.WindowState.CREATE_BEGIN
         self.Visibility = false
 
-        local result = DefaultUIViewLocator.LoadAsync(self.PrefabPath, Miscellaneous.CSType.GameObjectT)
+        local result = DefaultUIViewLocator.LoadAsync(self.prefabPath, Miscellaneous.CSType.GameObjectT)
         CoroutineExt.Yield(result:WaitForDone())
         print("加载完成。。。")
 
@@ -289,8 +292,6 @@ end
 function ViewBase:OnCreate()
     print("parent OnCreate")
     
-    self.parent = self.viewModel.parent
-
     self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
     local bindingSet = self.bindingSet as BindingSetType
@@ -338,10 +339,10 @@ function ViewBase:OnCreate()
     self.bindingSet:Build()
 
     --
-    -- local layer = WindowManager.Instance:GetLayer(self.windowType)
-    -- assert(layer, "")
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
+    assert(layer, "")
 
-    -- self.viewModel.SortingOrder = layer:PushWindowOrder()
+    self.viewModel.SortingOrder = layer:PushWindowOrder()
 end
 
 function ViewBase:Show(ignoreAnimation: boolean): TransitionType
@@ -353,7 +354,7 @@ function ViewBase:Show(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    -- return WindowManager.Instance:Show(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Show(self.window):DisableAnimation(ignoreAnimation)
 end
 
 function ViewBase:DoShow(ignoreAnimation: boolean): AsyncResultExtType
@@ -398,7 +399,7 @@ function ViewBase:Hide(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    -- return WindowManager.Instance:Hide(self):DisableAnimation(ignoreAnimation)
+    return WindowManager.Instance:Hide(self.window):DisableAnimation(ignoreAnimation)
 end
 
 function ViewBase:DoHide(ignoreAnimation: boolean): AsyncResultExtType
@@ -438,8 +439,8 @@ function ViewBase:Dismiss(ignoreAnimation: boolean): TransitionType
         return
     end
 
-    -- self.dismissTransition = WindowManager.Instance:Dismiss(self):DisableAnimation(ignoreAnimation)
-    -- return self.dismissTransition
+    self.dismissTransition = WindowManager.Instance:Dismiss(self.window):DisableAnimation(ignoreAnimation)
+    return self.dismissTransition
 end
 
 function ViewBase:DoDismiss()
@@ -487,8 +488,18 @@ function ViewBase:GetView(name: string): ViewBaseType
     assert({name}, "")
 end
 
-function ViewBase:AddView(name: string, parent: RectTransformExtType)
-    assert({name, parent}, "")
+function ViewBase:AddView(name: string, parent: TransformExtType, ...: any)
+    -- local window = WindowManager.Instance:OpenWindow(name, parent, ...)
+
+    local config = WindowConfig.Instance.Config[name]
+    if nil == config then
+        return
+    end
+    
+    local view = config.View.new(self.window, parent, ...)
+
+    table.insert(self.views, view)
+    
 end
 
 function ViewBase:RemoveView(name: string)
@@ -505,8 +516,8 @@ function ViewBase:dtor()
     end)
     self.components = nil
 
-    -- local layer = WindowManager.Instance:GetLayer(self.windowType)
-    -- layer:PopWindowOder()
+    local layer = WindowManager.Instance:GetLayer(self.windowType)
+    layer:PopWindowOder()
 end
 
 return ViewBase
