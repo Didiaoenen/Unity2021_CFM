@@ -4,7 +4,6 @@ local WindowEnum = require("LuaFramework.Views.WindowEnum")
 
 function WindowFactory:ctor()
     self.name = ""
-    self.prefabPath = ""
     self.windowType = WindowEnum.WindowType.NONE
     self.state = WindowEnum.WindowState.NONE
     self.loaded = false

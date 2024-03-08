@@ -5,7 +5,12 @@ global record WindowTypeType
     DIALOG: number
     PROGRESS: number
     QUEUED_POPUP: number
+end
+
+global record ViewTypeType
+    VIEW: number
     SUB_VIEW: number
+    SUB_PANEL: number
 end
 
 global record WindowStateType
@@ -37,6 +42,7 @@ end
 global record WindowEnumType
     WindowType: WindowTypeType
     WindowState: WindowStateType
+    ViewType: ViewTypeType
     ActionType: ActionTypeType
 end
 
@@ -1480,7 +1486,6 @@ end
 global record WindowFactoryType
 
     name: string
-    prefabPath: string
     windowType: number
     view: ViewBaseType
     viewModel: ViewModelBaseType
@@ -1734,6 +1739,8 @@ global record ViewBaseType
     prefabPath: string
     windowType: number
     WindowType: number
+    viewType: number
+    ViewType: number
     state: number
     State: number
     
@@ -2151,22 +2158,26 @@ end
 
 global record WindowConfigTable
     Name: string
-    PrefabPath :string
     WindowType: number
-    View: ViewBaseType
+    ViewConfig: ViewConfigTable
     ViewModel: ViewModelBaseType
 end
 
 global record WindowConfigType
 
     record get
-        config: {string: WindowConfigTable}
-        Config: function
+        windowConfig: {string: WindowConfigTable}
+        WindowConfig: function
+
+        viewConfig: {string: ViewConfigTable}
+        ViewConfig: function
     end
 
-    config: {string: WindowConfigTable}
-    Config: {string: WindowConfigTable}
-
+    windowConfig: {string: WindowConfigTable}
+    WindowConfig: {string: WindowConfigTable}
+    viewConfig: {string: ViewConfigTable}
+    ViewConfig: {string: ViewConfigTable}
+    
     Instance: WindowConfigType
 
     __singleton: function(self: WindowConfigType): WindowConfigType
@@ -2175,7 +2186,17 @@ global record WindowConfigType
     ctor: function
     dtor: function
 
-    InitConfig: function(self: WindowConfigType)
+    InitWindowConfig: function(self: WindowConfigType)
+    InitViewConfig: function(self: WindowConfigType)
+end
+
+global record ViewConfigTable
+    Name: string
+    PrefabPath :string
+    ViewType: number
+    View: ViewBaseType
+    SubView: {ViewConfigTable}
+    SubPanel: {ViewConfigTable}
 end
 ------------------------------------------------------------------------------
 

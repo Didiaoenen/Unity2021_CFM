@@ -15,7 +15,7 @@ local WindowNames = require("Game.UI.Config.WindowNames")
 global function Main(): number
     -- TestV.new():Create()
 
-    WindowManager.Instance:OpenWindow(WindowNames.TestV)
+    WindowManager.Instance:OpenWindow(WindowNames.Test)
 
     return 1
 end

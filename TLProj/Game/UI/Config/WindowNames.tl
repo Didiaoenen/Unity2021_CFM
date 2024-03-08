@@ -1,4 +1,5 @@
 local WindowNames: WindowNamesType = {
+    Test = "Test",
     TestV = "TestV",
 }
 

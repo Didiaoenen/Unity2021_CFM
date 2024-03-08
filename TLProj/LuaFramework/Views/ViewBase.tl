@@ -123,18 +123,20 @@ function ViewBase.set:Visibility(value: boolean)
     self.viewModel.ActiveSelf = value
 end
 
-function ViewBase:ctor(window: WindowFactoryType, parent: TransformExtType, ...: any)
+function ViewBase:ctor(window: WindowFactoryType, config: ViewConfigTable, parent: TransformExtType, ...: any)
     ViewGroup.ctor(self)
 
     assert(window, "window is nil")
     self.window = window
 
-    self.name = window.name
+    self.name = config.Name
     self.state = window.state
-    self.prefabPath = window.prefabPath
-    self.windowType = window.windowType
+    self.prefabPath = config.PrefabPath
+    self.viewType = config.ViewType
     self.viewModel = window.viewModel
-    
+
+    self.windowType = window.windowType
+
     self.parent = parent
     self.viewModel.Parent = parent
     
@@ -489,17 +491,17 @@ function ViewBase:GetView(name: string): ViewBaseType
 end
 
 function ViewBase:AddView(name: string, parent: TransformExtType, ...: any)
-    -- local window = WindowManager.Instance:OpenWindow(name, parent, ...)
 
-    local config = WindowConfig.Instance.Config[name]
+    local config = WindowConfig.Instance.ViewConfig[name]
     if nil == config then
         return
     end
     
-    local view = config.View.new(self.window, parent, ...)
+    local view = config.View.new(self.window, config, parent, ...)
 
     table.insert(self.views, view)
     
+    view:Create()
 end
 
 function ViewBase:RemoveView(name: string)

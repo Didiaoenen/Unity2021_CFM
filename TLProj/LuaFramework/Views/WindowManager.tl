@@ -127,17 +127,18 @@ function WindowManager:OpenWindow(name: string, parent: TransformExtType, ...: a
         self.windows[name] = window
     end
 
-    local config = WindowConfig.Instance.Config[name]
+    local config = WindowConfig.Instance.WindowConfig[name]
     if nil == config then
         return
     end
 
     window.name = name
-    window.prefabPath = config.PrefabPath
     window.windowType = config.WindowType
 
+    local viewConfig = config.ViewConfig
+
     window.viewModel = config.ViewModel.new(window)
-    window.view = config.View.new(window, parent or self.uiRoot, ...)
+    window.view = viewConfig.View.new(window, viewConfig, parent or self.uiRoot, ...)
     window.view:Create()
 
     return window
@@ -179,7 +180,7 @@ function TransitionShow:DoTransition()
     local current = self.window.view
 
     local previous: ViewBaseType = nil
-    if current.windowType == WindowEnum.WindowType.SUB_VIEW then
+    if current.windowType == WindowEnum.WindowType.NONE then
         -- (WindowManager.Instance.Current as WindowFactoryType):AddSubView(current)
     elseif current.windowType == WindowEnum.WindowType.FULL then
         -- previous = WindowManager.Instance:PushWindowStack(current)

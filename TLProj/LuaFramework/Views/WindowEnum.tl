@@ -29,6 +29,12 @@ WindowEnum.WindowState = {
     DISMISS_END                 = 17,
 }
 
+WindowEnum.ViewType = {
+    VIEW        = 1,
+    SUB_VIEW    = 2,
+    SUB_PANEL   = 3,
+}
+
 WindowEnum.ActionType = {
     None        = 1,
     Hide        = 2,
