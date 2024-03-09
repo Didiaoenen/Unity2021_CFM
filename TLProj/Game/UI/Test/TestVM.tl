@@ -58,16 +58,18 @@ function TestVM.set:TestCommand(value: SimpleCommandType)
     self.testCommand = value
 end
 
-function TestVM:ctor()
-    ViewModelBase.ctor(self)
+function TestVM:ctor(window: WindowFactoryType)
+    ViewModelBase.ctor(self, window)
 
-    self.text = BindText.new()
-    self.text1 = BindText.new()
-    self.button = BindButton.new()
-    self.inputField = BindInputField.new()
-    self.gameObject = BindGameObject.new()
-    self.toggle_1 = BindToggle.new()
-    self.toggle_2 = BindToggle.new()
+    self.window = window
+
+    self.text = BindText.new("text")
+    self.text1 = BindText.new("text1")
+    self.button = BindButton.new("button")
+    self.inputField = BindInputField.new("inputField")
+    self.gameObject = BindGameObject.new("gameObject")
+    self.toggle_1 = BindToggle.new("toggle_1")
+    self.toggle_2 = BindToggle.new("toggle_2")
 
     --
     self.test = ""

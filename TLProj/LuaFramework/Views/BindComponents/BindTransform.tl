@@ -35,16 +35,16 @@ function BindTransform.set:LocalScale(value: CS.UnityEngine.Vector3)
     self:Set({name = "localScale"}, value, "LocalScale")
 end
 
-function BindTransform:ctor()
-    BindComponent.ctor(self)
+function BindTransform:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.parent = nil
     self.localRotation = CS.UnityEngine.Quaternion.identity
     self.localPosition = CS.UnityEngine.Vector3.zero
     self.localScale = CS.UnityEngine.Vector3.one
 end
 
-function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(TransformExt as ComponentExtType, name) as TransformExtType
+function BindTransform:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(TransformExt as ComponentExtType, self.name) as TransformExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -54,16 +54,16 @@ function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {nu
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.Parent):To(name .. ".Parent"):SetMode(_Mode())
+    builder:For(self.componentExt.Parent):To(self.name .. ".Parent"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.LocalRotation):To(name .. ".LocalRotation"):SetMode(_Mode())
+    builder:For(self.componentExt.LocalRotation):To(self.name .. ".LocalRotation"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.LocalPosition):To(name .. ".LocalPosition"):SetMode(_Mode())
+    builder:For(self.componentExt.LocalPosition):To(self.name .. ".LocalPosition"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.LocalScale):To(name .. ".LocalScale"):SetMode(_Mode())
+    builder:For(self.componentExt.LocalScale):To(self.name .. ".LocalScale"):SetMode(_Mode())
 end
 
 function BindTransform:dtor()

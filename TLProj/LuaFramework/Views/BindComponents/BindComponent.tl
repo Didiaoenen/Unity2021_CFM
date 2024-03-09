@@ -6,13 +6,14 @@ function BindComponent.get:GameObject(): BindGameObjectType
     return self.gameObject
 end
 
-function BindComponent:ctor()
+function BindComponent:ctor(name: string)
     ObservableObject.ctor(self)
+    self.name = name
     self.componentExt = nil
 end
 
-function BindComponent:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    assert({view, name, modes}, "")
+function BindComponent:BindWithName(view: ViewBaseType, modes: {number})
+    assert({view, modes}, "")
 end
 
 function BindComponent:dtor()

@@ -73,6 +73,8 @@ local record TestVM
     testCommand: SimpleCommandType
     TestCommand: SimpleCommandType
 
+    window: WindowFactoryType
+
     text: BindTextType
     text1: BindTextType
     button: BindButtonType

@@ -6,8 +6,8 @@ local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 
 local TestV = class("TestV", ViewBase) as TestVType
 
-function TestV:ctor(window: WindowFactoryType, ...: any)
-    ViewBase.ctor(self, window, ...)
+function TestV:ctor(window: WindowFactoryType, config: ViewConfigTable, parent: TransformExtType, ...: any)
+    ViewBase.ctor(self, window, config, parent, ...)
 
     self.bindingExt = BindingExtension.new(self)
     self.bindingSet = self.bindingExt:CreateBindingSetWithContext(self.viewModel as LuaObject) as BindingSetBaseType
@@ -65,13 +65,13 @@ function TestV:OnCreate()
     -- builder = bindingSet:BindByTarget(button as LuaObject)
     -- builder:For(button.OnClick):To("TestCommand"):OneWay()
 
-    self.viewModel.text:BindWithName(self as ViewBaseType, "text", {BindingMode.OneWay})
-    self.viewModel.text1:BindWithName(self as ViewBaseType, "text1", {BindingMode.OneWay})
-    self.viewModel.button:BindWithName(self as ViewBaseType, "button", {BindingMode.OneWay})
-    self.viewModel.inputField:BindWithName(self as ViewBaseType, "inputField", {BindingMode.TwoWay})
-    self.viewModel.gameObject:BindWithName(self as ViewBaseType, "gameObject", {BindingMode.OneWay})
-    self.viewModel.toggle_1:BindWithName(self as ViewBaseType, "toggle_1", {BindingMode.OneWay})
-    self.viewModel.toggle_2:BindWithName(self as ViewBaseType, "toggle_2", {BindingMode.OneWay})
+    self.viewModel.text:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
+    self.viewModel.text1:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
+    self.viewModel.button:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
+    self.viewModel.inputField:BindWithName(self as ViewBaseType, {BindingMode.TwoWay})
+    self.viewModel.gameObject:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
+    self.viewModel.toggle_1:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
+    self.viewModel.toggle_2:BindWithName(self as ViewBaseType, {BindingMode.OneWay})
 
     --
     self.bindingSet:Build()
@@ -100,7 +100,7 @@ function TestV:OnShow()
     -- self:CreateSubView("Game.TestSubV", {parent = transOne})
     -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
 
-    -- self:AddView(WindowNames.TestV, self.viewModel.gameObject:)
+    -- self:AddView(WindowNames.TestSubV, self.viewModel.gameObject.gameObjectExt.transform)
 end
 
 function TestV:TestButtonSimpleCommand(... :any)

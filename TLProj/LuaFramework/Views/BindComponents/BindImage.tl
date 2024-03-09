@@ -20,13 +20,13 @@ function BindImage.set:FillAmount(value: number)
     self:Set({name = "fillAmount"}, value, "FillAmount")
 end
 
-function BindImage:ctor()
-    BindComponent.ctor(self)
+function BindImage:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.gameObject = BindGameObject.new()
 end
 
-function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(ImageExt as ComponentExtType, name) as ImageExtType
+function BindImage:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(ImageExt as ComponentExtType, self.name) as ImageExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -36,13 +36,13 @@ function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.Sprite):To(name .. ".Sprite"):SetMode(_Mode())
+    builder:For(self.componentExt.Sprite):To(self.name .. ".Sprite"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.FillAmount):To(name .. ".FillAmount"):SetMode(_Mode())
+    builder:For(self.componentExt.FillAmount):To(self.name .. ".FillAmount"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
-    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(self.name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindImage:dtor()

@@ -21,15 +21,15 @@ function BindButton.set:SimpleCommand(value: SimpleCommandType)
     self:Set({name = "simpleCommand"}, value, "SimpleCommand")
 end
 
-function BindButton:ctor()
-    BindComponent.ctor(self)
+function BindButton:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.gameObject = BindGameObject.new()
     self.onClick = function() end
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(ButtonExt as ComponentExtType, name) as ButtonExtType
+function BindButton:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(ButtonExt as ComponentExtType, self.name) as ButtonExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -39,13 +39,13 @@ function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {numbe
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnClick):To(name .. ".OnClick"):SetMode(_Mode())
+    builder:For(self.componentExt.OnClick):To(self.name .. ".OnClick"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnClick):To(name .. ".SimpleCommand"):SetMode(_Mode())
+    builder:For(self.componentExt.OnClick):To(self.name .. ".SimpleCommand"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
-    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(self.name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindButton:dtor()

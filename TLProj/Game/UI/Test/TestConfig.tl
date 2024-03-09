@@ -11,6 +11,14 @@ local TestViewConfig: ViewConfigTable = {
     View = TestV as ViewBaseType,
 }
 
+local TestSubViewConfig: ViewConfigTable = {
+    Name = WindowNames.TestSubV,
+    PrefabPath = "TestSubV",
+    ViewType = WindowEnum.ViewType.VIEW,
+    State = WindowEnum.ViewState.NONE,
+    View = TestV as ViewBaseType,
+}
+
 local TestWindowConfig: WindowConfigTable = {
     Name = WindowNames.Test,
     WindowType = WindowEnum.WindowType.FULL,
@@ -23,7 +31,7 @@ local WindwoConifg: {WindowConfigTable} = {
 }
 
 local ViewConfig: {ViewConfigTable} = {
-    TestViewConfig
+    TestSubViewConfig
 }
 
 return {WindwoConifg, ViewConfig}

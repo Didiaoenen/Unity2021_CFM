@@ -21,15 +21,15 @@ function BindToggle.set:SimpleCommand(value: SimpleCommandType)
     self:Set({name = "simpleCommand"}, value, "SimpleCommand")
 end
 
-function BindToggle:ctor()
-    BindComponent.ctor(self)
+function BindToggle:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.gameObject = BindGameObject.new()
     self.onValueChanged = function() end
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(ToggleExt as ComponentExtType, name) as ToggleExtType
+function BindToggle:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(ToggleExt as ComponentExtType, self.name) as ToggleExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -39,13 +39,13 @@ function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {numbe
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+    builder:For(self.componentExt.OnValueChanged):To(self.name .. ".OnValueChanged"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
+    builder:For(self.componentExt.OnValueChanged):To(self.name .. ".SimpleCommand"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
-    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(self.name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindToggle:dtor()

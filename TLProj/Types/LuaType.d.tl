@@ -1820,14 +1820,15 @@ global record BindGameObjectType
     transform: BindTransformType
     Transform: BindTransformType
 
-    componentExt: GameObjectExtType
+    gameObjectExt: GameObjectExtType
+
+    name: string
 
     new: function(...: any): BindGameObjectType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindGameObjectType, ViewBaseType, string, {number})
-    BindToTarget: function(self: BindGameObjectType, BindingSetType, string, ComponentExtType, number)
+    BindWithName: function(self: BindGameObjectType, ViewBaseType, {number})
 end
 
 global record BindTextType
@@ -1863,11 +1864,13 @@ global record BindTextType
 
     componentExt: TextExtType
 
+    name: string
+
     new: function(...: any): BindTextType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTextType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindTextType, ViewBaseType, {number})
 end
 
 global record BindButtonType
@@ -1906,11 +1909,13 @@ global record BindButtonType
     simpleCommand: SimpleCommandType    
     SimpleCommand: SimpleCommandType
 
+    name: string
+
     new: function(...: any): BindButtonType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindButtonType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindButtonType, ViewBaseType, {number})
 end
 
 global record BindCanvasType
@@ -1943,11 +1948,13 @@ global record BindCanvasType
 
     componentExt: CanvasExtType
 
+    name: string
+
     new: function(...: any): BindCanvasType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindCanvasType, ViewBaseType, {number})
 end
 
 global record BindCanvasGroupType
@@ -1971,11 +1978,13 @@ global record BindCanvasGroupType
 
     componentExt: CanvasGroupExtType
 
+    name: string
+
     new: function(...: any): BindCanvasGroupType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindCanvasGroupType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindCanvasGroupType, ViewBaseType, {number})
 end
 
 global record BindRectTransformType
@@ -2005,12 +2014,13 @@ global record BindRectTransformType
 
     componentExt: RectTransformExtType
 
+    name: string
+
     new: function(...: any): BindRectTransformType
     ctor: function
     dtor: function
     
-    BindWithName: function(self: BindRectTransformType, ViewBaseType, string, {number})
-    BindToTarget: function(self: BindRectTransformType, BindingSetType, string, ComponentExtType, number)
+    BindWithName: function(self: BindRectTransformType, ViewBaseType, {number})
 end
 
 global record BindTransformType
@@ -2053,12 +2063,13 @@ global record BindTransformType
 
     componentExt: TransformExtType
 
+    name: string
+
     new: function(...: any): BindTransformType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindTransformType, ViewBaseType, string, {number})
-    BindToTarget: function(self: BindTransformType, BindingSetType, string, ComponentExtType, number)
+    BindWithName: function(self: BindTransformType, ViewBaseType, {number})
 end
 
 global record BindComponentType
@@ -2075,10 +2086,12 @@ global record BindComponentType
 
     componentExt: ComponentExtType
 
+    name: string
+
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindComponentType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindComponentType, ViewBaseType, {number})
 end
 
 global record BindInputFieldType
@@ -2120,11 +2133,13 @@ global record BindInputFieldType
 
     componentExt: InputFieldExtType
 
+    name: string
+
     new: function(...: any): BindInputFieldType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindInputFieldType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindInputFieldType, ViewBaseType, {number})
 end
 
 global record BindToggleType
@@ -2157,11 +2172,13 @@ global record BindToggleType
 
     componentExt: ToggleExtType
 
+    name: string
+
     new: function(...: any): BindToggleType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindToggleType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindToggleType, ViewBaseType, {number})
 end
 
 global record BindImageType
@@ -2194,11 +2211,13 @@ global record BindImageType
 
     componentExt: ImageExtType
 
+    name: string
+
     new: function(...: any): BindImageType
     ctor: function
     dtor: function
 
-    BindWithName: function(self: BindImageType, ViewBaseType, string, {number})
+    BindWithName: function(self: BindImageType, ViewBaseType, {number})
 end
 
 global record WindowConfigTable

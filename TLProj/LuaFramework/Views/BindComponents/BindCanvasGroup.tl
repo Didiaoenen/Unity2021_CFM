@@ -12,14 +12,14 @@ function BindCanvasGroup.set:Alpha(value: number)
     self:Set({name = "alpha"}, value, "Alpha")
 end
 
-function BindCanvasGroup:ctor()
-    BindComponent.ctor(self)
+function BindCanvasGroup:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.gameObject = BindGameObject.new()
     self.alpha = 1
 end
 
-function BindCanvasGroup:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, name) as CanvasGroupExtType
+function BindCanvasGroup:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, self.name) as CanvasGroupExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -29,7 +29,7 @@ function BindCanvasGroup:BindWithName(view: ViewBaseType, name: string, modes: {
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.Alpha):To(name .. ".Alpha"):SetMode(_Mode())
+    builder:For(self.componentExt.Alpha):To(self.name .. ".Alpha"):SetMode(_Mode())
 end
 
 function BindCanvasGroup:dtor()

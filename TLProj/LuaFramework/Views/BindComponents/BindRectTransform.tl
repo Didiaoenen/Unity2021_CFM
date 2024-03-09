@@ -19,16 +19,16 @@ function BindRectTransform.set:OffsetMin(value: CS.UnityEngine.Vector2)
     self:Set({name = "offsetMin"}, value, "OffsetMin")
 end
 
-function BindRectTransform:ctor()
-    BindTransform.ctor(self)
+function BindRectTransform:ctor(name: string)
+    BindTransform.ctor(self, name)
     self.offsetMax = CS.UnityEngine.Vector2.zero
     self.offsetMin = CS.UnityEngine.Vector2.zero
 end
 
-function BindRectTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    BindTransform.BindWithName(self as BindTransformType, view, name, modes)
+function BindRectTransform:BindWithName(view: ViewBaseType, modes: {number})
+    BindTransform.BindWithName(self as BindTransformType, view, modes)
 
-    self.componentExt = view:GetComponentWithName(RectTransformExt as ComponentExtType, name) as RectTransformExtType
+    self.componentExt = view:GetComponentWithName(RectTransformExt as ComponentExtType, self.name) as RectTransformExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -38,10 +38,10 @@ function BindRectTransform:BindWithName(view: ViewBaseType, name: string, modes:
     end
     
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OffsetMax):To(name .. ".OffsetMax"):SetMode(_Mode())
+    builder:For(self.componentExt.OffsetMax):To(self.name .. ".OffsetMax"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(_Mode())
+    builder:For(self.componentExt.OffsetMin):To(self.name .. ".OffsetMin"):SetMode(_Mode())
 end
 
 function BindRectTransform:dtor()

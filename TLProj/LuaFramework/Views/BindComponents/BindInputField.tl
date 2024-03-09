@@ -29,16 +29,16 @@ function BindInputField.set:SimpleCommand(value: SimpleCommandType)
     self:Set({name = "simpleCommand"}, value, "SimpleCommand")
 end
 
-function BindInputField:ctor()
-    BindComponent.ctor(self)
+function BindInputField:ctor(name: string)
+    BindComponent.ctor(self, name)
     self.gameObject = BindGameObject.new()
     self.text = ""
     self.onValueChanged = function() end
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
-function BindInputField:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    self.componentExt = view:GetComponentWithName(InputFieldExt as ComponentExtType, name) as InputFieldExtType
+function BindInputField:BindWithName(view: ViewBaseType, modes: {number})
+    self.componentExt = view:GetComponentWithName(InputFieldExt as ComponentExtType, self.name) as InputFieldExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -48,16 +48,16 @@ function BindInputField:BindWithName(view: ViewBaseType, name: string, modes: {n
     end
 
     local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.Text, self.componentExt.OnEndEdit):To(name .. ".Text"):SetMode(_Mode())
+    builder:For(self.componentExt.Text, self.componentExt.OnEndEdit):To(self.name .. ".Text"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+    builder:For(self.componentExt.OnValueChanged):To(self.name .. ".OnValueChanged"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
-    builder:For(self.componentExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
+    builder:For(self.componentExt.OnValueChanged):To(self.name .. ".SimpleCommand"):SetMode(_Mode())
 
     builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
-    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(self.name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindInputField:dtor()

@@ -12,14 +12,15 @@ function BindGameObject.set:ActiveSelf(value: boolean)
     self:Set({name = "activeSelf"}, value, "ActiveSelf")
 end
 
-function BindGameObject:ctor()
+function BindGameObject:ctor(name: string)
     ObservableObject.ctor(self)
+    self.name = name
     self.transform = BindRectTransform.new() as BindTransformType
     self.activeSelf = true
 end
 
-function BindGameObject:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local gameObject = view:GetGameObjectWithName(GameObjectExt, name)
+function BindGameObject:BindWithName(view: ViewBaseType, modes: {number})
+    self.gameObjectExt = view:GetGameObjectWithName(GameObjectExt, self.name)
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -28,8 +29,8 @@ function BindGameObject:BindWithName(view: ViewBaseType, name: string, modes: {n
         return modes[index]
     end
     
-    local builder = bindingSet:BindByTarget(gameObject as LuaObject)
-    builder:For(gameObject.ActiveSelf):To(name .. ".ActiveSelf"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.gameObjectExt as LuaObject)
+    builder:For(self.gameObjectExt.ActiveSelf):To(self.name .. ".ActiveSelf"):SetMode(_Mode())
 end
 
 function BindGameObject:dtor()
