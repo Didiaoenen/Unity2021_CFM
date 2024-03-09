@@ -86,6 +86,7 @@ local record TestVM
     dtor: function
     
     OnClick: function(self: TestVM)
+    TestSimpleCommand: function(self: TestVM)
 end
 
 return TestVM

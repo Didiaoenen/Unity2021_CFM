@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local ImageExt = require("LuaFramework.Views.Components.ImageExt")
 
 local BindImage = class("BindImage", BindComponent) as BindImageType
@@ -21,12 +22,12 @@ end
 
 function BindImage:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
 end
 
 function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(ImageExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(ImageExt as ComponentExtType, name) as ImageExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local imageExt = component as ImageExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -34,16 +35,14 @@ function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(imageExt.Sprite):To(name .. ".Sprite"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.Sprite):To(name .. ".Sprite"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(imageExt.FillAmount):To(name .. ".FillAmount"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.FillAmount):To(name .. ".FillAmount"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
-    builder:For(imageExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
-
-    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", imageExt.gameObject as ComponentExtType, _Mode())
+    builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindImage:dtor()

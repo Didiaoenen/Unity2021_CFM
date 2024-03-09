@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local CanvasGroupExt = require("LuaFramework.Views.Components.CanvasGroupExt")
 
 local BindCanvasGroup = class("BindCanvasGroup", BindComponent) as BindCanvasGroupType
@@ -13,13 +14,13 @@ end
 
 function BindCanvasGroup:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
     self.alpha = 1
 end
 
 function BindCanvasGroup:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(CanvasGroupExt as ComponentExtType, name) as CanvasGroupExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local canvasGroupExt = component as CanvasGroupExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -27,8 +28,8 @@ function BindCanvasGroup:BindWithName(view: ViewBaseType, name: string, modes: {
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(canvasGroupExt.Alpha):To(name .. ".Alpha"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.Alpha):To(name .. ".Alpha"):SetMode(_Mode())
 end
 
 function BindCanvasGroup:dtor()

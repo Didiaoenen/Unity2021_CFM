@@ -1,4 +1,5 @@
 local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local ImageExt = class("ImageExt", ComponentExt) as ImageExtType
 
@@ -34,6 +35,7 @@ end
 
 function ImageExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
+    self.gameObject = GameObjectExt.new(handler.gameObject)
 end
 
 function ImageExt:dtor()

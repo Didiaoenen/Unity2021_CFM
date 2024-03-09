@@ -1,4 +1,5 @@
 local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local InputFieldExt = class("InputFieldExt", ComponentExt) as InputFieldExtType
 
@@ -46,6 +47,7 @@ end
 
 function InputFieldExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
+    self.gameObject = GameObjectExt.new(handler.gameObject)
 end
 
 function InputFieldExt:dtor()

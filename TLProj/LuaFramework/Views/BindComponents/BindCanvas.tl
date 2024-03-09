@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local CanvasExt = require("LuaFramework.Views.Components.CanvasExt")
 
 local BindCanvas = class("BindCanvas", BindComponent) as BindCanvasType
@@ -21,14 +22,14 @@ end
 
 function BindCanvas:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
     self.overrideSorting = true
     self.sortingOrder = 0
 end
 
 function BindCanvas:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(CanvasExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(CanvasExt as ComponentExtType, name) as CanvasExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local canvasExt = component as CanvasExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -36,11 +37,11 @@ function BindCanvas:BindWithName(view: ViewBaseType, name: string, modes: {numbe
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(canvasExt.OverrideSorting):To(name .. ".OverrideSorting"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.OverrideSorting):To(name .. ".OverrideSorting"):SetMode(_Mode())
     
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(canvasExt.SortingOrder):To(name .. ".SortingOrder"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.SortingOrder):To(name .. ".SortingOrder"):SetMode(_Mode())
 end
 
 function BindCanvas:dtor()

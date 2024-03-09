@@ -1,8 +1,7 @@
 local record TestSubV
     new: function(...: any): TestSubV
     ctor: function
-
-    Create: function(self: TestVType)
+    dtor: function
 end
 
 return TestSubV

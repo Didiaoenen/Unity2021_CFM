@@ -1,4 +1,5 @@
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
+local BindRectTransform = require("LuaFramework.Views.BindComponents.BindRectTransform")
 local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local BindGameObject = class("BindGameObject", ObservableObject) as BindGameObjectType
@@ -13,6 +14,7 @@ end
 
 function BindGameObject:ctor()
     ObservableObject.ctor(self)
+    self.transform = BindRectTransform.new() as BindTransformType
     self.activeSelf = true
 end
 
@@ -26,13 +28,8 @@ function BindGameObject:BindWithName(view: ViewBaseType, name: string, modes: {n
         return modes[index]
     end
     
-    self:BindToTarget(bindingSet, name .. ".ActiveSelf", gameObject as ComponentExtType, _Mode())
-end
-
-function BindGameObject:BindToTarget(bindingSet: BindingSetType, name: string, target: ComponentExtType, mode: number)
-    local gameObject = target as GameObjectExtType
-    local builder = bindingSet:BindByTarget(target as LuaObject)
-    builder:For(gameObject.ActiveSelf):To(name):SetMode(mode)
+    local builder = bindingSet:BindByTarget(gameObject as LuaObject)
+    builder:For(gameObject.ActiveSelf):To(name .. ".ActiveSelf"):SetMode(_Mode())
 end
 
 function BindGameObject:dtor()

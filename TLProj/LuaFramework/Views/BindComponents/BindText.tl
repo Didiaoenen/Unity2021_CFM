@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local TextExt = require("LuaFramework.Views.Components.TextExt")
 
 local BindText = class("BindText", BindComponent) as BindTextType
@@ -21,14 +22,14 @@ end
 
 function BindText:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
     self.text = ""
     self.color = CS.UnityEngine.Color.white
 end
 
 function BindText:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(TextExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(TextExt as ComponentExtType, name) as TextExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local textExt = component as TextExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -36,13 +37,14 @@ function BindText:BindWithName(view: ViewBaseType, name: string, modes: {number}
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(textExt.Text):To(name .. ".Text"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.Text):To(name .. ".Text"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(textExt.Color):To(name .. ".Color"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.Color):To(name .. ".Color"):SetMode(_Mode())
 
-    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", textExt.gameObject as ComponentExtType, _Mode())
+    builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindText:dtor()

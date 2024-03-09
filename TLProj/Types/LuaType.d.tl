@@ -1817,6 +1817,11 @@ global record BindGameObjectType
     activeSelf: boolean
     ActiveSelf: boolean
 
+    transform: BindTransformType
+    Transform: BindTransformType
+
+    componentExt: GameObjectExtType
+
     new: function(...: any): BindGameObjectType
     ctor: function
     dtor: function
@@ -1856,6 +1861,8 @@ global record BindTextType
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
 
+    componentExt: TextExtType
+
     new: function(...: any): BindTextType
     ctor: function
     dtor: function
@@ -1887,6 +1894,9 @@ global record BindButtonType
 
     onClick: function
     OnClick: function
+
+    transform: BindTransformType
+    Transform: BindTransformType
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
@@ -1928,6 +1938,11 @@ global record BindCanvasType
     sortingOrder: number
     SortingOrder: number
 
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
+    componentExt: CanvasExtType
+
     new: function(...: any): BindCanvasType
     ctor: function
     dtor: function
@@ -1950,6 +1965,11 @@ global record BindCanvasGroupType
     
     alpha: number
     Alpha: number
+
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
+    componentExt: CanvasGroupExtType
 
     new: function(...: any): BindCanvasGroupType
     ctor: function
@@ -1982,6 +2002,8 @@ global record BindRectTransformType
     
     offsetMin: CS.UnityEngine.Vector2
     OffsetMin: CS.UnityEngine.Vector2
+
+    componentExt: RectTransformExtType
 
     new: function(...: any): BindRectTransformType
     ctor: function
@@ -2029,6 +2051,8 @@ global record BindTransformType
     localPosition: CS.UnityEngine.Vector3
     localScale: CS.UnityEngine.Vector3
 
+    componentExt: TransformExtType
+
     new: function(...: any): BindTransformType
     ctor: function
     dtor: function
@@ -2042,6 +2066,9 @@ global record BindComponentType
         gameObject: BindGameObjectType
         GameObject: function
     end 
+
+    transform: BindTransformType
+    Transform: BindTransformType
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
@@ -2091,6 +2118,8 @@ global record BindInputFieldType
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
 
+    componentExt: InputFieldExtType
+
     new: function(...: any): BindInputFieldType
     ctor: function
     dtor: function
@@ -2126,6 +2155,8 @@ global record BindToggleType
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
 
+    componentExt: ToggleExtType
+
     new: function(...: any): BindToggleType
     ctor: function
     dtor: function
@@ -2160,6 +2191,8 @@ global record BindImageType
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
+
+    componentExt: ImageExtType
 
     new: function(...: any): BindImageType
     ctor: function
@@ -2267,6 +2300,9 @@ global record GameObjectExtType
     
     ActiveSelf: string
     
+    transform: TransformExtType
+    Transform: TransformExtType
+
     activeSelf: boolean
     name: string
 
@@ -2297,6 +2333,9 @@ global record GraphicRaycasterExtType
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
 
     ctor: function
     dtor: function
@@ -2337,6 +2376,9 @@ global record CanvasGroupExtType
     CSObject: CS.UnityEngine.Component
     Alpha: string
 
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
+
     ctor: function
     dtor: function
 end
@@ -2347,6 +2389,9 @@ global record CanvasExtType
     CSObject: CS.UnityEngine.Component
     OverrideSorting: string
     SortingOrder: string
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
 
     ctor: function
     dtor: function
@@ -2422,6 +2467,9 @@ end
 global record ButtonExtType
     record get
         onClick: function
+
+        gameObject: GameObjectExtType
+        GameObject: function
 
         handler: CS.UnityEngine.Component
     end
@@ -2555,6 +2603,9 @@ global record MonoVariableArrayExtType
     handler: CS.UnityEngine.Component
 
     CSObject: CS.UnityEngine.Component
+
+    gameObject: GameObjectExtType
+    GameObject: GameObjectExtType
 
     ctor: function
     dtor: function

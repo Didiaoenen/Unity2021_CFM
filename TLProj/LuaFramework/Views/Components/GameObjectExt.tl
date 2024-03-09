@@ -1,3 +1,5 @@
+local RectTransformExt = require("LuaFramework.Views.Components.RectTransformExt")
+
 local GameObjectExt = class("GameObjectExt") as GameObjectExtType
 
 GameObjectExt.CSObject = CS.UnityEngine.GameObject
@@ -14,6 +16,7 @@ end
 
 function GameObjectExt:ctor(handler: CS.UnityEngine.GameObject)
     self.handler = handler
+    self.transform = RectTransformExt.new(handler.transform) as TransformExtType
 end
 
 function GameObjectExt:GetComponent(cType: CS.System.Type): CS.UnityEngine.Component

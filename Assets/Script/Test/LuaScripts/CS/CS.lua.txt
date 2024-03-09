@@ -389,16 +389,3 @@ print("/////////////////////////// => " .. ttt.A)
 print("/////////////////////////// => " .. ttt.aToString())
 print("/////////////////////////// => " .. ttt.bToString())
 print("/////////////////////////// => " .. ttt.AToString())
-
-local loaded = {}
-
-function rrequire(module)
-	if loaded[module] then
-		return loaded[module]
-	end
-
-	local m = require(module)
-	loaded[module] = m
-
-	return m
-end

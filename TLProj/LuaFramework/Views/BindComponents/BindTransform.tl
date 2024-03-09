@@ -44,7 +44,7 @@ function BindTransform:ctor()
 end
 
 function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(TransformExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(TransformExt as ComponentExtType, name) as TransformExtType
     local bindingSet = view.bindingSet as BindingSetType
 
     local index: integer = 0
@@ -53,22 +53,17 @@ function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {nu
         return modes[index]
     end
 
-    self:BindToTarget(bindingSet, name, component, _Mode())
-end
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.Parent):To(name .. ".Parent"):SetMode(_Mode())
 
-function BindTransform:BindToTarget(bindingSet: BindingSetType, name: string, target: ComponentExtType, mode: number)
-    local transform = target as TransformExtType
-    local builder = bindingSet:BindByTarget(target as LuaObject)
-    builder:For(transform.Parent):To(name .. ".Parent"):SetMode(mode)
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.LocalRotation):To(name .. ".LocalRotation"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(target as LuaObject)
-    builder:For(transform.LocalRotation):To(name .. ".LocalRotation"):SetMode(mode)
-   
-    builder = bindingSet:BindByTarget(target as LuaObject)
-    builder:For(transform.LocalPosition):To(name .. ".LocalPosition"):SetMode(mode)
-   
-    builder = bindingSet:BindByTarget(target as LuaObject)
-    builder:For(transform.LocalScale):To(name .. ".LocalScale"):SetMode(mode)
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.LocalPosition):To(name .. ".LocalPosition"):SetMode(_Mode())
+
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.LocalScale):To(name .. ".LocalScale"):SetMode(_Mode())
 end
 
 function BindTransform:dtor()

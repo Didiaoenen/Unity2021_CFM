@@ -77,9 +77,11 @@ function TestVM:ctor()
     self.testLocalScale = CS.UnityEngine.Vector3(0.5, 0.5, 0.5)
     self.testActive = false
     self.testRequest = InteractionRequest.new(self)
-    self.testCommand = SimpleCommand.new(function ()
-        print("SimpleCommand")
-    end)
+    self.testCommand = SimpleCommand.new(bindevent(self, self.TestSimpleCommand))
+end
+
+function TestVM:TestSimpleCommand()
+    print("SimpleCommand")
 end
 
 function TestVM:OnClick()

@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local ButtonExt = require("LuaFramework.Views.Components.ButtonExt")
 
@@ -22,6 +23,7 @@ end
 
 function BindButton:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
     self.onClick = function() end
     self.simpleCommand = SimpleCommand.new(function() end)
 end
@@ -42,7 +44,8 @@ function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {numbe
     builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
     builder:For(self.componentExt.OnClick):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
-    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", self.componentExt.gameObject as ComponentExtType, _Mode())
+    builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindButton:dtor()

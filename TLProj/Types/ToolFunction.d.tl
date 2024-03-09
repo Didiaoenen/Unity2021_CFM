@@ -9,5 +9,3 @@ global classset: function(cls: any, key: string, value: any)
 
 global bindevent: function(...: any): function
 global istype: function(obj: any): boolean
-
-global rrequire: function(name: string): LuaObject

@@ -1,4 +1,3 @@
-local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local ObservableObject = require("LuaFramework.Observables.ObservableObject")
 
 local BindComponent = class("BindComponent", ObservableObject) as BindComponentType
@@ -10,8 +9,6 @@ end
 function BindComponent:ctor()
     ObservableObject.ctor(self)
     self.componentExt = nil
-    self.gameObject = BindGameObject.new()
-    self.gameObject.ActiveSelf = true
 end
 
 function BindComponent:BindWithName(view: ViewBaseType, name: string, modes: {number})

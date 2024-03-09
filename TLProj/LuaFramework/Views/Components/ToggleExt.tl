@@ -1,4 +1,5 @@
 local ComponentExt = require("LuaFramework.Views.Components.ComponentExt")
+local GameObjectExt = require("LuaFramework.Views.Components.GameObjectExt")
 
 local ToggleExt = class("ToggleExt", ComponentExt) as ToggleExtType
 
@@ -22,6 +23,7 @@ end
 
 function ToggleExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
+    self.gameObject = GameObjectExt.new(handler.gameObject)
 end
 
 function ToggleExt:dtor()

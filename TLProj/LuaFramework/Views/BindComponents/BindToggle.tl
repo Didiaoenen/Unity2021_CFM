@@ -1,4 +1,5 @@
 local BindComponent = require("LuaFramework.Views.BindComponents.BindComponent")
+local BindGameObject = require("LuaFramework.Views.BindComponents.BindGameObject")
 local SimpleCommand = require("LuaFramework.Commands.SimpleCommand")
 local ToggleExt = require("LuaFramework.Views.Components.ToggleExt")
 
@@ -22,14 +23,14 @@ end
 
 function BindToggle:ctor()
     BindComponent.ctor(self)
+    self.gameObject = BindGameObject.new()
     self.onValueChanged = function() end
     self.simpleCommand = SimpleCommand.new(function() end)
 end
 
 function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(ToggleExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(ToggleExt as ComponentExtType, name) as ToggleExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local toggleExt = component as ToggleExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -37,13 +38,14 @@ function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {numbe
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(toggleExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.OnValueChanged):To(name .. ".OnValueChanged"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(toggleExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
-    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", toggleExt.gameObject as ComponentExtType, _Mode())
+    builder = bindingSet:BindByTarget(self.componentExt.gameObject as LuaObject)
+    builder:For(self.componentExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
 end
 
 function BindToggle:dtor()
