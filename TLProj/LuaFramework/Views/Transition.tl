@@ -5,11 +5,11 @@ local TableOprationMode = require("LuaFramework.Binding.TableOprationMode")
 
 local Transition = class("Transition") as TransitionType
 
-function Transition.get:Window(): ViewBaseType
+function Transition.get:Window(): WindowFactoryType
     return self.window
 end
 
-function Transition.set:Window(value: ViewBaseType)
+function Transition.set:Window(value: WindowFactoryType)
     self.window = value
 end
 
@@ -38,7 +38,7 @@ function Transition.set:OverlayPolicy(value: function)
 end
 
 function Transition:ctor(window: WindowFactoryType)
-    self.window = window.view
+    self.window = window
     self.done = false
     self.animationDisabled = false
     self.overlayPolicy = nil
@@ -56,7 +56,7 @@ function Transition:Bind()
 
     self.bound = true
     if self.window then
-        local view = self.window
+        local view = self.window.view
         view.StateChanged = {opt = TableOprationMode.Add, this = self, callback = self.StateChanged}
     end
 end
@@ -68,7 +68,7 @@ function Transition:Unbind()
 
     self.bound = false
     if self.window then
-        local view = self.window
+        local view = self.window.view
         view.StateChanged = {opt = TableOprationMode.Remove, this = self}
     end
 end

@@ -27,9 +27,8 @@ function BindButton:ctor()
 end
 
 function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    local component = view:GetComponentWithName(ButtonExt as ComponentExtType, name)
+    self.componentExt = view:GetComponentWithName(ButtonExt as ComponentExtType, name) as ButtonExtType
     local bindingSet = view.bindingSet as BindingSetType
-    local buttonExt = component as ButtonExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -37,14 +36,13 @@ function BindButton:BindWithName(view: ViewBaseType, name: string, modes: {numbe
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(buttonExt.OnClick):To(name .. ".OnClick"):SetMode(_Mode())
+    local builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.OnClick):To(name .. ".OnClick"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(buttonExt.OnClick):To(name .. ".SimpleCommand"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(self.componentExt as LuaObject)
+    builder:For(self.componentExt.OnClick):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
-    builder:For(buttonExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", self.componentExt.gameObject as ComponentExtType, _Mode())
 end
 
 function BindButton:dtor()

@@ -19,6 +19,10 @@ local record TestV
     TestButtonSimpleCommand: function(self: TestV, ...: any)
     TestToggleSimpleCommand: function(self: TestV, ...: any)
     TestInputFieldSimpleCommand: function(self: TestV, ...: any)
+
+    GetView: function(self: TestV, name: string): ViewBaseType
+    AddView: function(self: TestV, name: string, parent: TransformExtType, ...: any): ViewBaseType
+    RemoveView: function(self: TestV, name: string): ViewBaseType
 end
 
 return TestV

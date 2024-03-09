@@ -46,7 +46,6 @@ end
 function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
     local component = view:GetComponentWithName(TransformExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
-    local transformExt = component as TransformExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -54,17 +53,22 @@ function BindTransform:BindWithName(view: ViewBaseType, name: string, modes: {nu
         return modes[index]
     end
 
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(transformExt.Parent):To(name .. ".Parent"):SetMode(_Mode())
+    self:BindToTarget(bindingSet, name, component, _Mode())
+end
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(transformExt.LocalRotation):To(name .. ".LocalRotation"):SetMode(_Mode())
+function BindTransform:BindToTarget(bindingSet: BindingSetType, name: string, target: ComponentExtType, mode: number)
+    local transform = target as TransformExtType
+    local builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(transform.Parent):To(name .. ".Parent"):SetMode(mode)
+
+    builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(transform.LocalRotation):To(name .. ".LocalRotation"):SetMode(mode)
    
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(transformExt.LocalPosition):To(name .. ".LocalPosition"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(transform.LocalPosition):To(name .. ".LocalPosition"):SetMode(mode)
    
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(transformExt.LocalScale):To(name .. ".LocalScale"):SetMode(_Mode())
+    builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(transform.LocalScale):To(name .. ".LocalScale"):SetMode(mode)
 end
 
 function BindTransform:dtor()

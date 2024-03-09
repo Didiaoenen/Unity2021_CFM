@@ -56,8 +56,7 @@ function BindInputField:BindWithName(view: ViewBaseType, name: string, modes: {n
     builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(inputFieldExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
-    builder:For(inputFieldExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", inputFieldExt.gameObject as ComponentExtType, _Mode())
 end
 
 function BindInputField:dtor()

@@ -42,8 +42,7 @@ function BindText:BindWithName(view: ViewBaseType, name: string, modes: {number}
     builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(textExt.Color):To(name .. ".Color"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
-    builder:For(textExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", textExt.gameObject as ComponentExtType, _Mode())
 end
 
 function BindText:dtor()

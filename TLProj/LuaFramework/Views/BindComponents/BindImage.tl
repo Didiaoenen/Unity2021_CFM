@@ -42,6 +42,8 @@ function BindImage:BindWithName(view: ViewBaseType, name: string, modes: {number
 
     builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
     builder:For(imageExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+
+    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", imageExt.gameObject as ComponentExtType, _Mode())
 end
 
 function BindImage:dtor()

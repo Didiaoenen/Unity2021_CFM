@@ -9,6 +9,7 @@ end
 
 function BindComponent:ctor()
     ObservableObject.ctor(self)
+    self.componentExt = nil
     self.gameObject = BindGameObject.new()
     self.gameObject.ActiveSelf = true
 end

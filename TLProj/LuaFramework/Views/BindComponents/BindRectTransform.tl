@@ -26,11 +26,8 @@ function BindRectTransform:ctor()
 end
 
 function BindRectTransform:BindWithName(view: ViewBaseType, name: string, modes: {number})
-    BindTransform.BindWithName(self as BindTransformType, view, name, modes)
-    
     local component = view:GetComponentWithName(RectTransformExt as ComponentExtType, name)
     local bindingSet = view.bindingSet as BindingSetType
-    local rectTransformExt = component as RectTransformExtType
 
     local index: integer = 0
     local _Mode = function(): number
@@ -38,11 +35,18 @@ function BindRectTransform:BindWithName(view: ViewBaseType, name: string, modes:
         return modes[index]
     end
     
-    local builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(rectTransformExt.OffsetMax):To(name .. ".OffsetMax"):SetMode(_Mode())
+    self:BindToTarget(bindingSet, name, component, _Mode())
+end
 
-    builder = bindingSet:BindByTarget(component as LuaObject)
-    builder:For(rectTransformExt.OffsetMin):To(name .. ".OffsetMin"):SetMode(_Mode())
+function BindRectTransform:BindToTarget(bindingSet: BindingSetType, name: string, target: ComponentExtType, mode: number)
+    BindTransform.BindToTarget(self as BindTransformType, bindingSet, name, target, mode)
+
+    local rectTransform = target as RectTransformExtType
+    local builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(rectTransform.OffsetMax):To(name .. ".OffsetMax"):SetMode(mode)
+
+    builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(rectTransform.OffsetMin):To(name .. ".OffsetMin"):SetMode(mode)
 end
 
 function BindRectTransform:dtor()

@@ -51,6 +51,7 @@ global record CS
 
         -- Component
         record Component
+            transform: UnityEngine.Transform
             gameObject: UnityEngine.GameObject
 
             GetComponent: function(self: Component, System.Type): Component
@@ -71,6 +72,7 @@ global record CS
 
         -- GameObject
         record GameObject
+            name: string
             transform: Transform
             activeSelf: boolean
         

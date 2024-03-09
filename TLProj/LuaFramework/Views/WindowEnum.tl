@@ -2,14 +2,15 @@ local WindowEnum: WindowEnumType = {}
 
 WindowEnum.WindowType = {
     NONE            = 1,
-    FULL            = 2,
-    POPUP           = 3,
-    DIALOG          = 4,
-    PROGRESS        = 5,
-    QUEUED_POPUP    = 6,
+    BG              = 2,
+    FULL            = 3,
+    POPUP           = 4,
+    DIALOG          = 5,
+    PROGRESS        = 6,
+    QUEUED_POPUP    = 7,
 }
 
-WindowEnum.WindowState = {
+WindowEnum.ViewState = {
     NONE                        = 1,
     CREATE_BEGIN                = 2,
     CREATE_END                  = 3,
@@ -31,7 +32,7 @@ WindowEnum.WindowState = {
 
 WindowEnum.ViewType = {
     VIEW        = 1,
-    SUB_VIEW    = 2,
+    SUB_AREA    = 2,
     SUB_PANEL   = 3,
 }
 

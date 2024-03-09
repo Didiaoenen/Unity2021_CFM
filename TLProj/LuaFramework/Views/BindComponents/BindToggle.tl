@@ -43,8 +43,7 @@ function BindToggle:BindWithName(view: ViewBaseType, name: string, modes: {numbe
     builder = bindingSet:BindByTarget(component as LuaObject)
     builder:For(toggleExt.OnValueChanged):To(name .. ".SimpleCommand"):SetMode(_Mode())
 
-    builder = bindingSet:BindByTarget(component.gameObject as LuaObject)
-    builder:For(toggleExt.GameObject.ActiveSelf):To(name .. ".GameObject.ActiveSelf"):SetMode(_Mode())
+    self.gameObject:BindToTarget(bindingSet, name .. ".GameObject.ActiveSelf", toggleExt.gameObject as ComponentExtType, _Mode())
 end
 
 function BindToggle:dtor()

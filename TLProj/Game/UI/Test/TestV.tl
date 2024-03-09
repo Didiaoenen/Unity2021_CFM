@@ -82,6 +82,7 @@ function TestV:OnShow()
 
     self.viewModel.text.Text = "hahaha"
     self.viewModel.text.Color = CS.UnityEngine.Color.red
+    self.viewModel.text.gameObject.ActiveSelf = false
     self.viewModel.text1.Text = "哈哈哈"
     self.viewModel.text1.Color = CS.UnityEngine.Color.green
     self.viewModel.button.OnClick = bindevent(self, self.TestButtonSimpleCommand)
@@ -91,14 +92,15 @@ function TestV:OnShow()
     self.viewModel.toggle_1.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_1"))
     self.viewModel.toggle_2.SimpleCommand = SimpleCommand.new(bindevent(self, self.TestToggleSimpleCommand, "toggle_2"))
     self.viewModel.gameObject.ActiveSelf = true
-
     -- local inputBase = self.viewModel.inputField as BindComponentType
     -- inputBase.GameObject.ActiveSelf = false
 
     -- local transOne = self.transform:Find("GameObjectOne")
     -- local transTwo = self.transform:Find("GameObjectTwo")
     -- self:CreateSubView("Game.TestSubV", {parent = transOne})
-    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})0
+    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
+
+    -- self:AddView(WindowNames.TestV, self.viewModel.gameObject:)
 end
 
 function TestV:TestButtonSimpleCommand(... :any)

@@ -130,11 +130,11 @@ function ViewBase:ctor(window: WindowFactoryType, config: ViewConfigTable, paren
     self.window = window
 
     self.name = config.Name
-    self.state = window.state
+    self.state = config.State
     self.prefabPath = config.PrefabPath
     self.viewType = config.ViewType
-    self.viewModel = window.viewModel
 
+    self.viewModel = window.viewModel
     self.windowType = window.windowType
 
     self.parent = parent
@@ -218,16 +218,16 @@ function ViewBase:Activate(ignoreAnimation: boolean): AsyncResultExtType
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.ViewState.ACTIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowEnum.WindowState.ACTIVATION_ANIMATION_END
+            self.State = WindowEnum.ViewState.ACTIVATION_ANIMATION_END
             self.Activated = true
-            self.State = WindowEnum.WindowState.ACTIVATED
+            self.State = WindowEnum.ViewState.ACTIVATED
             result:SetResult()
         end):Play()
     else
         self.Activated = true
-        self.State = WindowEnum.WindowState.ACTIVATED
+        self.State = WindowEnum.ViewState.ACTIVATED
         result:SetResult()
     end
 
@@ -247,13 +247,13 @@ function ViewBase:Passivate(ignoreAnimation: boolean): AsyncResultExtType
     end
 
     self.Activated = false
-    self.State = WindowEnum.WindowState.PASSIVATED
+    self.State = WindowEnum.ViewState.PASSIVATED
 
     if not ignoreAnimation and self.ActivationAnimation then
         self.ActivationAnimation:OnStart(function ()
-            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_BEGIN
+            self.State = WindowEnum.ViewState.PASSIVATION_ANIMATION_BEGIN
         end):OnEnd(function ()
-            self.State = WindowEnum.WindowState.PASSIVATION_ANIMATION_END
+            self.State = WindowEnum.ViewState.PASSIVATION_ANIMATION_END
             result:SetResult()
         end):Play()
     else
@@ -274,7 +274,7 @@ function ViewBase:Create()
     
     ExecutorsExt.Instance:RunOnCoroutineNoReturn(CoroutineExt.GetEnumerator(function ()
 
-        self.State = WindowEnum.WindowState.CREATE_BEGIN
+        self.State = WindowEnum.ViewState.CREATE_BEGIN
         self.Visibility = false
 
         local result = DefaultUIViewLocator.LoadAsync(self.prefabPath, Miscellaneous.CSType.GameObjectT)
@@ -285,7 +285,7 @@ function ViewBase:Create()
 
         self:OnCreate()
         self.created = true
-        self.State = WindowEnum.WindowState.CREATE_END
+        self.State = WindowEnum.ViewState.CREATE_END
 
         self:Show()
     end))
@@ -368,12 +368,12 @@ function ViewBase:DoShow(ignoreAnimation: boolean): AsyncResultExtType
 
         self:OnShow()
         self.Visibility = true
-        self.State = WindowEnum.WindowState.VISIBLE
+        self.State = WindowEnum.ViewState.VISIBLE
         if not ignoreAnimation and self.EnterAnimation then
             self.EnterAnimation:OnStart(function ()
-                self.State = WindowEnum.WindowState.ENTER_ANIMATION_BEGIN
+                self.State = WindowEnum.ViewState.ENTER_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowEnum.WindowState.ENTER_ANIMATION_END
+                self.State = WindowEnum.ViewState.ENTER_ANIMATION_END
                 promise:SetResult()
             end):Play()
         else
@@ -409,17 +409,17 @@ function ViewBase:DoHide(ignoreAnimation: boolean): AsyncResultExtType
     local action = function (promise: AsyncResultExtType)
         if not ignoreAnimation and self.ExitAnimation then
             self.ExitAnimation:OnStart(function ()
-                self.State = WindowEnum.WindowState.EXIT_ANIMATION_BEGIN
+                self.State = WindowEnum.ViewState.EXIT_ANIMATION_BEGIN
             end):OnEnd(function ()
-                self.State = WindowEnum.WindowState.EXIT_ANIMATION_END
+                self.State = WindowEnum.ViewState.EXIT_ANIMATION_END
                 self.Visibility = false
-                self.State = WindowEnum.WindowState.INVISIBLE
+                self.State = WindowEnum.ViewState.INVISIBLE
                 self:OnHide()
                 promise:SetResult()
             end):Play()
         else
             self.Visibility = false
-            self.State = WindowEnum.WindowState.INVISIBLE
+            self.State = WindowEnum.ViewState.INVISIBLE
             self:OnHide()
             promise:SetResult()
         end
@@ -448,12 +448,12 @@ end
 function ViewBase:DoDismiss()
     if not self.dismissed then
         assert(self.gameObject, "")
-        self.State = WindowEnum.WindowState.DISMISS_BEGIN
+        self.State = WindowEnum.ViewState.DISMISS_BEGIN
         self.dismissed = true
         self:OnDismiss()
         self:RaiseOnDismissed()
         CS.UnityEngine.Object.Destroy(self.gameObject.handler as CS.UnityEngine.Object)
-        self.State = WindowEnum.WindowState.DISMISS_END
+        self.State = WindowEnum.ViewState.DISMISS_END
         self.dismissTransition = nil
     end
 end
@@ -484,28 +484,6 @@ end
 function ViewBase:AddComponent(component: ComponentExtType): ComponentExtType
     assert(self.gameObject, "")
     return component.new(self.gameObject:AddComponent(typeof(component.CSObject)))
-end
-
-function ViewBase:GetView(name: string): ViewBaseType
-    assert({name}, "")
-end
-
-function ViewBase:AddView(name: string, parent: TransformExtType, ...: any)
-
-    local config = WindowConfig.Instance.ViewConfig[name]
-    if nil == config then
-        return
-    end
-    
-    local view = config.View.new(self.window, config, parent, ...)
-
-    table.insert(self.views, view)
-    
-    view:Create()
-end
-
-function ViewBase:RemoveView(name: string)
-    assert({name}, "")
 end
 
 function ViewBase:dtor()

@@ -60,7 +60,7 @@ function WindowManager:Show(window: WindowFactoryType): TransitionType
     local transition = TransitionShow.new(self, window)
     GetTransitionExecutor():Execute(transition as TransitionType)
     return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
-        if state == WindowEnum.WindowState.VISIBLE then
+        if state == WindowEnum.ViewState.VISIBLE then
         end
     end)
 end
@@ -69,7 +69,7 @@ function WindowManager:Hide(window: WindowFactoryType): TransitionType
     local transition = TransitionHide.new(self, window, false)
     GetTransitionExecutor():Execute(transition as TransitionType)
     return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
-        if state == WindowEnum.WindowState.INVISIBLE then
+        if state == WindowEnum.ViewState.INVISIBLE then
         end
     end)
 end
@@ -78,24 +78,18 @@ function WindowManager:Dismiss(window: WindowFactoryType): TransitionType
     local transition = TransitionHide.new(self, window, true)
     GetTransitionExecutor():Execute(transition as TransitionType)
     return (transition as TransitionType):OnStateChanged(function (_: ViewBaseType, state: number)
-        if state == WindowEnum.WindowState.INVISIBLE then
+        if state == WindowEnum.ViewState.INVISIBLE then
         end
     end)
 end
 
 function WindowManager:PushWindowStack(window: WindowFactoryType): WindowFactoryType
     local preCurrent = self.Current
-    if #(self.windowStack) > 0 then
-        if preCurrent ~= self.windowStack[1] then
-            preCurrent = self:PopWindowStack()
-        end
-    end
     table.insert(self.windowStack, window)
     return preCurrent
 end
 
 function WindowManager:PopWindowStack(): WindowFactoryType
-    assert(#(self.windowStack) > 0, "")
     table.remove(self.windowStack, #(self.windowStack))
     return self.Current
 end
@@ -177,36 +171,39 @@ end
 
 function TransitionShow:DoTransition()
     Transition.DoTransition(self as TransitionType)
-    local current = self.window.view
+    local current = self.window
 
-    local previous: ViewBaseType = nil
+    local previous: WindowFactoryType = nil
     if current.windowType == WindowEnum.WindowType.NONE then
-        -- (WindowManager.Instance.Current as WindowFactoryType):AddSubView(current)
+    elseif current.windowType == WindowEnum.WindowType.BG then
     elseif current.windowType == WindowEnum.WindowType.FULL then
-        -- previous = WindowManager.Instance:PushWindowStack(current)
-    elseif current.windowType == WindowEnum.WindowType.POPUP or self.window.windowType == WindowEnum.WindowType.DIALOG then
-        -- previous = (WindowManager.Instance.Current as WindowFactoryType):PushViewStack(current)
+        previous = WindowManager.Instance:PushWindowStack(current)
+    elseif current.windowType == WindowEnum.WindowType.POPUP or current.windowType == WindowEnum.WindowType.DIALOG then
+        if current.windowType == WindowManager.Instance.Current.windowType then
+            previous = WindowManager.Instance:PushWindowStack(current)
+        end
     end
 
     if previous then
         local policy = self.OverlayPolicy
-        if not policy then
+        if nil == policy then
             policy = self.Overlay
         end
 
-        local actionType = policy(self, previous, current)
+        local view = previous.view
+        local actionType = policy(self, view, current)
         if actionType == WindowEnum.ActionType.Hide then
-            local hide = previous:DoHide(self.AnimationDisabled)
+            local hide = view:DoHide(self.AnimationDisabled)
             CoroutineExt.Yield(hide:WaitForDone())
         elseif actionType == WindowEnum.ActionType.Dismiss then
-            local hide = previous:DoHide(self.AnimationDisabled)
+            local hide = view:DoHide(self.AnimationDisabled)
             CoroutineExt.Yield(hide:WaitForDone())
-            previous:DoDismiss()
+            view:DoDismiss()
         end
     end
 
-    if not current.Visibility then
-        local show = current:DoShow(self.AnimationDisabled)
+    if false == current.view.Visibility then
+        local show = current.view:DoShow(self.AnimationDisabled)
         CoroutineExt.Yield(show:WaitForDone())
     end
 end
@@ -224,28 +221,28 @@ end
 
 function TransitionHide:DoTransition()
     Transition.DoTransition(self as TransitionType)
-    local current = self.window.view
+    local current = self.window
     
-    if current.Visibility then
-        local hide = current:DoHide(self.AnimationDisabled)
+    local view = current.view
+    if view.Visibility then
+        local hide = view:DoHide(self.AnimationDisabled)
         CoroutineExt.Yield(hide:WaitForDone())
     end
 
     if self.dismiss then
-        current:DoDismiss()
+        view:DoDismiss()
     end
 
-    local previous: ViewBaseType = nil
+    local previous: WindowFactoryType = nil
     if current.windowType == WindowEnum.WindowType.NONE then
-        -- nothing to do
+    elseif current.windowType == WindowEnum.WindowType.BG then
     elseif current.windowType == WindowEnum.WindowType.FULL then
-        -- previous = WindowManager.Instance:PopWindowStack()
+        previous = WindowManager.Instance:PopWindowStack()
     elseif current.windowType == WindowEnum.WindowType.POPUP or current.windowType == WindowEnum.WindowType.DIALOG then
-        -- previous = (self.window as WindowFactoryType):PopViewStack()
     end
 
     if previous then
-        local show = previous:DoShow(self.AnimationDisabled)
+        local show = previous.view:DoShow(self.AnimationDisabled)
         CoroutineExt.Yield(show:WaitForDone())
     end
 end

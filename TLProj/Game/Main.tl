@@ -7,14 +7,13 @@ require("OOP.Class")
 
 require("Tools.ToolFunction")
 
+require("Game.UI.Config.WindowNames")
 require("Game.UI.Config.WindowConfig")
 require("LuaFramework.Views.WindowManager")
 
-local WindowNames = require("Game.UI.Config.WindowNames")
+local Test1 = rrequire("Game.UI.Test1")
 
 global function Main(): number
-    -- TestV.new():Create()
-
     WindowManager.Instance:OpenWindow(WindowNames.Test)
 
     return 1

@@ -26,8 +26,13 @@ function BindGameObject:BindWithName(view: ViewBaseType, name: string, modes: {n
         return modes[index]
     end
     
-    local builder = bindingSet:BindByTarget(gameObject as LuaObject)
-    builder:For(gameObject.ActiveSelf):To(name .. ".ActiveSelf"):SetMode(_Mode())
+    self:BindToTarget(bindingSet, name .. ".ActiveSelf", gameObject as ComponentExtType, _Mode())
+end
+
+function BindGameObject:BindToTarget(bindingSet: BindingSetType, name: string, target: ComponentExtType, mode: number)
+    local gameObject = target as GameObjectExtType
+    local builder = bindingSet:BindByTarget(target as LuaObject)
+    builder:For(gameObject.ActiveSelf):To(name):SetMode(mode)
 end
 
 function BindGameObject:dtor()

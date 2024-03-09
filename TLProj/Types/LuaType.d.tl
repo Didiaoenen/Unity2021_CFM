@@ -1,5 +1,6 @@
 global record WindowTypeType
     NONE: number
+    BG: number
     FULL: number
     POPUP: number
     DIALOG: number
@@ -9,11 +10,11 @@ end
 
 global record ViewTypeType
     VIEW: number
-    SUB_VIEW: number
+    SUB_AREA: number
     SUB_PANEL: number
 end
 
-global record WindowStateType
+global record ViewStateType
     NONE: number
     CREATE_BEGIN: number
     CREATE_END: number
@@ -41,7 +42,7 @@ end
 
 global record WindowEnumType
     WindowType: WindowTypeType
-    WindowState: WindowStateType
+    ViewState: ViewStateType
     ViewType: ViewTypeType
     ActionType: ActionTypeType
 end
@@ -1206,6 +1207,7 @@ end
 
 global record ViewGroupType
     views: {ViewBaseType}
+    window: WindowFactoryType
 
     ctor: function
     dtor: function
@@ -1216,8 +1218,8 @@ global record ViewGroupType
     OnHide: function(self: ViewGroupType)
 
     GetView: function(self: ViewGroupType, name: string): ViewBaseType
-    AddView: function(self: ViewGroupType, name: string, parent: RectTransformExtType)
-    RemoveView: function(self: ViewGroupType, name: string)
+    AddView: function(self: ViewGroupType, name: string, parent: TransformExtType, ...: any): ViewBaseType
+    RemoveView: function(self: ViewGroupType, name: string): ViewBaseType
 end
 
 global record LayerConfigType
@@ -1259,7 +1261,7 @@ end
 
 global record TransitionType
     record get
-        window: ViewBaseType
+        window: WindowFactoryType
         Window: function
     
         done: boolean
@@ -1273,7 +1275,7 @@ global record TransitionType
     end
     
     record set
-        window: ViewBaseType
+        window: WindowFactoryType
         Window: function
 
         done: boolean
@@ -1286,7 +1288,7 @@ global record TransitionType
         OverlayPolicy: function
     end
     
-    window: ViewBaseType
+    window: WindowFactoryType
     done: boolean
     animationDisabled: boolean
     overlayPolicy: function
@@ -1489,8 +1491,6 @@ global record WindowFactoryType
     windowType: number
     view: ViewBaseType
     viewModel: ViewModelBaseType
-    loaded: boolean
-    state: number
 
     new: function(...: any): WindowFactoryType
     ctor: function
@@ -1565,7 +1565,7 @@ global record WindowManagerType
     Hide: function(self: WindowManagerType, WindowFactoryType): TransitionType
     Dismiss: function(self: WindowManagerType, WindowFactoryType): TransitionType
     
-    PushWindowStack: function(self: WindowManagerType, WindowFactoryType)
+    PushWindowStack: function(self: WindowManagerType, WindowFactoryType): WindowFactoryType
     PopWindowStack: function(self: WindowManagerType): WindowFactoryType
     ClearWindowStack: function(self: WindowManagerType, WindowFactoryType)
     GetWindow: function(self: WindowManagerType, string): WindowFactoryType
@@ -1797,10 +1797,6 @@ global record ViewBaseType
     GetGameObjectWithName: function(self: ViewBaseType, GameObjectExtType, string): GameObjectExtType
     GetComponent: function(self: ViewBaseType, ComponentExtType): ComponentExtType
     AddComponent: function(self: ViewBaseType, ComponentExtType): ComponentExtType
-
-    GetView: function(self: ViewGroupType, name: string): ViewBaseType
-    AddView: function(self: ViewGroupType, name: string, parent: TransformExtType, ...: any)
-    RemoveView: function(self: ViewGroupType, name: string)
 end
 
 -- Bind UnityEngine Object
@@ -1826,6 +1822,7 @@ global record BindGameObjectType
     dtor: function
 
     BindWithName: function(self: BindGameObjectType, ViewBaseType, string, {number})
+    BindToTarget: function(self: BindGameObjectType, BindingSetType, string, ComponentExtType, number)
 end
 
 global record BindTextType
@@ -1893,6 +1890,8 @@ global record BindButtonType
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
+
+    componentExt: ButtonExtType
 
     simpleCommand: SimpleCommandType    
     SimpleCommand: SimpleCommandType
@@ -1989,6 +1988,7 @@ global record BindRectTransformType
     dtor: function
     
     BindWithName: function(self: BindRectTransformType, ViewBaseType, string, {number})
+    BindToTarget: function(self: BindRectTransformType, BindingSetType, string, ComponentExtType, number)
 end
 
 global record BindTransformType
@@ -2034,6 +2034,7 @@ global record BindTransformType
     dtor: function
 
     BindWithName: function(self: BindTransformType, ViewBaseType, string, {number})
+    BindToTarget: function(self: BindTransformType, BindingSetType, string, ComponentExtType, number)
 end
 
 global record BindComponentType
@@ -2044,6 +2045,8 @@ global record BindComponentType
 
     gameObject: BindGameObjectType
     GameObject: BindGameObjectType
+
+    componentExt: ComponentExtType
 
     ctor: function
     dtor: function
@@ -2085,6 +2088,9 @@ global record BindInputFieldType
     text: string
     Text: string
 
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
     new: function(...: any): BindInputFieldType
     ctor: function
     dtor: function
@@ -2117,6 +2123,9 @@ global record BindToggleType
     simpleCommand: SimpleCommandType    
     SimpleCommand: SimpleCommandType
 
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
+
     new: function(...: any): BindToggleType
     ctor: function
     dtor: function
@@ -2148,6 +2157,9 @@ global record BindImageType
 
     fillAmount: number
     FillAmount: number
+
+    gameObject: BindGameObjectType
+    GameObject: BindGameObjectType
 
     new: function(...: any): BindImageType
     ctor: function
@@ -2194,6 +2206,7 @@ global record ViewConfigTable
     Name: string
     PrefabPath :string
     ViewType: number
+    State: number
     View: ViewBaseType
     SubView: {ViewConfigTable}
     SubPanel: {ViewConfigTable}
@@ -2243,6 +2256,8 @@ global record GameObjectExtType
     record get
         activeSelf: function
 
+        name: function
+
         handler: CS.UnityEngine.GameObject
     end
 
@@ -2269,6 +2284,7 @@ global record ComponentExtType
 
     CSObject: CS.UnityEngine.Component
 
+    transform: TransformExtType
     gameObject: GameObjectExtType
 
     new: function(...: any): ComponentExtType
@@ -2406,9 +2422,6 @@ end
 global record ButtonExtType
     record get
         onClick: function
-
-        gameObject: GameObjectExtType
-        GameObject: function
 
         handler: CS.UnityEngine.Component
     end

@@ -16,10 +16,6 @@ function ButtonExt.set:onClick(value: function)
     handler.onClick = value
 end
 
-function ButtonExt.get:GameObject(): GameObjectExtType
-    return self.gameObject
-end
-
 function ButtonExt:ctor(handler: CS.UnityEngine.Component)
     ComponentExt.ctor(self, handler)
 end

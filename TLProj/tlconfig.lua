@@ -10,4 +10,4 @@ return {
     },
     global_env_def = "Types/Index",
     build_xlua = true,
- }
+}

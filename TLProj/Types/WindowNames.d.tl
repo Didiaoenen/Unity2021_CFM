@@ -1,6 +1,6 @@
-local record WindowNames
+local record _WindowNames
     Test: string
     TestV: string
 end
 
-return WindowNames
+return _WindowNames

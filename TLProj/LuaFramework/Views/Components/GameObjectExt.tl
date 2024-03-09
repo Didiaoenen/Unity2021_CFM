@@ -4,6 +4,10 @@ GameObjectExt.CSObject = CS.UnityEngine.GameObject
 
 GameObjectExt.ActiveSelf = "activeSelf"
 
+function GameObjectExt.get:name(): string
+    return self.handler.name
+end
+
 function GameObjectExt.get:activeSelf(): boolean
     return self.handler.activeSelf
 end

@@ -1,6 +1,7 @@
-local WindowNames: WindowNamesType = {
+global WindowNames: WindowNamesType = {
+    --Test
     Test = "Test",
     TestV = "TestV",
-}
 
-return WindowNames
+    -- ...
+}
