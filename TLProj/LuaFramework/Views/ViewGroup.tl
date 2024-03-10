@@ -59,7 +59,7 @@ function ViewGroup:RemoveView(name: string): ViewBaseType
     end) as ViewBaseType
 end
 
-function ViewGroup:ctor()
+function ViewGroup:dtor()
 end
 
 return ViewGroup

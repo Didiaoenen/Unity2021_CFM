@@ -95,12 +95,13 @@ function TestV:OnShow()
     -- local inputBase = self.viewModel.inputField as BindComponentType
     -- inputBase.GameObject.ActiveSelf = false
 
-    -- local transOne = self.transform:Find("GameObjectOne")
-    -- local transTwo = self.transform:Find("GameObjectTwo")
-    -- self:CreateSubView("Game.TestSubV", {parent = transOne})
-    -- self:CreateSubView("Game.TestSubV", {parent = transTwo})
-
-    -- self:AddView(WindowNames.TestSubV, self.viewModel.gameObject.gameObjectExt.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.text.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.text1.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.button.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.inputField.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.toggle_1.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.toggle_2.componentExt.gameObject.transform)
+    self:AddView(WindowNames.TestSubV, self.viewModel.gameObject.gameObjectExt.transform)
 end
 
 function TestV:TestButtonSimpleCommand(... :any)

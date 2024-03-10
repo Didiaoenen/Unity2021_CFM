@@ -138,7 +138,7 @@ function ViewBase:ctor(window: WindowFactoryType, config: ViewConfigTable, paren
     self.windowType = window.windowType
 
     self.parent = parent
-    self.viewModel.Parent = parent
+    -- self.viewModel.Parent = parent
     
     self.bundle = {...}
     
@@ -165,7 +165,6 @@ function ViewBase:ctor(window: WindowFactoryType, config: ViewConfigTable, paren
     self.bindingExt = nil
     self.bindingSet = nil
 
-    self.parent = nil
     self.variables = nil
     self.components = {}
     self.gameObjects = {}
@@ -294,6 +293,8 @@ end
 function ViewBase:OnCreate()
     print("parent OnCreate")
     
+    -- self.viewModel.Parent = self.parent
+
     self.variables = self:GetComponent(MonoVariableArrayExt) as MonoVariableArrayExtType
 
     local bindingSet = self.bindingSet as BindingSetType
@@ -304,9 +305,10 @@ function ViewBase:OnCreate()
 
     -- RectTransform
     self.transform = self:GetComponent(RectTransformExt as ComponentExtType) as TransformExtType
-    builder = bindingSet:BindByTarget(self.transform as LuaObject)
-    builder:For(self.transform.Parent):To("Parent"):OneWay()
-    
+    -- builder = bindingSet:BindByTarget(self.transform as LuaObject)
+    -- builder:For(self.transform.Parent):To("Parent"):OneWay()
+    self.transform:SetParent(self.parent)
+
     builder = bindingSet:BindByTarget(self.transform as LuaObject)
     builder:For(self.transform.LocalRotation):To("LocalRotation"):OneWay()
     
